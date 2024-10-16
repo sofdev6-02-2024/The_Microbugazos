@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  keycloak-db:
+    container_name: keycloak-db
+    image: postgres
+    ports:
+      - 6063:5432
+    expose:
+      - 6063
+    volumes:
+      - ./data/keycloak-db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=merchantpass
+      - POSTGRES_USER=merchant
+      - POSTGRES_DB=postgres
+    networks:
+      - merchant-net
+
+  # Keycloak
+  keycloak-server:
+    container_name: keycloak-server
+    build: ./IdentityProvider
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - 5050:8080
+    expose:
+      - 5050
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_USERNAME=merchant
+      - KC_DB_PASSWORD=merchantpass
+      - KC_DB_URL=jdbc:postgresql://keycloak-db:5432/postgres
+      - KC_IMPORT=/opt/keycloak/data/import/realm.json
+    depends_on: 
+      - keycloak-db
+    volumes:
+      - ./keycloak-config:/opt/keycloak/data/import
+    networks:
+      - merchant-net
+
+networks:
+  merchant-net:
+    driver: bridge
+
+volumes:
+  merchant-data:
+    driver: local

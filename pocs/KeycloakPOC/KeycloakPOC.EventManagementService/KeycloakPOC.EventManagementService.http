@@ -1,0 +1,6 @@
+@KeycloakPOC.EventManagementService_HostAddress = http://localhost:5119
+
+GET {{KeycloakPOC.EventManagementService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

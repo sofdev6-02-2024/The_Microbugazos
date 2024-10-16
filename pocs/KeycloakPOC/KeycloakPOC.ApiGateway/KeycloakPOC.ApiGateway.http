@@ -1,0 +1,6 @@
+@KeycloakPOC.ApiGateway_HostAddress = http://localhost:5091
+
+GET {{KeycloakPOC.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

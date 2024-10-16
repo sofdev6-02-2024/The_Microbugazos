@@ -1,0 +1,140 @@
+{
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:5001"
+    },
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/event",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/events",
+            "UpstreamHttpMethod": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "Period": "10s",
+                "Limit": 3,
+                "PeriodTimespan": 10
+            },
+            "FileCacheOptions": {
+                "TtlSeconds": 10
+            },
+            "SwaggerKey": "EventManagementService"
+        },
+        {
+            "DownstreamPathTemplate": "/api/event/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/events/{everything}",
+            "UpstreamHttpMethod": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "SwaggerKey": "EventManagementService",
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer"
+            },
+            "RouteClaimsRequirement": {
+                "clientRoles": [
+                    "admin-client"
+                ]
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/ticketreservation/{everything}/register",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5003
+                }
+            ],
+            "UpstreamPathTemplate": "/tickets/{everything}/register",
+            "UpstreamHttpMethod": [
+                "POST",
+                "GET"
+            ],
+            "SwaggerKey": "TicketReservationService",
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer"
+            },
+            "RouteClaimsRequirement": {
+                "clientRoles": [
+                    "customer-client"
+                ]
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/ticketreservation/{everything}/cancel",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5003
+                }
+            ],
+            "UpstreamPathTemplate": "/tickets/{everything}/cancel",
+            "UpstreamHttpMethod": [
+                "POST",
+                "GET"
+            ],
+            "SwaggerKey": "TicketReservationService",
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer"
+            },
+            "RouteClaimsRequirement": {
+                "clientRoles": [
+                    "customer-client"
+                ]
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/ticketreservation/{everything}/registrations",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5003
+                }
+            ],
+            "UpstreamPathTemplate": "/tickets/{everything}/registrations",
+            "UpstreamHttpMethod": [
+                "POST",
+                "GET"
+            ],
+            "SwaggerKey": "TicketReservationService",
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer"
+            },
+            "RouteClaimsRequirement": {
+                "clientRoles": [
+                    "admin-client"
+                ]
+            }
+        }
+    ],
+    "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "JwtOptions": {
+            "Authority": "http://localhost:5050/realms/merchant-keycloak-realm",
+            "Audience": "merchant-client",
+            "RequireHttpsMetadata": false
+        }
+    }
+}
