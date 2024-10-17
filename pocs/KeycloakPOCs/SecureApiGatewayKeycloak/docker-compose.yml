@@ -21,15 +21,15 @@ services:
   # Keycloak
   keycloak-server:
     container_name: keycloak-server
-    build: ./IdentityProvider
+    image: quay.io/keycloak/keycloak:26.0.0
     command: ["start-dev", "--import-realm"]
     ports:
       - 5050:8080
     expose:
       - 5050
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_DB=postgres
       - KC_DB_USERNAME=merchant
       - KC_DB_PASSWORD=merchantpass

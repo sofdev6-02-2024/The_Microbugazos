@@ -6,7 +6,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowApiGateway",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5001")
+            builder.WithOrigins("https://localhost:5001")
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });

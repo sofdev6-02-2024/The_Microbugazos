@@ -1,5 +1,5 @@
 {
-    "realm": "merchant-keycloak-realm",
+    "realm": "merchant-realm",
     "enabled": true,
     "clients": [
         {
@@ -7,7 +7,7 @@
             "enabled": true,
             "publicClient": true,
             "redirectUris": [
-                "http://localhost:5001/*"
+                "https://localhost:5001/*"
             ],
             "protocol": "openid-connect",
             "attributes": {
@@ -15,18 +15,13 @@
                 "refresh.token.validity": "1800",
                 "client.authentication": "true"
             },
-            "directAccessGrantsEnabled": true
+            "directAccessGrantsEnabled": true,
+            "implicitFlowEnabled": true
         }
     ],
     "roles": {
-        "realm": [
-            {
-                "name": "admin",
-                "description": "Administrator role"
-            }
-        ],
         "client": {
-            "merchant-client": [
+            "account": [
                 {
                     "name": "admin-client",
                     "description": "Administrator role"
@@ -52,7 +47,7 @@
                 }
             ],
             "clientRoles": {
-                "merchant-client": [
+                "account": [
                     "admin-client"
                 ]
             }
@@ -70,7 +65,7 @@
                 }
             ],
             "clientRoles": {
-                "merchant-client": [
+                "account": [
                     "customer-client"
                 ]
             }
