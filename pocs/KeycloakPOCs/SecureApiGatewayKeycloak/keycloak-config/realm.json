@@ -1,0 +1,74 @@
+{
+    "realm": "merchant-realm",
+    "enabled": true,
+    "clients": [
+        {
+            "clientId": "merchant-client",
+            "enabled": true,
+            "publicClient": true,
+            "redirectUris": [
+                "https://localhost:5001/*"
+            ],
+            "protocol": "openid-connect",
+            "attributes": {
+                "access.token.claim": "true",
+                "refresh.token.validity": "1800",
+                "client.authentication": "true"
+            },
+            "directAccessGrantsEnabled": true,
+            "implicitFlowEnabled": true
+        }
+    ],
+    "roles": {
+        "client": {
+            "account": [
+                {
+                    "name": "admin-client",
+                    "description": "Administrator role"
+                },
+                {
+                    "name": "customer-client",
+                    "description": "Customer role"
+                }
+            ]
+        }
+    },
+    "users": [
+        {
+            "username": "daniel",
+            "enabled": true,
+            "email": "daniel@example.com",
+            "firstName": "daniel",
+            "lastName": "espinoza",
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "daniel123"
+                }
+            ],
+            "clientRoles": {
+                "account": [
+                    "admin-client"
+                ]
+            }
+        },
+        {
+            "username": "customer",
+            "enabled": true,
+            "email": "customer@example.com",
+            "firstName": "customer",
+            "lastName": "customer",
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "customer123"
+                }
+            ],
+            "clientRoles": {
+                "account": [
+                    "customer-client"
+                ]
+            }
+        }
+    ]
+}
