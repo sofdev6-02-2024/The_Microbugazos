@@ -44,6 +44,11 @@ To maintain code quality and consistency, it is recommended to install ESLint in
 
 3. After installation, ESLint will automatically lint your code based on the rules defined in your project.
 
+### ESLint Manuel Validation
+```bash
+npx eslint .
+```
+
 ### Font Optimization
 
 This project uses next/font to automatically optimize and load Geist, a modern font family for Vercel.
