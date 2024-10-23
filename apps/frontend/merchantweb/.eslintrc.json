@@ -1,7 +1,0 @@
-{
-  "extends": [
-    "airbnb/base",
-    "next/core-web-vitals",
-    "plugin:prettier/recommended"
-  ]
-}
