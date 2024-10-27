@@ -1,0 +1,76 @@
+.inputGroup {
+    width: 100%;
+    padding-bottom: 5%;
+    position: relative;
+    --padding: 0.9rem;
+  }
+  
+  .input {
+    width: 100%;
+    background-color: var(--color-background);
+    padding: var(--padding) 1rem;
+    border-radius: 0.8rem;
+    border: 2px solid var(--color-border);
+    transition: border-color 0.2s;
+    outline: none;
+    color: var(--color-text-light);
+  }
+  
+  .input:is(:focus, :valid) {
+    border-color: var(--color-border);
+  }
+  
+  .placeholder {
+    position: absolute;
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    left: 1rem;
+    top: 33%;
+    transform: translateY(-50%);
+    padding: 0 4px;
+    transition: all 0.2s ease-in;
+    pointer-events: none;
+  }
+  
+  .input:is(:focus, :valid) + .placeholder {
+    transform: translateY(calc(-1 * var(--padding) - 130%)) translateX(-5%);
+    font-size: 14px;
+    color: var(--color-text-light);
+  }
+  
+  .input:where([type="password"], [type="text"]:not([id="username"])) {
+    padding-right: 2.5rem;
+  }
+  
+  .eyeButton {
+    position: absolute;
+    top: 20%;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    cursor: pointer;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    position: absolute;
+  }
+  
+  .errorInput {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .errorInput + .placeholder {
+    color: red !important;
+  }
+  
