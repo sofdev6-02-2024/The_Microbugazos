@@ -12,4 +12,5 @@ public class Product : BaseEntity
     public ICollection<Image> Images { get; set; }
     public ICollection<ProductVariant> ProductVariants { get; set; }
     public ICollection<Category> Categories { get; set; }
+    public ICollection<ProductReview> ProductReviews { get; set; }
 }

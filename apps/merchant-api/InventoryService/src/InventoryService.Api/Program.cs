@@ -1,4 +1,5 @@
 using DotNetEnv;
+using InventoryService.Intraestructure.Data;
 // using InventoryService.Application;
 // using InventoryService.Intraestructure.data;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +26,12 @@ builder.Configuration.AddEnvironmentVariables();
 
 
 string connectionString = Env.GetString("POSTGRES_SQL_CONNECTION");
-// builder.Services.AddDbContext<DbContext, PostgresContext>(options =>
-//     options.UseNpgsql(connectionString,
-//             b => b.MigrationsAssembly("InventoryService.Api"))
-//         .EnableSensitiveDataLogging()
-//         .LogTo(Console.WriteLine, LogLevel.Information)
-// );
+builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
+    options.UseNpgsql(connectionString,
+            b => b.MigrationsAssembly("InventoryService.Api"))
+        .EnableSensitiveDataLogging()
+        .LogTo(Console.WriteLine, LogLevel.Information)
+);
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();

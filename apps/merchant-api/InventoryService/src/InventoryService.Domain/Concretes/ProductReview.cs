@@ -8,4 +8,5 @@ public class ProductReview : BaseEntity
     public Guid ProductId { get; set; }
     public int Rating { get; set; }
     public string Comment { get; set; }
+    public Product Product { get; set; }
 }
