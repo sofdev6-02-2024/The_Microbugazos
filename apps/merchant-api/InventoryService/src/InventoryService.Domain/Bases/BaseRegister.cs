@@ -1,6 +1,6 @@
-using InventoryService.Domain.interfaces;
+using InventoryService.Domain.Interfaces;
 
-namespace InventoryService.Domain.bases;
+namespace InventoryService.Domain.Bases;
 
 public abstract class BaseRegister : IRegister
 {

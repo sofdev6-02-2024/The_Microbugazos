@@ -1,4 +1,4 @@
-namespace InventoryService.Domain.interfaces;
+namespace InventoryService.Domain.Interfaces;
 
 public interface IEntity : IRegister
 {

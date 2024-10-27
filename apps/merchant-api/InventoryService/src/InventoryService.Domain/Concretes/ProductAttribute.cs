@@ -1,6 +1,6 @@
-using InventoryService.Domain.bases;
+using InventoryService.Domain.Bases;
 
-namespace InventoryService.Domain.concretes;
+namespace InventoryService.Domain.Concretes;
 
 public class ProductAttribute : BaseEntity
 {
