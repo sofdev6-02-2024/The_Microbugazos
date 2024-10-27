@@ -1,7 +1,7 @@
 using DotNetEnv;
 using InventoryService.Intraestructure.Data;
-// using InventoryService.Application;
-// using InventoryService.Intraestructure.data;
+using InventoryService.Application;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +21,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.CustomSchemaIds(type => type.FullName);
 });
+
 builder.Configuration.AddEnvironmentVariables();
-// builder.Services.AddApplication();
+builder.Services.AddApplication();
 
 
 string connectionString = Env.GetString("POSTGRES_SQL_CONNECTION");

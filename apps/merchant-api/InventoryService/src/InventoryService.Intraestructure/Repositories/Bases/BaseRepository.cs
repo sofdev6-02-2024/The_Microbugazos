@@ -30,6 +30,7 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
         var entity = await GetByIdAsync(id);
         if (entity == null) return false;
 
+        entity.DeletedAt = DateTime.UtcNow;
         entity.IsActive = false;
         await Context.SaveChangesAsync();
         return true; 
