@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using InventoryService.Api;
 using DotNetEnv;
 using InventoryService.Intraestructure.Data;
@@ -12,18 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 Env.Load("../../../.env");
 
+
 string ApiGatewayUrl = builder.Configuration["ApiGatewayUrl"] ?? "http://localhost:5001";
 
 builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowApiGateway",
-                builder => builder
-                    .WithOrigins(ApiGatewayUrl)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-        });
-
-
+{
+    options.AddPolicy("AllowLocalhost",
+        policyBuilder => policyBuilder
+            .WithOrigins(ApiGatewayUrl)
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddEndpointsApiExplorer();
@@ -31,10 +29,8 @@ builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
 
 
-string? connectionString = Env.GetString("POSTGRES_SQL_CONNECTION")
-                                ?? builder.Configuration["POSTGRES_SQL_CONNECTION"]
-                                ?? throw new Exception("POSTGRES_SQL_CONNECTION not found");
-
+string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
+                    ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
 
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
     options.UseNpgsql(connectionString,
@@ -43,7 +39,6 @@ builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
         .LogTo(Console.WriteLine, LogLevel.Information)
 );
 
-builder.Services.AddAuthorization();
 builder.Services
        .AddControllers(options =>
        {

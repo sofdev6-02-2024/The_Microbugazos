@@ -1,0 +1,32 @@
+[
+  {
+    "UpstreamPathTemplate": "/api/inventory/{everything}",
+    "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/inventory/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "localhost",
+        "Port": 5200
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/inventory/secured/{everything}",
+    "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/inventory/secured/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "localhost",
+        "Port": 5200
+      }
+    ],
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    },
+    "RouteClaimsRequirement": {
+      "roles": ["admin-client"]
+    }
+  }
+]

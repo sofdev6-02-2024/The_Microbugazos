@@ -7,7 +7,7 @@ public static class AuthConfiguration
 {
     public static void ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        string authority = configuration["AUTH_JWT_AUTHORITY"]??throw new Exception("AUTH_JWT_AUTHORITY not found in configuration");
+        string authority = configuration["AUTH_JWT_AUTHORITY"] ?? throw new Exception("AUTH_JWT_AUTHORITY not found in configuration");
         string audience = configuration["AUTH_JWT_AUDIENCE"] ?? throw new Exception("AUTH_JWT_AUDIENCE not found in configuration");
         services.AddAuthorization();
         services.AddAuthentication(
@@ -32,6 +32,5 @@ public static class AuthConfiguration
                 };
             }
         );
-
     }
 }
