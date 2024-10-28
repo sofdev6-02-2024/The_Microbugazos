@@ -1,0 +1,29 @@
+[
+  {
+    "UpstreamPathTemplate": "/api/users/{everything}",
+    "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/users/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "localhost",
+        "Port": 5100
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/secured/{everything}",
+    "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/secured/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "localhost",
+        "Port": 5100
+      }
+    ],
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    }
+  }
+]

@@ -65,3 +65,6 @@ coverage/
 # Ignore Node.js dependencies (if applicable)
 node_modules/
 
+
+
+ocelot.json
