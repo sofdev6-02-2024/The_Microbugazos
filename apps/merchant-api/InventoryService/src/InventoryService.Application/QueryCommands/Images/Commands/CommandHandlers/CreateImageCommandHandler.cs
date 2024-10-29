@@ -11,8 +11,8 @@ public class CreateImageCommandHandler(IRepository<Image> imageRepository)
     public async Task<Image> Handle(CreateImageCommand request, CancellationToken cancellationToken)
     {
         var imageDto = request.Image;
-        if (string.IsNullOrEmpty(imageDto.Url) || imageDto.ProductId == Guid.Empty) 
-            throw new ArgumentException("URL and ProductId are required fields.");
+        if (string.IsNullOrEmpty(imageDto.Url)) 
+            throw new ArgumentException("URL is required fields.");
 
         var image = new Image
         {
