@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email temaplate</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&family=Ubuntu&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #F4F9FF;
+            }
+
+            p {
+                color: #292621;
+            }
+            td {
+                background-color: #EFF2F5;
+                color: #282828;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #000000;
+            }
+
+            p {
+                color: #F5EDE2;
+            }
+            td {
+                background-color: #282828;
+                color: #F5EDE2;
+            }
+        }
+
+        .cover {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: "Montserrat Alternates", sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            font-size: 24px;
+            color: #5275F5;
+            width: 100%;
+            text-align: left;
+        }
+
+        p,
+        .email,
+        th,
+        td {
+            font-family: "Ubuntu", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 16px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .email {
+            color: #7790ED;
+            text-decoration: none;
+        }
+
+        .go-store {
+            font-family: "Montserrat Alternates", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #7790ED;
+            border-radius: 10px;
+            color: #F4F9FF;
+            text-decoration: none;
+        }
+
+        .merchant-identify-section {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px;
+        }
+
+        footer {
+            border-top: 1px solid #7790ED;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            gap: 2px;
+        }
+
+        th, td {
+            padding: 10px;
+            min-height: 20px;
+        }
+
+        th {
+            background-color: #7790ED;
+            color: #F5EDE2;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="https://i.postimg.cc/TYx4MYF9/LowStock.png" alt="Email cover" class="cover" />
+    <h1>Low Stock Alert for Your Inventory</h1>
+    <p>
+        Dear [User Name],
+    </p>
+    <p>
+        We hope you're doing well. This is a quick reminder that your inventory is running low on the following items:
+    </p>
+    <table>
+        <tr>
+            <th>Product name</th>
+            <th style="width: 100px; text-align:center;">Quantity</th>
+        </tr>
+        <tr>
+            <td>Product A</td>
+            <td style="width: 100px; text-align:center;">10</td>
+        </tr>
+        <tr>
+            <td>Product B</td>
+            <td style="width: 100px; text-align:center;">5</td>
+        </tr>
+        <tr>
+            <td>Product C</td>
+            <td style="width: 100px; text-align:center;">7</td>
+        </tr>
+        <tr>
+            <td>Product D</td>
+            <td style="width: 100px; text-align:center;">1</td>
+        </tr>
+    </table>
+    <p>
+        To avoid stockouts and delays in fulfilling customer orders, we recommend replenishing these items as soon as possible.
+    </p>
+    <p>
+        Best regards,
+        <br />
+        The Merchant Team
+    </p>
+    <a href="http://localhost:3000" class="go-store">Go inventory</a>
+    <div class="merchant-identify-section">
+        <img src="https://i.postimg.cc/ydtWgG41/chatgpt-robot-sad.png" alt="Merchi" height="130px" />
+        <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />
+    </div>
+    <footer>
+        <p>
+            Do you have any questions or need help?
+            <br>
+            You can contact us at any time:
+        </p>
+        <p>
+            📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com"
+                class="email">merchant.ecommerce.13422@gmail.com</a>
+        </p>
+        <p class="copyright">
+            © 2024, Merchant
+        </p>
+    </footer>
+</body>
+
+</html>

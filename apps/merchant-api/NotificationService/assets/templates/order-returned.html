@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email temaplate</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&family=Ubuntu&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #F4F9FF;
+            }
+
+            p {
+                color: #292621;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #000000;
+            }
+
+            p {
+                color: #F5EDE2;
+            }
+        }
+
+        .cover {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: "Montserrat Alternates", sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            font-size: 24px;
+            color: #5275F5;
+            width: 100%;
+            text-align: left;
+        }
+
+        p,
+        .email {
+            font-family: "Ubuntu", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 16px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .email {
+            color: #7790ED;
+            text-decoration: none;
+        }
+
+        .go-store {
+            font-family: "Montserrat Alternates", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #7790ED;
+            border-radius: 10px;
+            color: #F4F9FF;
+            text-decoration: none;
+        }
+
+        .merchant-identify-section {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px;
+        }
+
+        footer {
+            border-top: 1px solid #7790ED;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="https://i.postimg.cc/c4dXkktk/Returned.png" alt="Email cover" class="cover" />
+    <h1>Your Returned Order #[Order Number] Has Been Received!</h1>
+    <p>
+        Dear [User Name],
+    </p>
+    <p>
+        We’re writing to confirm that your returned order #[Order Number] has been received at [Time].
+    </p>
+    <p>
+        Our team is now processing your return, and you’ll receive further updates shortly. If you have any questions
+        regarding your return, feel free to contact us at <a href="mailto:merchant.ecommerce.13422@gmail.com"
+        class="email">merchant.ecommerce.13422@gmail.com</a>.
+    </p>
+    <p>
+        Thank you for your patience and for shopping with us!
+    </p>
+    <p>
+        Best regards,
+        <br />
+        The Merchant Team
+    </p>
+    <div class="merchant-identify-section">
+        <img src="https://i.postimg.cc/LsssySm4/chatgpt-robot-calling-on-phone.png" alt="Merchi" height="130px" />
+        <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />
+    </div>
+    <footer>
+        <p>
+            Do you have any questions or need help?
+            <br>
+            You can contact us at any time:
+        </p>
+        <p>
+            📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com"
+                class="email">merchant.ecommerce.13422@gmail.com</a>
+        </p>
+        <p class="copyright">
+            © 2024, Merchant
+        </p>
+    </footer>
+</body>
+
+</html>
