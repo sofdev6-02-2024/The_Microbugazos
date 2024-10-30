@@ -30,7 +30,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
 
-string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]??throw new Exception("POSTGRES_SQL_CONNECTION not found");
+
+string? connectionString = Env.GetString("POSTGRES_SQL_CONNECTION")
+                                ?? builder.Configuration["POSTGRES_SQL_CONNECTION"]
+                                ?? throw new Exception("POSTGRES_SQL_CONNECTION not found");
+
+
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
     options.UseNpgsql(connectionString,
             b => b.MigrationsAssembly("InventoryService.Api"))

@@ -41,8 +41,6 @@ services:
     volumes:
       - ./ApiGateway/appsettings.json:/app/appsettings.json
       - ./ApiGateway/RoutingConfiguration:/app/RoutingConfiguration
-    depends_on:
-      - inventory_service
     networks:
       - merchant-network
 
