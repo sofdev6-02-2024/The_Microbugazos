@@ -32,6 +32,7 @@ builder.Services.AddApplication();
 string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
                     ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
 
+
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
     options.UseNpgsql(connectionString,
             b => b.MigrationsAssembly("InventoryService.Api"))
