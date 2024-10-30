@@ -52,7 +52,6 @@ namespace ApiGateway.ServerConfigurations
             if (globalConfig != null)
             {
                 combinedConfig["GlobalConfiguration"] = globalConfig["GlobalConfiguration"];
-                combinedConfig["SwaggerEndPoints"] = globalConfig["SwaggerEndPoints"];
             }
             combinedConfig["Routes"] = allRoutes;
             return combinedConfig;

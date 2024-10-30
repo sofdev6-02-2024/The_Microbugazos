@@ -21,4 +21,19 @@ public class UserController : ControllerBase
             }
         );
     }
+
+    [HttpDelete("secured")]
+    public IActionResult GetSecured()
+    {
+        return Ok(
+            new
+            {
+                products = new List<string>(){
+                "secured-user1",
+                "secured-user2",
+                "secured-user3"
+              }
+            }
+        );
+    }
 }

@@ -11,6 +11,5 @@ public static class OcelotConfiguration
         configuration.AddJsonFile("RoutingConfiguration/ocelot.json", optional: false, reloadOnChange: true);
         services.AddOcelot(configuration)
             .AddCacheManager(settings => settings.WithDictionaryHandle());
-        services.AddSwaggerForOcelot(configuration);
     }
 }
