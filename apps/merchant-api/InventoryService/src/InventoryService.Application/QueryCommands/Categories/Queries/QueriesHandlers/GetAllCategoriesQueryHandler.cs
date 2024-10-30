@@ -4,23 +4,38 @@ using InventoryService.Application.QueryCommands.Categories.Queries.Queries;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
 using MediatR;
+using System.Linq;
 
 namespace InventoryService.Application.QueryCommands.Categories.Queries.QueriesHandlers;
 
-public class GetAllCategoriesQueryHandler(IRepository<Category> categoryRepository)
+public class GetAllCategoriesQueryHandler(IRepository<Category> categoryRepository) 
     : IRequestHandler<GetAllCategoriesQuery, PaginatedResponseDto<CategoryDto>>
 {
-    public async Task<PaginatedResponseDto<CategoryDto>> Handle(GetAllCategoriesQuery request,
+    public async Task<PaginatedResponseDto<CategoryDto>> Handle(
+        GetAllCategoriesQuery request,
         CancellationToken cancellationToken)
     {
         var totalCategories = await categoryRepository.GetAllAsync(request.Page, request.PageSize);
         var count = await categoryRepository.GetCountAsync();
-        var totalCategoriesDto = totalCategories.Select(category => new CategoryDto
-        {
-            Name = category.Name,
-            Id = category.Id,
-            SubCategories = category.SubCategories.Select(subCategory => subCategory.Name).ToList()
-        }).ToList();
+
+        var categories = totalCategories.ToList();
+        var mainCategories = categories
+            .Where(c => !categories.Any(parent => 
+                parent.SubCategories.Any(sub => sub.Name == c.Name)))
+            .Distinct();
+
+        var totalCategoriesDto = mainCategories
+            .Select(category => new CategoryDto
+            {
+                Name = category.Name,
+                Id = category.Id,
+                SubCategories = category.SubCategories
+                    .Select(sc => sc.Name)
+                    .Distinct()
+                    .ToList()
+            })
+            .ToList();
+
         return new PaginatedResponseDto<CategoryDto>
         {
             Items = totalCategoriesDto,
