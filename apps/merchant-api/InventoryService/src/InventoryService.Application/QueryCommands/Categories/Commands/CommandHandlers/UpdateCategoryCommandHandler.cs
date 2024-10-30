@@ -12,19 +12,20 @@ public class UpdateCategoryCommandHandler(IRepository<Category> categoryReposito
     {
         var categoryDto = request.CategoryDto;
         var categoryToUpdate = await categoryRepository.GetByIdAsync(categoryDto.Id);
-        
+
         if (categoryToUpdate == null) throw new ArgumentException("The requested category was not found.");
         
         categoryToUpdate.Name = categoryDto.Name ?? categoryToUpdate.Name;
         categoryToUpdate.ParentCategoryId = categoryDto.ParentCategoryId ?? categoryToUpdate.ParentCategoryId;
-        var fatherCategoryName = categoryRepository.GetByIdAsync(categoryToUpdate.ParentCategoryId.GetValueOrDefault()).Result?.Name;
         
         await categoryRepository.UpdateAsync(categoryToUpdate);
+        var subcategories = categoryToUpdate.SubCategories.Select(subCategory => subCategory.Name).ToList();
+        
         return new CategoryDto
         {
-            FatherCategoryName = fatherCategoryName,
             Id = categoryToUpdate.Id,
             Name = categoryToUpdate.Name,
+            SubCategories = subcategories
         };
     }
 }

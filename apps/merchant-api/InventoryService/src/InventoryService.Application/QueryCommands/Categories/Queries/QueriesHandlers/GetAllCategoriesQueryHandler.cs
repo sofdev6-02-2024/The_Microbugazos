@@ -17,9 +17,9 @@ public class GetAllCategoriesQueryHandler(IRepository<Category> categoryReposito
         var count = await categoryRepository.GetCountAsync();
         var totalCategoriesDto = totalCategories.Select(category => new CategoryDto
         {
-            FatherCategoryName = categoryRepository.GetByIdAsync(category.ParentCategoryId.GetValueOrDefault()).Result?.Name,
             Name = category.Name,
-            Id = category.Id
+            Id = category.Id,
+            SubCategories = category.SubCategories.Select(subCategory => subCategory.Name).ToList()
         }).ToList();
         return new PaginatedResponseDto<CategoryDto>
         {
