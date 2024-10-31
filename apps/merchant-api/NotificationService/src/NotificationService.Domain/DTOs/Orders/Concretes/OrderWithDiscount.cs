@@ -7,7 +7,7 @@ namespace NotificationService.Domain.Dtos.Orders
         public int DiscountPercentage { get; set; }
         public decimal OrderFinalTotal { get; set; }
 
-        public OrderWithDiscount(string orderNumber, List<OrderItemWIthPrice> orderItems, decimal orderTotal, int discountPercentage)
+        public OrderWithDiscount(string orderNumber, List<OrderItemWithPrice> orderItems, decimal orderTotal, int discountPercentage)
             : base(orderNumber, orderItems, orderTotal)
         {
             DiscountPercentage = discountPercentage;

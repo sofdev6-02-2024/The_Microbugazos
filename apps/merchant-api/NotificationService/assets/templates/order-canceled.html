@@ -161,57 +161,23 @@
 
 <body>
     <img src="https://i.postimg.cc/d3Y4Y4H1/Cancel-Status.png" alt="Email cover" class="cover" />
-    <h1>Important Update: Your Order #[Order Number] Has Been Canceled</h1>
+    <h1>Important Update: Your Order #{{OrderNumber}} Has Been Canceled</h1>
     <p>
-        Dear [User Name],
+        Dear {{Username}},
     </p>
     <p>
-        We’re writing to inform you that your order #[Order Number] has been canceled. We understand this may be
+        We’re writing to inform you that your order #{{OrderNumber}} has been canceled. We understand this may be
         disappointing, and we apologize for any inconvenience this may cause.
     </p>
     <p>
         Here are the details of the canceled order:
     </p>
     <ul>
-        <li>Order Number: [Order Number]</li>
+        <li>Order Number: {{OrderNumber}}</li>
         <li>Items:</li>
     </ul>
     <div class="items">
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
-
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
-
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
-
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
-
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
-
-        <div class="item">
-            <img src="https://i.postimg.cc/mD00JvFF/pexels-sverrevegard-173741266-11942004.jpg" alt="Item"
-                class="product-item-image" />
-            <p class="product-item-name">Product name</p>
-        </div>
+        {{Items}}
     </div>
     <p>
         If you didn’t request this cancellation, or if you would like further information regarding the reason for the cancellation, please contact our support team at <a

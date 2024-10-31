@@ -121,27 +121,23 @@
 
 <body>
     <img src="https://i.postimg.cc/dt9SqcKK/NewUser.png" alt="Email cover" class="cover" />
-    <h1>Welcome! You've Been Added as a Seller/Owner to [Store Name]</h1>
+    <h1>Welcome! You've Been Added as a {{UserType}} to {{Storename}}</h1>
     <p>
-        Dear [User Name],
+        Dear {{Username}},
     </p>
     <p>
-        We are excited to let you know that you've been successfully added as a [Seller/Owner] to [Store Name] on our platform!
+        We are excited to let you know that you've been successfully added as a {{UserType}} to {{Storename}} on our
+        platform!
     </p>
     <p>
-        As a [Seller/Owner], you now have the ability to:
+        As a {{UserType}}, you now have the ability to:
     </p>
     <ul>
-        <li>Manage your store's inventory</li>
-        <li>Create new products and categories</li>
-        <li>Set up shipping and payment options</li>
-        <li>Receive order updates and notifications</li>
-        <li>Review and manage customer feedback</li>
-        <li>Access analytics and reports</li>
+        {{Content}}
     </ul>
     <p>
-        If you have any questions or need assistance, our support team is always ready to help at <a href="mailto:store@email.com"
-        class="email">store@email.com</a>.
+        If you have any questions or need assistance, our support team is always ready to help at <a
+            href="mailto:{{StoreEmail}}" class="email">{{StoreEmail}}</a>.
     </p>
     <p>
         We’re thrilled to have you on board and look forward to seeing your store grow!
@@ -151,7 +147,7 @@
         <br />
         The Merchant Team
     </p>
-    <a href="http://localhost:3000" class="go-store">Go admin panel</a>
+    <a href={{Url}} class="go-store">Go admin panel</a>
     <div class="merchant-identify-section">
         <img src="https://i.postimg.cc/Kvn4jQ9b/chatgpt-robot-holding-camera.png" alt="Merchi" height="130px" />
         <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />

@@ -30,6 +30,7 @@
             p {
                 color: #292621;
             }
+
             td {
                 background-color: #EFF2F5;
                 color: #282828;
@@ -44,6 +45,7 @@
             p {
                 color: #F5EDE2;
             }
+
             td {
                 background-color: #282828;
                 color: #F5EDE2;
@@ -124,7 +126,8 @@
             gap: 2px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             min-height: 20px;
         }
@@ -141,7 +144,7 @@
     <img src="https://i.postimg.cc/TYx4MYF9/LowStock.png" alt="Email cover" class="cover" />
     <h1>Low Stock Alert for Your Inventory</h1>
     <p>
-        Dear [User Name],
+        Dear {{Username}},
     </p>
     <p>
         We hope you're doing well. This is a quick reminder that your inventory is running low on the following items:
@@ -151,32 +154,18 @@
             <th>Product name</th>
             <th style="width: 100px; text-align:center;">Quantity</th>
         </tr>
-        <tr>
-            <td>Product A</td>
-            <td style="width: 100px; text-align:center;">10</td>
-        </tr>
-        <tr>
-            <td>Product B</td>
-            <td style="width: 100px; text-align:center;">5</td>
-        </tr>
-        <tr>
-            <td>Product C</td>
-            <td style="width: 100px; text-align:center;">7</td>
-        </tr>
-        <tr>
-            <td>Product D</td>
-            <td style="width: 100px; text-align:center;">1</td>
-        </tr>
+        {{Content}}
     </table>
     <p>
-        To avoid stockouts and delays in fulfilling customer orders, we recommend replenishing these items as soon as possible.
+        To avoid stockouts and delays in fulfilling customer orders, we recommend replenishing these items as soon as
+        possible.
     </p>
     <p>
         Best regards,
         <br />
         The Merchant Team
     </p>
-    <a href="http://localhost:3000" class="go-store">Go inventory</a>
+    <a href={{Url}} class="go-store">Go inventory</a>
     <div class="merchant-identify-section">
         <img src="https://i.postimg.cc/ydtWgG41/chatgpt-robot-sad.png" alt="Merchi" height="130px" />
         <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />
