@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - merchant-network
-    
+
   pgadmin:
     image: dpage/pgadmin4
     ports:
@@ -27,7 +27,18 @@ services:
       - postgres
     networks:
       - merchant-network
-    
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.9-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_WEB_PORT}:15672"
+
+
 networks:
   merchant-network:
     driver: bridge
