@@ -1,6 +1,6 @@
 .inputGroup {
     width: 100%;
-    padding-bottom: 5%;
+    padding-bottom: 7%;
     position: relative;
     --padding: 0.9rem;
   }
@@ -33,7 +33,7 @@
   }
   
   .input:is(:focus, :valid) + .placeholder {
-    transform: translateY(calc(-1 * var(--padding) - 130%)) translateX(-5%);
+    transform: translateY(calc(-1 * var(--padding) - 100%)) translateX(-5%);
     font-size: 14px;
     color: var(--color-text-light);
   }

@@ -12,8 +12,8 @@ using UserService.Infrastructure.Context;
 namespace UserService.Api.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20241030124526_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241031030159_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,9 @@ namespace UserService.Api.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

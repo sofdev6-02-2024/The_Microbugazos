@@ -2,13 +2,17 @@
 
 import React, { useState } from 'react';
 import { auth } from '../../config/firebase';
-import { 
+import {useRouter} from 'next/navigation';
+import {
   createUserWithEmailAndPassword, 
   signInWithPopup, 
   GoogleAuthProvider, 
   FacebookAuthProvider,
   sendEmailVerification,
-  User
+  User,
+  updateProfile,
+  getAdditionalUserInfo,
+  UserCredential
 } from 'firebase/auth';
 import { FormInput } from './FormInputProps';
 import { SocialAuth } from './SocialAuthProps';
@@ -16,9 +20,11 @@ import { MessageDisplay } from './MessageDisplay';
 import styles from '../../styles/auth/SignupForm.module.css';
 import Logo from '../../app/assets/logo/logo_L.png';
 import Image from 'next/image';
+import axios from 'axios';
 
 const SignupForm = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode] = useState(false);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -95,7 +101,15 @@ const SignupForm = () => {
     if (hasErrors) return;
   
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth, 
+        formData.email, 
+        formData.password
+        );
+      await updateProfile(userCredential.user, {
+        displayName: formData.username,
+      });
+      await registerUser(userCredential)
       await sendVerificationEmail(userCredential.user);
       
       
@@ -103,6 +117,29 @@ const SignupForm = () => {
       handleAuthError(error);
     }
   };  
+
+  const registerUser = async (userCredential : UserCredential) => {
+
+    const userInfo = getAdditionalUserInfo(userCredential);
+    if (!userInfo?.isNewUser) return
+    const user = userCredential.user;
+
+    try {
+      await axios.post('http://localhost:5100/api/users/Auth/signup', {
+        name: user.displayName,
+        email: user.email,
+        IdentityId: user.uid
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const { status, data } = error.response || {};
+        if (status === 500 && (data as any)?.detail?.startsWith("System.Exception: User already exists.")) {
+          return;
+        }
+      }
+      console.error("Error registering user:", error);
+    }
+  };
 
   const handleAuthError = (error: unknown) => {
     if (error instanceof Error) {
@@ -118,8 +155,7 @@ const SignupForm = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
-      setMessage('Signed in with Google successfully!');
-      setMessageType('success');
+      await registerUser(result);
     } catch (error) {
       handleAuthError(error);
     }
@@ -128,25 +164,11 @@ const SignupForm = () => {
   const handleFacebookSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, new FacebookAuthProvider());
-      setMessage('Signed in with Facebook successfully!');
-      setMessageType('success');
+      await registerUser(result);
     } catch (error) {
       handleAuthError(error);
     }
   };
-
-  React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        if (user.emailVerified) {
-          setMessage('Email verified successfully! You can now login.');
-          setMessageType('success');
-        }
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   return (
     <div className={`${styles.container} ${isDarkMode ? styles.dark : ''}`}>
@@ -157,7 +179,7 @@ const SignupForm = () => {
           {isEmailSent ? (
             <div className={styles.verificationMessage}>
               <h2>Check Your Email</h2>
-              <p>We've sent a verification link to your email address. Please click the link to verify your account.</p>
+              <p>We have sent a verification link to your email address. Please click the link to verify your account.</p>
               <p>Once verified, you can login to your account.</p>
             </div>
           ) : (
@@ -223,7 +245,7 @@ const SignupForm = () => {
           
           <div className={styles.loginSection}>
             <p className="mb-4">Already have an account?</p>
-            <button className={styles.loginButton}>
+            <button className={styles.loginButton} onClick={() => router.push('/login')}>
               LOGIN
             </button>
           </div>

@@ -30,7 +30,7 @@ export const SocialAuth: React.FC<SocialAuthProps> = ({
           onClick={onFacebookSignIn} 
           className={styles.socialButton}
         >
-          <FaFacebook size={45} />
+          <FaFacebook size={45} color='#3b5998'/>
         </button>
       </div>
     </>
