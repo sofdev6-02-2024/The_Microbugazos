@@ -1,4 +1,4 @@
-using InventoryService.Application.Dtos.Category;
+using InventoryService.Application.Dtos.Categories;
 using InventoryService.Domain.Concretes;
 using MediatR;
 
