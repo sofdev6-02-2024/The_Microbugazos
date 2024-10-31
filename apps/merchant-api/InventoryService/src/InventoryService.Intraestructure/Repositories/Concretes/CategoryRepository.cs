@@ -21,6 +21,7 @@ public class CategoryRepository(InventoryDbContext context) : BaseRepository<Cat
             .Where(e => e.IsActive)
             .Include(c => c.ParentCategory)       
             .Include(c => c.SubCategories)          
+            .OrderBy(c => c.CreatedAt) 
             .ToListAsync();
     }
 }
