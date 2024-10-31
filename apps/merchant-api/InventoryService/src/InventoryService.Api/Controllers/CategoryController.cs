@@ -1,5 +1,4 @@
 using InventoryService.Application.Dtos.Categories;
-using InventoryService.Application.Dtos.Category;
 using InventoryService.Application.QueryCommands.Categories.Commands.Commands;
 using InventoryService.Application.QueryCommands.Categories.Queries.Queries;
 using MediatR;

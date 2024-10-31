@@ -1,4 +1,4 @@
-namespace InventoryService.Application.Dtos.Category;
+namespace InventoryService.Application.Dtos.Categories;
 
 public class UpdateCategoryDto
 {
