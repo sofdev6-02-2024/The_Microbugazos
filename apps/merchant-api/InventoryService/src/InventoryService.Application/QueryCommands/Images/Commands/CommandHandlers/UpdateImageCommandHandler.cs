@@ -10,12 +10,13 @@ public class UpdateImageCommandHandler(IRepository<Image> imageRepository) : IRe
 {
     public async Task<ImageDto> Handle(UpdateImageCommand request, CancellationToken cancellationToken)
     {
-        var imageToUpdate = await imageRepository.GetByIdAsync(request.Image.ImageId);        
+        var imageDto = request.Image;
+        var imageToUpdate = await imageRepository.GetByIdAsync(imageDto.ImageId);        
         if (imageToUpdate == null) throw new ArgumentException("The requested image was not found.");
         
-        imageToUpdate.Url = request.Image.Url ?? imageToUpdate.Url;
-        imageToUpdate.AltText = request.Image.AltText ?? imageToUpdate.AltText;
-        imageToUpdate.IsActive = request.Image.IsActive ?? imageToUpdate.IsActive;
+        imageToUpdate.Url = imageDto.Url ?? imageToUpdate.Url;
+        imageToUpdate.AltText = imageDto.AltText ?? imageToUpdate.AltText;
+        imageToUpdate.IsActive = imageDto.IsActive ?? imageToUpdate.IsActive;
         imageToUpdate.UpdatedAt = DateTime.UtcNow;
         
         await imageRepository.UpdateAsync(imageToUpdate);
