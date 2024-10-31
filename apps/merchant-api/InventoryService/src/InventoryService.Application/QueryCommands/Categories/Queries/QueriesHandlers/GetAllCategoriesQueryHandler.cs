@@ -9,16 +9,15 @@ using System.Linq;
 namespace InventoryService.Application.QueryCommands.Categories.Queries.QueriesHandlers;
 
 public class GetAllCategoriesQueryHandler(IRepository<Category> categoryRepository) 
-    : IRequestHandler<GetAllCategoriesQuery, PaginatedResponseDto<CategoryDto>>
+    : IRequestHandler<GetAllCategoriesQuery, List<CategoryDto>>
 {
-    public async Task<PaginatedResponseDto<CategoryDto>> Handle(
+    public async Task<List<CategoryDto>> Handle(
         GetAllCategoriesQuery request,
         CancellationToken cancellationToken)
     {
-        var totalCategories = await categoryRepository.GetAllAsync(request.Page, request.PageSize);
-        var count = await categoryRepository.GetCountAsync();
-
+        var totalCategories = await categoryRepository.GetAllAsync();
         var categories = totalCategories.ToList();
+        
         var mainCategories = categories
             .Where(c => !categories.Any(parent => 
                 parent.SubCategories.Any(sub => sub.Name == c.Name)))
@@ -36,12 +35,6 @@ public class GetAllCategoriesQueryHandler(IRepository<Category> categoryReposito
             })
             .ToList();
 
-        return new PaginatedResponseDto<CategoryDto>
-        {
-            Items = totalCategoriesDto,
-            TotalCount = count,
-            Page = request.Page,
-            PageSize = request.PageSize
-        };
+        return totalCategoriesDto;
     }
 }

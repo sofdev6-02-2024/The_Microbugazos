@@ -15,14 +15,12 @@ public class CategoryRepository(InventoryDbContext context) : BaseRepository<Cat
             .FirstOrDefaultAsync(c => c.Id == id);  
     }
 
-    public override async Task<IEnumerable<Category>> GetAllAsync(int pageNumber, int pageSize)
+    public override async Task<IEnumerable<Category>> GetAllAsync()
     {
         return await DbSet
             .Where(e => e.IsActive)
             .Include(c => c.ParentCategory)       
             .Include(c => c.SubCategories)          
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
             .ToListAsync();
     }
 }

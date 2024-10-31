@@ -49,6 +49,11 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
             .ToListAsync();
     }
 
+    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await DbSet.Where(e => e.IsActive).ToListAsync();
+    }
+    
     public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
         return await DbSet.Where(e => e.IsActive) 

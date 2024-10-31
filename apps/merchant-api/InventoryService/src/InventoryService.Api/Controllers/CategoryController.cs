@@ -30,9 +30,9 @@ public class CategoryController(IMediator mediator) : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<List<CategoryDto>>> GetAll(int page = 1, int pageSize = 10)
+    public async Task<ActionResult<List<CategoryDto>>> GetAll()
     {
-        var result = await mediator.Send(new GetAllCategoriesQuery(page, pageSize));
+        var result = await mediator.Send(new GetAllCategoriesQuery());
         return Ok(result);
     }
     
