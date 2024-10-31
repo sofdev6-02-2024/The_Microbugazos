@@ -20,7 +20,7 @@ namespace NotificationService.Application.Services.Templates
             return htmlTemplate;
         }
 
-        private static string GenerateTable(List<OrderItemWIthPrice> items)
+        private static string GenerateTable(List<OrderItemWithPrice> items)
         {
             StringBuilder tableResult = new StringBuilder();
 

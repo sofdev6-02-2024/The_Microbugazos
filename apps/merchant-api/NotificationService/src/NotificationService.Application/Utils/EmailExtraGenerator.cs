@@ -18,7 +18,7 @@ namespace NotificationService.Application.Utils
             return result.ToString();
         }
 
-        public static string GenerateTableInvoice(List<OrderItemWIthPrice> items)
+        public static string GenerateTableInvoice(List<OrderItemWithPrice> items)
         {
             StringBuilder tableResult = new StringBuilder();
 

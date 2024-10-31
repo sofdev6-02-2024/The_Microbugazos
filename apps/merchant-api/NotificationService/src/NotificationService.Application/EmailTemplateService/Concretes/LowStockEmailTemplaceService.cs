@@ -15,6 +15,7 @@ namespace NotificationService.Application.Services.Templates
             htmlTemplate = htmlTemplate.Replace("{{Content}}", GenerateTable(email.OrderItems));
             htmlTemplate = htmlTemplate.Replace("{{Url}}", email.InventoryUrl);
 
+            Console.WriteLine(htmlTemplate);
             return htmlTemplate;
         }
 
