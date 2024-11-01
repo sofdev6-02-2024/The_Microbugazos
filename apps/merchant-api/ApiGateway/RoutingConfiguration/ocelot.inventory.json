@@ -1,0 +1,29 @@
+[
+  {
+    "UpstreamPathTemplate": "/api/inventory/{everything}",
+    "UpstreamHttpMethod": ["GET"],
+    "DownstreamPathTemplate": "/api/inventory/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "inventory_service",
+        "Port": 8080
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/inventory/{everything}",
+    "UpstreamHttpMethod": ["POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/inventory/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "inventory_service",
+        "Port": 8080
+      }
+    ],
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    }
+  }
+]
