@@ -8,7 +8,7 @@ namespace NotificationService.Domain.Dtos.Emails
         public string StoreEmail { get; set; }
         public List<string> Responsibilities { get; set; }
 
-        public NewUserEmail(Contact contact, string userType, string storeName, string adminPanelUrl, List<string> responsibilities, string storeEmail, string subject) : base(contact)
+        public NewUserEmail(Contact contact, string userType, string storeName, string adminPanelUrl, List<string> responsibilities, string storeEmail) : base(contact)
         {
             UserType = userType;
             StoreName = storeName;

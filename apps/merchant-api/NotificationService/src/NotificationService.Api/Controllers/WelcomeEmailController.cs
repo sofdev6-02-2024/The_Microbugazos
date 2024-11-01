@@ -9,7 +9,7 @@ namespace NotificationService.Api.Controllers
     [Route("api/[controller]")]
     public class WelcomeEmailController : ControllerBase
     {
-        [HttpPost("send")]
+        [HttpPost]
         public async Task<ActionResult> Send([FromBody] WelcomeEmail welcomeEmail) {
             EmailTemplateService<WelcomeEmail> service = new WelcomeEmailTemplateService();
             var emailService = new EmailService<WelcomeEmail>(service);

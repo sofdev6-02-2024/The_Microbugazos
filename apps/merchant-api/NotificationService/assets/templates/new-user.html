@@ -4,168 +4,35 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email temaplate</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&family=Ubuntu&display=swap');
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        @media (prefers-color-scheme: light) {
-            body {
-                background-color: #F4F9FF;
-            }
-
-            p,
-            li {
-                color: #292621;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #000000;
-            }
-
-            p,
-            li {
-                color: #F5EDE2;
-            }
-        }
-
-        .cover {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        h1 {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 700;
-            font-style: italic;
-            font-size: 24px;
-            color: #5275F5;
-            width: 100%;
-            text-align: left;
-        }
-
-        p,
-        .email,
-        li {
-            font-family: "Ubuntu", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 16px;
-            width: 100%;
-            text-align: left;
-        }
-
-        ul {
-            width: 100%;
-            padding: 0 0 0 20px;
-        }
-
-        .email {
-            color: #7790ED;
-            text-decoration: none;
-        }
-
-        .go-store {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            font-size: 20px;
-            padding: 10px 20px;
-            background-color: #7790ED;
-            border-radius: 10px;
-            color: #F4F9FF;
-            text-decoration: none;
-        }
-
-        .merchant-identify-section {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            padding: 10px;
-        }
-
-        footer {
-            border-top: 1px solid #7790ED;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 5px;
-        }
-
-        .copyright {
-            text-align: center;
-        }
-    </style>
+    <title>Email Template</title>
 </head>
 
-<body>
-    <img src="https://i.postimg.cc/dt9SqcKK/NewUser.png" alt="Email cover" class="cover" />
-    <h1>Welcome! You've Been Added as a {{UserType}} to {{Storename}}</h1>
-    <p>
-        Dear {{Username}},
-    </p>
-    <p>
-        We are excited to let you know that you've been successfully added as a {{UserType}} to {{Storename}} on our
-        platform!
-    </p>
-    <p>
-        As a {{UserType}}, you now have the ability to:
-    </p>
-    <ul>
-        {{Content}}
-    </ul>
-    <p>
-        If you have any questions or need assistance, our support team is always ready to help at <a
-            href="mailto:{{StoreEmail}}" class="email">{{StoreEmail}}</a>.
-    </p>
-    <p>
-        We’re thrilled to have you on board and look forward to seeing your store grow!
-    </p>
-    <p>
-        Best regards,
-        <br />
-        The Merchant Team
-    </p>
-    <a href={{Url}} class="go-store">Go admin panel</a>
-    <div class="merchant-identify-section">
-        <img src="https://i.postimg.cc/Kvn4jQ9b/chatgpt-robot-holding-camera.png" alt="Merchi" height="130px" />
-        <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />
-    </div>
-    <footer>
-        <p>
-            Do you have any questions or need help?
-            <br>
-            You can contact us at any time:
-        </p>
-        <p>
-            📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com"
-                class="email">merchant.ecommerce.13422@gmail.com</a>
-        </p>
-        <p class="copyright">
-            © 2024, Merchant
-        </p>
-    </footer>
+<body style="margin: 0; padding: 0; background-color: #F4F9FF; font-family: Arial, sans-serif; max-width: 700px; margin: auto;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 700px; margin: auto;">
+        <tr>
+            <td style="padding: 20px;">
+                <img src="https://i.postimg.cc/dt9SqcKK/NewUser.png" alt="Email cover" style="width: 100%; height: auto; object-fit: contain;" />
+                <h1 style="font-size: 24px; color: #5275F5; text-align: left;">Welcome! You've Been Added as a {{UserType}} to {{Storename}}</h1>
+                <p style="color: #292621; font-size: 16px;">Dear {{Username}},</p>
+                <p style="color: #292621; font-size: 16px;">We are excited to let you know that you've been successfully added as a {{UserType}} to {{Storename}} on our platform!</p>
+                <p style="color: #292621; font-size: 16px;">As a {{UserType}}, you now have the ability to:</p>
+                <ul style="padding-left: 20px; font-size: 16px; color: #292621;">{{Content}}</ul>
+                <p style="color: #292621; font-size: 16px;">If you have any questions or need assistance, our support team is always ready to help at <a href="mailto:{{StoreEmail}}" style="color: #7790ED; text-decoration: none;">{{StoreEmail}}</a>.</p>
+                <p style="color: #292621; font-size: 16px;">We’re thrilled to have you on board and look forward to seeing your store grow!</p>
+                <p style="color: #292621; font-size: 16px;">Best regards,<br />The Merchant Team</p>
+                <a href="{{Url}}" style="display: inline-block; font-size: 20px; padding: 10px 20px; background-color: #7790ED; border-radius: 10px; color: #F4F9FF; text-decoration: none; margin-bottom: 20px;">Go to admin panel</a>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="https://i.postimg.cc/Kvn4jQ9b/chatgpt-robot-holding-camera.png" alt="Merchi" height="130px" style="vertical-align: middle;" />
+                    <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" style="vertical-align: middle;" />
+                </div>
+                <footer style="border-top: 1px solid #7790ED; padding-top: 10px; text-align: center;">
+                    <p style="font-size: 16px;">Do you have any questions or need help?<br />You can contact us at any time:</p>
+                    <p style="font-size: 16px;">📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com" style="color: #7790ED; text-decoration: none;">merchant.ecommerce.13422@gmail.com</a></p>
+                    <p style="font-size: 16px;">© 2024, Merchant</p>
+                </footer>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

@@ -12,7 +12,7 @@ namespace NotificationService.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Send([FromBody] DeliveredEmail deliveredEmail)
         {
-            EmailTemplateService<OrderStatusWithTimeEmail> service = new StatusWithTImeTemplateService("order-canceled");
+            EmailTemplateService<OrderStatusWithTimeEmail> service = new StatusWithTImeTemplateService("order-delivered");
             var emailService = new EmailService<OrderStatusWithTimeEmail>(service);
             await emailService.Send(deliveredEmail.Contact.ContactEmail, "Order status", deliveredEmail);
             return Ok();
