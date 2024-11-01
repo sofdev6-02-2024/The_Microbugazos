@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth } from '../../config/firebase';
 import {useRouter} from 'next/navigation';
 import {
@@ -12,7 +12,8 @@ import {
   User,
   updateProfile,
   getAdditionalUserInfo,
-  UserCredential
+  UserCredential,
+  onAuthStateChanged
 } from 'firebase/auth';
 import { FormInput } from './FormInputProps';
 import { SocialAuth } from './SocialAuthProps';
@@ -39,6 +40,7 @@ const SignupForm = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
 
   const validateEmail = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -60,12 +62,47 @@ const SignupForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (!currentUserEmail) return;
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user?.email === currentUserEmail) {
+        await user.reload();
+
+        if (user.emailVerified) {
+          setCurrentUserEmail(null);
+          setIsEmailSent(false);
+          router.replace('/login');
+        }
+      }
+    });
+
+    const checkInterval = setInterval(async () => {
+      const currentUser = auth.currentUser;
+      if (currentUser?.email === currentUserEmail) {
+        await currentUser.reload();
+        if (currentUser.emailVerified) {
+          clearInterval(checkInterval);
+          setCurrentUserEmail(null);
+          setIsEmailSent(false);
+          router.replace('/login');
+        }
+      }
+    }, 2000);
+
+    return () => {
+      unsubscribe();
+      clearInterval(checkInterval);
+    };
+  }, [router, currentUserEmail]);
+
   const sendVerificationEmail = async (user: User) => {
     try {
       await sendEmailVerification(user);
       setIsEmailSent(true);
-      setMessage('Verification email sent! Please check your inbox and verify your email address.');
-      setMessageType('success');
+      setCurrentUserEmail(user.email);
+
+      await user.reload();
     } catch (error) {
       setMessage('Failed to send verification email. Please try again.');
       setMessageType('error');
@@ -156,6 +193,7 @@ const SignupForm = () => {
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
       await registerUser(result);
+      router.replace('/login');
     } catch (error) {
       handleAuthError(error);
     }
@@ -227,6 +265,7 @@ const SignupForm = () => {
               <SocialAuth
                 onGoogleSignIn={handleGoogleSignIn}
                 onFacebookSignIn={handleFacebookSignIn}
+                message={'Or Sign up with'}
               />
             </form>
           )}
