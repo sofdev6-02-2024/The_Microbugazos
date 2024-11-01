@@ -1,15 +1,15 @@
 using UserService.Api;
 using Microsoft.AspNetCore.Diagnostics;
+using UserService.Application;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-using UserService.Application;
 using UserService.Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 Env.Load("../../../.env");
 
-string hostUrl = builder.Configuration["HostUrl"] ?? throw new ArgumentNullException("HostUrl");
+string hostUrl = builder.Configuration["ApiGatewayUrl"] ?? throw new ArgumentNullException("ApiGatewayUrl not found");
 
 builder.Services.AddCors(options =>
 {
@@ -23,10 +23,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 
 
-string connectionString = Env.GetString("POSTGRES_SQL_CONNECTION");
+string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
+                     ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION");
 builder.Services.AddDbContext<DbContext, PostgresContext>(options =>
     options.UseNpgsql(connectionString,
             b => b.MigrationsAssembly("UserService.Api"))
@@ -36,7 +37,7 @@ builder.Services.AddDbContext<DbContext, PostgresContext>(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
-builder.Services.AddSwaggerAuthConfig();
+builder.Services.ConfigureSwagger();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
