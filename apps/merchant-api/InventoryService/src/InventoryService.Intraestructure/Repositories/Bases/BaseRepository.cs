@@ -20,6 +20,7 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
 
     public virtual async Task<T> UpdateAsync(T entity)
     {
+        entity.UpdatedAt = DateTime.UtcNow;
         DbSet.Update(entity);
         await Context.SaveChangesAsync();
         return entity;
