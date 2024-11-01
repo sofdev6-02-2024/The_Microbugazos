@@ -4,6 +4,8 @@ using InventoryService.Intraestructure.Data;
 using InventoryService.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using MerchantCommon.RabbitMqMessaging.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,23 @@ builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
         .EnableSensitiveDataLogging()
         .LogTo(Console.WriteLine, LogLevel.Information)
 );
+
+
+ builder.Services.AddSingleton(sp =>
+    {
+        var factory = new ConnectionFactory
+        {
+            HostName = "localhost",
+            UserName = "merchantadmin",
+            Password = "merchantpass",
+            VirtualHost = "/",
+            Port = 5672
+        };
+        return factory.CreateConnection();
+    });
+
+builder.Services.AddSingleton<IMessageProducer, MessageProducer>();
+
 
 builder.Services
        .AddControllers(options =>
