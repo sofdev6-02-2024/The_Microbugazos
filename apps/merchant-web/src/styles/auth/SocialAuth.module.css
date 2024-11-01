@@ -1,0 +1,42 @@
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  gap: 1rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.dividerText {
+  color: var(--color-text-light);
+  font-size: 0.875rem;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socialButton {
+  width: 5rem;
+  height: 5rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none; 
+  cursor: pointer;
+  transition: background-color 0.2s;
+  padding: 0;
+}
+
+.socialButton:hover {
+  transform: scale(1.1); 
+}
