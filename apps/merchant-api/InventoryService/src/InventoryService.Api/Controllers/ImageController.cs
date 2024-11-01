@@ -7,11 +7,11 @@ using MediatR;
 namespace InventoryService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/inventory/[controller]")]
 public class ImageController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<Dictionary<string, bool>>> Create([FromBody] CreateImageDto request)
+    public async Task<ActionResult> Create([FromBody] CreateImageDto request)
     {
         var result = await mediator.Send(new CreateImageCommand(request));
 

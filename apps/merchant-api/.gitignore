@@ -65,3 +65,7 @@ coverage/
 # Ignore Node.js dependencies (if applicable)
 node_modules/
 
+
+# api gateway - tmp files
+ocelot.json
+
