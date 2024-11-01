@@ -7,13 +7,15 @@ using DotNetEnv;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace UserService.Application
 {
     public static class ApplicationConfiguration
     {
-        public static void AddApplication(this IServiceCollection services)
+        public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
+            string firebaseCredentials = configuration["FIREBASE_CREDENTIALS"] ?? throw new ArgumentNullException("FIREBASE_CREDENTIALS not found");
             services.AddAutoMapper(typeof(UserProfile));
             services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(typeof(UserProfile).Assembly)
@@ -22,7 +24,7 @@ namespace UserService.Application
             FirebaseApp.Create(
                 options: new AppOptions
                 {
-                    Credential = GoogleCredential.FromJson(Env.GetString("FIREBASE_CREDENTIALS"))
+                    Credential = GoogleCredential.FromJson(firebaseCredentials)
                 }
             );
 

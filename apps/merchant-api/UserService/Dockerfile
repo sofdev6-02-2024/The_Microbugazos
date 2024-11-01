@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY src/UserService.Api/UserService.Api.csproj UserService.Api/
 COPY src/UserService.Application/UserService.Application.csproj UserService.Application/
-COPY src/UserService.Infraestructure/UserService.Infraestructure.csproj UserService.Infraestructure/
+COPY src/UserService.Infrastructure/UserService.Infrastructure.csproj UserService.Infrastructure/
 COPY src/UserService.Domain/UserService.Domain.csproj UserService.Domain/
 
 WORKDIR /app/UserService.Api
@@ -12,7 +12,7 @@ RUN dotnet restore
 
 COPY src/UserService.Api/ .
 COPY src/UserService.Application/ ../UserService.Application/
-COPY src/UserService.Infraestructure/ ../UserService.Infraestructure/
+COPY src/UserService.Infrastructure/ ../UserService.Infrastructure/
 COPY src/UserService.Domain/ ../UserService.Domain/
 
 RUN dotnet publish -c Release -o /app/out

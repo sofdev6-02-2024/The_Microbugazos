@@ -1,7 +1,7 @@
 [
   {
     "UpstreamPathTemplate": "/api/users/{everything}",
-    "UpstreamHttpMethod": ["GET"],
+    "UpstreamHttpMethod": ["GET", "POST"],
     "DownstreamPathTemplate": "/api/users/{everything}",
     "DownstreamScheme": "http",
     "DownstreamHostAndPorts": [
@@ -13,7 +13,7 @@
   },
   {
     "UpstreamPathTemplate": "/api/users/{everything}",
-    "UpstreamHttpMethod": ["POST", "PUT", "DELETE"],
+    "UpstreamHttpMethod": ["PUT", "DELETE"],
     "DownstreamPathTemplate": "/api/users/{everything}",
     "DownstreamScheme": "http",
     "DownstreamHostAndPorts": [

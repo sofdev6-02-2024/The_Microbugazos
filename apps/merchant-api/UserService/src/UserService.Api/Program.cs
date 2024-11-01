@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 
 
 string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]

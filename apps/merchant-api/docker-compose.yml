@@ -66,6 +66,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
+      - FIREBASE_CREDENTIALS=${FIREBASE_CREDENTIALS}
     networks:
       - merchant-network
     
