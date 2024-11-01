@@ -2,7 +2,6 @@
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5001"
   },
-  "SwaggerEndPoints": null,
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/inventory/{everything}",
