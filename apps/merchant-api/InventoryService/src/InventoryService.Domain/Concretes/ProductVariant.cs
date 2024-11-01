@@ -9,6 +9,6 @@ public class ProductVariant : BaseEntity
     public double PriceAdjustment { get; set; }
     public int StockQuantity { get; set; }
     public Product Product { get; set; }
-    public Image Image { get; set; }
+    public Image? Image { get; set; }
     public ICollection<ProductAttribute> Attributes { get; set; }
 }
