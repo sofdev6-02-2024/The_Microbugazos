@@ -15,16 +15,12 @@ namespace NotificationService.Infraestructure.EmailService
         }
         public async Task Send(string reciver, string subject, T objectEmail)
         {
-            Console.WriteLine(reciver);
-            Console.WriteLine(subject);
             string body = await EmailTemplateService.GenerateEmailTemplate(objectEmail);
 
             string? server = Environment.GetEnvironmentVariable("EMAIL_SERVICE");
             int port = int.TryParse(Environment.GetEnvironmentVariable("EMAIL_PORT"), out var parsedPort) ? parsedPort : default;
             string username = Environment.GetEnvironmentVariable("EMAIL_USERNAME") ?? string.Empty;
             string? password = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
-
-            Console.WriteLine($"{server} | {port} | {username} | {password}");
 
             using SmtpClient client = new SmtpClient(server);
             client.Port = port;

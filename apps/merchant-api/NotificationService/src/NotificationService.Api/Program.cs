@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Env.Load("../../.env");
+Env.Load("../../../.env");
 
 builder.Services.AddCors(
     options => options.AddPolicy("AllowLocalhost",

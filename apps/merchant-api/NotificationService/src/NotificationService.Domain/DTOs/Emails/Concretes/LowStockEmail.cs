@@ -6,9 +6,8 @@ namespace NotificationService.Domain.Dtos.Emails
     {
         public List<OrderItem> OrderItems { get; set; }
         public string InventoryUrl { get; set; }
-        private const string SubjectEmail = $"Low stock";
 
-        public LowStockEmail(Contact contact, List<OrderItem> orderItems, string inventoryUrl) : base(contact, SubjectEmail)
+        public LowStockEmail(Contact contact, List<OrderItem> orderItems, string inventoryUrl) : base(contact)
         {
             OrderItems = orderItems;
             InventoryUrl = inventoryUrl;

@@ -14,7 +14,7 @@ namespace NotificationService.Api.Controllers
         {
             EmailTemplateService<LowStockEmail> emailTemplateService = new LowStockEmailTemplaceService();
             var emailService = new EmailService<LowStockEmail>(emailTemplateService);
-            await emailService.Send(lowStockEmail.Contact.ContactEmail, lowStockEmail.Subject, lowStockEmail);
+            await emailService.Send(lowStockEmail.Contact.ContactEmail, "Low stock", lowStockEmail);
             return Ok();
         }
     }

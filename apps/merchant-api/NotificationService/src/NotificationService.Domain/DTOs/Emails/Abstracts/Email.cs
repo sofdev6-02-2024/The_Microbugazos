@@ -3,14 +3,10 @@ namespace NotificationService.Domain.Dtos.Emails
     public class Email
     {
         public Contact Contact { get; set; }
-        public string Subject { get; set; }
-        public bool IsHtml { get; set; }
 
-        public Email(Contact contact, string subject)
+        public Email(Contact contact)
         {
             Contact = contact;
-            Subject = subject;
-            IsHtml = true;
         }
     }
 }
