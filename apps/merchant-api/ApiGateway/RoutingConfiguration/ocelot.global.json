@@ -1,6 +1,5 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5001",
-    "DetailedErrors": true
+    "BaseUrl": "http://localhost:5001"
   }
 }

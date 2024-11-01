@@ -26,8 +26,15 @@ builder.Services.AddLogging(logging =>
 builder.Services.ConfigureOcelot(builder.Configuration);
 builder.Services.ConfigureAuth(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
+
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerConfig();
+}
 
 
 

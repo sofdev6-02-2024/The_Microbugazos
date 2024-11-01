@@ -1,0 +1,26 @@
+[
+  {
+    "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "inventory_service",
+        "Port": 8080
+      }
+    ],
+    "UpstreamPathTemplate": "/swagger/inventory",
+    "UpstreamHttpMethod": ["GET"]
+  },
+  {
+    "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "user_service",
+        "Port": 8080
+      }
+    ],
+    "UpstreamPathTemplate": "/swagger/user",
+    "UpstreamHttpMethod": ["GET"]
+  }
+]
