@@ -17,7 +17,6 @@ public class UpdateImageCommandHandler(IRepository<Image> imageRepository) : IRe
         imageToUpdate.Url = imageDto.Url ?? imageToUpdate.Url;
         imageToUpdate.AltText = imageDto.AltText ?? imageToUpdate.AltText;
         imageToUpdate.IsActive = imageDto.IsActive ?? imageToUpdate.IsActive;
-        imageToUpdate.UpdatedAt = DateTime.UtcNow;
         
         await imageRepository.UpdateAsync(imageToUpdate);
         return new ImageDto

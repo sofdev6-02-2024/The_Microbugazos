@@ -7,7 +7,7 @@ using MediatR;
 namespace InventoryService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/inventory/[controller]")]
 public class ImageController(IMediator mediator) : ControllerBase
 {
     [HttpPost]

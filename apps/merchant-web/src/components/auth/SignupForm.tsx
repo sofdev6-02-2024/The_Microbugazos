@@ -125,7 +125,7 @@ const SignupForm = () => {
     const user = userCredential.user;
 
     try {
-      await axios.post('http://localhost:5100/api/users/Auth/signup', {
+      await axios.post('http://localhost:5001/api/users/Auth/signup', {
         name: user.displayName,
         email: user.email,
         IdentityId: user.uid

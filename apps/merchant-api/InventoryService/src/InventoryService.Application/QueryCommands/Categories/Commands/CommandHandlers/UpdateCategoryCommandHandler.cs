@@ -17,6 +17,7 @@ public class UpdateCategoryCommandHandler(IRepository<Category> categoryReposito
         
         categoryToUpdate.Name = categoryDto.Name ?? categoryToUpdate.Name;
         categoryToUpdate.ParentCategoryId = categoryDto.ParentCategoryId ?? categoryToUpdate.ParentCategoryId;
+        categoryToUpdate.IsActive = categoryDto.IsActive ?? categoryToUpdate.IsActive;
         
         await categoryRepository.UpdateAsync(categoryToUpdate);
         var subcategories = categoryToUpdate.SubCategories.Select(subCategory => new SubCategoryDto
