@@ -4,6 +4,9 @@ using InventoryService.Intraestructure.Data;
 using InventoryService.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using MerchantCommon.RabbitMqMessaging.Services;
+using UserService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,23 @@ builder.Services
        {
            options.Filters.Add(new ProducesAttribute("application/json"));
        });
+
+builder.Services.AddSingleton(sp =>
+{
+    var factory = new ConnectionFactory
+    {
+        HostName = "rabbitmq",
+        UserName = "merchantadmin",
+        Password = "merchantpass",
+        VirtualHost = "/",
+        Port = 5672
+    };
+    return factory.CreateConnection();
+});
+
+builder.Services.AddSingleton<IMessageConsumer, MessageConsumer>();
+builder.Services.AddHostedService<HostedConsumer>();
+
 
 var app = builder.Build();
 
