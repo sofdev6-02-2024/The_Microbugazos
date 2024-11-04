@@ -4,211 +4,47 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email temaplate</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&family=Ubuntu&display=swap');
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        @media (prefers-color-scheme: light) {
-            body {
-                background-color: #F4F9FF;
-            }
-
-            p,
-            li {
-                color: #292621;
-            }
-
-            .item {
-                background-color: #EFF2F5;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #000000;
-            }
-
-            p,
-            li {
-                color: #F5EDE2;
-            }
-
-            .item {
-                background-color: #282828;
-            }
-        }
-
-        .cover {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        h1 {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 700;
-            font-style: italic;
-            font-size: 24px;
-            color: #5275F5;
-            width: 100%;
-            text-align: left;
-        }
-
-        p,
-        .email,
-        li {
-            font-family: "Ubuntu", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 16px;
-            width: 100%;
-            text-align: left;
-        }
-
-        ul {
-            width: 100%;
-            padding: 0 0 0 20px;
-        }
-
-        .email {
-            color: #7790ED;
-            text-decoration: none;
-        }
-
-        .go-store {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            font-size: 20px;
-            padding: 10px 20px;
-            background-color: #7790ED;
-            border-radius: 10px;
-            color: #F4F9FF;
-            text-decoration: none;
-        }
-
-        .merchant-identify-section {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            padding: 10px;
-        }
-
-        footer {
-            border-top: 1px solid #7790ED;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 5px;
-        }
-
-        .copyright {
-            text-align: center;
-        }
-
-        .items {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .item {
-            width: 220px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            gap: 10px;
-            border-radius: 10px;
-        }
-
-        .product-item-image {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .product-item-name {
-            color: #7790ED;
-            text-align: center;
-            width: 100%;
-        }
-    </style>
+    <title>Email Template</title>
 </head>
 
-<body>
-    <img src="https://i.postimg.cc/d3Y4Y4H1/Cancel-Status.png" alt="Email cover" class="cover" />
-    <h1>Important Update: Your Order #{{OrderNumber}} Has Been Canceled</h1>
-    <p>
-        Dear {{Username}},
-    </p>
-    <p>
-        We’re writing to inform you that your order #{{OrderNumber}} has been canceled. We understand this may be
-        disappointing, and we apologize for any inconvenience this may cause.
-    </p>
-    <p>
-        Here are the details of the canceled order:
-    </p>
-    <ul>
-        <li>Order Number: {{OrderNumber}}</li>
-        <li>Items:</li>
-    </ul>
-    <div class="items">
-        {{Items}}
+<body style="margin: 0; background-color: #F4F9FF; font-family: Arial, sans-serif; color: #292621;">
+
+    <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FFFFFF;">
+        <img src="https://i.postimg.cc/d3Y4Y4H1/Cancel-Status.png" alt="Email cover" style="width: 100%; height: auto;" />
+
+        <h1 style="font-family: 'Montserrat Alternates', Arial, sans-serif; font-size: 24px; color: #5275F5; font-weight: 700; font-style: italic; margin-top: 20px;">Important Update: Your Order #{{OrderNumber}} Has Been Canceled</h1>
+
+        <p>Dear {{Username}},</p>
+        <p>We’re writing to inform you that your order #{{OrderNumber}} has been canceled. We understand this may be disappointing, and we apologize for any inconvenience this may cause.</p>
+        
+        <p>Here are the details of the canceled order:</p>
+        <ul style="padding-left: 20px;">
+            <li>Order Number: {{OrderNumber}}</li>
+            <li>Items:</li>
+        </ul>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            {{Items}}
+        </div>
+
+        <p>If you didn’t request this cancellation, or if you would like further information regarding the reason for the cancellation, please contact our support team at <a href="mailto:merchant.ecommerce.13422@gmail.com" style="color: #7790ED; text-decoration: none;">merchant.ecommerce.13422@gmail.com</a>, and we'll be happy to assist.</p>
+        
+        <p>We appreciate your understanding, and we hope to serve you again soon.</p>
+        
+        <p>Best regards,<br />The Merchant Team</p>
+
+        <div style="display: flex; justify-content: center; align-items: center; gap: 30px; padding: 10px;">
+            <img src="https://i.postimg.cc/CLHLS51L/sad-and-confused-chat-GPT-robot.png" alt="Merchi" style="height: 130px;" />
+            <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" style="height: 130px;" />
+        </div>
+
+        <footer style="border-top: 1px solid #7790ED; padding-top: 10px; text-align: center;">
+            <p>Do you have any questions or need help?<br />You can contact us at any time:</p>
+            <p>📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com" style="color: #7790ED; text-decoration: none;">merchant.ecommerce.13422@gmail.com</a></p>
+            <p style="font-size: 12px; color: #999;">© 2024, Merchant</p>
+        </footer>
     </div>
-    <p>
-        If you didn’t request this cancellation, or if you would like further information regarding the reason for the cancellation, please contact our support team at <a
-        href="mailto:merchant.ecommerce.13422@gmail.com" class="email">merchant.ecommerce.13422@gmail.com</a>., and we'll be happy to assist.
-    </p>
-    <p>
-        We appreciate your understanding, and we hope to serve you again soon.
-    </p>
-    <p>
-        Best regards,
-        <br />
-        The Merchant Team
-    </p>
-    <div class="merchant-identify-section">
-        <img src="https://i.postimg.cc/CLHLS51L/sad-and-confused-chat-GPT-robot.png" alt="Merchi" height="130px" />
-        <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" height="130px" />
-    </div>
-    <footer>
-        <p>
-            Do you have any questions or need help?
-            <br>
-            You can contact us at any time:
-        </p>
-        <p>
-            📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com"
-                class="email">merchant.ecommerce.13422@gmail.com</a>
-        </p>
-        <p class="copyright">
-            © 2024, Merchant
-        </p>
-    </footer>
+
 </body>
 
 </html>
