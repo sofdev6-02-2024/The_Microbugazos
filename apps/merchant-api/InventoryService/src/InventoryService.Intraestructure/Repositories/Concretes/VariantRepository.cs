@@ -9,7 +9,7 @@ public class VariantRepository(InventoryDbContext context) : BaseRepository<Vari
 {
     public override async Task<Variant> AddAsync(Variant entity)
     {
-        var existingVariant = await DbSet.FirstOrDefaultAsync(v => v.Name == entity.Name && v.IsActive);
+        var existingVariant = await DbSet.FirstOrDefaultAsync(v => v.Name.ToLower() == entity.Name.ToLower() && v.IsActive);
         if (existingVariant != null) return existingVariant; 
         
         await DbSet.AddAsync(entity);
@@ -20,7 +20,8 @@ public class VariantRepository(InventoryDbContext context) : BaseRepository<Vari
     public override async Task<Variant?> GetByIdAsync(Guid id)
     {
         return await DbSet
-            .Include(c => c.ProductAttributes)         
+            .Include(c => c.ProductAttributes)
+            .ThenInclude(pa => pa.ProductVariant)
             .FirstOrDefaultAsync(c => c.Id == id);  
     }
 
