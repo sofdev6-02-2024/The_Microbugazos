@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - merchant-network
-    
+
   pgadmin:
     image: dpage/pgadmin4
     ports:
@@ -27,6 +27,27 @@ services:
       - postgres
     networks:
       - merchant-network
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:4.0-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_WEB_PORT}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - merchant-network
+
 
   api_gateway:
     build:
@@ -46,8 +67,8 @@ services:
 
   inventory_service:
     build:
-      context: ./InventoryService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: InventoryService/Dockerfile
     ports:
       - "5200:8080"
     environment:
@@ -55,12 +76,14 @@ services:
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
     networks:
       - merchant-network
-
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   user_service:
     build:
-      context: ./UserService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: UserService/Dockerfile
     ports:
       - "5100:8080"
     environment:
@@ -69,6 +92,9 @@ services:
       - FIREBASE_CREDENTIALS=${FIREBASE_CREDENTIALS}
     networks:
       - merchant-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     
 networks:
   merchant-network:
@@ -76,3 +102,4 @@ networks:
 
 volumes:
   postgres_data:
+  rabbitmq_data:
