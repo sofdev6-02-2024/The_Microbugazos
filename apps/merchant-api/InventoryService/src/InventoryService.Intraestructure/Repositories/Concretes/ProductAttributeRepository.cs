@@ -9,8 +9,8 @@ public class ProductAttributeRepository(InventoryDbContext context) : BaseReposi
 {
     public override async Task<ProductAttribute> AddAsync(ProductAttribute entity)
     {
-        var existingCategory = await DbSet.FirstOrDefaultAsync(c => c.Value.ToLower() == entity.Value.ToLower() && c.IsActive);
-        if (existingCategory != null) return existingCategory; 
+        var existingProductAttribute = await DbSet.FirstOrDefaultAsync(c => c.Value.ToLower() == entity.Value.ToLower() && c.IsActive);
+        if (existingProductAttribute != null) return existingProductAttribute; 
         
         await DbSet.AddAsync(entity);
         await Context.SaveChangesAsync();

@@ -24,10 +24,11 @@ public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> produ
                 ProductId = existingProductVariant.ProductId,
                 PriceAdjustment = existingProductVariant.PriceAdjustment,
                 StockQuantity = existingProductVariant.StockQuantity,
-                Attributes = existingProductVariant.Attributes.Select(a => new ProductVariantAttributeDto
+                Attributes = existingProductVariant.Attributes.Select(currentProductAttribute => new GetProductVariantAttributeDto
                 {
-                    Name = a.Variant.Name,
-                    Value = a.Value
+                    ProductVariantAttributeId = currentProductAttribute.Id,
+                    Name = currentProductAttribute.Variant.Name,
+                    Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
         return new PaginatedResponseDto<ProductVariantDto>

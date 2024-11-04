@@ -17,6 +17,7 @@ public class CreateProductVariantCommandHandler(
         CancellationToken cancellationToken)
     {
         var productVariantDto = request.ProductVariant;
+        var productAttributes = new List<GetProductVariantAttributeDto>();
         var product = await productRepository.GetByIdAsync(productVariantDto.ProductId);
         if (product == null)
             throw new KeyNotFoundException($"The product's id {productVariantDto.ProductId} doesn't exist.");
@@ -51,10 +52,14 @@ public class CreateProductVariantCommandHandler(
                 Value = attribute.Value
             };
             productVariant.Attributes.Add(productAttribute);
+            productAttributes.Add(new GetProductVariantAttributeDto
+            {
+                ProductVariantAttributeId = productAttribute.Id, Name = productAttribute.Variant.Name, Value = productAttribute.Value
+            });
         }
 
         var productVariantCreated = await productVariantRepository.AddAsync(productVariant);
         return new ProductVariantDto { ProductVariantId = productVariantCreated.Id, 
-            ProductId = product.Id, Attributes = productVariantDto.Attributes };
+            ProductId = product.Id, Attributes = productAttributes };
     }
 }

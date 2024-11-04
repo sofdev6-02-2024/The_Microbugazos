@@ -14,11 +14,6 @@ public class GetProductsVariantsBySpecificProductQueryHandler(IRepository<Produc
         CancellationToken cancellationToken)
     {
         var totalProductVariants = await productVariantRepository.GetAllAsync(request.Page, request.PageSize);
-        foreach (var p in totalProductVariants.ToList())
-        {
-            Console.WriteLine("\n\n\n a  = " + p.ProductId + " b = " + request.IdProduct);
-            Console.WriteLine(p.ProductId == request.IdProduct);
-        }
         var totalProductVariantDto = totalProductVariants
             .Where(existingProductVariant => existingProductVariant.ProductId == request.IdProduct)
             .Select(existingProductVariant => new ProductVariantDto
@@ -32,10 +27,11 @@ public class GetProductsVariantsBySpecificProductQueryHandler(IRepository<Produc
                 ProductId = existingProductVariant.ProductId,
                 PriceAdjustment = existingProductVariant.PriceAdjustment,
                 StockQuantity = existingProductVariant.StockQuantity,
-                Attributes = existingProductVariant.Attributes.Select(a => new ProductVariantAttributeDto
+                Attributes = existingProductVariant.Attributes.Select(currentProductAttribute => new GetProductVariantAttributeDto
                 {
-                    Name = a.Variant.Name,
-                    Value = a.Value
+                    ProductVariantAttributeId = currentProductAttribute.Id,
+                    Name = currentProductAttribute.Variant.Name,
+                    Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
         return new PaginatedResponseDto<ProductVariantDto>

@@ -7,5 +7,5 @@ public class ProductVariantDto
     public ProductVariantImageDto? ProductVariantImage { get; set; }
     public double PriceAdjustment { get; set; }
     public int StockQuantity { get; set; }
-    public List<ProductVariantAttributeDto> Attributes { get; set; }
+    public List<GetProductVariantAttributeDto> Attributes { get; set; }
 }
