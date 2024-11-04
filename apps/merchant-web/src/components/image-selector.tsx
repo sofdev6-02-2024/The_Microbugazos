@@ -5,10 +5,7 @@ import {ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 import { storage } from '@/commons/services/firebase-connection'
 import DotLoader from "react-spinners/DotLoader";
 
-export default function ImagePicker() {
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
-    const maxImages = 3;
-
+export default function ImagePicker({maxImages = 3, selectedImages, setSelectedImages, afterDelete}) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': []
@@ -24,7 +21,7 @@ export default function ImagePicker() {
             const filesToAdd = acceptedFiles.slice(0, remainingSlots);
 
             const uploadPromises = filesToAdd.map(async (file) => {
-                const storageRef = ref(storage, `images/${file.name}`); // TODO: Add folder per store
+                const storageRef = ref(storage, `images/${file.name}`);
 
                 await uploadBytes(storageRef, file);
 
@@ -84,7 +81,8 @@ export default function ImagePicker() {
                             color="#7790ED"
                             size={24}
                             onClick={(event) => {
-                                event.stopPropagation(); // Prevent click from bubbling up
+                                event.stopPropagation();
+                                afterDelete();
                                 handleImageDeleted(imageUrl);
                             }}
                         />
@@ -95,12 +93,14 @@ export default function ImagePicker() {
                 <div></div>
             )}
             {selectedImages.length >= maxImages ? (
-                <div className="image-limit">
-                    <MdCheckCircleOutline size={64}/>
-                    <p>
-                        Maximum of {maxImages} images reached
-                    </p>
-                </div>
+                maxImages > 1 ? (
+                    <div className="image-limit">
+                        <MdCheckCircleOutline size={64}/>
+                        <p>
+                            Maximum of {maxImages} images reached
+                        </p>
+                    </div>
+                ) : <div></div>
             ) : (
                 <div className="image-limit">
                     <MdOutlineImageSearch size={64} />

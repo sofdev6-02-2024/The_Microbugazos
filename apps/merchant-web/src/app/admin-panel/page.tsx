@@ -2,7 +2,12 @@
 import ComboBox from "@/components/combo-box";
 import Dropzone from "@/components/image-selector";
 import TextField from "@/components/text-field";
-import { useContext, useState } from "react";
+import {useState} from "react";
+import ProductOptionsModal from "@/components/admin-panel/product-options-modal";
+import OptionRow from "@/components/admin-panel/option-row";
+import {useOptions} from "@/commons/providers/add-product-provider"
+import VariantModal from "@/components/admin-panel/variant-modal";
+import {useVariants} from "@/commons/providers/variant-provider";
 
 export default function AddProducts() {
     const [productName, setProductName] = useState<string>("");
@@ -11,6 +16,24 @@ export default function AddProducts() {
     const [productPrice, setProductPrice] = useState<string>("");
     const [productCategory, setProductCategory] = useState<string>("");
     const [productSubCategory, setProductSubCategory] = useState<string>("");
+    const {options} = useOptions();
+    const {variants, getByName} = useVariants();
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+
+    const getVariants = () => {
+        const optionsList = options.map((item) => item.options);
+        return optionsList.reduce((acc, list) => {
+            const newAcc = [];
+            for (let itemAcc of acc) {
+                for (let item of list) {
+                    newAcc.push([...itemAcc, item]);
+                }
+            }
+            return newAcc
+        }, [[]]);
+    }
+
 
     const handleIntegerNumberChange = (value: string, setter: (value: string) => void) => {
         if (/^\d*$/.test(value)) {
@@ -136,27 +159,30 @@ export default function AddProducts() {
                 />
             </div>
             <label className="form-label">Images</label>
-            <Dropzone/>
+            <Dropzone selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>
             <label className="form-label">Other Specifications</label>
-            <div className="key-value-section">
-                <TextField
-                    label="Key"
-                    placeholder="Some key"
-                    value={productQty}
-                    onChange={(value: string) => handleIntegerNumberChange(value, setProductQty)}
-                />
-                <div style={{width: '24px'}}></div>
-                <TextField
-                    label="Value"
-                    placeholder="Some value"
-                    value={productQty}
-                    onChange={(value: string) => handleIntegerNumberChange(value, setProductQty)}
-                />
+            <div style={{marginBottom: "16px"}}>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <label>Options</label>
+                    <ProductOptionsModal></ProductOptionsModal>
+                </div>
+                {options && options.length > 0 ? (
+                    options.map((item) => (
+                        <OptionRow key={item.name} hasInfo={true} option={item} />
+                    ))
+                ) : (
+                    <OptionRow hasInfo={false} />
+                )}
+            </div>
+            <label className="form-label">Variants</label>
+            {getVariants().map((item) =>
+                <VariantModal item={item}></VariantModal>
+            )}
+            <div style={{display: "flex",  justifyContent: "space-evenly", margin: "20px"}}>
+                <button className="merchant-button-secondary">Cancel</button>
+                <button className="merchant-button">Confirm</button>
             </div>
         </form>
-        <button className="merchant-button" onClick={() => console.log("Hola")}>
-            Confirm
-        </button>
         </body>
     );
 }

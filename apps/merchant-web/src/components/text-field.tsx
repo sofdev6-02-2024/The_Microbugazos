@@ -7,7 +7,9 @@ interface TextFieldProps {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
-  type?: 'text' | 'password' | 'email';  // Add other types if needed
+  onKeyDown?: (event) => void;
+  type?: 'text' | 'password' | 'email' | 'number';
+  showIcon?: boolean;
 }
 
 const TextField = ({
@@ -15,7 +17,9 @@ const TextField = ({
     placeholder,
     value,
     onChange,
-    type = 'text'
+    onKeyDown,
+    type = 'text',
+    showIcon = true,
   }: TextFieldProps) => {
     return  (
         <div style={{ marginBottom: '16px', width: '100%' }}>
@@ -26,19 +30,19 @@ const TextField = ({
                     placeholder={placeholder}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
+                    onKeyDown={onKeyDown}
                     className="text-field"
                     style={{
                         width: '100%',
-                        paddingRight: '32px', // Espacio para el ícono
                     }}
                 />
-                <MdEdit
+                {showIcon && <MdEdit
                     style={{
                         position: 'absolute',
                         right: '35px',
                         backgroundColor: '#F4F9FF',
                     }}
-                />
+                />}
             </div>
         </div>
       );
