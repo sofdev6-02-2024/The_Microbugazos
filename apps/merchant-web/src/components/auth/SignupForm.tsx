@@ -41,6 +41,13 @@ const SignupForm = () => {
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
+  const [tempUserData, setTempUserData] = useState<{
+    userCredential: UserCredential | null,
+    formData: typeof formData | null
+  }>({
+    userCredential: null,
+    formData: null
+  });
 
   const validateEmail = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -70,6 +77,9 @@ const SignupForm = () => {
         await user.reload();
 
         if (user.emailVerified) {
+          if (tempUserData.userCredential) {
+            await registerVerifiedUser(tempUserData.userCredential);
+          }
           setCurrentUserEmail(null);
           setIsEmailSent(false);
           router.replace('/login');
@@ -83,6 +93,9 @@ const SignupForm = () => {
         await currentUser.reload();
         if (currentUser.emailVerified) {
           clearInterval(checkInterval);
+          if (tempUserData.userCredential) {
+            await registerVerifiedUser(tempUserData.userCredential);
+          }
           setCurrentUserEmail(null);
           setIsEmailSent(false);
           router.replace('/login');
@@ -94,7 +107,30 @@ const SignupForm = () => {
       unsubscribe();
       clearInterval(checkInterval);
     };
-  }, [router, currentUserEmail]);
+  }, [router, currentUserEmail, tempUserData]);
+
+  const registerVerifiedUser = async (userCredential: UserCredential) => {
+    const userInfo = getAdditionalUserInfo(userCredential);
+    if (!userInfo?.isNewUser) return;
+    const user = userCredential.user;
+
+    try {
+      await axios.post('http://localhost:5001/api/users/Auth/signup', {
+        name: user.displayName,
+        email: user.email,
+        IdentityId: user.uid
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const { status, data } = error.response || {};
+        if (status === 500 && (data as any)?.detail?.startsWith("System.Exception: User already exists.")) {
+          return;
+        }
+      }
+      console.error("Error registering verified user:", error);
+      throw error; 
+    }
+  };
 
   const sendVerificationEmail = async (user: User) => {
     try {
@@ -146,11 +182,18 @@ const SignupForm = () => {
       await updateProfile(userCredential.user, {
         displayName: formData.username,
       });
-      await registerUser(userCredential)
-      await sendVerificationEmail(userCredential.user);
-      
+
+      setTempUserData({
+        userCredential,
+        formData: { ...formData }
+      });
+      await sendVerificationEmail(userCredential.user);      
       
     } catch (error) {
+      setTempUserData({
+        userCredential: null,
+        formData: null
+      });
       handleAuthError(error);
     }
   };  

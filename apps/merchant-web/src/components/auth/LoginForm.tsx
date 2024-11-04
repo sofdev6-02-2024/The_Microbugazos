@@ -1,13 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { auth } from '../../config/firebase';
+import { auth } from '@/config/firebase';
 import { useRouter } from 'next/navigation';
 import {
-    signInWithPopup,
-    GoogleAuthProvider,
-    FacebookAuthProvider,
-    signInWithEmailAndPassword
+    signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
+    signInWithEmailAndPassword, User, AuthProvider, sendPasswordResetEmail
 } from 'firebase/auth';
 import { FormInput } from './FormInputProps';
 import { SocialAuth } from './SocialAuthProps';
@@ -15,6 +13,7 @@ import { MessageDisplay } from './MessageDisplay';
 import styles from '../../styles/auth/LoginForm.module.css';
 import Logo from '../../app/assets/logo/logo_L.png';
 import Image from 'next/image';
+import {validateTokenWithBackend} from "@/components/auth/authService";
 
 const LoginForm = () => {
     const [isDarkMode] = useState(false);
@@ -44,6 +43,19 @@ const LoginForm = () => {
         setErrors(prev => ({...prev, [id]: '', auth: ''}));
     };
 
+    const handleAuthSuccess = async (firebaseUser: User) => {
+        try {
+            await validateTokenWithBackend(firebaseUser);
+            router.push('/');
+        } catch (error: any) {
+            console.error('Auth error:', error);
+            setMessage(error.message === 'User not registered in the system'
+                ? 'User does not exist'
+                : 'Authentication failed');
+            setMessageType('error');
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
@@ -70,11 +82,13 @@ const LoginForm = () => {
         }
 
         try {
-            await signInWithEmailAndPassword(
+            const result = await signInWithEmailAndPassword(
                 auth,
                 formData.email,
                 formData.password
             );
+
+            await handleAuthSuccess(result.user);
 
             if (rememberMe) {
                 localStorage.setItem('rememberedEmail', formData.email);
@@ -82,45 +96,51 @@ const LoginForm = () => {
                 localStorage.removeItem('rememberedEmail');
             }
 
-            router.push('/');
-
-        } catch (error: any) {
+        } catch {
             const errorMessage = 'Email or Password invalid';
             setErrors(prev => ({...prev, auth: errorMessage}));
             setMessage(errorMessage);
             setMessageType('error');
+            await auth.signOut();
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleAuthError = (error: unknown) => {
-        const errorMessage = 'Authentication failed. Please try again.';
-        setMessage(errorMessage);
-        setMessageType('error');
-    };
-
-    const handleGoogleSignIn = async () => {
+    const handleSocialAuth = async (provider: AuthProvider) => {
         try {
-            await signInWithPopup(auth, new GoogleAuthProvider());
-            router.push('/');
-        } catch (error) {
-            handleAuthError(error);
+            const result = await signInWithPopup(auth, provider);
+            await handleAuthSuccess(result.user);
+        } catch {
+            const errorMessage = 'Authentication failed. Please try again.';
+            setMessage(errorMessage);
+            setMessageType('error');
+            await auth.signOut();
         }
     };
 
-    const handleFacebookSignIn = async () => {
-        try {
-            await signInWithPopup(auth, new FacebookAuthProvider());
-            router.push('/');
-        } catch (error) {
-            handleAuthError(error);
-        }
-    };
+    const handleGoogleSignIn = () => handleSocialAuth(new GoogleAuthProvider());
+    const handleFacebookSignIn = () => handleSocialAuth(new FacebookAuthProvider());
 
-    const toggleRemeberMe = () => {
+    const toggleRememberMe = () => {
         setRememberMe(prev => !prev);
     }
+    const handleForgotPassword = async () => {
+        if (!formData.email) {
+            setErrors(prev => ({...prev, email: 'Please enter your email to reset password.'}));
+            return;
+        }
+
+        try {
+            await sendPasswordResetEmail(auth, formData.email);
+            setMessage('Password reset email sent successfully. Check your inbox.');
+            setMessageType('success');
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            setMessage('Failed to send password reset email. Please try again.');
+            setMessageType('error');
+        }
+    };
 
     return (
         <div className={`${styles.container} ${isDarkMode ? styles.dark : ''}`}>
@@ -170,12 +190,12 @@ const LoginForm = () => {
                                     type='checkbox'
                                     id='rememberMe'
                                     checked={rememberMe}
-                                    onChange={toggleRemeberMe}
+                                    onChange={toggleRememberMe}
                                 />
                                 <label htmlFor="rememberMe">Remember me</label>
                             </div>
                             <div className={styles.forgotPassword}>
-                                <a href="#" onClick={() => router.push('/forgot-password')}>Forgot Password?</a>
+                                <a onClick={handleForgotPassword}>Forgot Password?</a>
                             </div>
                         </div>
 
