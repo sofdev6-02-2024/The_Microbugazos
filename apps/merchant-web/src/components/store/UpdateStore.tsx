@@ -9,8 +9,12 @@ import { StoreForm } from "./StoreForm";
 import { useState } from "react";
 import useFormHandler from "@/commons/hooks/UseFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
+import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 
-export const UpdateStore: React.FC = () => {
+interface UpdateStoreProps {
+  id: string;
+}
+export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
   const [clicked, setClicked] = useState(false);
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
@@ -27,12 +31,27 @@ export const UpdateStore: React.FC = () => {
     },
   });
 
+  
+
+
+
   return (
     <div>
       <StoreForm formikProps={storeFormHandler} />
-      <div>
-        <button>Cancel</button>
-        <button>Update</button>
+      <div className={buttonStyle.buttonContainer}>
+        <button
+          disabled={clicked}
+          type="submit"
+          className={`${buttonStyle.button} ${buttonStyle.createButton} ${
+            clicked && buttonStyle.disabledButton
+          }`}
+        >
+          Save
+        </button>
+
+        <button className={`${buttonStyle.button} ${buttonStyle.cancelButton}`}>
+          Cancel
+        </button>
       </div>
     </div>
   );

@@ -20,14 +20,15 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+  padding: 1px;
 }
 
 .button {
-  padding: 20px;
+  font-size: large;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 14px;
   cursor: pointer;
-  font-size: medium;
 }
 
 .createButton {
@@ -36,8 +37,9 @@
 }
 
 .cancelButton {
-  color: var(--black);
-  background-color: var(--gray-300);
+  color: var(--primary-400);
+  background-color: var(--surface-background);
+  outline: 1px solid var(--primary-400);
 }
 
 .createButton:hover {
@@ -45,7 +47,8 @@
 }
 
 .cancelButton:hover {
-  background-color: var(--gray-400);
+  color: var(--primary-600);
+  outline: 1px solid var(--primary-600);
 }
 
 .textContainer {

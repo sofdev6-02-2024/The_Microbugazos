@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import axiosInstance from "./AxiosConfig";
 import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 
@@ -7,7 +8,7 @@ export const getStoreById = async (id: string) => {
     return response.data;
   } catch (error) {
     handleAxiosError(error);
-    throw error; // Re-throw if you need the error to be handled elsewhere
+    throw error;
   }
 };
 
@@ -31,12 +32,15 @@ export const updateStore = async (id: string, data: StoreFormDto) => {
   }
 };
 
-// Function to handle axios errors
+
 const handleAxiosError = (error: any) => {
-    console.error("Axios Error:", error.response?.data || error.message);
-    alert(
-      `Error: ${
-        error.response?.data?.message || "An unexpected error occurred"
-      }`
-    );
+  console.error("Axios Error:", error.response?.data || error.message);
+  let fullMessage = error.response?.data?.detail || error.response.data.message;
+  const index = fullMessage.indexOf(":");
+  if (index !== -1) {
+    fullMessage = fullMessage.substring(index + 2);
+  }
+  toast.error(`Error: ${fullMessage}`, {
+    position: "top-center",
+  });
 };

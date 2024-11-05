@@ -13,6 +13,11 @@ public class CreateStoreCommandHandler(IStoreRepository storeRepository, IMapper
     public async Task<Guid> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {
         var store = mapper.Map<Store>(request.StoreDto);
+
+        var storeExist = await storeRepository.GetByAsync((x) => x.UserId == store.UserId);
+        if (storeExist != null){
+            throw new Exception("User already has a store");
+        }
         store = await storeRepository.AddAsync(store);
         return store.Id;
     }
