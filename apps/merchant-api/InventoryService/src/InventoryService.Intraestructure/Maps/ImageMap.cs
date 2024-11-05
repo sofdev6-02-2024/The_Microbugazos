@@ -14,6 +14,8 @@ public class ImageMap : IEntityTypeConfiguration<Image>
         builder.Property(i => i.AltText).IsRequired();
         builder.Property(i => i.Url).IsRequired();
 
+        builder.HasQueryFilter(i => i.IsActive);
+
         builder.HasOne(i => i.Product)
             .WithMany(p => p.Images)
             .HasForeignKey(i => i.ProductId);
