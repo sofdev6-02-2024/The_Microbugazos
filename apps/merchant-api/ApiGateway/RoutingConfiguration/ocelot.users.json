@@ -25,5 +25,29 @@
     "AuthenticationOptions": {
       "AuthenticationProviderKey": "Bearer"
     }
+  },
+  {
+    "UpstreamPathTemplate": "/api/stores/{everything}",
+    "UpstreamHttpMethod": ["GET"],
+    "DownstreamPathTemplate": "/api/stores/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "user_service",
+        "Port": 8080
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/stores/{everything}",
+    "UpstreamHttpMethod": ["PUT", "DELETE", "POST"],
+    "DownstreamPathTemplate": "/api/stores/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "user_service",
+        "Port": 8080
+      }
+    ]
   }
 ]
