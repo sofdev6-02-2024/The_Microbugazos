@@ -2,7 +2,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export interface Image {
-    name: string;
     url: string;
     altText: string;
 }
@@ -10,6 +9,7 @@ export interface Image {
 export interface Variant {
     name: string;
     priceAdjustment: string;
+    stockQuantity: number;
     image: Image;
 }
 
@@ -36,10 +36,17 @@ interface VariantsProviderProps {
 export const VariantsProvider: React.FC<VariantsProviderProps> = ({ children }) => {
     const [variants, setVariants] = useState<Variant[]>([]);
 
+    const resetVariants = () => {
+        setVariants([]);
+    }
+
     const addVariant = (newVariant: Variant) => {
         const sameNameVariant = variants.filter((item) => item.name == newVariant.name)
         if (sameNameVariant.length == 0) {
             setVariants([...variants, newVariant]);
+        } else {
+            const updateVariant = variants.filter((i) => i.name == newVariant.name);
+            setVariants([...updateVariant, newVariant])
         }
         console.log(variants);
     };
@@ -57,7 +64,7 @@ export const VariantsProvider: React.FC<VariantsProviderProps> = ({ children }) 
     }
 
     return (
-        <VariantContext.Provider value={{ variants, addVariant, removeVariant, getByName }}>
+        <VariantContext.Provider value={{ variants, addVariant, removeVariant, getByName, resetVariants }}>
             {children}
         </VariantContext.Provider>
     );

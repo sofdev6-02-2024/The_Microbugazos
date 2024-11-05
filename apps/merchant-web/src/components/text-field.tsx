@@ -1,12 +1,16 @@
 "use client";
 
 import {MdEdit} from "react-icons/md";
+import {useState} from "react";
 
 interface TextFieldProps {
   label?: string;
   placeholder?: string;
+  errors: [{textField: string, error: string}];
+  setErrors: (value: [{textField: string, error: string}]) => void;
   value: string;
   onChange: (value: string) => void;
+  validator: (value: string) => {isValid: boolean, errorMessage?: string};
   onKeyDown?: (event) => void;
   type?: 'text' | 'password' | 'email' | 'number';
   showIcon?: boolean;
@@ -15,21 +19,44 @@ interface TextFieldProps {
 const TextField = ({
     label,
     placeholder,
+    errors,
+    setErrors,
     value,
     onChange,
     onKeyDown,
+    validator = (string) => {
+        return {
+            isValid: true,
+            errorMessage: null
+        }
+    },
     type = 'text',
     showIcon = true,
   }: TextFieldProps) => {
+    const [currentErrorMessage, setCurrentErrorMessage] = useState("");
     return  (
-        <div style={{ marginBottom: '16px', width: '100%' }}>
+        <div style={{ marginBottom: '8px', width: '100%' }}>
           {label && <label className="form-label" style={{ display: 'block', marginBottom: '4px'}}>{label}</label>}
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <input
                     type={type}
                     placeholder={placeholder}
                     value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={(e) => {
+                        const result = validator(e.target.value);
+                        if (!result.isValid) {
+                            setCurrentErrorMessage(result.errorMessage ?? "Error");
+                            const newErrors
+                                = [...errors, {textField: label ?? "undefined", error: result.errorMessage ?? "Error"}];
+                            setErrors(newErrors);
+                        } else {
+                            setCurrentErrorMessage(null);
+                            const newErrors
+                                = errors.filter((item) => item.textField != label);
+                            setErrors(newErrors);
+                        }
+                        onChange(e.target.value)
+                    }}
                     onKeyDown={onKeyDown}
                     className="text-field"
                     style={{
@@ -44,6 +71,7 @@ const TextField = ({
                     }}
                 />}
             </div>
+            {currentErrorMessage && <label style={{fontSize: "14px", color: "#FB5012"}}>{currentErrorMessage}</label>}
         </div>
       );
     };

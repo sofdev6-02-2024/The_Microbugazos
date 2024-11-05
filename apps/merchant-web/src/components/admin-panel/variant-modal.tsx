@@ -4,14 +4,16 @@ import TextField from "@/components/text-field";
 import {MdImageSearch} from "react-icons/md";
 import Dropzone from "@/components/image-selector";
 import {useVariants} from "@/commons/providers/variant-provider";
-import {util} from "protobufjs";
-import float = util.float;
+import {ValidateLongText} from "@/commons/validations/string";
+import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/commons/validations/number";
 
 export default function VariantModal({item}) {
+    const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
     const [variantOnMemory, setVariantOnMemory] = useState(null);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [altText, setAltText] = useState("");
     const [priceAdjustment, setPriceAdjustment] = useState("0");
+    const [productQty, setProductQty] = useState<string>("");
     const {variants, addVariant, removeVariant, getByName} = useVariants();
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -19,6 +21,18 @@ export default function VariantModal({item}) {
         const updatedVariant = getByName(item.join("/"));
         setVariantOnMemory(updatedVariant);
     }, [item, getByName, variants]);
+
+    const handleFloatNumberChange = (value: string, setter: (value: string) => void) => {
+        if (/^-?\d*\.?\d{0,2}$/.test(value)) {
+            setter(value);
+        }
+    };
+
+    const handleIntegerNumberChange = (value: string, setter: (value: string) => void) => {
+        if (/^\d*$/.test(value)) {
+            setter(value);
+        }
+    };
 
     return (
         <>
@@ -37,6 +51,7 @@ export default function VariantModal({item}) {
                 }}>
                     <label>{item.join("/")}</label>
                     <label>Price adjustment: {parseFloat(priceAdjustment).toFixed(2)} $</label>
+                    <label>Qty: {productQty ===  "" ? "0" : productQty } U.</label>
                 </div>
                 <div style={{
                     width: "48px",
@@ -45,13 +60,18 @@ export default function VariantModal({item}) {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    border: "2px dashed #7790ED",
+                    border: variantOnMemory?.image?.url ? "0px" : "2px dashed #7790ED",
                     padding: variantOnMemory?.image?.url ? "0px" : "10px",
                     borderRadius: "6px",
-                    color: "#7790ED"
+                    color: "#7790ED",
                 }}>
                     {variantOnMemory?.image?.url
-                        ? <img src={variantOnMemory.image.url} alt={variantOnMemory.image.altText} />
+                        ? <img
+                            src={variantOnMemory.image.url} alt={variantOnMemory.image.altText}
+                            style={{
+                                objectFit: "cover"
+                            }}
+                        />
                         : <MdImageSearch size={32} />
                     }
                 </div>
@@ -81,29 +101,45 @@ export default function VariantModal({item}) {
                                 <TextField
                                     label="AltText"
                                     placeholder="Describe your images for upgrade accessibility..."
+                                    errors={errors}
+                                    setErrors={setErrors}
                                     value={altText}
+                                    validator={ValidateLongText}
                                     onChange={(value) => setAltText(value)}>
                                 </TextField>
                                 <TextField
                                     label="Price"
                                     placeholder="00.00 $"
-                                    type="number"
+                                    errors={errors}
+                                    setErrors={setErrors}
                                     value={priceAdjustment}
-                                    onChange={(value) => setPriceAdjustment(value)}>
+                                    validator={ValidateNumberWithDecimals}
+                                    onChange={(value) => handleFloatNumberChange(value, setPriceAdjustment)}>
                                 </TextField>
+                                <TextField
+                                    label="Quantity"
+                                    placeholder="000"
+                                    errors={errors}
+                                    setErrors={setErrors}
+                                    value={productQty}
+                                    validator={ValidateIntegerNumber}
+                                    onChange={(value: string) => handleIntegerNumberChange(value, setProductQty)}
+                                />
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" onPress={() => {
-                                    addVariant({
-                                        name: item.join("/"),
-                                        priceAdjustment: 10.00,
-                                        image: {
+                                    if (errors.length == 0) {
+                                        addVariant({
                                             name: item.join("/"),
-                                            url: selectedImages[0],
-                                            altText: "Some alt text"
-                                        }
-                                    })
-                                    onClose();
+                                            priceAdjustment: parseFloat(priceAdjustment),
+                                            stockQuantity: parseInt(productQty),
+                                            image: {
+                                                url: selectedImages[0],
+                                                altText: `Image for product variant: ${item.join("/")}`
+                                            }
+                                        })
+                                        onClose();
+                                    }
                                 }}>
                                     Confirm
                                 </Button>

@@ -4,8 +4,10 @@ import TextField from "@/components/text-field";
 import { MdClose } from "react-icons/md";
 import {isNullOrEmpty} from "@/commons/validators";
 import {useOptions} from "@/commons/providers/add-product-provider";
+import {ValidateName} from "@/commons/validations/string";
 
 export default function ProductOptionsModal() {
+    const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [name, setName] = useState("");
     const [currentOption, setCurrentOption] = useState("");
@@ -13,18 +15,17 @@ export default function ProductOptionsModal() {
     const [error, setError] = useState("");
     const {addOption} = useOptions();
 
-    const handleOptionChange = (value: string) => {
-        setCurrentOption(value);
-    }
-
     const handleDeleteOptionFromList = (value: string) => {
         setOptions(options.filter((item) => item != value));
     }
 
     const addOptionToList = (value: string) => {
         const contain = options.includes(value)
-        if (contain || isNullOrEmpty(value)) {
-            setError("Duplicate and empty values doesn't allow.")
+        if (contain
+            || isNullOrEmpty(value)
+            || errors.filter((i) => i.textField == "Properties").length > 0
+        ) {
+            setError("Duplicated, empty values and bad format doesn't allow.")
         } else {
             setError("")
             setOptions([...options, value]);
@@ -62,19 +63,25 @@ export default function ProductOptionsModal() {
                                 <TextField
                                     label="Name"
                                     placeholder="e.g. Color"
+                                    errors={errors}
+                                    setErrors={setErrors}
                                     value={name}
+                                    validator={ValidateName}
                                     onChange={(value) => setName(value)}>
                                 </TextField>
                                 <div style={{
                                     display: "flex",
                                     flexDirection: "row",
                                     justifyContent: "space-between",
-                                    alignItems: "center",
+                                    alignItems: "start",
                                 }}>
                                     <TextField
                                         label="Properties"
                                         placeholder="Add here..."
+                                        errors={errors}
+                                        setErrors={setErrors}
                                         value={currentOption}
+                                        validator={ValidateName}
                                         onChange={(value) => setCurrentOption(value)}
                                         onKeyDown={handleKeyDown}
                                         showIcon={false}
@@ -88,7 +95,8 @@ export default function ProductOptionsModal() {
                                         textAlign: "center",
                                         borderRadius: "4px",
                                         marginLeft: "4px",
-                                        marginTop: "12px",
+                                        marginTop: "28px",
+                                        marginBottom: "8px",
                                         paddingRight: "16px",
                                         paddingLeft: "16px"
                                     }}
@@ -100,7 +108,9 @@ export default function ProductOptionsModal() {
                                     </button>
                                 </div>
                                 <div style={{display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "8px"}}>
-                                    {options.map((item, index) => <div style={{
+                                    {options.map((item, index) => <div
+                                        key={item+index}
+                                        style={{
                                         display: "flex",
                                         flexDirection: "row",
                                         alignItems: "center",
@@ -126,15 +136,19 @@ export default function ProductOptionsModal() {
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" onPress={() => {
-                                    onClose();
-                                    addOption({
-                                        name: name,
-                                        options: options
-                                    });
-                                    setName("");
-                                    setOptions([]);
-                                    setCurrentOption("");
-                                    setError("");
+                                    if (name == "") setError("Name required");
+                                    else if (options.length == 0) setError("At least one option is required");
+                                    else if (errors.length == 0) {
+                                        onClose();
+                                        addOption({
+                                            name: name,
+                                            options: options
+                                        });
+                                        setName("");
+                                        setOptions([]);
+                                        setCurrentOption("");
+                                        setError("");
+                                    }
                                 }}>
                                     Confirm
                                 </Button>
