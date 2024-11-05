@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 20px 20px 60px 20px;
+  position: relative;
+  color: black;
+  justify-content: space-between;
+  background-color: var(--surface-light-150);
+  border-radius: 12px;
+}
+
+.buttonContainer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.createButton {
+  color: var(--white);
+  background-color: var(--primary-400);
+}
+
+.cancelButton {
+  color: var(--black);
+  background-color: var(--gray-300);
+}
+
+.createButton:hover {
+  background-color: var(--primary-600);
+}
+
+.cancelButton:hover {
+  background-color: var(--gray-400);
+}
+
+.textContainer {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  height: 100%;
+  gap: 30px;
+}
+
+.textContainer p {
+  margin: 0 0 1em;
+  line-height: 1.6;
+  text-align: justify;
+  font-size: 1rem;
+  color: #333;
+}
+
+.disabledButton {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (max-width: 850px) {
+  .container h1 {
+    width: 100%;
+    text-align: center;
+  }
+}

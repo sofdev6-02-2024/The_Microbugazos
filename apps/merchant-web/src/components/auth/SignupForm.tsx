@@ -66,8 +66,8 @@ const SignupForm = () => {
       setIsEmailSent(true);
       setMessage('Verification email sent! Please check your inbox and verify your email address.');
       setMessageType('success');
-    } catch (error) {
-      setMessage('Failed to send verification email. Please try again.');
+    } catch (error: Error | any) {
+      setMessage(`Error ${error.status} Failed to send verification email. Please try again.`);
       setMessageType('error');
     }
   };
