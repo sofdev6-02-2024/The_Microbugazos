@@ -5,7 +5,7 @@ import {ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 import { storage } from '@/commons/services/firebase-connection'
 import DotLoader from "react-spinners/DotLoader";
 
-export default function ImagePicker({maxImages = 3, selectedImages, setSelectedImages, afterDelete}) {
+export default function ImagePicker({maxImages = 3, selectedImages, setSelectedImages}) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': []
@@ -38,20 +38,6 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
     });
 
     const handleImageDeleted = async (url: string) => {
-        if (url != "spin-loader") {
-            try {
-                const pathStart = url.indexOf('/o/') + 3;
-                const pathEnd = url.indexOf('?') === -1 ? url.length : url.indexOf('?');
-                const filePath = decodeURIComponent(url.slice(pathStart, pathEnd));
-
-                const fileRef = ref(storage, filePath);
-
-                await deleteObject(fileRef);
-                console.log("File deleted successfully");
-            } catch (error) {
-                console.error("Error deleting file:", error);
-            }
-        }
         setSelectedImages(prevImages => prevImages.filter(image => image !== url));
     };
 
@@ -82,7 +68,6 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
                             size={24}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                afterDelete();
                                 handleImageDeleted(imageUrl);
                             }}
                         />

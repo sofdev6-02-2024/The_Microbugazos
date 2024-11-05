@@ -131,8 +131,8 @@ export default function VariantModal({item}) {
                                     if (errors.length == 0) {
                                         addVariant({
                                             name: item.join("/"),
-                                            priceAdjustment: parseFloat(priceAdjustment),
-                                            stockQuantity: parseInt(productQty),
+                                            priceAdjustment: parseFloat(priceAdjustment) || 0,
+                                            stockQuantity: parseInt(productQty) || 0,
                                             image: {
                                                 url: selectedImages[0],
                                                 altText: `Image for product variant: ${item.join("/")}`

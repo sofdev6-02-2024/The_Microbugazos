@@ -115,24 +115,28 @@ export default function AddProducts() {
                 }
             }),
             productVariants: combinationVariants.map((item) => {
-                const index = variants.findIndex((i) => i.name == item);
-                if (index === -1) {
+                console.log(item);
+                console.log(variants);
+                let index;
+                if (item == "Default") index = variants.findIndex((i) => i.name == item)
+                else index = variants.findIndex((i) => i.name == item.join("/"));
+                console.log(index);
+
+                if (index !== -1) {
                     const variant = variants[index];
                     return {
                         image: {
                             altText: variant?.image?.altText ?? '',
                             url: variant?.image?.url ?? ''
                         },
-                        priceAdjustment: variant.priceAdjustment,
-                        stockQuantity: variant.stockQuantity,
-                        attributes: options.flatMap((i) =>
-                            i.options.map((value) => (
-                                {
-                                    name: i.name,
-                                    value: value,
-                                }
-                            ))
-                        )
+                        priceAdjustment: variant?.priceAdjustment ?? 0.0,
+                        stockQuantity: variant?.stockQuantity ?? 0,
+                        attributes: options.map((i, index) => {
+                            return {
+                                name: i.name,
+                                value: item[index]
+                            }
+                        })
                     }
                 } else {
                     return {
@@ -142,14 +146,12 @@ export default function AddProducts() {
                         },
                         priceAdjustment: 0,
                         stockQuantity: 0,
-                        attributes: options.flatMap((i) =>
-                            i.options.map((value) => (
-                                {
-                                    name: i.name,
-                                    value: value,
-                                }
-                            ))
-                        )
+                        attributes: options.map((i, index) => {
+                            return {
+                                name: i.name,
+                                value: item[index]
+                            }
+                        })
                     }
                 }
             })

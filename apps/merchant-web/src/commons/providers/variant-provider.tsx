@@ -45,7 +45,7 @@ export const VariantsProvider: React.FC<VariantsProviderProps> = ({ children }) 
         if (sameNameVariant.length == 0) {
             setVariants([...variants, newVariant]);
         } else {
-            const updateVariant = variants.filter((i) => i.name == newVariant.name);
+            const updateVariant = variants.filter((i) => i.name != newVariant.name);
             setVariants([...updateVariant, newVariant])
         }
         console.log(variants);
