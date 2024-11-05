@@ -1,0 +1,74 @@
+.container {
+    --color-background-header: #1F1F1F;
+    --color-side-menu-background: #EFF2F5;
+
+    width: 100%;
+    height: 7vh;
+    gap: 10%;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-background-header);
+    padding: 2% 7%;
+    position: relative;
+}
+.button {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
+.menuLogo {
+    width: 40px;
+    height: 40px;
+    color: white;
+}
+.searchContainer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input {
+    width: 100%;
+    padding: 1% 2%;
+    border-radius: 0.8rem;
+}
+.searchIcon {
+    position: absolute;
+    right: 10px;
+    color: #000;
+    cursor: pointer;
+}
+.authSection {
+    display: flex;
+    width: 50%;
+    justify-content: right;
+}
+
+.signInButton {
+    padding: 2% 10%;
+    justify-content: space-around;
+    position: relative;
+    cursor: pointer;
+    background: #7790ED;
+    color: #ffffff;
+    font-weight: 600;
+    clip-path: polygon(0 0, 83% 0, 100% 100%, 100% 100%, 0 100%);
+}
+
+.signUpButton{
+    padding: 2% 10%;
+    background-color: white;
+    font-weight: 600;
+    cursor: pointer;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 17% 100%);
+}
+.sideMenuOverlay {
+    position: fixed;
+    top: 7.8vh;
+    left: 0;
+    width: 30%;
+    height: 100vh;
+    background-color: var(--color-side-menu-background);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
