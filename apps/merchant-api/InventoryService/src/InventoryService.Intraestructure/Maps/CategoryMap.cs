@@ -13,6 +13,8 @@ public class CategoryMap : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.Property(c => c.Name).IsRequired();
 
+        builder.HasQueryFilter(c => c.IsActive);
+
         builder.HasMany(c => c.SubCategories)
             .WithOne(c => c.ParentCategory)
             .HasForeignKey(c => c.ParentCategoryId);

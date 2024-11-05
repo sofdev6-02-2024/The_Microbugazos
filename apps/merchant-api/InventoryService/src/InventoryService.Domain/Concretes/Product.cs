@@ -4,7 +4,7 @@ namespace InventoryService.Domain.Concretes;
 
 public class Product : BaseEntity
 {
-    public Guid StoreId { get; set; }
+    public Guid? StoreId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public double BasePrice { get; set; }

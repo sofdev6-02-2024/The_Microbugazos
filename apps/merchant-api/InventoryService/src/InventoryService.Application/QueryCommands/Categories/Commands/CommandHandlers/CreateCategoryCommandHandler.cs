@@ -18,7 +18,7 @@ public class CreateCategoryCommandHandler(IRepository<Category> categoryReposito
             ParentCategoryId = categoryDto.ParentCategoryId
         };
         
-        await categoryRepository.AddAsync(category);
+        category = await categoryRepository.AddAsync(category);
         return category;
     }
 }
