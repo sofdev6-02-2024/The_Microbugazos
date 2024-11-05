@@ -27,7 +27,7 @@ namespace UserService.Application
                     Credential = GoogleCredential.FromJson(firebaseCredentials)
                 }
             );
-
+            services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

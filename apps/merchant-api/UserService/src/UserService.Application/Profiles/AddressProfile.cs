@@ -1,5 +1,5 @@
 using AutoMapper;
-using UserService.Application.Dtos;
+using UserService.Application.Dtos.Users;
 using UserService.Domain.Entities.Concretes;
 
 namespace UserService.Application.Profiles;

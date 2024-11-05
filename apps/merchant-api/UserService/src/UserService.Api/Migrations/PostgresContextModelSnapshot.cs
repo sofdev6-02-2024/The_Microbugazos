@@ -22,6 +22,54 @@ namespace UserService.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("UserService.Domain.Entities.Concretes.Store", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BannerImage")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Store", (string)null);
+                });
+
             modelBuilder.Entity("UserService.Domain.Entities.Concretes.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -98,6 +146,17 @@ namespace UserService.Api.Migrations
                     b.ToTable("UserAddress", (string)null);
                 });
 
+            modelBuilder.Entity("UserService.Domain.Entities.Concretes.Store", b =>
+                {
+                    b.HasOne("UserService.Domain.Entities.Concretes.User", "User")
+                        .WithOne("Store")
+                        .HasForeignKey("UserService.Domain.Entities.Concretes.Store", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("UserService.Domain.Entities.Concretes.UserAddress", b =>
                 {
                     b.HasOne("UserService.Domain.Entities.Concretes.User", "User")
@@ -112,6 +171,8 @@ namespace UserService.Api.Migrations
             modelBuilder.Entity("UserService.Domain.Entities.Concretes.User", b =>
                 {
                     b.Navigation("Address");
+
+                    b.Navigation("Store");
                 });
 #pragma warning restore 612, 618
         }

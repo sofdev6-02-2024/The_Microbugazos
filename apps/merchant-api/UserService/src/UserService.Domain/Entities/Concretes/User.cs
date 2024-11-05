@@ -10,4 +10,5 @@ public class User : BaseEntity
     public string? IdentityId { get; set; }
     public UserType UserType { get; set; } = UserType.CLIENT;
     public UserAddress? Address { get; set; }
+    public Store? Store { get; set; }
 }
