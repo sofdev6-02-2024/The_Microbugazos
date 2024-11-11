@@ -3,6 +3,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import {usePathname} from "next/navigation";
 
 const geistSans = localFont({
@@ -16,19 +17,24 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const EXCLUDED_ROUTES = ['/login', '/signup'];
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const showHeader = pathname !== "/login" && pathname !== "/signup";
+  const showComponents = !EXCLUDED_ROUTES.includes(pathname);
 
   return (
     <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {showHeader && <Header/>}
-        {children}
+        {showComponents && <Header/>}
+        <main>
+          {children}
+        </main>
+        {showComponents && <Footer/>}
       </body>
     </html>
   );
