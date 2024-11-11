@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+</head>
+
+<body style="background-color: #F4F9FF; font-family: Arial, sans-serif; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F4F9FF; max-width: 600px; margin: auto;">
+        <tr>
+            <td align="center" style="padding: 20px;">
+                <img src="https://i.postimg.cc/TYx4MYF9/LowStock.png" alt="Email cover" style="width: 100%; max-width: 600px; height: auto; display: block; border: none;" />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: left;">
+                <h1 style="font-size: 24px; color: #5275F5; margin: 0;">Low Stock Alert for Your Inventory</h1>
+                <p style="color: #292621; margin: 10px 0;">Dear {{Username}},</p>
+                <p style="color: #292621; margin: 10px 0;">We hope you're doing well. This is a quick reminder that your inventory is running low on the following items:</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 20px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; width: 100%;">
+                    <tr>
+                        <th style="background-color: #7790ED; color: #F5EDE2; padding: 10px; text-align: left;">Product Name</th>
+                        <th style="background-color: #7790ED; color: #F5EDE2; padding: 10px; text-align: center; width: 100px;">Quantity</th>
+                    </tr>
+                    {{Content}}
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px;">
+                <p style="color: #292621; margin: 10px 0;">To avoid stockouts and delays in fulfilling customer orders, we recommend replenishing these items as soon as possible.</p>
+                <p style="color: #292621; margin: 10px 0;">Best regards,<br />The Merchant Team</p>
+                <a href="{{Url}}" style="display: inline-block; font-size: 20px; padding: 10px 20px; background-color: #7790ED; border-radius: 10px; color: #F4F9FF; text-decoration: none; margin: 20px 0;">Go Inventory</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding: 20px;">
+                <img src="https://i.postimg.cc/ydtWgG41/chatgpt-robot-sad.png" alt="Merchi" style="height: 130px; width: auto; display: inline-block; margin-right: 10px;" />
+                <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" style="height: 130px; width: auto; display: inline-block;" />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; border-top: 1px solid #7790ED; text-align: center;">
+                <p style="color: #292621; margin: 10px 0;">Do you have any questions or need help?<br />You can contact us at any time:</p>
+                <p style="color: #292621; margin: 10px 0;">📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com" style="color: #7790ED; text-decoration: none;">merchant.ecommerce.13422@gmail.com</a></p>
+                <p style="color: #292621; margin: 10px 0;">© 2024, Merchant</p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

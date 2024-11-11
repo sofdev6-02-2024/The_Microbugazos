@@ -54,3 +54,7 @@
   font-family: var(--ubuntu-font-family);
   --ubuntu-font-style: normal;
 }
+
+.phonInput {
+  display: none;
+}

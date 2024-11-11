@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.Dtos.Stores;
@@ -31,7 +30,7 @@ public class StoreController(IMediator mediator) : ControllerBase
         return Ok(newId);
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     public async Task<ActionResult<StoreDto>> UpdateStore([FromRoute] Guid id, [FromBody] StoreDto storeDto)
     {
         var updatedStore = await mediator.Send(new UpdateStoreCommand(id, storeDto));

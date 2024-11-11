@@ -2,6 +2,13 @@ import { z } from "zod";
 
 const fileSchema = z.instanceof(File).optional();
 
+const americanDialCodes = [
+  "1","52","53","54","55","56","57",
+  "58","501","502","503","504","505",
+  "506","507","508","509","591","592",
+  "593","594","595","596","597","598","599",
+] as const;
+
 export const StoreFormScheme = z.object({
   name: z
     .string()
@@ -17,18 +24,40 @@ export const StoreFormScheme = z.object({
     .max(30, "Address must be at most 30 characters long"),
   phoneNumber: z
     .string()
-    .regex(/^\d+$/, "Phone number must contain only digits"),
+    .min(1, "Phone number is mandatory")
+    .refine(
+      (phone) =>
+        americanDialCodes.some((code) => {
+          console.log(phone);
+          if (phone.startsWith(code)) {
+            console.log(phone.length - code.length);
+            return phone.length - code.length >= 6;
+          }
+          return false;
+        }),
+      "Phone number must be at least 6 digits long"
+    )
+    .refine(
+      (phone) => americanDialCodes.some((code) => phone.startsWith(code)),
+      "Invalid dial code"
+    ),
   bannerImage: fileSchema,
   profileImage: fileSchema,
+  bannerImageUrl: z.string().optional(),
+  profileImageUrl: z.string().optional(),
+  id: z.string().optional(),
 });
 
 export type StoreFormData = z.infer<typeof StoreFormScheme>;
 
 export const defaultStoreFormData = {
+  id: "",
   name: "",
   description: "",
   address: "",
   phoneNumber: "",
   bannerImage: new File([], ""),
   profileImage: new File([], ""),
+  bannerImageUrl: "",
+  profileImageUrl: "",
 };

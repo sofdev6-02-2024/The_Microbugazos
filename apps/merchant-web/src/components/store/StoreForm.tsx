@@ -4,11 +4,14 @@ import { EditableInput } from "@/components/atoms/inputs/EditableInput";
 import { StoreFormData } from "@/schemes/store/StoreFormDataScheme";
 import { FormikProps } from "formik";
 import { StoreImagesProfile } from "./StoreImagesProfile";
+import PhoneNumberInput from "../atoms/inputs/PhoneNumberInput";
 
 interface StoreFormProps {
   formikProps: FormikProps<StoreFormData>;
   defaultProfileImage?: string;
   defaultBannerImage?: string;
+  editableFields?: boolean[];
+  hasEditableFields?: boolean;
 }
 
 export const StoreForm: React.FC<StoreFormProps> = ({
@@ -23,6 +26,8 @@ export const StoreForm: React.FC<StoreFormProps> = ({
   },
   defaultProfileImage,
   defaultBannerImage,
+  editableFields,
+  hasEditableFields,
 }) => {
   const onBlur = (field: string) => {
     handleBlur(field);
@@ -35,6 +40,7 @@ export const StoreForm: React.FC<StoreFormProps> = ({
       setFieldValue(imageType, file);
     }
   };
+
   return (
     <div className={styles.mainContainer}>
       <StoreImagesProfile
@@ -42,7 +48,10 @@ export const StoreForm: React.FC<StoreFormProps> = ({
         profileImage={defaultProfileImage}
         onLoadImage={loadImage}
       />
-      <form className={styles.formContainer}>
+      <form
+        className={styles.formContainer}
+        onSubmit={(e) => e.preventDefault()}
+      >
         <EditableInput
           type="text"
           value={values.name}
@@ -54,6 +63,8 @@ export const StoreForm: React.FC<StoreFormProps> = ({
           error={errors.name}
           handleBlur={onBlur}
           touched={touched.name}
+          isEditable={hasEditableFields}
+          isMarkedEditable={editableFields ? editableFields[0] : false}
         />
 
         <EditableInput
@@ -67,6 +78,8 @@ export const StoreForm: React.FC<StoreFormProps> = ({
           error={errors.description}
           handleBlur={onBlur}
           touched={touched.description}
+          isEditable={hasEditableFields}
+          isMarkedEditable={editableFields ? editableFields[1] : false}
         />
 
         <EditableInput
@@ -80,19 +93,29 @@ export const StoreForm: React.FC<StoreFormProps> = ({
           error={errors.address}
           handleBlur={onBlur}
           touched={touched.address}
+          isEditable={hasEditableFields}
+          isMarkedEditable={editableFields ? editableFields[2] : false}
         />
 
         <EditableInput
           type="text"
           value={values.phoneNumber}
           onChange={handleChange}
-          label="Phone number"
-          placeholder="+1 (555) 123-4567"
+          label="Phone Number"
+          placeholder="e.g. +1 555-123-4567"
           name="phoneNumber"
           id="phoneNumber"
           error={errors.phoneNumber}
           handleBlur={onBlur}
           touched={touched.phoneNumber}
+          isEditable={hasEditableFields}
+          isMarkedEditable={editableFields ? editableFields[3] : false}
+          preelement={
+            <PhoneNumberInput
+              value={values.phoneNumber}
+              onChange={(val) => setFieldValue("phoneNumber", val)}
+            />
+          }
         />
       </form>
     </div>

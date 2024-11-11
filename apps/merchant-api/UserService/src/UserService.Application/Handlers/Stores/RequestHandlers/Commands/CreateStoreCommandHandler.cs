@@ -15,7 +15,9 @@ public class CreateStoreCommandHandler(IStoreRepository storeRepository, IMapper
         var store = mapper.Map<Store>(request.StoreDto);
 
         var storeExist = await storeRepository.GetByAsync((x) => x.UserId == store.UserId);
-        if (storeExist != null){
+
+        if (storeExist.Count() > 0)
+        {
             throw new Exception("User already has a store");
         }
         store = await storeRepository.AddAsync(store);

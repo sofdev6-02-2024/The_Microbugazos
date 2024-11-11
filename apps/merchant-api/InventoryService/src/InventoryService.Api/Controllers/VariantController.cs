@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/inventory/[controller]")]
 public class VariantController(IMediator mediator) : ControllerBase
 {
     [HttpPost]

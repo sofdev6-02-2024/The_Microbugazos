@@ -31,6 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [hasImage, setHasImage] = useState(defaultImage !== "");
 
   useEffect(() => {
     if (defaultImage) {
@@ -47,6 +48,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onImageUpload(file);
       };
       reader.readAsDataURL(file);
+      setHasImage(true);
     }
   };
 
@@ -72,6 +74,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onImageUpload(file);
       };
       reader.readAsDataURL(file);
+      setHasImage(true);
     }
   };
 
@@ -83,7 +86,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     <div
       className={`${styles.container} ${styles[shape]} ${
         isDragging ? styles.dragging : ""
-      } ${styles[className]}`}
+      } ${styles[className]}  ${hasImage && styles.containerHover}`}
       style={{ width, height, top, left }}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}

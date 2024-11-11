@@ -32,10 +32,6 @@
   pointer-events: none;
 }
 
-.container:hover .previewContainer::before {
-  opacity: 1;
-}
-
 .rectangle {
   border-radius: 0.5rem;
 }
@@ -104,11 +100,18 @@
   color: #6b7280;
 }
 
+.containerHover  {
+  opacity: 1;
+}
+
+.containerHover:hover .previewContainer::before {
+  opacity: 1;
+}
+
 .container:hover .editButton {
   opacity: 1;
 }
 
-
-.movible{
+.movible {
   position: absolute;
 }

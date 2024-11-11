@@ -43,3 +43,9 @@
 .containerError{
   border-color: var(--action-error);
 }
+
+
+.untouchable{
+  pointer-events: none!important;
+  cursor: default!important;
+}

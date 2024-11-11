@@ -6,12 +6,12 @@ export const createStoreHandler = async (
   store: StoreFormData
 ): Promise<string> => {
   // TODO : GET USER INFORMATION
-  const userId = "b3bbbc33-2b85-4a9e-8f00-0febe9061802";
+  const userId = "d947dbe7-242c-443b-b9ed-17cf3f4b1d32";
 
-  const bannerImage = await uploadImage(store.bannerImage, `${userId}-banner`);
+  const bannerImage = await uploadImage(store.bannerImage, `${userId}-banner`,"store");
   const profileImage = await uploadImage(
     store.profileImage,
-    `${userId}-profile`
+    `${userId}-profile`,"store"
   );
 
   const storeToCreate: StoreFormDto = {

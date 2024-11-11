@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Template</title>
+</head>
+
+<body style="background-color: #F4F9FF; font-family: 'Ubuntu', sans-serif;">
+    <div style="width: 100%; max-width: 600px; margin: 0 auto;">
+        <img src="https://i.postimg.cc/g2ktjtYL/Invoice.png" alt="Email cover"
+            style="width: 100%; height: auto; border-radius: 10px;" />
+
+        <h1
+            style="font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-style: italic; font-size: 24px; color: #5275F5; text-align: left; padding: 10px 0;">
+            Your Invoice - Order #{{OrderNumber}}
+        </h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr>
+                <th style="background-color: #7790ED; color: #F5EDE2; padding: 10px; text-align: left;">Product name
+                </th>
+                <th style="background-color: #7790ED; color: #F5EDE2; padding: 10px; text-align: center; width: 100px;">
+                    Quantity</th>
+                <th style="background-color: #7790ED; color: #F5EDE2; padding: 10px; text-align: center; width: 100px;">
+                    Price</th>
+            </tr>
+            {{Items}}
+        </table>
+
+        <div style="color: #7790ED; text-align: right; padding: 20px;">
+            <p
+                style="font-size: 24px; font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-style: italic; margin: 0;">
+                {{Price}} <span style="font-size: 20px;">$</span>
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="https://i.postimg.cc/zBsXXRK3/chat-GPT-robot-wearing-glasses.png" alt="Merchant Logo"
+                style="height: 130px; margin-right: 10px;" />
+            <img src="https://i.postimg.cc/T3Nx3DXG/Isotipo.png" alt="Merchant Logo" style="height: 130px;" />
+        </div>
+
+        <footer style="border-top: 1px solid #7790ED; padding-top: 10px; text-align: center; margin-top: 20px;">
+            <p style="color: #292621;">
+                Do you have any questions or need help? <br />
+                You can contact us at any time:
+            </p>
+            <p style="color: #5275F5;">
+                📧 Email: <a href="mailto:merchant.ecommerce.13422@gmail.com"
+                    style="color: #7790ED; text-decoration: none;">merchant.ecommerce.13422@gmail.com</a>
+            </p>
+            <p style="color: #292621; font-size: 14px; margin-top: 10px;">
+                © 2024, Merchant
+            </p>
+        </footer>
+    </div>
+</body>
+
+</html>

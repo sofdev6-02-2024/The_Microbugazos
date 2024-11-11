@@ -7,19 +7,21 @@ export const updateStoreHandler = async (
   store: StoreFormData
 ): Promise<boolean> => {
   // TODO : GET USER INFORMATION
-  const userId = "b3bbbc33-2b85-4a9e-8f00-0febe9061802";
+  const userId = "d947dbe7-242c-443b-b9ed-17cf3f4b1d32";
 
-  await deleteImageFromFirebase(`${userId}-banner`, "store");
-  await deleteImageFromFirebase(`${userId}-banner`, "store");
-  const bannerImage = await uploadImage(
-    store.bannerImage,
-    `${userId}-banner`,
-    "store"
-  );
-  const profileImage = await uploadImage(
-    store.profileImage,
+  console.log("testing : ", store.profileImageUrl);
+  console.log("testing 02 : ", store.bannerImageUrl);
+
+  const profileImage = await changeImage(
     `${userId}-profile`,
-    "store"
+    store.profileImageUrl,
+    store.profileImage
+  );
+
+  const bannerImage = await changeImage(
+    `${userId}-banner`,
+    store.bannerImageUrl,
+    store.bannerImage
   );
 
   const storeToCreate: StoreFormDto = {
@@ -34,5 +36,18 @@ export const updateStoreHandler = async (
   };
   console.log(storeToCreate);
   const response = await updateStore(storeId, storeToCreate);
+  console.log("FUCKING RESPONSE : ",response);
   return (response.id as string) !== "";
+};
+
+const changeImage = async (
+  name: string,
+  currentImage?: string,
+  imageFile?: File
+) => {
+  if (imageFile !== undefined && imageFile !== null && imageFile.size > 0) {
+    await deleteImageFromFirebase(name, "store");
+    return await uploadImage(imageFile, name, "store");
+  }
+  return currentImage;
 };

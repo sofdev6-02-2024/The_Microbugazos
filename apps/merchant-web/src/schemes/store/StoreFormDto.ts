@@ -4,7 +4,7 @@ export interface StoreFormDto {
   description: string;
   address: string;
   phoneNumber: string;
-  bannerImage: string;
-  profileImage: string;
+  bannerImage?: string;
+  profileImage?: string;
   userId: string;
 }
