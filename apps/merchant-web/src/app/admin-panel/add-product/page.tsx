@@ -11,6 +11,7 @@ import {Image, useVariants} from "@/commons/providers/variant-provider";
 import {ValidateName} from "@/commons/validations/string";
 import {ValidateLongText} from "@/commons/validations/string";
 import {ValidateNumberWithDecimals} from "@/commons/validations/number";
+import Notification from "@/components/notification";
 
 export default function AddProducts() {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
@@ -24,6 +25,9 @@ export default function AddProducts() {
     const {variants, addVariant, resetVariants} = useVariants();
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const [combinationVariants, setCombinationVariants] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
         setCombinationVariants(getVariants());
@@ -102,12 +106,11 @@ export default function AddProducts() {
         return {
             name: productName,
             description: productDescription,
-            price: productPrice,
+            price: parseFloat(productPrice),
             brand: productBrand,
-            categories: [{
-                category: productCategory,
-                subcategory: productSubCategory,
-            }],
+            categoryIds: [
+                subCategories.find(i => i.name == productSubCategory).id
+            ],
             images: selectedImages.map((item) => {
                 return {
                     altText: `${productName} image (${productDescription})`,
@@ -158,68 +161,50 @@ export default function AddProducts() {
         }
     }
 
-    type Category = "Electronics" | "Clothing & Fashion" | "Beauty & Personal Care" | "Home & Kitchen" | "Health & Wellness";
+    useEffect(() => {
+        fetch("http://localhost:5001/api/inventory/Category")
+            .then((response) =>
+                response.json().then(data => {
+                    const categories = data.map(item => {
+                        return {
+                            name: item.name,
+                            id: item.id,
+                            subCategories: item.subCategories
+                        }
+                    });
+                    setCategories(categories);
+                })
+            )
+            .catch((e) => console.error(e))
+    }, []);
 
-    const categories: Category[] = [
-        "Electronics",
-        "Clothing & Fashion",
-        "Beauty & Personal Care",
-        "Home & Kitchen",
-        "Health & Wellness",
-    ];
+    const sendProduct = () => {
+        const body = parseToCreateProductDTO();
+        console.log(body);
+        fetch("http://localhost:5001/api/inventory/Product", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => {
+                if (response.ok) {
+                    setIsSuccess(true);
+                }
+            })
+            .catch(e => console.error(e));
+    }
 
-    const subcategories: Record<Category, string[]> = {
-        "Electronics": [
-            "Mobile Phones",
-            "Laptops & Computers",
-            "Cameras & Photography",
-            "Audio Equipment",
-            "Wearable Technology",
-            "Smart Home Devices",
-            "Television & Video",
-            "Gaming Consoles",
-        ],
-        "Clothing & Fashion": [
-            "Men's Clothing",
-            "Women's Clothing",
-            "Kids' Clothing",
-            "Footwear",
-            "Accessories",
-            "Jewelry",
-            "Watches",
-            "Handbags & Wallets",
-        ],
-        "Beauty & Personal Care": [
-            "Skincare",
-            "Hair Care",
-            "Makeup",
-            "Fragrances",
-            "Personal Hygiene",
-            "Men's Grooming",
-            "Oral Care",
-            "Bath & Body",
-        ],
-        "Home & Kitchen": [
-            "Furniture",
-            "Home Decor",
-            "Kitchen & Dining",
-            "Bedding & Linens",
-            "Cleaning Supplies",
-            "Storage & Organization",
-            "Lighting",
-            "Outdoor & Garden",
-        ],
-        "Health & Wellness": [
-            "Supplements & Vitamins",
-            "Fitness Equipment",
-            "Medical Supplies",
-            "Personal Care Appliances",
-            "Mental Wellness",
-            "First Aid",
-            "Yoga & Meditation",
-            "Massage & Relaxation",
-        ],
-    };
+    useEffect(() => {
+        let mapSubcategories = categories
+            .filter(item => item.name == productCategory)
+            .map(item => {
+                return item.subCategories
+            });
+
+        setSubCategories(mapSubcategories[0]);
+    }, [productCategory]);
 
     return (
         <body>
@@ -232,6 +217,7 @@ export default function AddProducts() {
                 value={productName}
                 validator={ValidateName}
                 onChange={(value: string) => setProductName(value)}
+                required={true}
             />
             {errors.find((item) => item.textField == "productName") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productName")?.error}</label>}
             <TextField
@@ -261,10 +247,11 @@ export default function AddProducts() {
                 value={productPrice}
                 validator={ValidateNumberWithDecimals}
                 onChange={(value: string) => handleFloatNumberChange(value, setProductPrice)}
+                required={true}
             />
             {errors.find((item) => item.textField == "productPrice") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productPrice")?.error}</label>}
             <br/>
-            <label className="form-label">Categories</label>
+            <label className="form-label">Categories<sup>*</sup></label>
             <div className="category-section">
                 <ComboBox
                     value={productCategory}
@@ -277,13 +264,13 @@ export default function AddProducts() {
                 <div style={{width: '24px'}}></div>
                 <ComboBox
                     value={productSubCategory}
-                    options={subcategories[productCategory as Category] ?? []}
+                    options={subCategories}
                     handleChange={(value) => handleComboBoxChange(value, setProductSubCategory)}
                 />
             </div>
             {errors.find((item) => item.textField == "productCategory") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productCategory")?.error}</label>}
             <br/>
-            <label className="form-label">Images</label>
+            <label className="form-label">Images<sup>*</sup></label>
             <Dropzone selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>
             {errors.find((item) => item.textField == "productImages") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productImages")?.error}</label>}
             <br/>
@@ -315,11 +302,17 @@ export default function AddProducts() {
                     onClick={() => {
                         touchAllFields();
                         if (errors.length == 0) {
-                            console.log(parseToCreateProductDTO())
+                            sendProduct();
                         }
                     }}
                 >Confirm</button>
             </div>
+        {isSuccess && <Notification
+            isOpen={isSuccess}
+            setIsOpen={setIsSuccess}
+            title="Product created successfully"
+            description="Your product was added to your store, add more and enjoy."
+            duration={5000}/>}
         </body>
     );
 }

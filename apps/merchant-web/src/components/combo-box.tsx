@@ -2,7 +2,7 @@ import { useState } from "react";
 import {MdEdit} from "react-icons/md";
 
 interface ComboBoxProps {
-    options: Array<string>,
+    options: Array<{id: string, name: string}>,
     value: string,
     handleChange: (value: string) => void
 }
@@ -22,14 +22,14 @@ export default function ComboBox({options, value, handleChange}: ComboBoxProps) 
             <div className="combo-box-options">
               {options.map((option) => (
                 <div
-                  key={option}
+                  key={option.id}
                   className="combo-box-option"
                   onClick={() => {
-                    handleChange(option);
+                    handleChange(option.name);
                     setIsOpen(false);
                     }}
                 >
-                  {option}
+                  {option.name}
                 </div>
               ))}
             </div>
