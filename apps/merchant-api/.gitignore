@@ -69,3 +69,4 @@ node_modules/
 # api gateway - tmp files
 ocelot.json
 
+**/Migrations/
