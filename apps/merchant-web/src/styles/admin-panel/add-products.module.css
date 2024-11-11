@@ -1,0 +1,36 @@
+.heading1 {
+    font-size: 28px;
+    color: #7790ED;
+}
+
+.categorySection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.keyValueSection {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.editionIcon {
+    /*position: relative;*/
+    right: 28px;
+}
+
+.merchantButton {
+    background-color: #747bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 8px 12px 8px 12px;
+}
+
+.merchantButtonSecondary {
+    border: 1px solid #747bff;
+    border-radius: 8px;
+    color: black;
+    padding: 8px 12px 8px 12px;
+}

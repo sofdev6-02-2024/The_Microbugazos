@@ -2,6 +2,7 @@
 
 import {MdEdit} from "react-icons/md";
 import {useState} from "react";
+import TextFieldStyle from "../styles/components/TextField.module.css"
 
 interface TextFieldProps {
   label?: string;
@@ -14,6 +15,7 @@ interface TextFieldProps {
   onKeyDown?: (event) => void;
   type?: 'text' | 'password' | 'email' | 'number';
   showIcon?: boolean;
+  required?: boolean;
 }
 
 const TextField = ({
@@ -32,11 +34,14 @@ const TextField = ({
     },
     type = 'text',
     showIcon = true,
+    required = false,
   }: TextFieldProps) => {
     const [currentErrorMessage, setCurrentErrorMessage] = useState("");
     return  (
         <div style={{ marginBottom: '8px', width: '100%' }}>
-          {label && <label className="form-label" style={{ display: 'block', marginBottom: '4px'}}>{label}</label>}
+            {label && <label className={TextFieldStyle.formLabel} style={{ display: 'block', marginBottom: '4px'}}>
+                {label}{required && <sup>*</sup>}
+            </label>}
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <input
                     type={type}
@@ -58,7 +63,7 @@ const TextField = ({
                         onChange(e.target.value)
                     }}
                     onKeyDown={onKeyDown}
-                    className="text-field"
+                    className={TextFieldStyle.textField}
                     style={{
                         width: '100%',
                     }}

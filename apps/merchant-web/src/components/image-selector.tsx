@@ -1,9 +1,9 @@
 import { useDropzone } from 'react-dropzone';
-import { useState } from 'react';
 import { MdOutlineImageSearch, MdCancel, MdCheckCircleOutline } from 'react-icons/md';
-import {ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '@/commons/services/firebase-connection'
 import DotLoader from "react-spinners/DotLoader";
+import ImageSelectorStyle from "../styles/components/ImageSelector.module.css"
 
 export default function ImagePicker({maxImages = 3, selectedImages, setSelectedImages}) {
     const { getRootProps, getInputProps } = useDropzone({
@@ -37,7 +37,7 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
         },
     });
 
-    const handleImageDeleted = async (url: string) => {
+    const handleImageDeleted = (url: string) => {
         setSelectedImages(prevImages => prevImages.filter(image => image !== url));
     };
 
@@ -58,12 +58,12 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
             {selectedImages.length > 0 ? (
                 selectedImages.map((imageUrl, index) => (
                     imageUrl == "spin-loader"
-                    ? <div key={`${imageUrl}_${index}`} className="image-selected">
+                    ? <div key={`${imageUrl}_${index}`} className={ImageSelectorStyle.imageSelected}>
                         <DotLoader size={64} color="#7790ED" loading={true}></DotLoader>
                     </div>
-                    : <div key={imageUrl} className="image-container">
+                    : <div key={imageUrl} className={ImageSelectorStyle.imageContainer}>
                         <MdCancel
-                            className="side-button"
+                            className={ImageSelectorStyle.sideButton}
                             color="#7790ED"
                             size={24}
                             onClick={(event) => {
@@ -71,7 +71,7 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
                                 handleImageDeleted(imageUrl);
                             }}
                         />
-                        <img key={index} src={imageUrl} alt={`Selected ${index}`} className='image-selected'/>
+                        <img key={index} src={imageUrl} alt={`Selected ${index}`} className={ImageSelectorStyle.imageSelected}/>
                     </div>
                 ))
             ) : (
@@ -79,7 +79,7 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
             )}
             {selectedImages.length >= maxImages ? (
                 maxImages > 1 ? (
-                    <div className="image-limit">
+                    <div className={ImageSelectorStyle.imageLimit}>
                         <MdCheckCircleOutline size={64}/>
                         <p>
                             Maximum of {maxImages} images reached
@@ -87,7 +87,7 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
                     </div>
                 ) : <div></div>
             ) : (
-                <div className="image-limit">
+                <div className={ImageSelectorStyle.imageLimit}>
                     <MdOutlineImageSearch size={64} />
                     <p>Drag & drop images here, or click to select</p>
                 </div>

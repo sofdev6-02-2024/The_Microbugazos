@@ -12,6 +12,8 @@ import {ValidateName} from "@/commons/validations/string";
 import {ValidateLongText} from "@/commons/validations/string";
 import {ValidateNumberWithDecimals} from "@/commons/validations/number";
 import Notification from "@/components/notification";
+import AddProductStyle from "../../../styles/admin-panel/add-products.module.css"
+import TextFieldStyle from "../../../styles/components/TextField.module.css"
 
 export default function AddProducts() {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
@@ -208,7 +210,7 @@ export default function AddProducts() {
 
     return (
         <body>
-        <label className="heading-1">Add Product</label>
+        <label className={AddProductStyle.heading1}>Add Product</label>
             <TextField
                 label="Name"
                 placeholder="Write the name of the product"
@@ -251,8 +253,8 @@ export default function AddProducts() {
             />
             {errors.find((item) => item.textField == "productPrice") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productPrice")?.error}</label>}
             <br/>
-            <label className="form-label">Categories<sup>*</sup></label>
-            <div className="category-section">
+            <label className={TextFieldStyle.formLabel}>Categories<sup>*</sup></label>
+            <div className={AddProductStyle.categorySection}>
                 <ComboBox
                     value={productCategory}
                     options={categories}
@@ -261,7 +263,6 @@ export default function AddProducts() {
                         setProductSubCategory("")
                     }}
                 />
-                <div style={{width: '24px'}}></div>
                 <ComboBox
                     value={productSubCategory}
                     options={subCategories}
@@ -270,11 +271,11 @@ export default function AddProducts() {
             </div>
             {errors.find((item) => item.textField == "productCategory") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productCategory")?.error}</label>}
             <br/>
-            <label className="form-label">Images<sup>*</sup></label>
+            <label className={TextFieldStyle.formLabel}>Images<sup>*</sup></label>
             <Dropzone selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>
             {errors.find((item) => item.textField == "productImages") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productImages")?.error}</label>}
             <br/>
-            <label className="form-label">Other Specifications</label>
+            <label className={TextFieldStyle.formLabel}>Other Specifications</label>
             <div style={{marginBottom: "16px"}}>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <label>Options</label>
@@ -288,7 +289,7 @@ export default function AddProducts() {
                     <OptionRow hasInfo={false} />
                 )}
             </div>
-            <label className="form-label">Variants</label>
+            <label className={TextFieldStyle.formLabel}>Variants</label>
             {combinationVariants.map((item) => (
                 item.length === 0
                     ? <div></div>
@@ -296,9 +297,9 @@ export default function AddProducts() {
             ))}
             {errors.find((item) => item.textField == "productVariant") && <label style={{fontSize: "14px", color: "#FB5012"}}>{errors.find((item) => item.textField == "productVariant")?.error}</label>}
             <div style={{display: "flex",  justifyContent: "space-evenly", margin: "20px"}}>
-                <button className="merchant-button-secondary">Cancel</button>
+                <button className={AddProductStyle.merchantButtonSecondary}>Cancel</button>
                 <button
-                    className="merchant-button"
+                    className={AddProductStyle.merchantButton}
                     onClick={() => {
                         touchAllFields();
                         if (errors.length == 0) {
