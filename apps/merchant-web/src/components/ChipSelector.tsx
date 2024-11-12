@@ -2,10 +2,12 @@
 import {useState} from "react";
 
 interface ChipSelectorProps {
-    options: string[]
+    name: string,
+    options: string[],
+    handleChange: (string, number) => void
 }
 
-export default function ChipSelector({options} : ChipSelectorProps) {
+export default function ChipSelector({name, options, handleChange} : ChipSelectorProps) {
     const [indexSelected, setIndexSelected] = useState(-1);
     return (
         <div style={{display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "8px"}}>
@@ -14,8 +16,14 @@ export default function ChipSelector({options} : ChipSelectorProps) {
                 borderRadius: "12px",
                 justifyContent: "center",
                 alignItems: "center",
+                color: index == indexSelected ? "#FFF" : "#000",
                 backgroundColor: index == indexSelected ? "#7790ED" : "#ffdfe9",
-            }} onClick={() => setIndexSelected(index)}
+            }} onClick={() => {
+                setIndexSelected(index);
+                console.log(name);
+                console.log(index);
+                handleChange(name, index);
+            }}
             >
                 {item}
             </div>)}

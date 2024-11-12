@@ -32,6 +32,11 @@
     border-radius: 12px;
 }
 
+.secondaryImage:hover {
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .productDetailsSection {
         flex-wrap: wrap;

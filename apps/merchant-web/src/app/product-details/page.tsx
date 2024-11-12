@@ -5,29 +5,61 @@ import QuantitySelector from "@/components/QuantitySelector";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import {useEffect, useState} from "react";
 import ProductDetailsStyle from "@/styles/products/ProductDetails.module.css"
+import ImagesSection, {Image} from "@/components/product-details/ImagesSection";
+
+interface Product {
+    productId: string,
+    name: string,
+    description: string,
+    price: number,
+    brand: string,
+    categories: [],
+    images: Image[],
+    productVariants: []
+}
 
 export default function ProductDetails() {
-    const id = "";
+    const id = "1b8b6e90-b25a-4845-89b4-18c234b234c7";
     const [isFavorite, setIsFavorite] = useState(false);
     const [product, setProduct] = useState([]);
+    const [attributesMap, setAttributesMap] = useState<Record<string, Set<string>>>({});
+    const [variantSelected, setVariantSelected] = useState<Record<string, number>>({});
+    const [images, setImages] = useState<Image[]>([]);
 
     useEffect(() => {
-        fetch()
+        fetch(`http://localhost:5001/api/inventory/Product/${id}`)
+            .then(response => response.json().then(data => {
+                const attributeMap: Record<string, Set<string>> = {};
+                const variantSelected: Record<string, number> = {};
+
+                setImages(data.images);
+                setProduct(data);
+
+                data.productVariants.forEach(variant => {
+                    variant.attributes.forEach(attribute => {
+                        if (!attributeMap[attribute.name]) {
+                            attributeMap[attribute.name] = new Set();
+                            variantSelected[attribute.name] = 0;
+                        }
+                        attributeMap[attribute.name].add(attribute.value);
+                    });
+                });
+                setAttributesMap(attributeMap);
+                setVariantSelected(variantSelected);
+            }))
+            .catch(e => console.error(e));
     }, []);
+
+    const handleVariantSelection = (name : string, index : number) =>  {
+        const variantEdited = variantSelected;
+        variantEdited[name] = index;
+        console.log(variantEdited);
+        setVariantSelected(variantEdited);
+    }
 
     return (
         <div className={ProductDetailsStyle.productDetailsSection}>
-            <section className={ProductDetailsStyle.imagesSection}>
-                <div className={ProductDetailsStyle.secondaryImages}>
-                    <img className={ProductDetailsStyle.secondaryImage}
-                         src="https://th.bing.com/th/id/R.20d3e94846b0317ba981e9b4d3ecdabb?rik=wRXoSyZgG3cbIA&pid=ImgRaw&r=0"/>
-                    <img className={ProductDetailsStyle.secondaryImage}
-                         src="https://th.bing.com/th/id/R.20d3e94846b0317ba981e9b4d3ecdabb?rik=wRXoSyZgG3cbIA&pid=ImgRaw&r=0"/>
-                    <img className={ProductDetailsStyle.secondaryImage}
-                         src="https://th.bing.com/th/id/R.20d3e94846b0317ba981e9b4d3ecdabb?rik=wRXoSyZgG3cbIA&pid=ImgRaw&r=0"/>
-                </div>
-                <img className={ProductDetailsStyle.primaryImage} src="https://th.bing.com/th/id/R.20d3e94846b0317ba981e9b4d3ecdabb?rik=wRXoSyZgG3cbIA&pid=ImgRaw&r=0"/>
-            </section>
+            <ImagesSection images={images}></ImagesSection>
             <section style={{
                 paddingTop: "12px",
                 display: "flex",
@@ -36,18 +68,26 @@ export default function ProductDetails() {
                 gap: "16px",
                 height: "inherit"
             }}>
-                <h1 style={{color: "#000"}}>Product Name</h1>
+                <h1 style={{color: "#000"}}>{product!.name}</h1>
                 <RatingSelector rating={2.5}></RatingSelector>
                 <label style={{
                     fontSize: "20px",
                     fontWeight: "600",
-                }}>$ 160.00</label>
+                }}>$ {product!.price}</label>
                 <p>
-                    This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.
+                    {product!.description}
                 </p>
                 <hr/>
-                <h4>Select color</h4>
-                <ChipSelector options={["Hola", "mundo"]}></ChipSelector>
+                {attributesMap && Object.entries(attributesMap).map(([name, value]) => (
+                    <div key={name}>
+                        <h4>Select {name}</h4>
+                        <ChipSelector
+                            name={name}
+                            options={Array.from(value)}
+                            handleChange={handleVariantSelection}
+                        />
+                    </div>
+                ))}
                 <hr/>
 
                 <div
