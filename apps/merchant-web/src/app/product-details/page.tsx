@@ -124,7 +124,7 @@ export default function ProductDetails() {
                 <hr/>
                 {attributesMap && Object.entries(attributesMap).map(([name, value]) => (
                     <div key={name}>
-                        <h4>Select {name}</h4>
+                        <h4 style={{paddingBottom: "2px"}}>Select {name}</h4>
                         <ChipSelector
                             name={name}
                             options={Array.from(value)}
