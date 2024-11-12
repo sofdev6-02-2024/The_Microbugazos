@@ -4,11 +4,9 @@ import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { deleteImageFromFirebase, uploadImage } from "../FirebaseImageScripts";
 export const updateStoreHandler = async (
   storeId: string,
-  store: StoreFormData
+  store: StoreFormData,
+  userId: string
 ): Promise<boolean> => {
-  // TODO : GET USER INFORMATION
-  const userId = "d947dbe7-242c-443b-b9ed-17cf3f4b1d32";
-
   const profileImage = await changeImage(
     `${userId}-profile`,
     store.profileImageUrl,
@@ -29,7 +27,7 @@ export const updateStoreHandler = async (
     phoneNumber: store.phoneNumber.trim(),
     bannerImage: bannerImage,
     profileImage: profileImage,
-    userId: userId,
+    UserIdentity: userId,
   };
   const response = await updateStore(storeId, storeToUpdate);
   return (response.id as string) !== "";

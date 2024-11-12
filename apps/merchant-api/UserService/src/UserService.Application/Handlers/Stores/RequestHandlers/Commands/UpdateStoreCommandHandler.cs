@@ -13,7 +13,9 @@ public class UpdateStoreCommandHandler(IStoreRepository storeRepository, IMapper
 
     public async Task<StoreDto> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
+        var currentStore = await storeRepository.GetByIdAsync(request.Id) ?? throw new Exception("Store not found");
         var store = mapper.Map<Store>(request.StoreDto);
+        store.UserId = currentStore.UserId;
         store = await storeRepository.UpdateAsync(store);
         return mapper.Map<StoreDto>(store);
     }

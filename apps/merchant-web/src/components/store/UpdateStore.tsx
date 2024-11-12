@@ -12,6 +12,7 @@ import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
 import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 import { getStoreById } from "@/request/StoreRequests";
 import { toast } from "sonner";
+import useAuth from "@/commons/hooks/useAuth";
 
 interface UpdateStoreProps {
   id: string;
@@ -19,13 +20,19 @@ interface UpdateStoreProps {
 export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
   const [clicked, setClicked] = useState(false);
   const [isEditing, setIsEditing] = useState([true, true, true, true]);
+  const { user } = useAuth();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
     validationSchema: StoreFormScheme,
     onSubmit: async () => {
       if (clicked) return;
       setClicked(true);
-      toast.promise(updateStoreHandler(id, storeFormHandler.values), {
+      if (!user) {
+        toast.error("You must be logged in to create a store");
+        setClicked(false);
+        return;
+      }
+      toast.promise(updateStoreHandler(id, storeFormHandler.values, user.uid), {
         loading: "Updating Store",
         success: () => {
           setClicked(false);

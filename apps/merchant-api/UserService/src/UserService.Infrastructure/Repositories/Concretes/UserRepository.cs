@@ -7,6 +7,11 @@ namespace UserService.Infrastructure.Repositories.Concretes;
 
 public class UserRepository(DbContext context) : BaseRepository<User>(context), IUserRepository
 {
+    public Task<User?> GetUserByIdentityId(string identityId)
+    {
+        return Context.Set<User>().FirstOrDefaultAsync(x => x.IdentityId == identityId);
+    }
+
     public async Task<User?> GetUserWithDetails(Guid id)
     {
         return await Context.Set<User>()

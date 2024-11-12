@@ -14,6 +14,8 @@ public class ProductAttributeMap : IEntityTypeConfiguration<ProductAttribute>
         builder.Property(p => p.Value).IsRequired();
         builder.Property(pa => pa.Value).IsRequired();
 
+        builder.HasQueryFilter(pa => pa.IsActive);
+        
         builder.HasOne(pa => pa.ProductVariant)
             .WithMany(pv => pv.Attributes)
             .HasForeignKey(pa => pa.ProductVariantId);

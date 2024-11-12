@@ -1,5 +1,4 @@
 "use client";
-import { ThemeProvider } from "@/commons/context/ThemeContext";
 import { CreateStorePanel } from "@/components/store/CreateStorePanel";
 import {
   StoreFormData,
@@ -13,16 +12,22 @@ import TwoColumnLayout from "@/components/layouts/TwoColumnLayout";
 import { useState } from "react";
 import { StoreForm } from "@/components/store/StoreForm";
 import { toast } from "sonner";
-export default function CreateNewStore() {
+import useAuth from "@/commons/hooks/useAuth";
+export default function CreateNewStoreForm() {
   const [clicked, setClicked] = useState(false);
+  const { user } = useAuth();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
     validationSchema: StoreFormScheme,
     onSubmit: async () => {
       if (clicked) return;
       setClicked(true);
-
-      toast.promise(createStoreHandler(storeFormHandler.values), {
+      if (!user) {
+        toast.error("You must be logged in to create a store");
+        setClicked(false);
+        return;
+      }
+      toast.promise(createStoreHandler(storeFormHandler.values, user?.uid), {
         loading: "Creating Store",
         success: (storeId) => {
           location.href = `/store/${storeId}`;
@@ -42,25 +47,21 @@ export default function CreateNewStore() {
   };
 
   return (
-    <ThemeProvider>
-      <main>
-        <TwoColumnLayout
-          leftContent={
-            <CreateStorePanel
-              onCancel={onCancel}
-              onSubmit={storeFormHandler.handleSubmit}
-              clicked={clicked}
-            />
-          }
-          rightContent={
-            <StoreForm
-              formikProps={storeFormHandler}
-              disabled={clicked}
-              style={{ paddingBottom: "80px" }}
-            />
-          }
+    <TwoColumnLayout
+      leftContent={
+        <CreateStorePanel
+          onCancel={onCancel}
+          onSubmit={storeFormHandler.handleSubmit}
+          clicked={clicked}
         />
-      </main>
-    </ThemeProvider>
+      }
+      rightContent={
+        <StoreForm
+          formikProps={storeFormHandler}
+          disabled={clicked}
+          style={{ paddingBottom: "80px" }}
+        />
+      }
+    />
   );
 }

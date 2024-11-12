@@ -1,4 +1,3 @@
-using InventoryService.Application.Dtos.Images;
 using InventoryService.Application.Dtos.ProductVariants;
 using MediatR;
 

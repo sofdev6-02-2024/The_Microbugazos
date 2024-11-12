@@ -6,5 +6,5 @@ export interface StoreFormDto {
   phoneNumber: string;
   bannerImage?: string;
   profileImage?: string;
-  userId: string;
+  UserIdentity: string;
 }
