@@ -1,9 +1,9 @@
-import React from 'react';
-import styles from '@/styles/Footer.module.css'
+import React from "react";
+import styles from "@/styles/Footer.module.css"
 import Link from "next/link";
 import Image from "next/image";
-import footerImage from '@/app/assets/Images/footer-image.png'
-import Logo from '@/app/assets/logo/M.png'
+import footerImage from "@/app/assets/Images/footer-image.png"
+import Logo from "@/app/assets/logo/M.png"
 
 const Footer = () => {
     return (

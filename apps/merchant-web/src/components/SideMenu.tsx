@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from '@/styles/SideMenu.module.css'
+import React from "react";
+import styles from "@/styles/SideMenu.module.css"
 import {Option} from "@/components/Option";
 import { LuHome } from "react-icons/lu";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -23,15 +23,15 @@ const SideMenu = () => {
             <Option icon={RiShoppingCart2Line} text={"Cart"}/>
             <Option icon={LuHistory} text={"History"}/>
             <p className={styles.subtitle}>Products</p>
-            <Option icon={BsBookmarkStar} text={"Best Seller"}/>
-            <Option icon={LuPiggyBank} text={"Offers"}/>
-            <Option icon={RiCursorLine} text={"Electronics"}/>
-            <Option icon={MdCheckroom} text={"Clothing & Fashion"}/>
-            <Option icon={GiDelicatePerfume} text={"Beauty & Personal Care"}/>
-            <Option icon={RiSofaLine} text={"Home & Kitchen"}/>
-            <Option icon={BsHeartPulse} text={"Health & Wellness"}/>
+            <Option icon={BsBookmarkStar} text={"Best Seller"} route={"products"}/>
+            <Option icon={LuPiggyBank} text={"Offers"} route={"products"}/>
+            <Option icon={RiCursorLine} text={"Electronics"} route={"products"}/>
+            <Option icon={MdCheckroom} text={"Clothing & Fashion"} route={"products"}/>
+            <Option icon={GiDelicatePerfume} text={"Beauty & Personal Care"} route={"products"}/>
+            <Option icon={RiSofaLine} text={"Home & Kitchen"} route={"products"}/>
+            <Option icon={BsHeartPulse} text={"Health & Wellness"} route={"products"}/>
             <p className={styles.subtitle}>From Merchant</p>
-            <Option icon={MdStorefront} text={"Stores"}/>
+            <Option icon={MdStorefront} text={"Store"}/>
             <Option icon={MdOutlineCallEnd} text={"About Us"}/>
         </div>
     );
