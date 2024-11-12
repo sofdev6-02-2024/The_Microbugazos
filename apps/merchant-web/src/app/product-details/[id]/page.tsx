@@ -6,6 +6,7 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import {useEffect, useState} from "react";
 import ProductDetailsStyle from "@/styles/products/ProductDetails.module.css"
 import ImagesSection, {Image} from "@/components/product-details/ImagesSection";
+import { useParams } from 'next/navigation'
 
 interface Product {
     productId: string,
@@ -19,7 +20,8 @@ interface Product {
 }
 
 export default function ProductDetails() {
-    const id = "1b8b6e90-b25a-4845-89b4-18c234b234c7";
+    const params = useParams();
+    const id = params?.id as string;
     const [isFavorite, setIsFavorite] = useState(false);
     const [product, setProduct] = useState<Product>({} as Product);
     const [attributesMap, setAttributesMap] = useState<Record<string, Set<string>>>({});
@@ -30,6 +32,7 @@ export default function ProductDetails() {
     const [error, setError] = useState<string>(null);
 
     useEffect(() => {
+        console.log(id);
         fetch(`http://localhost:5001/api/inventory/Product/${id}`)
             .then(response => response.json().then(data => {
                 const attributeMap: Record<string, Set<string>> = {};
