@@ -1,0 +1,10 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: var(--surface-light-100);
+  border-radius: 12px;
+  padding: 0 20px;
+  font-family: var(--ubuntu-font-family);
+  --ubuntu-font-style: normal;
+}

@@ -2,12 +2,12 @@
 
 import "./globals.css";
 import { Header } from "@/components/Header";
-import {OptionsProvider} from "@/commons/providers/add-product-provider";
-import {VariantsProvider} from "@/commons/providers/variant-provider";
+import { OptionsProvider } from "@/commons/providers/add-product-provider";
+import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
 
-const EXCLUDED_ROUTES = ["/login", "/signup"];
+const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 
 export default function RootLayout({
   children,
@@ -15,7 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname: string | null = usePathname();
-  const showComponents = pathname !== null && !EXCLUDED_ROUTES.includes(pathname);
+  const showComponents =
+    pathname !== null && !EXCLUDED_ROUTES.includes(pathname);
 
   return (
     <html lang="en">
@@ -23,10 +24,8 @@ export default function RootLayout({
         <OptionsProvider>
           <VariantsProvider>
             {showComponents && <Header isRegistered={false} />}
-              <main>
-                {children}
-              </main>
-            {showComponents && <Footer/>}
+            <main>{children}</main>
+            {showComponents && <Footer />}
           </VariantsProvider>
         </OptionsProvider>
       </body>

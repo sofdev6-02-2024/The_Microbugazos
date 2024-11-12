@@ -12,13 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
 
 
-string ApiGatewayUrl = builder.Configuration["ApiGatewayUrl"] ?? "http://localhost:5001";
+var apiGatewayUrl = builder.Configuration["ApiGatewayUrl"] ?? "http://localhost:5001";
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost",
         policyBuilder => policyBuilder
-            .WithOrigins(ApiGatewayUrl)
+            .WithOrigins(apiGatewayUrl)
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -29,14 +29,14 @@ builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
 
 
-string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
-                    ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
+var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
+                       ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
 
 
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
     options.UseNpgsql(connectionString,
             b => b.MigrationsAssembly("InventoryService.Api"))
-        .EnableSensitiveDataLogging()
+        .EnableSensitiveDataLogging(false)
         .LogTo(Console.WriteLine, LogLevel.Information)
 );
 
@@ -56,7 +56,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 app.UseCors("AllowApiGateway");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

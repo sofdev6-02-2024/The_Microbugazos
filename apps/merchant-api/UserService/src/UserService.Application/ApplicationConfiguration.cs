@@ -8,6 +8,8 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using UserService.Application.Validators;
+using FluentValidation;
 
 namespace UserService.Application
 {
@@ -27,11 +29,12 @@ namespace UserService.Application
                     Credential = GoogleCredential.FromJson(firebaseCredentials)
                 }
             );
-
+            services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IJwtDecoder, JwtDecoder>();
+            services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
         }
     }
 }

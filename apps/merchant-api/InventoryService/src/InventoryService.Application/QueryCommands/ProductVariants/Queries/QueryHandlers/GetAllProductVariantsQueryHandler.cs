@@ -1,7 +1,5 @@
 using InventoryService.Application.Dtos;
-using InventoryService.Application.Dtos.Images;
 using InventoryService.Application.Dtos.ProductVariants;
-using InventoryService.Application.QueryCommands.Images.Queries.Queries;
 using InventoryService.Application.QueryCommands.ProductVariants.Queries.Queries;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
@@ -27,7 +25,7 @@ public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> produ
                 Attributes = existingProductVariant.Attributes.Select(currentProductAttribute => new GetProductVariantAttributeDto
                 {
                     ProductVariantAttributeId = currentProductAttribute.Id,
-                    Name = currentProductAttribute.Variant.Name,
+                    Name = currentProductAttribute.Variant!.Name,
                     Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
