@@ -2,6 +2,8 @@
 
 import "./globals.css";
 import { Header } from "@/components/Header";
+import {OptionsProvider} from "@/commons/providers/add-product-provider";
+import {VariantsProvider} from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
 
@@ -18,9 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {showComponents && <Header isRegistered={false} />}
-        <main>{children}</main>
-        {showComponents && <Footer />}
+        <OptionsProvider>
+          <VariantsProvider>
+            {showComponents && <Header isRegistered={false} />}
+              <main>
+                {children}
+              </main>
+            {showComponents && <Footer/>}
+          </VariantsProvider>
+        </OptionsProvider>
       </body>
     </html>
   );

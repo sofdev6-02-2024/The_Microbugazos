@@ -1,3 +1,7 @@
+"use client"
+import * as React from "react";
+import { NextUIProvider } from "@nextui-org/react";
+import {OptionsProvider} from "@/commons/providers/add-product-provider";
 import { ProductsCarousel } from "@/components/general/ProductsCarousel";
 import "./page.css";
 import { CoverCarousel } from "@/components/home/CoverCarousel";
@@ -215,7 +219,7 @@ export default function Home() {
   ];
 
   return (
-    <>
+    <NextUIProvider>
       <CoverCarousel />
       <ProductsCarousel
         title="Recommendations"
@@ -237,6 +241,6 @@ export default function Home() {
         products={productsExample}
         url="http://localhost:3000/products"
       />
-    </>
+    </NextUIProvider>
   );
 }
