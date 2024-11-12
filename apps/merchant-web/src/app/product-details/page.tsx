@@ -21,10 +21,13 @@ interface Product {
 export default function ProductDetails() {
     const id = "1b8b6e90-b25a-4845-89b4-18c234b234c7";
     const [isFavorite, setIsFavorite] = useState(false);
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState<Product>({} as Product);
     const [attributesMap, setAttributesMap] = useState<Record<string, Set<string>>>({});
     const [variantSelected, setVariantSelected] = useState<Record<string, number>>({});
     const [images, setImages] = useState<Image[]>([]);
+    const [image, setImage] = useState<Image>(null);
+    const [variantLoaded, setVariantLoaded] = useState(undefined);
+    const [error, setError] = useState<string>(null);
 
     useEffect(() => {
         fetch(`http://localhost:5001/api/inventory/Product/${id}`)
@@ -39,7 +42,7 @@ export default function ProductDetails() {
                     variant.attributes.forEach(attribute => {
                         if (!attributeMap[attribute.name]) {
                             attributeMap[attribute.name] = new Set();
-                            variantSelected[attribute.name] = 0;
+                            variantSelected[attribute.name] = -1;
                         }
                         attributeMap[attribute.name].add(attribute.value);
                     });
@@ -53,13 +56,44 @@ export default function ProductDetails() {
     const handleVariantSelection = (name : string, index : number) =>  {
         const variantEdited = variantSelected;
         variantEdited[name] = index;
-        console.log(variantEdited);
         setVariantSelected(variantEdited);
+        const matchVariant = product.productVariants.find(variant =>
+            isMatchingVariant(variant, variantEdited, attributesMap)
+        );
+        setVariantLoaded(matchVariant);
+        setImage(matchVariant?.productVariantImage);
+    }
+
+    function getValueByIndex(attributeSet, index) {
+        return Array.from(attributeSet)[index];
+    }
+
+    function isMatchingVariant(variant, desiredAttributes, attributesMap) {
+        return Object.entries(desiredAttributes).every(([attribute, index]) => {
+            const targetValue = getValueByIndex(attributesMap[attribute], index);
+            return variant.attributes.some(attr => attr.name === attribute && attr.value === targetValue);
+        });
+    }
+
+    function handleAddToCart() {
+        const isAllSelected = Object.entries(variantSelected).filter(([key, value]) => value === -1);
+        console.log(variantSelected);
+        console.log(isAllSelected);
+
+        if (isAllSelected.length === 0) {
+            console.log("Success");
+            setError(null);
+        } else {
+            setError("Select all attributes of the product");
+        }
     }
 
     return (
         <div className={ProductDetailsStyle.productDetailsSection}>
-            <ImagesSection images={images}></ImagesSection>
+            <ImagesSection
+                images={images}
+                imageSelected={image}
+            ></ImagesSection>
             <section style={{
                 paddingTop: "12px",
                 display: "flex",
@@ -73,7 +107,17 @@ export default function ProductDetails() {
                 <label style={{
                     fontSize: "20px",
                     fontWeight: "600",
-                }}>$ {product!.price}</label>
+                }}>$ {product!.price}
+                    <span style={{
+                        fontWeight: "300",
+                        fontSize: "16px"
+                    }}> ({variantLoaded
+                        && (
+                            (variantLoaded.priceAdjustment > 0 ? "+$ " : "")
+                            + ( variantLoaded.priceAdjustment.toString()))})
+                    </span>
+                </label>
+                {variantLoaded && <label>Total: $ {product!.price + variantLoaded.priceAdjustment}</label>}
                 <p>
                     {product!.description}
                 </p>
@@ -88,6 +132,7 @@ export default function ProductDetails() {
                         />
                     </div>
                 ))}
+                {error && <label style={{fontSize: "14px", color: "#FB5012"}}><sup>*</sup>{error}</label>}
                 <hr/>
 
                 <div
@@ -106,11 +151,13 @@ export default function ProductDetails() {
                             paddingBottom: "14px",
                             width: "15vw",
                             minWidth: "144px",
+                            border: "none",
                             borderRadius: "24px",
                             backgroundColor: "#7790ED",
                             color: "white",
                             fontSize: "16px"
                         }}
+                        onClick={handleAddToCart}
                     >Add to cart</button>
                     <div>
                         {isFavorite && <MdFavorite

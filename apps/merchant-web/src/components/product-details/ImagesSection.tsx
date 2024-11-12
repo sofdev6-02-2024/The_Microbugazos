@@ -7,11 +7,11 @@ export interface Image {
 }
 
 interface ImagesSectionProps{
-    images: Image[]
-    url?: string
+    images: Image[],
+    imageSelected?: Image | null
 }
 
-export default function ImagesSection({ images, url } : ImagesSectionProps) {
+export default function ImagesSection({ images, imageSelected } : ImagesSectionProps) {
     const [focusIndex, setFocusIndex] = useState(0);
 
     return (
@@ -24,8 +24,11 @@ export default function ImagesSection({ images, url } : ImagesSectionProps) {
                     onClick={() => setFocusIndex(index)}
                 />)}
             </div>
-            {!url && <img className={ProductDetailsStyle.primaryImage} src={images[focusIndex]?.url} alt={images[focusIndex]?.altText}/>}
-            {url && <img className={ProductDetailsStyle.primaryImage} src={url} alt=""/>}
+            <img
+                className={ProductDetailsStyle.primaryImage}
+                src={imageSelected == null ? images[focusIndex]?.url : imageSelected.url}
+                alt={imageSelected == null ? images[focusIndex]?.altText : imageSelected?.altText}
+            />
         </section>
     )
 }

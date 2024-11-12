@@ -18,11 +18,15 @@ export default function ChipSelector({name, options, handleChange} : ChipSelecto
                 alignItems: "center",
                 color: index == indexSelected ? "#FFF" : "#000",
                 backgroundColor: index == indexSelected ? "#7790ED" : "#ffdfe9",
+                cursor: "pointer"
             }} onClick={() => {
-                setIndexSelected(index);
-                console.log(name);
-                console.log(index);
-                handleChange(name, index);
+                let newIndex = index;
+                if (indexSelected == index) {
+                    newIndex = -1;
+                }
+
+                setIndexSelected(newIndex);
+                handleChange(name, newIndex);
             }}
             >
                 {item}
