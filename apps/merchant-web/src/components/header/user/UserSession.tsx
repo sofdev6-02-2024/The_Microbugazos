@@ -4,7 +4,11 @@ import { useState } from "react";
 import { UserButton } from "./UserButton";
 import { UserOptions } from "./UserOptions";
 
-export const UserSession = () => {
+interface Props {
+  isLogged: boolean;
+}
+
+export const UserSession = ({isLogged}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -13,8 +17,8 @@ export const UserSession = () => {
 
   return (
     <>
-      <UserButton isLogged={false} toggleOpen={toggleOpen} />
-      <UserOptions isLogged={false} isOpen={isOpen} />
+      <UserButton isLogged={isLogged} toggleOpen={toggleOpen} />
+      <UserOptions isLogged={isLogged} isOpen={isOpen} />
     </>
   );
 };

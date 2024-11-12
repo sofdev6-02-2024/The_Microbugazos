@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MenuButton } from "./MenuButton";
+import SideMenu from "@/components/SideMenu";
 
 export const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export const Menu = () => {
   return (
     <>
       <MenuButton toggleOpen={toggleMenu} />
+      <SideMenu isOpen={isOpen} toggleMenu={toggleMenu} />
     </>
   );
 };
