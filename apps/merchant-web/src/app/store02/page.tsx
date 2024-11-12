@@ -1,7 +1,12 @@
 "use client";
 
 import { UpdateStore } from "@/components/store/UpdateStore";
-
+import { Toaster } from "sonner";
 export default function CreateNewStore() {
-  return <UpdateStore id="ea37d75e-ca2b-4733-a862-adf1931aae5f" />;
+  return (
+    <>
+      <Toaster richColors />
+      <UpdateStore id="14947041-56f6-4652-9ec0-0d7d3739669f" />
+    </>
+  );
 }

@@ -9,9 +9,6 @@ export const updateStoreHandler = async (
   // TODO : GET USER INFORMATION
   const userId = "d947dbe7-242c-443b-b9ed-17cf3f4b1d32";
 
-  console.log("testing : ", store.profileImageUrl);
-  console.log("testing 02 : ", store.bannerImageUrl);
-
   const profileImage = await changeImage(
     `${userId}-profile`,
     store.profileImageUrl,
@@ -24,19 +21,17 @@ export const updateStoreHandler = async (
     store.bannerImage
   );
 
-  const storeToCreate: StoreFormDto = {
+  const storeToUpdate: StoreFormDto = {
     id: storeId,
-    name: store.name,
-    description: store.description,
-    address: store.address,
-    phoneNumber: store.phoneNumber,
+    name: store.name.trim(),
+    description: store.description.trim(),
+    address: store.address.trim(),
+    phoneNumber: store.phoneNumber.trim(),
     bannerImage: bannerImage,
     profileImage: profileImage,
     userId: userId,
   };
-  console.log(storeToCreate);
-  const response = await updateStore(storeId, storeToCreate);
-  console.log("FUCKING RESPONSE : ",response);
+  const response = await updateStore(storeId, storeToUpdate);
   return (response.id as string) !== "";
 };
 
@@ -46,7 +41,9 @@ const changeImage = async (
   imageFile?: File
 ) => {
   if (imageFile !== undefined && imageFile !== null && imageFile.size > 0) {
-    await deleteImageFromFirebase(name, "store");
+    if (currentImage !== undefined && currentImage !== "") {
+      await deleteImageFromFirebase(name, "store");
+    }
     return await uploadImage(imageFile, name, "store");
   }
   return currentImage;

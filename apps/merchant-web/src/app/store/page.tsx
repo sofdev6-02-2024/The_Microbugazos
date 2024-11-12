@@ -12,6 +12,7 @@ import { createStoreHandler } from "@/scripts/store/CreateStoreHandler";
 import TwoColumnLayout from "@/components/layouts/TwoColumnLayout";
 import { useState } from "react";
 import { StoreForm } from "@/components/store/StoreForm";
+import { toast } from "sonner";
 export default function CreateNewStore() {
   const [clicked, setClicked] = useState(false);
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
@@ -20,12 +21,19 @@ export default function CreateNewStore() {
     onSubmit: async () => {
       if (clicked) return;
       setClicked(true);
-      try {
-        const storeId = await createStoreHandler(storeFormHandler.values);
-        location.href = `/store/${storeId}`;
-      } finally {
-        setClicked(false);
-      }
+
+      toast.promise(createStoreHandler(storeFormHandler.values), {
+        loading: "Creating Store",
+        success: (storeId) => {
+          location.href = `/store/${storeId}`;
+          setClicked(false);
+          return "Store Created";
+        },
+        error: () => {
+          setClicked(false);
+          return "Failed to Create Store";
+        },
+      });
     },
   });
 
@@ -45,7 +53,11 @@ export default function CreateNewStore() {
             />
           }
           rightContent={
-            <StoreForm formikProps={storeFormHandler} disabled={clicked} style={{ paddingBottom: "80px" }} />
+            <StoreForm
+              formikProps={storeFormHandler}
+              disabled={clicked}
+              style={{ paddingBottom: "80px" }}
+            />
           }
         />
       </main>

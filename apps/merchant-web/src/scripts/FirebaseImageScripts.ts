@@ -52,9 +52,6 @@ export const deleteImageFromFirebase = async (
 
     deleteObject(imageRef)
       .then(() => {
-        console.log(
-          `Image at path '${directory + "/" + name}' deleted successfully.`
-        );
         resolve();
       })
       .catch((error) => {

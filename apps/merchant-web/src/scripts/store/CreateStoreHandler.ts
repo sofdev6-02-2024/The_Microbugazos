@@ -15,15 +15,14 @@ export const createStoreHandler = async (
   );
 
   const storeToCreate: StoreFormDto = {
-    name: store.name,
-    description: store.description,
-    address: store.address,
-    phoneNumber: store.phoneNumber,
+    name: store.name.trim(),
+    description: store.description.trim(),
+    address: store.address.trim(),
+    phoneNumber: store.phoneNumber.trim(),
     bannerImage: bannerImage,
     profileImage: profileImage,
     userId: userId,
   };
-  console.log(storeToCreate);
   const response = await createStore(storeToCreate);
   return response;
 };

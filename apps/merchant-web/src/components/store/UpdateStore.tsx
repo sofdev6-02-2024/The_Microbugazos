@@ -11,6 +11,7 @@ import useFormHandler from "@/commons/hooks/UseFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
 import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 import { getStoreById } from "@/request/StoreRequests";
+import { toast } from "sonner";
 
 interface UpdateStoreProps {
   id: string;
@@ -24,12 +25,17 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
     onSubmit: async () => {
       if (clicked) return;
       setClicked(true);
-      try {
-        const updated = await updateStoreHandler(id, storeFormHandler.values);
-        if (updated) console.log("Updated");
-      } finally {
-        setClicked(false);
-      }
+      toast.promise(updateStoreHandler(id, storeFormHandler.values), {
+        loading: "Updating Store",
+        success: () => {
+          setClicked(false);
+          return "Store Updated";
+        },
+        error: () => {
+          setClicked(false);
+          return "Failed to Update Store";
+        },
+      });
     },
   });
 
@@ -48,8 +54,6 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
     });
   }, [id]);
 
-  
-
   return (
     <div>
       <StoreForm
@@ -58,6 +62,7 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
         defaultProfileImage={storeFormHandler.values.profileImageUrl}
         editableFields={isEditing}
         hasEditableFields={true}
+        disabled={clicked}
       />
       <div
         className={`${buttonStyle.buttonContainer} ${buttonStyle.buttonContainerSurface}`}
@@ -79,7 +84,15 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
           Save
         </button>
 
-        <button className={`${buttonStyle.button} ${buttonStyle.cancelButton}`}>
+        <button
+          className={`${buttonStyle.button} ${buttonStyle.cancelButton} ${
+            clicked && buttonStyle.disabledButton
+          }`}
+          disabled={clicked}
+          onClick={() => {
+            location.reload();
+          }}
+        >
           Cancel
         </button>
       </div>

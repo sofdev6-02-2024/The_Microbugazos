@@ -52,7 +52,6 @@ export const validatePhoneNumber = async (phoneNumber: string) => {
       `http://apilayer.net/api/validate?access_key=${phoneNumberApiKey}&number=${phoneNumber}&country_code=&format=1`
     );
     const data = response.data;
-    console.log(data);
     return data.valid;
   }catch (error) {
     toast.error(`Net Error: validating phone number`, {

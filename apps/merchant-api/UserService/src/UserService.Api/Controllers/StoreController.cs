@@ -40,7 +40,7 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     [HttpPut("{id}")]
     public async Task<ActionResult<StoreDto>> UpdateStore([FromRoute] Guid id, [FromBody] StoreDto storeDto)
     {
-        var validation = validator.Validate(new StoreDto { Id = id });
+        var validation = validator.Validate(storeDto);
         if (validation.IsValid == false)
         {
             return BadRequest(validation.Errors);
