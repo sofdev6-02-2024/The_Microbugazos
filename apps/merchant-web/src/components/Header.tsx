@@ -21,19 +21,13 @@ export function Header({ isRegistered }: Readonly<Props>) {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const sideMenuRef = useRef<HTMLDivElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
+  const [isDown, setIsDown] = useState(false);
 
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    // if (
-    //   isMenuOpen &&
-    //   sideMenuRef.current &&
-    //   !sideMenuRef.current.contains(event.target as Node)
-    // ) {
-    //   setIsMenuOpen(false);
-    // }
     if (
       isProfileMenuOpen &&
       profileMenuRef.current &&
@@ -42,6 +36,18 @@ export function Header({ isRegistered }: Readonly<Props>) {
       setIsProfileMenuOpen(false);
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsDown(window.scrollY > 60);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -56,7 +62,7 @@ export function Header({ isRegistered }: Readonly<Props>) {
   };
 
   return (
-    <header className="header">
+    <header className={`header ${isDown ? "down" : ""}`}>
       <div className="first-section-header">
         <Menu />
         <Image src={logo} alt="Merchant logo" draggable={false} />

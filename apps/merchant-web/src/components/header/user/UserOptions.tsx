@@ -4,10 +4,12 @@ import "@/styles/header/user/UserOptions.css";
 interface Props {
   isLogged: boolean;
   isOpen: boolean;
+  logOut: () => void;
 }
 
-export const UserOptions = ({ isLogged, isOpen }: Props) => {
+export const UserOptions = ({ isLogged, isOpen, logOut }: Props) => {
   const navigate = useNavigate();
+
   return (
     <div className={`user-options ${isOpen ? "open" : ""}`}>
       {isLogged ? (
@@ -20,7 +22,9 @@ export const UserOptions = ({ isLogged, isOpen }: Props) => {
           >
             Profile
           </button>
-          <button className="user-options-option log-out">Log out</button>
+          <button className="user-options-option log-out" onClick={logOut}>
+            Log out
+          </button>
         </>
       ) : (
         <>

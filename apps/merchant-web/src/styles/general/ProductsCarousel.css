@@ -3,6 +3,7 @@
 .products-carousel {
   width: 100%;
   position: relative;
+  margin-bottom: 40px;
 }
 
 .products-carousel-header {
