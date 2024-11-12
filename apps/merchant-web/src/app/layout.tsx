@@ -2,6 +2,8 @@
 
 import localFont from "next/font/local";
 import "./globals.css";
+import {OptionsProvider} from "@/commons/providers/add-product-provider";
+import {VariantsProvider} from "@/commons/providers/variant-provider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {usePathname} from "next/navigation";
@@ -29,6 +31,8 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+    <OptionsProvider>
+      <VariantsProvider>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {showComponents && <Header/>}
         <main>
@@ -36,6 +40,8 @@ export default function RootLayout({
         </main>
         {showComponents && <Footer/>}
       </body>
+      </VariantsProvider>
+    </OptionsProvider>
     </html>
   );
 }

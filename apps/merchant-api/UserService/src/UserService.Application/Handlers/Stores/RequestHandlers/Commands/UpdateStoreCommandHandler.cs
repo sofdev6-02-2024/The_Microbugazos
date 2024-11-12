@@ -13,10 +13,16 @@ public class UpdateStoreCommandHandler(IStoreRepository storeRepository, IMapper
 
     public async Task<StoreDto> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
-        var currentStore = await storeRepository.GetByIdAsync(request.Id) ?? throw new Exception("Store not found");
-        var store = mapper.Map<Store>(request.StoreDto);
-        store.UserId = currentStore.UserId;
-        store = await storeRepository.UpdateAsync(store);
+        var currentStore = await storeRepository.GetByIdAsync(request.StoreDto.Id) ?? throw new Exception("Store not found");
+
+        currentStore.Name = request?.StoreDto?.Name ?? currentStore.Name;
+        currentStore.Description = request?.StoreDto?.Description ?? currentStore.Description;
+        currentStore.Address = request?.StoreDto.Address ?? currentStore.Address;
+        currentStore.PhoneNumber = request?.StoreDto.PhoneNumber ?? currentStore.PhoneNumber;
+        currentStore.BannerImage = request?.StoreDto.BannerImage ?? currentStore.BannerImage;
+        currentStore.ProfileImage = request?.StoreDto.ProfileImage ?? currentStore.ProfileImage;
+
+        var store = await storeRepository.UpdateAsync(currentStore);
         return mapper.Map<StoreDto>(store);
     }
 }

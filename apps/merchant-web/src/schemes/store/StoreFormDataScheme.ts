@@ -28,8 +28,8 @@ export const StoreFormScheme = z.object({
       (value) => !/\s{2,}/.test(value),
       "Name cannot contain more than one consecutive space."
     ).refine(
-      (value) => value.length >= 3,
-      "Name cannot be empty, must contain at least 3 character."
+      (value) => value.length >= 2,
+      "Name cannot be empty, must contain at least 2 character."
     )
     ,
 

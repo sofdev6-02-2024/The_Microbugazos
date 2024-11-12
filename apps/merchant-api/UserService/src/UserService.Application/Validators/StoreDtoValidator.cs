@@ -11,8 +11,8 @@ public class StoreDtoValidator : AbstractValidator<StoreDto>
             .WithMessage("Name is required.")
             .MaximumLength(30)
             .WithMessage("Name cannot be more than 30 characters.")
-            .MinimumLength(3)
-            .WithMessage("Name must be at least 3 characters.")
+            .MinimumLength(2)
+            .WithMessage("Name must be at least 2 characters.")
             .Matches("^[a-zA-Z0-9 ]*$")
             .WithMessage("Name can only contain letters, numbers, and spaces.");
 

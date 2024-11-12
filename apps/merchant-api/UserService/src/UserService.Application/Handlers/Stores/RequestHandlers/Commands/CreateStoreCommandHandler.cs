@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using UserService.Application.Handlers.Stores.Request.Commands;
+using UserService.Domain.Concretes;
 using UserService.Domain.Entities.Concretes;
 using UserService.Infrastructure.Repositories.Interfaces;
 
@@ -23,9 +24,11 @@ public class CreateStoreCommandHandler(IStoreRepository storeRepository, IUserRe
         {
             throw new Exception("User already has a store");
         }
-        
+
         store.UserId = user.Id;
         store = await storeRepository.AddAsync(store);
+        user.UserType = UserType.OWNER;
+        await userRepository.UpdateAsync(user);
         return store.Id;
     }
 }
