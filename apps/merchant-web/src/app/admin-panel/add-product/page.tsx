@@ -7,7 +7,7 @@ import ProductOptionsModal from "@/components/admin-panel/product-options-modal"
 import OptionRow from "@/components/admin-panel/option-row";
 import {useOptions} from "@/commons/providers/add-product-provider"
 import VariantModal from "@/components/admin-panel/variant-modal";
-import {Image, useVariants} from "@/commons/providers/variant-provider";
+import {useVariants} from "@/commons/providers/variant-provider";
 import {ValidateName} from "@/commons/validations/string";
 import {ValidateLongText} from "@/commons/validations/string";
 import {ValidateNumberWithDecimals} from "@/commons/validations/number";
@@ -24,7 +24,7 @@ export default function AddProducts() {
     const [productCategory, setProductCategory] = useState<string>("");
     const [productSubCategory, setProductSubCategory] = useState<string>("");
     const {options} = useOptions();
-    const {variants, addVariant, resetVariants} = useVariants();
+    const {variants} = useVariants();
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const [combinationVariants, setCombinationVariants] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -209,7 +209,7 @@ export default function AddProducts() {
     }, [productCategory]);
 
     return (
-        <body>
+        <div className={AddProductStyle.addProductForm}>
         <label className={AddProductStyle.heading1}>Add Product</label>
             <TextField
                 label="Name"
@@ -314,6 +314,6 @@ export default function AddProducts() {
             title="Product created successfully"
             description="Your product was added to your store, add more and enjoy."
             duration={5000}/>}
-        </body>
+        </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useDropzone } from 'react-dropzone';
 import { MdOutlineImageSearch, MdCancel, MdCheckCircleOutline } from 'react-icons/md';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from '@/commons/services/firebase-connection'
+import { storage } from '@/config/firebase'
 import DotLoader from "react-spinners/DotLoader";
 import ImageSelectorStyle from "../styles/components/ImageSelector.module.css"
 
