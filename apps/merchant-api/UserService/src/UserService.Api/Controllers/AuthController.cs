@@ -1,6 +1,6 @@
 
 using AutoMapper;
-using UserService.Application.Dtos.User;
+using UserService.Application.Dtos.Users;
 using UserService.Application.Handlers.Auth.Request.Commands;
 using UserService.Domain.Entities.Concretes;
 using MediatR;

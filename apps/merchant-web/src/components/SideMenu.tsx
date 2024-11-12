@@ -31,7 +31,7 @@ const SideMenu = () => {
             <Option icon={RiSofaLine} text={"Home & Kitchen"} route={"products"}/>
             <Option icon={BsHeartPulse} text={"Health & Wellness"} route={"products"}/>
             <p className={styles.subtitle}>From Merchant</p>
-            <Option icon={MdStorefront} text={"Store"}/>
+            <Option icon={MdStorefront} text={"Create Store"}/>
             <Option icon={MdOutlineCallEnd} text={"About Us"}/>
         </div>
     );

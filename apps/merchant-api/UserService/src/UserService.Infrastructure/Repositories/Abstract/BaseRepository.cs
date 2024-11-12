@@ -47,8 +47,9 @@ public abstract class BaseRepository<T>(DbContext context) : ICrudRepository<T>
 
     public virtual Task<T> UpdateAsync(T entity)
     {
-        entity.UpdatedAt = DateTime.Now;
+        entity.UpdatedAt = DateTime.UtcNow;
         Context.Set<T>().Update(entity);
+        Context.SaveChanges();
         return Task.FromResult(entity);
     }
 

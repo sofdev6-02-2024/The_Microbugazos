@@ -1,12 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&family=Ubuntu&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-400: #7790ED;
+  --white: #fff;
+
+  --primary-400: #7790ed;
+  --primary-600: #5275f5;
+
+  --secondary-400: #292621;
+  --secondary-600: #262420;
+
+  --tertiary-400: #f5ede2;
+  --tertiary-600: #f4e3cc;
+
+  --surface-background: #f4f9ff;
+  --surface-light-100: #f4f9ff;
+  --surface-light-150: #d1dae44b;
+  --surface-light-200: #eaeaed;
+  --surface-dark-100: #121212;
+  --surface-dark-200: #1f1f1f;
+
+  --gray-100: #f9f9f9;
+  --gray-200: #f2f2f2;
+  --gray-300: #e5e5e5;
+  --gray-400: #d9d9d9;
+  --gray-500: #bfbfbf;
+
+  --action-success: #b4ed77;
+  --action-error: #fb5012;
+  --action-alert: #e9df00;
+
+  --ubuntu-font-family: "Ubuntu", serif;
+  --ubuntu-font-weight: 400;
+  --ubuntu-font-style: normal;
+
+  --montserrat-alt-font-family: "Montserrat Alternates", serif;
+  --montserrat-alt-medium-weight: 500;
+  --montserrat-alt-bold-weight: 700;
+  --montserrat-alt-font-style: normal;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -23,7 +62,7 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: white;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,6 +77,11 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.flag-dropdown {
+  background-color: transparent!important;
+  border: none!important;
 }
 
 @media (prefers-color-scheme: dark) {

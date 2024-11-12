@@ -5,11 +5,11 @@ export const DEFAULT_FORBIDDEN_REDIRECT = '/';
 
 export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
     [UserType.GUEST]: {
-        paths: ["/login", "/signup", "/", "/products/*", "/cart", "/store"],
+        paths: ["/login", "/signup", "/", "/products/*", "/cart", "/create-store"],
         redirectTo: '/login'
     },
     [UserType.CLIENT]: {
-        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/store"],
+        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/create-store"],
         redirectTo: "/"
     },
     [UserType.SELLER]: {

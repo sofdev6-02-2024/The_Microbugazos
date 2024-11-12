@@ -19,7 +19,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const EXCLUDED_ROUTES = ['/login', '/signup'];
+const EXCLUDED_ROUTES = ['/login', '/signup', '/create-store'];
 
 export default function RootLayout({
   children,
