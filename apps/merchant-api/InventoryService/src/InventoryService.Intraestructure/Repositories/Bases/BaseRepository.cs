@@ -39,13 +39,8 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
 
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
-        return await DbSet.FindAsync(id);
-    }
-
-    public virtual async Task<T?> GetByIdActivateAsync(Guid id)
-    {
         var entity = await DbSet.FindAsync(id);
-        return entity is { IsActive: true } ? entity : null;
+        return entity is { IsActive: true } ? entity : null;    
     }
 
     public virtual async Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize)

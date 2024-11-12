@@ -13,8 +13,6 @@ public class ProductVariantMap : IEntityTypeConfiguration<ProductVariant>
         builder.Property(pv => pv.Id).ValueGeneratedOnAdd();
         builder.Property(pv => pv.PriceAdjustment).IsRequired();
         builder.Property(pv => pv.StockQuantity).IsRequired();
-
-        builder.HasQueryFilter(pv => pv.IsActive);
         
         builder.HasOne(pv => pv.Product)
             .WithMany(p => p.ProductVariants)

@@ -12,9 +12,7 @@ public class VariantMap : IEntityTypeConfiguration<Variant>
         builder.HasKey(v => v.Id);
         builder.Property(p => p.Name).IsRequired();
         builder.Property(v => v.Id).ValueGeneratedOnAdd();
-
-        builder.HasQueryFilter(v => v.IsActive);
-
+        
         builder.Property(v => v.Name)
             .IsRequired()
             .HasMaxLength(100);

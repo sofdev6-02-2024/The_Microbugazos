@@ -15,8 +15,6 @@ public class ProductMap : IEntityTypeConfiguration<Product>
         builder.Property(p => p.BasePrice).IsRequired();
         builder.Property(p => p.Brand).IsRequired();
         
-        builder.HasQueryFilter(p => p.IsActive);
-        
         builder.HasMany(p => p.Images)
             .WithOne(i => i.Product)
             .HasForeignKey(i => i.ProductId);
