@@ -24,7 +24,10 @@ export const CreateStorePanel: React.FC<CreateStorePanelProps> = ({
       </div>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${styles.cancelButton}`}
+          disabled={clicked}
+          className={`${styles.button} ${styles.cancelButton} ${
+            clicked && styles.disabledButton
+          }`}
           onClick={onCancel}
         >
           Cancel

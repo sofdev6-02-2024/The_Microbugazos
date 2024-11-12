@@ -3,5 +3,5 @@
 import { UpdateStore } from "@/components/store/UpdateStore";
 
 export default function CreateNewStore() {
-  return <UpdateStore id="8b224005-97c3-4c5f-a473-61b90035f28e" />;
+  return <UpdateStore id="ea37d75e-ca2b-4733-a862-adf1931aae5f" />;
 }

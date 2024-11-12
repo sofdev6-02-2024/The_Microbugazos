@@ -17,7 +17,7 @@ interface UpdateStoreProps {
 }
 export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
   const [clicked, setClicked] = useState(false);
-  const [isEditing, setIsEditing] = useState([true, true, true, true, true]);
+  const [isEditing, setIsEditing] = useState([true, true, true, true]);
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
     validationSchema: StoreFormScheme,
@@ -59,7 +59,9 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
         editableFields={isEditing}
         hasEditableFields={true}
       />
-      <div className={buttonStyle.buttonContainer}>
+      <div
+        className={`${buttonStyle.buttonContainer} ${buttonStyle.buttonContainerSurface}`}
+      >
         <button
           type="submit"
           className={`${buttonStyle.button} ${buttonStyle.createButton} ${

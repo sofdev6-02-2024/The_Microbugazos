@@ -20,19 +20,19 @@ public class StoreDtoValidator : AbstractValidator<StoreDto>
             .NotEmpty()
             .WithMessage("Description is required.")
             .MaximumLength(300)
-            .WithMessage("Description cannot be more than 240 characters.")
-            .MinimumLength(3)
-            .WithMessage("Description must be at least 3 characters.")
+            .WithMessage("Description cannot be more than 300 characters.")
+            .MinimumLength(10)
+            .WithMessage("Description must be at least 10 characters.")
             .Must(description => !string.IsNullOrWhiteSpace(description))
             .WithMessage("Description cannot contain only whitespace.");
 
         RuleFor(x => x.Address)
             .NotEmpty()
             .WithMessage("Address is required.")
-            .MaximumLength(240)
-            .WithMessage("Address cannot be more than 240 characters.")
-            .MinimumLength(3)
-            .WithMessage("Address must be at least 3 characters.")
+            .MaximumLength(60)
+            .WithMessage("Address cannot be more than 60 characters.")
+            .MinimumLength(8)
+            .WithMessage("Address must be at least 8 characters.")
             .Matches("^[a-zA-Z0-9., -]+$")
             .WithMessage("Address can only contain letters, numbers, spaces, commas, periods, and hyphens.");
 

@@ -100,6 +100,23 @@
   color: #6b7280;
 }
 
+
+.NotUploadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/merchant-auth-9c7f2.appspot.com/o/images%2Fstore%2FdefaultImage.png?alt=media&token=95bf0221-2e08-4a68-a8d2-7fbfbecc066a");
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+
 .containerHover  {
   opacity: 1;
 }

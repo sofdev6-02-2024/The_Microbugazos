@@ -44,7 +44,9 @@ export default function CreateNewStore() {
               clicked={clicked}
             />
           }
-          rightContent={<StoreForm formikProps={storeFormHandler} />}
+          rightContent={
+            <StoreForm formikProps={storeFormHandler} disabled={clicked} style={{ paddingBottom: "80px" }} />
+          }
         />
       </main>
     </ThemeProvider>

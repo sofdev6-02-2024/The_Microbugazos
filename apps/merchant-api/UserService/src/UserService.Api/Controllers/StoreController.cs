@@ -1,14 +1,16 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.Dtos.Stores;
 using UserService.Application.Handlers.Stores.Request.Commands;
 using UserService.Application.Handlers.Stores.Request.Queries;
+using UserService.Application.Validators;
 
 namespace UserService.Api.Controllers;
 
 [ApiController]
 [Route("api/stores")]
-public class StoreController(IMediator mediator) : ControllerBase
+public class StoreController(IMediator mediator, IValidator<StoreDto> validator) : ControllerBase
 {
 
     [HttpGet("{id}")]
@@ -26,6 +28,11 @@ public class StoreController(IMediator mediator) : ControllerBase
 
     public async Task<ActionResult<Guid>> CreateStore([FromBody] StoreDto storeDto)
     {
+        var validation = validator.Validate(storeDto);
+        if (validation.IsValid == false)
+        {
+            return BadRequest(validation.Errors);
+        }
         var newId = await mediator.Send(new CreateStoreCommand(storeDto));
         return Ok(newId);
     }
@@ -33,8 +40,12 @@ public class StoreController(IMediator mediator) : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<StoreDto>> UpdateStore([FromRoute] Guid id, [FromBody] StoreDto storeDto)
     {
+        var validation = validator.Validate(new StoreDto { Id = id });
+        if (validation.IsValid == false)
+        {
+            return BadRequest(validation.Errors);
+        }
         var updatedStore = await mediator.Send(new UpdateStoreCommand(id, storeDto));
         return Ok(updatedStore);
-
     }
 }

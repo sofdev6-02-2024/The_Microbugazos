@@ -17,7 +17,6 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({
       country={"us"}
       value={value}
       onChange={onChange}
-      regions={"america"}
       inputStyle={{
         width: "100%",
         color: "black",

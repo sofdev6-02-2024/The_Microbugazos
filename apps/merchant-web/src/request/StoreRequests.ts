@@ -2,6 +2,8 @@ import { toast } from "sonner";
 import axiosInstance from "./AxiosConfig";
 import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 
+const phoneNumberApiKey =
+  process.env.NEXT_PUBLIC_PHONE_NUMBER_VALIDATION_API_KEY;
 export const getStoreById = async (id: string) => {
   try {
     const response = await axiosInstance.get(`/stores/${id}`);
@@ -32,7 +34,6 @@ export const updateStore = async (id: string, data: StoreFormDto) => {
   }
 };
 
-
 const handleAxiosError = (error: any) => {
   console.error("Axios Error:", error.response?.data || error.message);
   let fullMessage = error.response?.data?.detail || error.response.data.message;
@@ -43,4 +44,20 @@ const handleAxiosError = (error: any) => {
   toast.error(`Error: ${fullMessage}`, {
     position: "top-center",
   });
+};
+
+export const validatePhoneNumber = async (phoneNumber: string) => {
+  try {
+    const response = await axiosInstance.get(
+      `http://apilayer.net/api/validate?access_key=${phoneNumberApiKey}&number=${phoneNumber}&country_code=&format=1`
+    );
+    const data = response.data;
+    console.log(data);
+    return data.valid;
+  }catch (error) {
+    toast.error(`Net Error: validating phone number`, {
+      position: "top-center",
+    })
+    throw error;
+  }
 };

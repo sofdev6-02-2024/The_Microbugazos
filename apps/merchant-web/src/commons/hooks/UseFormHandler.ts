@@ -15,8 +15,8 @@ const useFormHandler = <T extends FormikValues>({
   const formik = useFormik<T>({
     initialValues,
     onSubmit,
-    validate: (values) => {
-      const result = validationSchema.safeParse(values);
+    validate: async (values) => {
+      const result = await validationSchema.safeParseAsync(values);
       const errors: Record<string, string> = {};
       if (!result.success) {
         for (const error of result.error.errors) {

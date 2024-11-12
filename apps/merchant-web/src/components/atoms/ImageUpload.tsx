@@ -14,6 +14,7 @@ interface ImageUploadProps {
   defaultImage?: string;
   onImageUpload?: (file: File) => void;
   className?: string;
+  isEditable?: boolean;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -27,6 +28,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     console.log(file);
   },
   className = "",
+  isEditable = true,
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -34,6 +36,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [hasImage, setHasImage] = useState(defaultImage !== "");
 
   useEffect(() => {
+    if (defaultImage !== "") {
+      setHasImage(true);
+    }
+
     if (defaultImage) {
       setPreview(defaultImage);
     }
@@ -54,16 +60,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    setIsDragging(true);
+    if (isEditable) setIsDragging(true);
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
-    setIsDragging(false);
+    if (isEditable) setIsDragging(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    if (!isEditable) return;
+
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
@@ -86,7 +94,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     <div
       className={`${styles.container} ${styles[shape]} ${
         isDragging ? styles.dragging : ""
-      } ${styles[className]}  ${hasImage && styles.containerHover}`}
+      } ${styles[className]}  ${
+        (isEditable === false || hasImage) && styles.containerHover
+      }`}
       style={{ width, height, top, left }}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -111,19 +121,29 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             }`}
           />
         ) : (
-          <div className={styles.uploadContainer}>
-            <Upload className={styles.uploadIcon} size={32} />
-            <p className={styles.uploadText}>Drag and drop an image</p>
+          <div
+            className={`${
+              isEditable ? styles.uploadContainer : styles.NotUploadContainer
+            } `}
+          >
+            {isEditable && (
+              <>
+                <Upload className={styles.uploadIcon} size={32} />
+                <p className={styles.uploadText}>Drag and drop an image</p>
+              </>
+            )}
           </div>
         )}
       </div>
-      <button
-        onClick={handleClick}
-        className={styles.editButton}
-        title="Edit image"
-      >
-        <SquarePen color="var(--white)" />
-      </button>
+      {isEditable && (
+        <button
+          onClick={handleClick}
+          className={styles.editButton}
+          title="Edit image"
+        >
+          <SquarePen color="var(--white)" />
+        </button>
+      )}
     </div>
   );
 };

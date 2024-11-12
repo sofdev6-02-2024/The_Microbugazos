@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SquarePen } from "lucide-react";
 import styles from "@/styles/atoms/inputs/EditableInput.module.css";
 
@@ -36,9 +36,13 @@ export const EditableInput: React.FC<InputData> = ({
   preelement,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const isMarkedEditableInput = useRef(isMarkedEditable);
 
   useEffect(() => {
-    if (!error && isMarkedEditable) {
+    if (isMarkedEditableInput.current) {
+      setIsEditing(true);
+    }
+    if (error !== "" && isMarkedEditable) {
       setIsEditing(true);
     }
   }, [isMarkedEditable]);
@@ -47,7 +51,7 @@ export const EditableInput: React.FC<InputData> = ({
     if (error !== "") {
       setIsEditing(false);
     }
-  }, [error]);
+  }, [error, isEditing]);
 
   const handleClickContact = () => {
     if (isEditing) return;
@@ -74,7 +78,12 @@ export const EditableInput: React.FC<InputData> = ({
         }`}
       >
         {preelement ? (
-          preelement
+          <div
+            className={`${isEditing && styles.untouchable}`}
+            style={{ width: "100%" }}
+          >
+            {preelement}
+          </div>
         ) : (
           <input
             type={type}
@@ -91,7 +100,7 @@ export const EditableInput: React.FC<InputData> = ({
           />
         )}
 
-        {isEditable == true && isEditing && (
+        {isEditable == true && isEditing && error === "" && (
           <div
             style={{ cursor: "pointer" }}
             onClick={() => setIsEditing(!isEditing)}

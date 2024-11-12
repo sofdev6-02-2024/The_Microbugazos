@@ -12,6 +12,8 @@ interface StoreFormProps {
   defaultBannerImage?: string;
   editableFields?: boolean[];
   hasEditableFields?: boolean;
+  disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const StoreForm: React.FC<StoreFormProps> = ({
@@ -28,6 +30,8 @@ export const StoreForm: React.FC<StoreFormProps> = ({
   defaultBannerImage,
   editableFields,
   hasEditableFields,
+  disabled = false,
+  style = {},
 }) => {
   const onBlur = (field: string) => {
     handleBlur(field);
@@ -42,7 +46,10 @@ export const StoreForm: React.FC<StoreFormProps> = ({
   };
 
   return (
-    <div className={styles.mainContainer}>
+    <div
+      className={`${styles.mainContainer} ${disabled && styles.disabled} `}
+      style={style}
+    >
       <StoreImagesProfile
         bannerImage={defaultBannerImage}
         profileImage={defaultProfileImage}

@@ -20,7 +20,11 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  padding: 1px;
+  padding: 10px 1px;
+}
+
+.buttonContainerSurface{
+  background-color: var(--surface-light-100);
 }
 
 .button {

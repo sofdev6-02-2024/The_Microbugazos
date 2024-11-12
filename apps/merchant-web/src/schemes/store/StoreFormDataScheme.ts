@@ -1,46 +1,82 @@
 import { z } from "zod";
+import parsePhoneNumber, {
+  CountryCode,
+  parsePhoneNumberFromString,
+  PhoneNumber,
+} from "libphonenumber-js";
 
 const fileSchema = z.instanceof(File).optional();
 
-const americanDialCodes = [
-  "1","52","53","54","55","56","57",
-  "58","501","502","503","504","505",
-  "506","507","508","509","591","592",
-  "593","594","595","596","597","598","599",
-] as const;
+function isValidPhoneNumber(phoneNumber: string, countryCode: CountryCode) {
+  const phoneNumberObj = parsePhoneNumberFromString(phoneNumber, countryCode);
+  return phoneNumberObj ? phoneNumberObj.isValid() : false;
+}
 
 export const StoreFormScheme = z.object({
   name: z
     .string()
-    .min(3, "Name must be at least 3 characters long")
-    .max(12, "Name must be at most 12 characters long"),
-  description: z
-    .string()
-    .min(10, "Description must be at least 10 characters long")
-    .max(250, "Description must be at most 250 characters long"),
-  address: z
-    .string()
-    .min(3, "Address must be at least 12 characters long")
-    .max(30, "Address must be at most 30 characters long"),
-  phoneNumber: z
-    .string()
-    .min(1, "Phone number is mandatory")
-    .refine(
-      (phone) =>
-        americanDialCodes.some((code) => {
-          console.log(phone);
-          if (phone.startsWith(code)) {
-            console.log(phone.length - code.length);
-            return phone.length - code.length >= 6;
-          }
-          return false;
-        }),
-      "Phone number must be at least 6 digits long"
+    .max(30, "Name cannot be more than 30 characters.")
+    .regex(
+      /^[a-zA-Z0-9 ]*$/,
+      "Name can only contain letters, numbers, and spaces."
     )
     .refine(
-      (phone) => americanDialCodes.some((code) => phone.startsWith(code)),
-      "Invalid dial code"
+      (value) => !/^\s*$/.test(value),
+      "Name cannot contain only whitespace."
+    )
+    .refine(
+      (value) => !/\s{2,}/.test(value),
+      "Name cannot contain more than one consecutive space."
+    ).refine(
+      (value) => value.length >= 3,
+      "Name cannot be empty, must contain at least 3 character."
+    )
+    ,
+
+  description: z
+    .string()
+    .max(300, "Description cannot be more than 300 characters.")
+    .refine(
+      (value) => !/^\s*$/.test(value),
+      "Description cannot contain only whitespace."
+    ).
+    refine(
+      (value) => value.trim().length >= 10,
+      "Description cannot be empty, must contain at least 10 character."
+    )
+    ,
+
+  address: z
+    .string()
+    .max(60, "Address cannot be more than 60 characters.")
+    .regex(
+      /^[a-zA-Z0-9., -]+$/,
+      "Address can only contain letters, numbers, spaces, commas, periods, and hyphens."
+    )
+    .min(8, "Address must be at least 8 characters.")
+    .refine(
+      (value) => !/\s{2,}/.test(value),
+      "Name cannot contain more than one consecutive space."
     ),
+  phoneNumber: z.string().refine(
+    (phone) => {
+      if (phone.length === 0) return false;
+      const parsedPhoneNumber: PhoneNumber | undefined = parsePhoneNumber(
+        `+${phone}`
+      );
+
+      if (parsedPhoneNumber === undefined) {
+        return false;
+      }
+      return isValidPhoneNumber(
+        phone,
+        parsedPhoneNumber.country as CountryCode
+      );
+    },
+    {
+      message: "Please enter a valid and complete phone number.",
+    }
+  ),
   bannerImage: fileSchema,
   profileImage: fileSchema,
   bannerImageUrl: z.string().optional(),
