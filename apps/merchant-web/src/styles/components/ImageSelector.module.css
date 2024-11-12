@@ -1,0 +1,45 @@
+.imageDropzone {
+    width: 100%;
+    height: 268px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageContainer {
+    position: relative;
+}
+
+.imageSelected {
+    width: 240px;
+    height: 240px;
+    margin: 10px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #7790ED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageLimit {
+    width: 240px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #7790ED;
+    padding: 20px;
+    border-radius: 6px;
+    color: #7790ED;
+}
+
+.sideButton {
+    position: absolute;
+    background-color: white;
+    top: 12px;
+    right: 12px;
+    border-radius: 100%;
+}
