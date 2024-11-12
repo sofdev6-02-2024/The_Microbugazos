@@ -1,8 +1,8 @@
 "use client";
 
-import {MdEdit} from "react-icons/md";
 import {useState} from "react";
 import TextFieldStyle from "../styles/components/TextField.module.css"
+import {SquarePen} from "lucide-react";
 
 interface TextFieldProps {
   label?: string;
@@ -68,11 +68,11 @@ const TextField = ({
                         width: '100%',
                     }}
                 />
-                {showIcon && <MdEdit
+                {showIcon && <SquarePen
+                    color="var(--primary-400)"
                     style={{
                         position: 'absolute',
                         right: '35px',
-                        backgroundColor: '#F4F9FF',
                     }}
                 />}
             </div>

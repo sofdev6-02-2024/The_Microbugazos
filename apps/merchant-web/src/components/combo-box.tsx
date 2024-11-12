@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {MdEdit} from "react-icons/md";
+import {SquarePen} from "lucide-react";
 import ComboBoxStyle from "../styles/components/ComboBox.module.css"
 
 interface ComboBoxProps {
@@ -17,7 +17,7 @@ export default function ComboBox({options, value, handleChange}: ComboBoxProps) 
             <div>
                 {value || "Select an option"}
             </div>
-            <MdEdit style={{backgroundColor: '#F4F9FF'}}/>
+            <SquarePen color="var(--primary-400)"/>
           </div>
           {isOpen && (
             <div className={ComboBoxStyle.comboBoxOptions}>
