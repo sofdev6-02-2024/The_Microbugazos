@@ -12,8 +12,9 @@ export class Product {
     brand: string;
     images: Array<Image>;
     variants: Map<string, ProductVariant>;
+    rating: number;
 
-    constructor(id: UUID, storeId: UUID, name: string, description: string, price: number, brand: string, images: Array<Image>, variants: Map<string, ProductVariant>) {
+    constructor(id: UUID, storeId: UUID, name: string, description: string, price: number, brand: string, images: Array<Image>, variants: Map<string, ProductVariant>, rating: number) {
         this.id = id;
         this.storeId = storeId;
         this.name = name;
@@ -22,5 +23,6 @@ export class Product {
         this.brand = brand;
         this.images = images;
         this.variants = variants;
+        this.rating = rating;
     }
 }

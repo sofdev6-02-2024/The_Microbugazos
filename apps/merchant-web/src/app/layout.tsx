@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/header";
+import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Merchant - Ecommerce",
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body>
+      <body>
         <Header isRegistered={false} />
         {children}
       </body>

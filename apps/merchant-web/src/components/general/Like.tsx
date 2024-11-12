@@ -2,6 +2,7 @@
 
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { UUID } from "crypto"
+import '@/styles/general/Like.css'
 
 interface Props {
   productId: UUID;

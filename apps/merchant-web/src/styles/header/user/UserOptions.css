@@ -1,0 +1,35 @@
+.user-options {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 200px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--background-light-secondary);
+  z-index: 1000;
+  display: none;
+}
+
+.user-options.open {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-options-option {
+  width: 100%;
+  background-color: var(--primary-dark);
+  border-radius: 10px;
+  padding: 10px;
+  display: block;
+  color: var(--background-light-secondary);
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  font-size: var(--normal-1-text-size);
+  cursor: pointer;
+}
+
+.user-options-option.log-out {
+  background-color: var(--action-error);
+}

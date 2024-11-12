@@ -1,0 +1,16 @@
+@import url(/src/app/globals.css);
+
+.add-to-cart-button {
+  width: 100%;
+  background-color: var(--secondary-light);
+  border: none;
+  color: var(--background-light-primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 10px;
+  font-size: var(--normal-1-text-size);
+  cursor: pointer;
+}
