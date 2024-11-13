@@ -13,8 +13,6 @@ public class ProductAttributeMap : IEntityTypeConfiguration<ProductAttribute>
         builder.Property(pa => pa.Id).ValueGeneratedOnAdd();
         builder.Property(p => p.Value).IsRequired();
         builder.Property(pa => pa.Value).IsRequired();
-
-        builder.HasQueryFilter(pa => pa.IsActive);
         
         builder.HasOne(pa => pa.ProductVariant)
             .WithMany(pv => pv.Attributes)

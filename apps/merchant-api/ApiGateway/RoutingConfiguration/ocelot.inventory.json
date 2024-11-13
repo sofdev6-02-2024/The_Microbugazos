@@ -21,9 +21,6 @@
         "Host": "inventory_service",
         "Port": 8080
       }
-    ],
-    "AuthenticationOptions": {
-      "AuthenticationProviderKey": "Bearer"
-    }
+    ]
   }
 ]

@@ -10,6 +10,7 @@ public class ProductRepository(InventoryDbContext context) : BaseRepository<Prod
     public override async Task<Product?> GetByIdAsync(Guid id)
     {
         return await DbSet
+            .AsSplitQuery()
             .Include(p => p.Images)
             .Include(p => p.Categories.Where(c => c.IsActive == true))
             .ThenInclude(c => c.ParentCategory)
@@ -25,6 +26,7 @@ public class ProductRepository(InventoryDbContext context) : BaseRepository<Prod
     {
         return await DbSet
             .Where(e => e.IsActive)
+            .AsSplitQuery()
             .Include(p => p.Images)
             .Include(p => p.Categories.Where(c => c.IsActive == true))
             .ThenInclude(c => c.ParentCategory)
@@ -38,7 +40,8 @@ public class ProductRepository(InventoryDbContext context) : BaseRepository<Prod
     
     public override async Task<IEnumerable<Product>> GetAllAsync(int pageNumber, int pageSize)
     {
-        return await DbSet.Where(e => e.IsActive) 
+        return await DbSet.Where(e => e.IsActive)
+            .AsSplitQuery()
             .Include(p => p.Images)
             .Include(p => p.Categories.Where(c => c.IsActive == true))
             .ThenInclude(c => c.ParentCategory)

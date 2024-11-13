@@ -1,0 +1,66 @@
+.formContainer {
+  max-width: 100%;
+  background-color: var(--surface-background);
+  color: var(--primary-400);
+  padding: 20px 20px;
+}
+
+
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.saveButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--primary-400);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: var(--primary-600);
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--surface-background);
+  color: var(--primary-400);
+  border: 1px solid var(--primary-400);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  border: 1px solid var(--primary-600);
+  color: var(--primary-600);
+}
+
+
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: var(--surface-light-100);
+  border-radius: 12px;
+  padding: 0 20px;
+  font-family: var(--ubuntu-font-family);
+  --ubuntu-font-style: normal;
+}
+
+.phonInput {
+  display: none;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
