@@ -1,6 +1,8 @@
 using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.QueryCommands.Categories.Commands.Commands;
 using InventoryService.Application.QueryCommands.Categories.Queries.Queries;
+using InventoryService.Commons.ResponseHandler.Handler.Interfaces;
+using InventoryService.Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,53 +10,62 @@ namespace InventoryService.Api.Controllers;
 
 [ApiController]
 [Route("api/inventory/[controller]")]
-public class CategoryController(IMediator mediator) : ControllerBase
+public class CategoryController(IMediator mediator, IResponseHandlingHelper responseHandlingHelper) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] CreateCategoryDto request)
     {
         var result = await mediator.Send(new CreateCategoryCommand(request));
-
-        return Ok(new Dictionary<string, string>
-        {
-            { "result", result.Id.ToString() }
-        });
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<CategoryDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryDto>> GetById(Guid id)
     {
-        var category = await mediator.Send(new GetCategoryByIdQuery(id));
-        return Ok(category);
+        var result = await mediator.Send(new GetCategoryByIdQuery(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<CategoryDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);    
     }
     
     [HttpGet]
     public async Task<ActionResult<List<CategoryDto>>> GetAll()
     {
         var result = await mediator.Send(new GetAllCategoriesQuery());
-        return Ok(result);
-    }
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<List<CategoryDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto request)
     {
-        if (id != request.Id) return BadRequest();
-        var result = await mediator.Send(new UpdateCategoryCommand(request));
+        if (id != request.Id) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+            "The ID in the route and in the body of the request do not match."));
         
-        return Ok(new Dictionary<string, CategoryDto>
-        {
-            { "result", result }
-        });
+        var result = await mediator.Send(new UpdateCategoryCommand(request));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<CategoryDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
     
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteCategoryCommand(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        return Ok(new Dictionary<string, bool>
-        {
-            { "result", result }
-        });
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
 }
