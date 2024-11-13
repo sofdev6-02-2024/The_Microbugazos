@@ -19,7 +19,7 @@ public class CategoryController(IMediator mediator, IResponseHandlingHelper resp
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        var successResponse = (SuccessResponse<CategoryDto>)result;
+        var successResponse = (SuccessResponse<Guid>)result;
         return StatusCode(successResponse.StatusCode, successResponse);   
     }
     
