@@ -1,9 +1,9 @@
-using InventoryService.Application.Dtos.Categories;
+using InventoryService.Commons.ResponseHandler.Responses.Bases;
 using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Categories.Queries.Queries;
 
-public class GetCategoryByIdQuery(Guid id) : IRequest<CategoryDto?>
+public class GetCategoryByIdQuery(Guid id) : IRequest<BaseResponse>
 {
     public Guid Id { get; set; } = id;
 }
