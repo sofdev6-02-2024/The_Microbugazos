@@ -50,7 +50,6 @@ export default function ProductOptionsModal() {
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 closeButton
-                portal
             >
                 <ModalContent>
                     {(onClose) => (
