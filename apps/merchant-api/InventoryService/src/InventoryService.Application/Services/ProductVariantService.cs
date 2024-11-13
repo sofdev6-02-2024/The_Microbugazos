@@ -61,7 +61,9 @@ public class ProductVariantService(
 
         if (updateDto.Attributes != null)
         {
-            foreach (var attribute in existingProductVariant.Attributes)
+            var attributesList = existingProductVariant.Attributes.ToList();
+
+            foreach (var attribute in attributesList) 
                 await productAttributeRepository.DeleteAsync(attribute.Id);
 
             foreach (var attributeDto in updateDto.Attributes)
