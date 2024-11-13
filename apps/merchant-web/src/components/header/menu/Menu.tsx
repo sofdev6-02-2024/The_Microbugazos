@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MenuButton } from "./MenuButton";
-import SideMenu from "@/components/SideMenu";
+import SideMenu from "@/components/header/menu/SideMenu";
 
 export const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);

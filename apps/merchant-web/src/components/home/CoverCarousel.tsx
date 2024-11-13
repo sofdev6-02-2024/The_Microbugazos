@@ -60,7 +60,7 @@ export const CoverCarousel = () => {
       </div>
       {carousel.map((image, index) => (
         <img
-          key={index}
+          key={`${index}cci`}
           src={image}
           alt={`Cover carousel slide ${index + 1}`}
           className={`cover-carousel-slide ${

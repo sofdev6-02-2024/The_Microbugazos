@@ -1,22 +1,44 @@
-import useNavigate from "@/commons/hooks/UseNavigate";
+"use client"
+
 import "@/styles/header/user/UserOptions.css";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 interface Props {
   isLogged: boolean;
   isOpen: boolean;
   logOut: () => void;
+  toggleMenu: () => void;
 }
 
-export const UserOptions = ({ isLogged, isOpen, logOut }: Props) => {
-  const navigate = useNavigate();
+export const UserOptions = ({ isLogged, isOpen, logOut, toggleMenu }: Props) => {
+  const route = useRouter();
+  const userRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      isOpen &&
+      userRef.current &&
+      !userRef.current.contains(event.target as Node)
+    ) {
+      toggleMenu();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className={`user-options ${isOpen ? "open" : ""}`}>
+    <div className={`user-options ${isOpen ? "open" : ""}`} ref={userRef}>
       {isLogged ? (
         <>
           <button
             onClick={() => {
-              navigate("/profile");
+              route.push("/profile");
             }}
             className="user-options-option"
           >
@@ -29,13 +51,13 @@ export const UserOptions = ({ isLogged, isOpen, logOut }: Props) => {
       ) : (
         <>
           <button
-            onClick={() => navigate("/login")}
+            onClick={() => route.push("/login")}
             className="user-options-option"
           >
             Log in
           </button>
           <button
-            onClick={() => navigate("/signup")}
+            onClick={() => route.push("/signup")}
             className="user-options-option"
           >
             Sign up

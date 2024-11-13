@@ -7,6 +7,8 @@ import { CoverCarousel } from "@/components/home/CoverCarousel";
 
 export default function Home() {
 
+  
+
   return (
     <NextUIProvider>
       <CoverCarousel />

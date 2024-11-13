@@ -1,24 +1,52 @@
+"use client";
+
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { FaRegSadTear } from "react-icons/fa";
 import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
 import "@/styles/header/shoppingCart/shoppingCartList.css";
-import useNavigate from "@/commons/hooks/UseNavigate";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 interface Props {
   items: Array<ShoppingCartItem>;
   isOpen: boolean;
+  toggleOpen: () => void;
 }
 
-export function ShoppingCartList({ items, isOpen }: Readonly<Props>) {
+export function ShoppingCartList({
+  items,
+  isOpen,
+  toggleOpen,
+}: Readonly<Props>) {
+  const route = useRouter();
+  const shoppingCartRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate();
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      isOpen &&
+      shoppingCartRef.current &&
+      !shoppingCartRef.current.contains(event.target as Node)
+    ) {
+      toggleOpen();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleGoShoppingCart = () => {
-    navigate("/shopping-cart");
-  }
+    route.push("/shopping-cart");
+  };
 
   return (
-    <div className={`shopping-cart-list ${isOpen ? 'opened' : ''}`}>
+    <div
+      className={`shopping-cart-list ${isOpen ? "opened" : ""}`}
+      ref={shoppingCartRef}
+    >
       <h2 className="shopping-cart-list-heading">Shopping cart</h2>
       <div className="shopping-cart-list-items-section">
         {items && items.length > 0 ? (

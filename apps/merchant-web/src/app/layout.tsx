@@ -23,7 +23,7 @@ export default function RootLayout({
       <body>
         <OptionsProvider>
           <VariantsProvider>
-            {showComponents && <Header isRegistered={false} />}
+            {showComponents && <Header />}
             <main>{children}</main>
             {showComponents && <Footer />}
           </VariantsProvider>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { UserButton } from "./UserButton";
 import { UserOptions } from "./UserOptions";
 import useAuth from "@/hooks/useAuth";
-import useNavigate from "@/commons/hooks/UseNavigate";
+import { useRouter } from "next/navigation";
 
 interface Props {
   isLogged: boolean;
@@ -13,7 +13,7 @@ interface Props {
 export const UserSession = ({ isLogged }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { signOutHandle } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -21,14 +21,14 @@ export const UserSession = ({ isLogged }: Props) => {
 
   const logOut = () => {
     signOutHandle();
-    navigate("/");
+    router.push("/");
     setIsOpen(false);
   };
 
   return (
     <>
       <UserButton isLogged={isLogged} toggleOpen={toggleOpen} />
-      <UserOptions isLogged={isLogged} isOpen={isOpen} logOut={logOut} />
+      <UserOptions isLogged={isLogged} isOpen={isOpen} logOut={logOut} toggleMenu={toggleOpen} />
     </>
   );
 };

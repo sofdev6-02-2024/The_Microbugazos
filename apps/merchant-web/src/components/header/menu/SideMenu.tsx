@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useRef } from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
