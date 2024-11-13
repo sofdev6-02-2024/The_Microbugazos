@@ -16,7 +16,7 @@ public class GetAllCategoriesQueryHandler(IRepository<Category> categoryReposito
         var totalCategories = await categoryRepository.GetAllAsync();
         var categoriesToDisplay = new HashSet<string>();
         
-        return responseHandlingHelper.Ok("The category were successfully obtained.", (from category in totalCategories
+        return responseHandlingHelper.Ok("Categories have been successfully obtained.", (from category in totalCategories
             where categoriesToDisplay.Add(category.Name)
             let subcategories = category.SubCategories.Where(sc => categoriesToDisplay.Add(sc.Name))
                 .Select(sc => new SubCategoryDto { Name = sc.Name, Id = sc.Id })

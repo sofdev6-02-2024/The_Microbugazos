@@ -23,6 +23,6 @@ public class CreateCategoryCommandHandler(IRepository<Category> categoryReposito
         };
         
         category = await categoryRepository.AddAsync(category);
-        return responseHandlingHelper.Created("The category was added succesfully.", category);
+        return responseHandlingHelper.Created("The category was added successfully.", category.Id);
     }
 }

@@ -23,7 +23,7 @@ public class GetCategoryByIdQueryHandler(IRepository<Category> categoryRepositor
             Name = subCategory.Name,
         }).ToList();
 
-        return responseHandlingHelper.Ok("The category was successfully obtained.",new CategoryDto
+        return responseHandlingHelper.Ok("The category has been successfully obtained.", new CategoryDto
         {
             Name = category.Name,
             Id = category?.Id,

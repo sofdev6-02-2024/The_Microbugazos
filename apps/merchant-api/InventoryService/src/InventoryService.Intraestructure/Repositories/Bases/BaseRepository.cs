@@ -46,6 +46,7 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
     public virtual async Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize)
     {
         return await DbSet.Where(e => e.IsActive) 
+            .OrderBy(e => e.CreatedAt) 
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -65,6 +66,6 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
 
     public virtual async Task<int> GetCountAsync()
     {
-        return await DbSet.CountAsync();
+        return await DbSet.Where(e => e.IsActive).CountAsync();
     }
 }
