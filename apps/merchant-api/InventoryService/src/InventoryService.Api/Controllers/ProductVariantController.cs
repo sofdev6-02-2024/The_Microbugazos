@@ -1,6 +1,9 @@
+using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.ProductVariants.Commands.Commands;
 using InventoryService.Application.QueryCommands.ProductVariants.Queries.Queries;
+using InventoryService.Commons.ResponseHandler.Handler.Interfaces;
+using InventoryService.Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,60 +11,74 @@ namespace InventoryService.Api.Controllers;
 
 [ApiController]
 [Route("api/inventory/[controller]")]
-public class ProductVariantController(IMediator mediator) : ControllerBase
+public class ProductVariantController(IMediator mediator, IResponseHandlingHelper responseHandlingHelper) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] CreateProductVariantDto request)
     {
         var result = await mediator.Send(new CreateProductVariantCommand(request));
-
-        return Ok(new Dictionary<string, string>
-        {
-            { "result", result.ProductVariantId.ToString() }
-        });
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<Guid>)result;
+        return StatusCode(successResponse.StatusCode, successResponse); 
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductVariantDto>> GetById(Guid id)
     {
-        var image = await mediator.Send(new GetProductVariantByIdQuery(id));
-        return Ok(image);
+        var result = await mediator.Send(new GetProductVariantByIdQuery(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<ProductVariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);    
     }
     
     [HttpGet("Product/{id}/Variants")]
     public async Task<ActionResult<List<ProductVariantDto>>> GetAllVariantsByProduct(Guid id, int page = 1, int pageSize = 10)
     {
         var result = await mediator.Send(new GetProductsVariantsBySpecificProductQuery(id, page, pageSize));
-        return Ok(result);
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductVariantDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
     
     [HttpGet]
     public async Task<ActionResult<List<ProductVariantDto>>> GetAll(int page = 1, int pageSize = 10)
     {
         var result = await mediator.Send(new GetAllProductVariantsQuery(page, pageSize));
-        return Ok(result);
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductVariantDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);     
     }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductVariantDto request)
     {
-        if (id != request.ProductVariantId) return BadRequest();
-        var result = await mediator.Send(new UpdateProductVariantCommand(request));
+        if (id != request.ProductVariantId) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+            "The ID in the route and in the body of the request do not match."));
         
-        return Ok(new Dictionary<string, ProductVariantDto>
-        {
-            { "result", result }
-        });
+        var result = await mediator.Send(new UpdateProductVariantCommand(request));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<ProductVariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteProductVariantCommand(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        return Ok(new Dictionary<string, bool>
-        {
-            { "result", result }
-        });
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);  
     }
 }
