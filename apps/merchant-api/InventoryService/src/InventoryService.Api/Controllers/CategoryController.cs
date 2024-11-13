@@ -42,7 +42,8 @@ public class CategoryController(IMediator mediator, IResponseHandlingHelper resp
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
         var successResponse = (SuccessResponse<List<CategoryDto>>)result;
-        return StatusCode(successResponse.StatusCode, successResponse);      }
+        return StatusCode(successResponse.StatusCode, successResponse);      
+    }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto request)

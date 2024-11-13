@@ -1,6 +1,8 @@
 using InventoryService.Application.Dtos.Variants;
 using InventoryService.Application.QueryCommands.Variants.Commands.Commands;
 using InventoryService.Application.QueryCommands.Variants.Queries.Queries;
+using InventoryService.Commons.ResponseHandler.Handler.Interfaces;
+using InventoryService.Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,53 +10,63 @@ namespace InventoryService.Api.Controllers;
 
 [ApiController]
 [Route("api/inventory/[controller]")]
-public class VariantController(IMediator mediator) : ControllerBase
+public class VariantController(IMediator mediator, IResponseHandlingHelper responseHandlingHelper) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] CreateVariantDto request)
     {
         var result = await mediator.Send(new CreateVariantCommand(request));
-
-        return Ok(new Dictionary<string, string>
-        {
-            { "result", result.Id.ToString() }
-        });
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<Guid>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<VariantDto>> GetById(Guid id)
     {
-        var image = await mediator.Send(new GetVariantByIdQuery(id));
-        return Ok(image);
+        var result = await mediator.Send(new GetVariantByIdQuery(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<VariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      
     }
     
     [HttpGet]
     public async Task<ActionResult<List<VariantDto>>> GetAll()
     {
         var result = await mediator.Send(new GetAllVariantsQuery());
-        return Ok(result);
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<List<VariantDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);    
     }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateVariantDto request)
     {
-        if (id != request.Id) return BadRequest();
-        var result = await mediator.Send(new UpdateVariantCommand(request));
+        if (id != request.Id) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+            "The ID in the route and in the body of the request do not match."));
         
-        return Ok(new Dictionary<string, VariantDto>
-        {
-            { "result", result }
-        });
+        var result = await mediator.Send(new UpdateVariantCommand(request));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<VariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteVariantCommand(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        return Ok(new Dictionary<string, bool>
-        {
-            { "result", result }
-        });
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
 }
