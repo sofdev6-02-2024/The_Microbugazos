@@ -20,6 +20,7 @@ public class ProductAttributeRepository(InventoryDbContext context) : BaseReposi
     public override async Task<ProductAttribute?> GetByIdAsync(Guid id)
     {
         return await DbSet
+            .Where(e => e.IsActive)
             .Include(c => c.Variant)          
             .Include(c => c.ProductVariant)         
             .FirstOrDefaultAsync(c => c.Id == id);  

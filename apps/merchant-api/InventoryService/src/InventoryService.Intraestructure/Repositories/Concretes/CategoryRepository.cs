@@ -20,6 +20,7 @@ public class CategoryRepository(InventoryDbContext context) : BaseRepository<Cat
     public override async Task<Category?> GetByIdAsync(Guid id)
     {
         return await DbSet
+            .Where(e => e.IsActive)
             .Include(c => c.ParentCategory)          
             .Include(c => c.SubCategories)         
             .FirstOrDefaultAsync(c => c.Id == id);  

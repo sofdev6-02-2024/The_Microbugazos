@@ -1,6 +1,8 @@
+using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
+using InventoryService.Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,36 +16,43 @@ public class ProductController(IMediator mediator) : ControllerBase
     public async Task<ActionResult> Create([FromBody] CreateProductDto request)
     {
         var result = await mediator.Send(new CreateProductCommand(request));
-
-        return Ok(new Dictionary<string, string>
-        {
-            { "result", result }
-        });
-
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<Guid>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);   
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetById(Guid id)
     {
-        var image = await mediator.Send(new GetProductByIdQuery(id));
-        return Ok(image);
+        var result = await mediator.Send(new GetProductByIdQuery(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<ProductDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      
     }
     
     [HttpGet]
     public async Task<ActionResult<List<ProductDto>>> GetAll(int page = 1, int pageSize = 10)
     {
         var result = await mediator.Send(new GetAllProductsQuery(page, pageSize));
-        return Ok(result);
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteProductCommand(id));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        return Ok(new Dictionary<string, bool>
-        {
-            { "result", result }
-        });
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);  
     }
 }
