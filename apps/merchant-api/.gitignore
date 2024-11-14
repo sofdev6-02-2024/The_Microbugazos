@@ -65,6 +65,7 @@ coverage/
 # Ignore Node.js dependencies (if applicable)
 node_modules/
 
+**/Migrations
 
 # api gateway - tmp files
 ocelot.json

@@ -80,7 +80,6 @@ export default function VariantModal({item}) {
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 closeButton
-                portal
             >
                 <ModalContent>
                     {(onClose) => (
