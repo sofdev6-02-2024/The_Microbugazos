@@ -1,4 +1,4 @@
-using InventoryService.Commons.ResponseHandler.Responses.Bases;
+using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Categories.Commands.Commands;

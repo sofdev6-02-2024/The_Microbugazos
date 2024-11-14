@@ -1,8 +1,8 @@
+using Commons.ResponseHandler.Responses.Concretes;
 using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
-using InventoryService.Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

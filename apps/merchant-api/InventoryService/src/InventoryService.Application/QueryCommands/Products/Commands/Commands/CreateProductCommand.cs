@@ -1,5 +1,5 @@
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos.Products;
-using InventoryService.Commons.ResponseHandler.Responses.Bases;
 using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Commands.Commands;
