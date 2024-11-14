@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
@@ -5,11 +7,15 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Commands.CommandHandlers;
 
-public class DeleteProductCommandHandler(IRepository<Product> productRepository)
-    : IRequestHandler<DeleteProductCommand, bool>
+public class DeleteProductCommandHandler(IRepository<Product> productRepository, IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<DeleteProductCommand, BaseResponse>
 {
-    public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
-        return await productRepository.DeleteAsync(request.Id);
+        var product = await productRepository.GetByIdAsync(request.Id);
+        if (product == null) return responseHandlingHelper.NotFound<Category>($"The product with the follow id '{request.Id}' was not found.");
+
+        var response = await productRepository.DeleteAsync(request.Id);
+        return responseHandlingHelper.Ok("The product has been successfully deleted.", response); 
     }
 }

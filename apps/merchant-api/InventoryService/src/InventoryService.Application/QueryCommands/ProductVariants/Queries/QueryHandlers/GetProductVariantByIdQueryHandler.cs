@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.ProductVariants.Queries.Queries;
 using InventoryService.Domain.Concretes;
@@ -6,17 +8,18 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.ProductVariants.Queries.QueryHandlers;
 
-public class GetProductVariantByIdQueryHandler(IRepository<ProductVariant> productVariantRepository)
-    : IRequestHandler<GetProductVariantByIdQuery, ProductVariantDto?>
+public class GetProductVariantByIdQueryHandler(IRepository<ProductVariant> productVariantRepository, 
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<GetProductVariantByIdQuery, BaseResponse>
 {
-    public async Task<ProductVariantDto?> Handle(GetProductVariantByIdQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(GetProductVariantByIdQuery request, CancellationToken cancellationToken)
     {
         var existingProductVariant = await productVariantRepository.GetByIdAsync(request.Id);
         if (existingProductVariant == null)
-            throw new KeyNotFoundException($"Product variant with ID {request.Id} not found."); 
+            return responseHandlingHelper.NotFound<ProductVariantDto>("The product variant with the follow id " + request.Id + " was not found");
         
         var variantImageDto = new ProductVariantImageDto { AltText = existingProductVariant.Image?.AltText!, Url = existingProductVariant.Image?.Url! };
-        return new ProductVariantDto
+        return responseHandlingHelper.Ok("The product variant has been successfully obtained.", new ProductVariantDto
         {
             ProductVariantId = existingProductVariant.Id,
             ProductVariantImage = variantImageDto,
@@ -26,9 +29,9 @@ public class GetProductVariantByIdQueryHandler(IRepository<ProductVariant> produ
             Attributes = existingProductVariant.Attributes.Select(currentProductAttribute => new GetProductVariantAttributeDto
             {
                 ProductVariantAttributeId = currentProductAttribute.Id,
-                Name = currentProductAttribute.Variant.Name,
+                Name = currentProductAttribute.Variant?.Name!,
                 Value = currentProductAttribute.Value
             }).ToList()
-        };
+        });
     }
 }

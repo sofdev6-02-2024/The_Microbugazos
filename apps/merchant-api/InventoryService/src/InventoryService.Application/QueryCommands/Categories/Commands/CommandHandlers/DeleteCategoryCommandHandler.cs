@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.QueryCommands.Categories.Commands.Commands;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
@@ -5,11 +7,15 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Categories.Commands.CommandHandlers;
 
-public class DeleteCategoryCommandHandler(IRepository<Category> categoryRepository) : 
-    IRequestHandler<DeleteCategoryCommand, bool>
+public class DeleteCategoryCommandHandler(IRepository<Category> categoryRepository, IResponseHandlingHelper responseHandlingHelper) : 
+    IRequestHandler<DeleteCategoryCommand, BaseResponse>
 {
-    public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        return await categoryRepository.DeleteAsync(request.Id);
+        var category = await categoryRepository.GetByIdAsync(request.Id);
+        if (category == null) return responseHandlingHelper.NotFound<Category>($"The category with the follow id '{request.Id}' was not found.");
+
+        var response = await categoryRepository.DeleteAsync(request.Id);
+        return responseHandlingHelper.Ok("The category has been successfully deleted.", response);
     }
 }

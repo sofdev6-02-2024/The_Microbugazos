@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
@@ -8,23 +10,24 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Queries.QueryHandlers;
 
-public class GetAllProductsQueryHandler(IRepository<Product> productRepository, ProductService productService)
-    : IRequestHandler<GetAllProductsQuery, PaginatedResponseDto<ProductDto>>
+public class GetAllProductsQueryHandler(IRepository<Product> productRepository, 
+    ProductService productService, 
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<GetAllProductsQuery, BaseResponse>
 {
-    public async Task<PaginatedResponseDto<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
         var totalProducts = await productRepository.GetAllAsync(request.Page, request.PageSize);
-        var count = await productRepository.GetCountAsync();
-        
         var totalProductsDto = totalProducts.Select(
             product => productService.GetProductDtoByProduct(product).Result).ToList();
         
-        return new PaginatedResponseDto<ProductDto>
+        var productsToDisplay = new PaginatedResponseDto<ProductDto>
         {
             Items = totalProductsDto, 
-            TotalCount = count, 
+            TotalCount = totalProductsDto.Count, 
             Page = request.Page, 
             PageSize = request.PageSize
         };
+        return responseHandlingHelper.Ok("Products have been successfully obtained.", productsToDisplay);    
     }
 }

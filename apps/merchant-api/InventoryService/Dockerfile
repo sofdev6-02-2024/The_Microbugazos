@@ -6,6 +6,7 @@ COPY InventoryService/src/InventoryService.Application/InventoryService.Applicat
 COPY InventoryService/src/InventoryService.Intraestructure/InventoryService.Intraestructure.csproj InventoryService/src/InventoryService.Intraestructure/
 COPY InventoryService/src/InventoryService.Domain/InventoryService.Domain.csproj InventoryService/src/InventoryService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
+COPY MerchantCommon/Commons/Commons.csproj MerchantCommon/Commons/
 
 WORKDIR /app/InventoryService/src/InventoryService.Api
 RUN dotnet restore
@@ -15,6 +16,7 @@ COPY InventoryService/src/InventoryService.Application/. ../InventoryService.App
 COPY InventoryService/src/InventoryService.Intraestructure/. ../InventoryService.Intraestructure/
 COPY InventoryService/src/InventoryService.Domain/. ../InventoryService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
+COPY MerchantCommon/Commons/. /app/MerchantCommon/Commons/
 
 RUN dotnet publish -c Release -o /app/out
 
