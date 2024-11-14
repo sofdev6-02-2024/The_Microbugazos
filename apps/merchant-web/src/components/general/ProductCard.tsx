@@ -7,6 +7,7 @@ import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
 import "@/styles/general/ProductCard.css";
 import Product from "@/commons/entities/concretes/Product";
+import { useProductPopUp } from "@/commons/context/PopUpContext";
 
 interface Props {
   product: Product;
@@ -15,6 +16,13 @@ interface Props {
 
 export const ProductCard = ({ product, type }: Props) => {
   const [isLiked, setIsLiked] = useState(false);
+  const { openProductPopUp } = useProductPopUp();
+
+  const handleProductClick = () => {
+    console.clear();
+    console.log(product);
+    openProductPopUp(product);
+  };
 
   return (
     <div className={`product-card ${type}`}>
@@ -23,22 +31,23 @@ export const ProductCard = ({ product, type }: Props) => {
         alt={product.images[0].altText}
         className="product-card-image"
       />
-      <a href={`http://localhost:3000/product/${product.id}`} className="product-card-name">{product.name}</a>
+      <a
+        href={`http://localhost:3000/product/${product.id}`}
+        className="product-card-name"
+      >
+        {product.name}
+      </a>
       <div className="product-card-info">
         <p className="product-card-price">
           <span className="product-card-price-symbol">$</span> {product.price}
         </p>
         <p className="product-card-rating">
-          <MdOutlineStar /> {product.productReviews ? product.productReviews.length : 0}
+          <MdOutlineStar />{" "}
+          {product.productReviews ? product.productReviews.length : 0}
         </p>
       </div>
       <div className="product-card-more-actions">
-        <AddToCart
-          product={product}
-          action={(product: Product) => {
-            console.log(product);
-          }}
-        />
+        <AddToCart product={product} action={handleProductClick} />
         <Like
           productId={product.id}
           isLiked={isLiked}

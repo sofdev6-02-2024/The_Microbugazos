@@ -7,17 +7,17 @@ import ProductAttribute from "./ProductAttribute";
 export default class ProductVariant extends EntityBase {
   productId: UUID;
   imageId: UUID | null;
-  priceAdjusment: number;
+  priceAdjustment: number;
   stockQuantity: number;
   product: Product | null;
   image: Image | null;
   attributes: Array<ProductAttribute>;
 
-  constructor(id: UUID, productId: UUID, imageId: UUID | null, priceAdjusment: number, stockQuantity: number, product: Product, image: Image, attributes: Array<ProductAttribute>) {
+  constructor(id: UUID, productId: UUID, imageId: UUID | null, priceAdjustment: number, stockQuantity: number, product: Product, image: Image, attributes: Array<ProductAttribute>) {
     super(id);
     this.productId = productId;
     this.imageId = imageId;
-    this.priceAdjusment = priceAdjusment;
+    this.priceAdjustment = priceAdjustment;
     this.stockQuantity = stockQuantity;
     this.product = product;
     this.image = image;

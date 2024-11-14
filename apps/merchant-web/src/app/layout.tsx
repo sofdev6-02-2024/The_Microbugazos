@@ -6,6 +6,8 @@ import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
+import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
+import { ProductPopUp } from "@/components/general/ProductPopUp";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 
@@ -19,13 +21,16 @@ export default function RootLayout({
     pathname !== null && !EXCLUDED_ROUTES.includes(pathname);
 
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <OptionsProvider>
           <VariantsProvider>
-            {showComponents && <Header />}
-            <main>{children}</main>
-            {showComponents && <Footer />}
+            <ProductPopUpProvider>
+              <ProductPopUp />
+              {showComponents && <Header />}
+              <main>{children}</main>
+              {showComponents && <Footer />}
+            </ProductPopUpProvider>
           </VariantsProvider>
         </OptionsProvider>
       </body>
