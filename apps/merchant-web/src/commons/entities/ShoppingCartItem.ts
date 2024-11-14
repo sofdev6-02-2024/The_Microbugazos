@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import ProductVariant from "./ProductVariant";
+import ProductVariant from "./concretes/ProductVariant";
 
 class ShoppingCartItem {
   id: UUID;

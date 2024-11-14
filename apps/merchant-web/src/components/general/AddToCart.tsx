@@ -1,5 +1,5 @@
 import { MdAddShoppingCart } from "react-icons/md";
-import { Product } from "@/commons/entities/Product"
+import Product from "@/commons/entities/concretes/Product"
 import '@/styles/general/AddToCart.css'
 
 interface Props {

@@ -24,6 +24,8 @@
   font-size: var(--normal-2-text-size);
   color: var(--primary-dark);
   text-decoration: none;
+  border: none;
+  background-color: transparent;
 }
 
 .products-carousel-section {

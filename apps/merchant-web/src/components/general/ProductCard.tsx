@@ -1,12 +1,12 @@
 "use client";
 
 import { ListType } from "@/commons/entities/ListType";
-import { Product } from "@/commons/entities/Product";
 import { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
 import "@/styles/general/ProductCard.css";
+import Product from "@/commons/entities/concretes/Product";
 
 interface Props {
   product: Product;
@@ -29,7 +29,7 @@ export const ProductCard = ({ product, type }: Props) => {
           <span className="product-card-price-symbol">$</span> {product.price}
         </p>
         <p className="product-card-rating">
-          <MdOutlineStar /> {product.rating}
+          <MdOutlineStar /> {product.productReviews ? product.productReviews.length : 0}
         </p>
       </div>
       <div className="product-card-more-actions">

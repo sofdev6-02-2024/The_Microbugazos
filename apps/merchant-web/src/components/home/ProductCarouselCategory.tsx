@@ -1,20 +1,43 @@
 "use client";
 
-import Product from "@/commons/entities/concretes/Product";
+import Product from "@/commons/entities/concretes/Product"
 import "@/styles/general/ProductsCarousel.css";
-import { ProductCard } from "./ProductCard";
 import { ListType } from "@/commons/entities/ListType";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useEffect } from "react";
+import { UUID } from "crypto";
+import { ProductCard } from "../general/ProductCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Props {
   title: string;
-  products: Array<Product>;
-  url: string;
+  categoryId: UUID;
 }
 
-export const ProductsCarousel = ({ title, products, url }: Props) => {
+export const ProductsCarouselByCategory = ({ title, categoryId }: Props) => {
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const router = useRouter();
+
+  const getProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/api/products');
+      setProducts(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const goCategory = () => {
+    router.push(`/product/category/${title}`);
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, [categoryId]);
+
   const breakpoints = {
     300: {
       slidesPerView: 1,
@@ -33,17 +56,13 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
     },
   };
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   return (
     <div className="products-carousel">
       <div className="products-carousel-header">
         <h2 className="products-carousel-header-title">{title}</h2>
-        <a className="products-carousel-header-link" href={url}>
+        <button className="products-carousel-header-link" onClick={goCategory}>
           More products
-        </a>
+        </button>
       </div>
       <div className="products-carousel-section">
         <Swiper
@@ -52,7 +71,7 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
           className="mySwiper"
         >
           {products && products.length > 0 ? (
-            products.map((product) => {
+            products.map(product => {
               return (
                 <SwiperSlide key={`${product.id}slide`} className="">
                   <ProductCard
