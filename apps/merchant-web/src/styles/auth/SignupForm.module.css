@@ -148,7 +148,6 @@
 }
 
 .logo {
-  width: 100%;
   padding: 1%;
   object-fit: contain;
 }
@@ -186,12 +185,12 @@
   .rightSection {
     border-top-right-radius: 2.5rem;
     background-image: none;
-    padding: 2.3rem;
-    gap: 0.5rem;
+    padding: 3rem;
+    gap: 0.1rem;
     margin-right: auto;
   }
   .leftSection {
-    padding: 5vh 10% 1vh;
+    padding: 3vh 10% 1vh;
     border-bottom-left-radius: 2.5rem;
   }
   .logo {
@@ -203,7 +202,7 @@
     padding-bottom: 1rem;
   }
   .form {
-    gap: 1rem;
+    gap: 0.1rem;
   }
   .loginSection {
     flex-direction: row;

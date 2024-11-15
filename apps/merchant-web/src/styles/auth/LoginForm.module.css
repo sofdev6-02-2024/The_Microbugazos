@@ -154,7 +154,6 @@
 }
 
 .logo {
-    width: 100%;
     padding: 1%;
     object-fit: contain;
 }
@@ -227,7 +226,7 @@
         border-bottom-left-radius: 2.5rem;
         background-image: none;
         padding: 5rem;
-        gap: 0.5rem;
+        gap: 0.1rem;
         margin-right: auto;
     }
     .rightSection {
@@ -235,7 +234,6 @@
         border-top-right-radius: 2.5rem;
     }
     .logo {
-        width: 100%;
         height: 8vh;
     }
     .welcomeText {
@@ -243,13 +241,13 @@
         padding-bottom: 1rem;
     }
     .form {
-        gap: 1rem;
+        gap: 0.1rem;
     }
     .signupSection {
         flex-direction: row;
         align-items: center;
         gap: 1rem;
-        padding-bottom: 4rem;
+        padding-bottom: 1rem;
     }
     .signupSection p {
         margin-right: 1rem;

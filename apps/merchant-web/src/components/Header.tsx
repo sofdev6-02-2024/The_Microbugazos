@@ -12,6 +12,7 @@ import SideMenu from "@/components/SideMenu";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { Option } from "@/components/Option";
 import { IoLogOutOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
     const {user, loading, signOutHandle} = useAuth();
@@ -104,9 +105,8 @@ const Header = () => {
                         </button>
                         {isProfileMenuOpen && (
                             <div className={styles.profileMenu}>
-                                <div onClick={handleLogout}>
-                                    <Option icon={IoLogOutOutline} text="Logout" />
-                                </div>
+                                <div onClick={() => router.push('/profile')}><Option icon={CgProfile} text="Profile"/></div>
+                                <div onClick={handleLogout}><Option icon={IoLogOutOutline} text="Logout"/></div>
                             </div>
                         )}
                     </div>
