@@ -39,4 +39,18 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
         }
         return Ok(_mapper.Map<UserDto>(user));
     }
+    
+    [HttpPut]
+    public async Task<ActionResult<UserDto>> UpdateUser(Guid id, [FromBody] UpdateUserDto updateUserDto)
+    {
+        var updateUserCommand = new UpdateUserCommand
+        {
+            Id = id,
+            Name = updateUserDto.Name,
+            Email = updateUserDto.Email,
+        };
+
+        var updatedUser = await _mediator.Send(updateUserCommand);
+        return Ok(_mapper.Map<UserDto>(updatedUser));
+    }
 }
