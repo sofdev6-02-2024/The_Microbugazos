@@ -105,7 +105,7 @@ export default function ProductDetails() {
                 gap: "16px",
                 height: "inherit"
             }}>
-                <h1 style={{color: "#000"}}>{product!.name}</h1>
+                <h1 style={{color: "#000", fontFamily: "Montserrat, serif", fontSize: "28px", fontWeight: "bold"}}>{product!.name}</h1>
                 <RatingSelector rating={2.5}></RatingSelector>
                 <label style={{
                     fontSize: "20px",
@@ -146,6 +146,7 @@ export default function ProductDetails() {
                         justifyContent: "space-between",
                         alignContent: "center",
                         flexWrap: "wrap",
+                        gap: "16px",
                 }}>
                     <QuantitySelector></QuantitySelector>
                     <button

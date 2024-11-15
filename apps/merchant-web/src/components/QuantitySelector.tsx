@@ -31,7 +31,7 @@ export default function QuantitySelector() {
             <button
                 onClick={handleQuantityDecrement}
                 style={{
-                    padding: "4px 12px 4px 12px",
+                    padding: "0px 12px 0px 12px",
                     fontSize: "32px",
                     backgroundColor: "transparent",
                     border: "none",
@@ -47,7 +47,7 @@ export default function QuantitySelector() {
             <button
                 onClick={handleQuantityIncrement}
                 style={{
-                    padding: "4px 12px 4px 12px",
+                    padding: "0px 12px 0px 12px",
                     fontSize: "32px",
                     backgroundColor: "transparent",
                     border: "none",
