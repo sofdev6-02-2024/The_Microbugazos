@@ -1,7 +1,6 @@
-@import url(/src/app/globals.css);
-
 .add-to-cart-button {
   width: 100%;
+  min-height: 30px;
   background-color: var(--secondary-light);
   border: none;
   color: var(--background-light-primary);
