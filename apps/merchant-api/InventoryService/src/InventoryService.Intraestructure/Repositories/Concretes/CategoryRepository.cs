@@ -22,7 +22,8 @@ public class CategoryRepository(InventoryDbContext context) : BaseRepository<Cat
         return await DbSet
             .Where(e => e.IsActive)
             .Include(c => c.ParentCategory)          
-            .Include(c => c.SubCategories)         
+            .Include(c => c.SubCategories)
+            .Include(c => c.Products)
             .FirstOrDefaultAsync(c => c.Id == id);  
     }
 

@@ -35,7 +35,7 @@ public class ProductVariantController(IMediator mediator, IResponseHandlingHelpe
         return StatusCode(successResponse.StatusCode, successResponse);    
     }
     
-    [HttpGet("Product/{id}/Variants")]
+    [HttpGet("Product/{id}")]
     public async Task<ActionResult<List<ProductVariantDto>>> GetAllVariantsByProduct(Guid id, int page = 1, int pageSize = 10)
     {
         var result = await mediator.Send(new GetProductsVariantsBySpecificProductQuery(id, page, pageSize));
