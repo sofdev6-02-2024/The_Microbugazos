@@ -1,4 +1,5 @@
-using InventoryService.Application.Dtos.ProductVariants;
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.QueryCommands.ProductVariants.Commands.Commands;
 using InventoryService.Application.Services;
 using InventoryService.Domain.Concretes;
@@ -9,17 +10,19 @@ namespace InventoryService.Application.QueryCommands.ProductVariants.Commands.Co
 
 public class UpdateProductVariantCommandHandler(
     IRepository<ProductVariant> productVariantRepository,
-    ProductVariantService productVariantService)
-    : IRequestHandler<UpdateProductVariantCommand, ProductVariantDto>
+    ProductVariantService productVariantService, 
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<UpdateProductVariantCommand, BaseResponse>
 {
-    public async Task<ProductVariantDto> Handle(UpdateProductVariantCommand request,
+    public async Task<BaseResponse> Handle(UpdateProductVariantCommand request,
         CancellationToken cancellationToken)
     {
         var updateDto = request.ProductVariant;
         var existingProductVariant = await productVariantRepository.GetByIdAsync(updateDto.ProductVariantId);
-        if (existingProductVariant == null)
-            throw new KeyNotFoundException($"Product variant with ID {updateDto.ProductVariantId} not found.");
+        if (existingProductVariant == null) return responseHandlingHelper.NotFound<ProductVariant>(
+            $"The product variant with the follow id '{updateDto.ProductVariantId}' was not found.");
         
-        return await productVariantService.UpdateProductVariant(updateDto, existingProductVariant);
+        var productVariantToDisplay = await productVariantService.UpdateProductVariant(updateDto, existingProductVariant);
+        return responseHandlingHelper.Ok("The product variant has been successfully updated.", productVariantToDisplay);
     }
 }

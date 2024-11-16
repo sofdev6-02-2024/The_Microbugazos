@@ -10,6 +10,7 @@ public class ProductRepository(InventoryDbContext context) : BaseRepository<Prod
     public override async Task<Product?> GetByIdAsync(Guid id)
     {
         return await DbSet
+            .Where(e => e.IsActive)
             .AsSplitQuery()
             .Include(p => p.Images)
             .Include(p => p.Categories.Where(c => c.IsActive == true))

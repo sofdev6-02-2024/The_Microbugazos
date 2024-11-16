@@ -10,6 +10,7 @@ public class ProductVariantRepository(InventoryDbContext context) : BaseReposito
     public override async Task<ProductVariant?> GetByIdAsync(Guid id)
     {
         return await DbSet
+            .Where(e => e.IsActive)
             .AsSplitQuery()
             .Include(c => c.Attributes)
             .ThenInclude(pv => pv.Variant)

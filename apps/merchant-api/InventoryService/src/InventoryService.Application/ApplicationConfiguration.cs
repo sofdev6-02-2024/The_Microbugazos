@@ -1,5 +1,6 @@
+using Commons.ResponseHandler.Handler.Concretes;
+using Commons.ResponseHandler.Handler.Interfaces;
 using InventoryService.Application.Dtos.Images;
-using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.Services;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Concretes;
@@ -22,6 +23,8 @@ public static class ApplicationConfiguration
         services.AddScoped<IRepository<ProductReview>, ProductReviewRepository>();
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
+        
+        services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
         
         services.AddTransient<ProductVariantService>();
         services.AddTransient<ProductService>();

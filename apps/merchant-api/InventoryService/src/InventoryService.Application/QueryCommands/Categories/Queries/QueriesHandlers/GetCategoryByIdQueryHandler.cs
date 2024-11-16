@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.QueryCommands.Categories.Queries.Queries;
 using InventoryService.Domain.Concretes;
@@ -6,23 +8,26 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Categories.Queries.QueriesHandlers;
 
-public class GetCategoryByIdQueryHandler(IRepository<Category> categoryRepository)
-: IRequestHandler<GetCategoryByIdQuery, CategoryDto?>
+public class GetCategoryByIdQueryHandler(IRepository<Category> categoryRepository, IResponseHandlingHelper responseHandlingHelper)
+: IRequestHandler<GetCategoryByIdQuery, BaseResponse>
 {
-    public async Task<CategoryDto?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var category = await categoryRepository.GetByIdAsync(request.Id);
-        var subcategories = category?.SubCategories.Select(subCategory => new SubCategoryDto
+        if (category == null)
+            return responseHandlingHelper.NotFound<CategoryDto>("The category with the follow id " + request.Id + " was not found");
+        
+        var subcategories = category.SubCategories.Select(subCategory => new SubCategoryDto
         {
             Id = subCategory.Id,
             Name = subCategory.Name,
         }).ToList();
 
-        return new CategoryDto
+        return responseHandlingHelper.Ok("The category has been successfully obtained.", new CategoryDto
         {
-            Name = category?.Name,
+            Name = category.Name,
             Id = category?.Id,
             SubCategories = subcategories
-        };
+        }); 
     }
 }

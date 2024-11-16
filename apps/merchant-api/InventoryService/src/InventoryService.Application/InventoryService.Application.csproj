@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryService.Intraestructure\InventoryService.Intraestructure.csproj" />
+    <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
   </ItemGroup>
 
 </Project>

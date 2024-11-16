@@ -1,3 +1,6 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
+using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.Services;
@@ -11,10 +14,11 @@ public class CreateProductCommandHandler(
     IRepository<Product> productRepository,
     IRepository<Category> categoryRepository,
     IRepository<Image> imageRepository,
-    ProductVariantService productVariantService) :
-    IRequestHandler<CreateProductCommand, string>
+    ProductVariantService productVariantService, 
+    IResponseHandlingHelper responseHandlingHelper) :
+    IRequestHandler<CreateProductCommand, BaseResponse>
 {
-    public async Task<string> Handle(CreateProductCommand request,
+    public async Task<BaseResponse> Handle(CreateProductCommand request,
         CancellationToken cancellationToken)
     {
         var productDto = request.ProductDto;
@@ -22,7 +26,8 @@ public class CreateProductCommandHandler(
         foreach (var categoryId in productDto.CategoryIds)
         {
             var categoryToAdd = await categoryRepository.GetByIdAsync(categoryId);
-            if (categoryToAdd == null) throw new NullReferenceException($"Category with id {categoryId} not found");
+            if (categoryToAdd == null) return responseHandlingHelper.NotFound<CategoryDto>(
+                "The category with the follow id " + categoryId + " was not found");
             categories.Add(categoryToAdd);
         }
         
@@ -54,6 +59,6 @@ public class CreateProductCommandHandler(
             await productVariantService.CreateProductVariant(createProductVariantDto, productToAdd.Id);
         }
 
-        return productToAdd.Id.ToString();
+        return responseHandlingHelper.Created("The product was added successfully.", productToAdd.Id);
     }
 }

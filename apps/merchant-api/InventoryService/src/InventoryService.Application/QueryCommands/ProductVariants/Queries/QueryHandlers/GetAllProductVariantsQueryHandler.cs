@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.ProductVariants.Queries.Queries;
@@ -7,13 +9,13 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.ProductVariants.Queries.QueryHandlers;
 
-public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> productVariantRepository)
-    : IRequestHandler<GetAllProductVariantsQuery, PaginatedResponseDto<ProductVariantDto>>
+public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> productVariantRepository, 
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<GetAllProductVariantsQuery, BaseResponse>
 {
-    public async Task<PaginatedResponseDto<ProductVariantDto>> Handle(GetAllProductVariantsQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(GetAllProductVariantsQuery request, CancellationToken cancellationToken)
     {
         var totalProductVariants = await productVariantRepository.GetAllAsync(request.Page, request.PageSize);
-        var count = await productVariantRepository.GetCountAsync();
         var totalProductVariantDto = totalProductVariants.Select(existingProductVariant => new ProductVariantDto
             {
                 ProductVariantId = existingProductVariant.Id,
@@ -29,12 +31,13 @@ public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> produ
                     Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
-        return new PaginatedResponseDto<ProductVariantDto>
+        
+        return responseHandlingHelper.Ok("Product variants have been successfully obtained.", new PaginatedResponseDto<ProductVariantDto>
         {
             Items = totalProductVariantDto, 
-            TotalCount = count, 
+            TotalCount = totalProductVariantDto.Count, 
             Page = request.Page, 
             PageSize = request.PageSize
-        };
+        });
     }
 }
