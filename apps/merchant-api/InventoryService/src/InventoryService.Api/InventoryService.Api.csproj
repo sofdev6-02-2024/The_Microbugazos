@@ -28,4 +28,8 @@
     <ProjectReference Include="..\..\..\MerchantCommon\RabbitMqMessaging\RabbitMqMessaging.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="validationSettings.json" />
+  </ItemGroup>
+
 </Project>
