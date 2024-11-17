@@ -1,0 +1,6 @@
+{
+  "Category": {
+    "NameMinLength": 3,
+    "NameMaxLength": 50
+  }
+}

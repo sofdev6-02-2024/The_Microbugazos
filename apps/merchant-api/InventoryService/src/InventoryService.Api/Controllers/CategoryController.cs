@@ -1,6 +1,8 @@
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Concretes;
+using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Categories;
+using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Categories.Commands.Commands;
 using InventoryService.Application.QueryCommands.Categories.Queries.Queries;
 using MediatR;
@@ -42,6 +44,17 @@ public class CategoryController(IMediator mediator, IResponseHandlingHelper resp
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
         var successResponse = (SuccessResponse<List<CategoryDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      
+    }
+    
+    [HttpGet("{id}/Products")]
+    public async Task<ActionResult<List<ProductDto>>> GetAllProductsBySpecificCategory(Guid id, int page = 1, int pageSize = 10)
+    {
+        var result = await mediator.Send(new GetProductsBySpecificCategoryQuery(id, page, pageSize));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);      
     }
     
