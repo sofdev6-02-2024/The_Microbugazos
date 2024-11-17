@@ -5,30 +5,16 @@ import "./page.css";
 import { CoverCarousel } from "@/components/home/CoverCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ProductsCarouselByCategory } from "@/components/home/ProductCarouselCategory";
-import Category from "@/commons/entities/concretes/Category";
 
 export default function Home() {
-  const [categories, setCategories] = useState<Category[]>([]);
   const [productsRecommendations, setProductsRecommendations] = useState([]);
-
-  const getCategories = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5001/api/inventory/Category"
-      );
-      setCategories(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const getProductsRecommendations = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5001/api/inventory/Product?page=1&pageSize=10"
       );
-      setProductsRecommendations(response.data.items);
+      setProductsRecommendations(response.data.data.items);
     } catch (error) {
       console.error(error);
     }
@@ -36,10 +22,6 @@ export default function Home() {
 
   useEffect(() => {
     getProductsRecommendations();
-  }, []);
-
-  useEffect(() => {
-    getCategories();
   }, []);
 
   return (
@@ -50,13 +32,6 @@ export default function Home() {
         products={productsRecommendations}
         url="http://localhost:3000/products"
       />
-      {categories.map((category) => (
-        <ProductsCarouselByCategory
-          key={category.name}
-          title={category.name}
-          categoryId={category.id}
-        />
-      ))}
     </NextUIProvider>
   );
 }

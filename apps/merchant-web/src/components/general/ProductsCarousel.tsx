@@ -1,12 +1,9 @@
-"use client";
-
 import Product from "@/commons/entities/concretes/Product";
 import "@/styles/general/ProductsCarousel.css";
 import { ProductCard } from "./ProductCard";
 import { ListType } from "@/commons/entities/ListType";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useEffect } from "react";
 
 interface Props {
   title: string;
@@ -33,10 +30,6 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
     },
   };
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   return (
     <div className="products-carousel">
       <div className="products-carousel-header">
@@ -52,11 +45,11 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
           className="mySwiper"
         >
           {products && products.length > 0 ? (
-            products.map((product) => {
+            products.map((product, index) => {
               return (
-                <SwiperSlide key={`${product.id}slide`} className="">
+                <SwiperSlide key={`${product.id}-slide-recommended-${index}`} className="">
                   <ProductCard
-                    key={product.id}
+                    key={`product.id-card`}
                     product={product}
                     type={ListType.Card}
                   />
