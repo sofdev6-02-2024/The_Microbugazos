@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&family=Ubuntu&display=swap");
+
+:root {
+  --background-primary: #f4f9ff;
+  --background-secondary: #eaeaed;
+  --background-tertiary: #eff2f5;
+  --foreground-primary: #000000;
+  --foreground-secondary: #1f1f1f;
+  --foreground-tertiary: #282828;
+
+  --primary-400: #7790ed;
+  --primary-600: #5275f5;
+
+  --secondary-400: #292621;
+  --secondary-600: #262420;
+
+  --tertiary-400: #f5ede2;
+  --tertiary-600: #f4e3cc;
+
+  --action-success: #b4ed77;
+  --action-error: #fb5012;
+  --action-alert: #e9df00;
+
+  --logo-text-size: 32px;
+  --heading-1-text-size: 28px;
+  --heading-2-text-size: 24px;
+  --heading-3-text-size: 20px;
+  --normal-1-text-size: 18px;
+  --normal-2-text-size: 16px;
+  --normal-3-text-size: 14px;
+  --normal-4-text-size: 12px;
+
+  --ubuntu-font-family: "Ubuntu", serif;
+  --ubuntu-font-weight: 400;
+  --ubuntu-font-style: normal;
+
+  --montserrat-alt-font-family: "Montserrat Alternates", serif;
+  --montserrat-alt-medium-weight: 500;
+  --montserrat-alt-bold-weight: 700;
+  --montserrat-alt-font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Ubuntu", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background-primary);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat Alternates", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.logo-font-text {
+  font-family: "Montserrat Alternates", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+.flag-dropdown {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-primary: #000000;
+    --background-secondary: #1f1f1f;
+    --background-tertiary: #282828;
+    --foreground-primary: #f4f9ff;
+    --foreground-secondary: #eaeaed;
+    --foreground-tertiary: #eff2f5;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}

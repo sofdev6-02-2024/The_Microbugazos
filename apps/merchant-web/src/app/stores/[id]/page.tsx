@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import { ThemeProvider } from "@/commons/context/ThemeContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UpdateStore } from "@/components/store/UpdateStore";
 
 export default function StorePage() {

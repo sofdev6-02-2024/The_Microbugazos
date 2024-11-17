@@ -1,5 +1,5 @@
 "use client";
-import { ThemeProvider } from "@/commons/context/ThemeContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import CreateNewStoreForm from "@/components/store/CreateNewStoreForm";
 
 export default function CreateNewStore() {

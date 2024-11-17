@@ -7,12 +7,12 @@ import {
 import { FormikProps } from "formik";
 import { StoreForm } from "./StoreForm";
 import { useEffect, useState } from "react";
-import useFormHandler from "@/commons/hooks/UseFormHandler";
+import useFormHandler from "@/hooks/useFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
 import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 import { getStoreById } from "@/request/StoreRequests";
 import { toast } from "sonner";
-import useAuth from "@/commons/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
 interface UpdateStoreProps {
   id: string;

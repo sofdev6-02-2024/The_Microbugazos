@@ -8,14 +8,14 @@ axiosInstance.interceptors.request.use(
   (config) => {
     return config;
   },
-  (error) => {
+  (error: Error) => {
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: Error) => {
     return Promise.reject(error);
   }
 );

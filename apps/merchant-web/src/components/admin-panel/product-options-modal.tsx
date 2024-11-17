@@ -2,9 +2,9 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {useState} from "react";
 import TextField from "@/components/text-field";
 import { MdClose } from "react-icons/md";
-import {isNullOrEmpty} from "@/commons/validators";
+import {isNullOrEmpty} from "@/utils/validators/validators";
 import {useOptions} from "@/commons/providers/add-product-provider";
-import {ValidateName} from "@/commons/validations/string";
+import {ValidateName} from "@/utils/validators/validations/string";
 
 export default function ProductOptionsModal() {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);

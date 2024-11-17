@@ -4,8 +4,8 @@ import TextField from "@/components/text-field";
 import {MdImageSearch} from "react-icons/md";
 import Dropzone from "@/components/image-selector";
 import {useVariants} from "@/commons/providers/variant-provider";
-import {ValidateLongText} from "@/commons/validations/string";
-import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/commons/validations/number";
+import {ValidateLongText} from "@/utils/validators/validations/string";
+import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/utils/validators/validations/number";
 
 export default function VariantModal({item}) {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
