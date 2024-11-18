@@ -1,0 +1,37 @@
+.user-options {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 200px;
+  border-radius: 10px;
+  background-color: var(--background-light-secondary);
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+}
+
+.user-options.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-options-option {
+  width: 100%;
+  padding: 10px;
+  display: block;
+  color: var(--primary-dark);
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  font-size: var(--normal-1-text-size);
+  cursor: pointer;
+}
+
+.user-options-option:hover {
+  background-color: var(--primary-light);
+  color: var(--tertiary-light);
+}
+
+.user-options-option.log-out:hover {
+  background-color: var(--action-error);
+}

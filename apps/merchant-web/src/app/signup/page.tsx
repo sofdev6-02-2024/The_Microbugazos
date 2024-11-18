@@ -1,5 +1,5 @@
 import SignupForm from "@/components/auth/SignupForm";
-import { ThemeProvider, useTheme } from "../../commons/context/ThemeContext";
+import { ThemeProvider } from "@/commons/context/ThemeContext";
 
 export default function SignupPage() {
   return (
