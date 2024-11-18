@@ -3,8 +3,15 @@ using Commons.ResponseHandler.Handler.Interfaces;
 using FluentValidation;
 using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.Dtos.Images;
+using InventoryService.Application.Dtos.Products;
+using InventoryService.Application.Dtos.ProductVariants;
+using InventoryService.Application.Dtos.Variants;
 using InventoryService.Application.Services;
 using InventoryService.Application.Validators.Categories;
+using InventoryService.Application.Validators.Images;
+using InventoryService.Application.Validators.Products;
+using InventoryService.Application.Validators.ProductVariants;
+using InventoryService.Application.Validators.Variants;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
@@ -34,6 +41,12 @@ public static class ApplicationConfiguration
         
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
         services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
-
+        services.AddScoped<IValidator<CreateImageDto>, CreateImageValidator>();
+        services.AddScoped<IValidator<UpdateImageDto>, UpdateImageValidator>();
+        services.AddScoped<IValidator<CreateVariantDto>, CreateVariantValidator>();
+        services.AddScoped<IValidator<UpdateVariantDto>, UpdateVariantValidator>();
+        services.AddScoped<IValidator<CreateProductVariantDto>, CreateProductVariantValidator>();
+        services.AddScoped<IValidator<UpdateProductVariantDto>, UpdateProductVariantValidator>();
+        services.AddScoped<IValidator<CreateProductDto>, CreateProductValidator>();
     }
 }
