@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname: string | null = usePathname();
-  const showComponents = !EXCLUDED_ROUTES.includes(pathname ?? "");
+  const showComponents = !EXCLUDED_ROUTES.includes(pathname);
 
   return (
     <html lang="en">

@@ -1,17 +1,15 @@
 import React, {useState, useEffect, useRef} from "react";
 import styles from "@/styles/Header.module.css"
-import Logo from "@/app/assets/logo/S.png"
-import MobileLogo from "@/app/assets/logo/mobile-logo.png"
+import Logo from "@/assets/logo/imagotipo/merchant-s.png"
+import MobileLogo from "@/assets/logo/isotipo/merchant-m.png"
 
 import useAuth from "@/hooks/useAuth"
 import Image from "next/image";
-import { IoMenuOutline } from "react-icons/io5";
-import { IoSearch } from "react-icons/io5";
+import { IoMenuOutline, IoSearch, IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import SideMenu from "@/components/SideMenu";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { Option } from "@/components/Option";
-import { IoLogOutOutline } from "react-icons/io5";
 
 const Header = () => {
     const {user, loading, signOutHandle} = useAuth();

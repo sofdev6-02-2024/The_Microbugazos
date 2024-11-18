@@ -53,7 +53,7 @@
 .leftSection {
     width: 50%;
     background-color: var(--color-primary);
-    background-image: url('../../app/assets/Images/AuthImage.png');
+    background-image: url('../../assets/images/auth-image.png');
     background-size: 70vh;
     background-position: center;
     display: flex;
