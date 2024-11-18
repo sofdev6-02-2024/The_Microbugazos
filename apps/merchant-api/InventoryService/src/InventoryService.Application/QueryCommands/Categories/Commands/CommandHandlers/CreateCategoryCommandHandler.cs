@@ -1,5 +1,6 @@
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
+using FluentValidation;
 using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.QueryCommands.Categories.Commands.Commands;
 using InventoryService.Domain.Concretes;
@@ -8,13 +9,20 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Categories.Commands.CommandHandlers;
 
-public class CreateCategoryCommandHandler(IRepository<Category> categoryRepository, IResponseHandlingHelper responseHandlingHelper) : 
+public class CreateCategoryCommandHandler(
+    IRepository<Category> categoryRepository, 
+    IResponseHandlingHelper responseHandlingHelper,
+    IValidator<CreateCategoryDto> validator) : 
     IRequestHandler<CreateCategoryCommand, BaseResponse>
 {
     public async Task<BaseResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryDto = request.CreateCategoryDto;
-        if (string.IsNullOrEmpty(categoryDto.Name)) return responseHandlingHelper.BadRequest<CategoryDto>("The field name is requires.");
+        
+        var response = await validator.ValidateAsync(categoryDto, cancellationToken);
+        if (!response.IsValid) return responseHandlingHelper.BadRequest<CreateCategoryDto>(
+            "The operation to create a category was not completed, please check the errors.", 
+            response.Errors.Select(e => e.ErrorMessage).ToList());
         
         var category = new Category
         {

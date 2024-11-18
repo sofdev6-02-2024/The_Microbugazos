@@ -1,10 +1,11 @@
 .user-button {
   width: 40px;
   height: 40px;
-  border: none;
-  background-color: transparent;
-  color: var(--background-light-primary);
-  font-size: var(--heading-3-text-size);
+  border: 2px solid var(--primary-600);
+  border-radius: 5px;
+  background-color: var(--background-light-primary);
+  color: var(--background-dark-primary);
+  font-size: var(--normal-1-text-size);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,8 +16,8 @@
 
 .user-button-alert {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -10px;
+  right: -10px;
   width: 20px;
   height: 20px;
   background-color: var(--action-error);
