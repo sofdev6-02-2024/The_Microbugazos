@@ -1,4 +1,4 @@
-import { UserType, UserPermissions } from '@/types/user';
+import { UserType, UserPermissions } from '@/types/auth';
 
 export const DEFAULT_UNAUTHORIZED_REDIRECT = '/login';
 export const DEFAULT_FORBIDDEN_REDIRECT = '/';
@@ -10,7 +10,7 @@ export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
     },
     [UserType.CLIENT]: {
         paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/create-store"],
-        redirectTo: "/"
+        redirectTo: DEFAULT_FORBIDDEN_REDIRECT
     },
     [UserType.SELLER]: {
         paths: ["/", "/products", "/profile", "/admin/products", "/admin/orders"],

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormInput } from "../auth/FormInputProps";
-import { ProfileFormProps, UpdateProfileData } from "@/types/profile";
+import { ProfileFormProps, UpdateProfileData } from "@/types/auth";
 import styles from "@/styles/profile/ProfileForm.module.css";
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ProfileForm } from "./ProfileForm";
 import { ProfileService } from "@/request/profileService";
-import { UpdateProfileData, ProfileErrors } from "@/types/profile";
+import { UpdateProfileData, ProfileErrors } from "@/types/auth";
 import styles from "@/styles/profile/ProfileForm.module.css";
 import { Toaster, toast } from "sonner";
 

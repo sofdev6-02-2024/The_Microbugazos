@@ -41,11 +41,23 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
     }
     
     [HttpPut]
-    public async Task<ActionResult<UserDto>> UpdateUser(Guid id, [FromBody] UpdateUserDto updateUserDto)
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
     {
+        var authHeader = Request.Headers.Authorization.ToString();
+        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+        {
+            return Unauthorized();
+        }
+
+        User? currentUser = await _mediator.Send(new GetUserByTokenQuery(authHeader));
+        if (currentUser == null)
+        {
+            return NotFound();
+        }
+
         var updateUserCommand = new UpdateUserCommand
         {
-            Id = id,
+            Id = currentUser.Id,
             Name = updateUserDto.Name,
             Email = updateUserDto.Email,
         };

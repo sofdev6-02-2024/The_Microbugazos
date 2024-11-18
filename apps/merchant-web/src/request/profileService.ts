@@ -154,6 +154,8 @@ export class ProfileService {
                 await this.reauthorizeUser(data.currentPassword);
             }
 
+            const token = await user.getIdToken();
+
             const updatePromises: Promise<void>[] = [];
 
             if (data.newUsername) {
@@ -162,13 +164,33 @@ export class ProfileService {
                         displayName: data.newUsername
                     })
                 );
+
+                updatePromises.push(
+                    this.updateBackendProfile(token, {
+                        Name: data.newUsername
+                    })
+                )
             }
 
             if (data.newEmail) {
                 updatePromises.push(
                     verifyBeforeUpdateEmail(user, data.newEmail)
-                        .then(() => {
-                            throw new Error('Please check your new email address for verification instructions');
+                        .then( async () => {
+                            if (data.newUsername) {
+                                await updateProfile(user, {
+                                    displayName: data.newUsername
+                                })
+                            }
+                            const newToken = await user.getIdToken(true);
+
+                            await this.updateBackendProfile(newToken, {
+                                Name: data.newUsername,
+                                Email: data.newEmail
+                            })
+                            throw {
+                                type: 'info',
+                                message: 'Please check your new email address for verification instructions'
+                            };
                         })
                 );
             }
@@ -202,6 +224,27 @@ export class ProfileService {
                     }
                     throw error;
             }
+        }
+    }
+    private static async updateBackendProfile(token: string, data: {
+        Name?: string,
+        Email?: string
+    }): Promise<void> {
+        const response = await fetch(`http://localhost:5001/api/users/Auth`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: data.Name,
+                email: data.Email
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            throw new Error(errorData?.message || 'Failed to update profile in backend');
         }
     }
 }

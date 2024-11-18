@@ -4,7 +4,6 @@ import { User } from 'firebase/auth';
 export const validateTokenWithBackend = async (user: User) => {
     const token = await user.getIdToken();
     if (!token) throw new Error('No token available');
-    console.log(token);
     const response = await fetch('http://localhost:5001/api/users/Auth/token', {
         headers: {
             'Authorization': `Bearer ${token}`,
