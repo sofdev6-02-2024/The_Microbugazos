@@ -1,5 +1,7 @@
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
+using FluentValidation;
+using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.Dtos.Variants;
 using InventoryService.Application.QueryCommands.Variants.Commands.Commands;
 using InventoryService.Domain.Concretes;
@@ -9,7 +11,9 @@ using MediatR;
 namespace InventoryService.Application.QueryCommands.Variants.Commands.CommandHandlers;
 
 public class CreateVariantCommandHandler(
-    IRepository<Variant> variantRepository, IResponseHandlingHelper responseHandlingHelper) 
+    IValidator<CreateVariantDto> validator,
+    IRepository<Variant> variantRepository, 
+    IResponseHandlingHelper responseHandlingHelper) 
     : IRequestHandler<CreateVariantCommand, BaseResponse>
 {
     public async Task<BaseResponse> Handle(
@@ -17,7 +21,10 @@ public class CreateVariantCommandHandler(
         CancellationToken cancellationToken)
     {
         var variantDto = request.Variant;
-        if (string.IsNullOrEmpty(variantDto.Name)) return responseHandlingHelper.BadRequest<VariantDto>("The field name is required.");
+        var response = await validator.ValidateAsync(variantDto, cancellationToken);
+        if (!response.IsValid) return responseHandlingHelper.BadRequest<CreateProductVariantDto>(
+            "The operation to create a variant was not completed, please check the errors.", 
+            response.Errors.Select(e => e.ErrorMessage).ToList());
 
         var variant = new Variant
         {
