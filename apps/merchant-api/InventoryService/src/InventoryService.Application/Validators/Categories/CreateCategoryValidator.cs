@@ -14,7 +14,7 @@ public class CreateCategoryValidator : AbstractValidator<CreateCategoryDto>
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Name is required.")
             .NotNull().WithMessage("Name cannot be null.")
-            .Length(categorySettings.NameMinLength, categorySettings.NameMaxLength)
-            .WithMessage($"Name must be between {categorySettings.NameMinLength} and {categorySettings.NameMaxLength} characters.");
+            .Length(categorySettings.CategoryNameMinLength, categorySettings.CategoryNameMaxLength)
+            .WithMessage($"Name must be between {categorySettings.CategoryNameMinLength} and {categorySettings.CategoryNameMaxLength} characters.");
     }
 }
