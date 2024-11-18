@@ -1,11 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import "@/styles/globals.css";
+import "./globals.css";
+import { Header } from "@/components/Header";
 import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import "@/styles/globals.css";
+import { usePathname } from "next/navigation";
+import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
+import { ProductPopUp } from "@/components/general/ProductPopUp";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 
@@ -18,16 +21,19 @@ export default function RootLayout({
   const showComponents = !EXCLUDED_ROUTES.includes(pathname);
 
   return (
-    <html lang="en">
-      <OptionsProvider>
-        <VariantsProvider>
-          <body>
-            {showComponents && <Header />}
-            <main>{children}</main>
-            {showComponents && <Footer />}
-          </body>
-        </VariantsProvider>
-      </OptionsProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <OptionsProvider>
+          <VariantsProvider>
+            <ProductPopUpProvider>
+              <ProductPopUp />
+              {showComponents && <Header />}
+              <main>{children}</main>
+              {showComponents && <Footer />}
+            </ProductPopUpProvider>
+          </VariantsProvider>
+        </OptionsProvider>
+      </body>
     </html>
   );
 }

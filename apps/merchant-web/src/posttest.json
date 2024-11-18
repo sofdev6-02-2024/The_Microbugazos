@@ -1,0 +1,101 @@
+{
+  "name": "iPhone 16",
+  "description": "Aluminum design Latest-generation Ceramic Shield front Color-infused glass back (Black, Pink, Teal, Ultramarine)",
+  "price": 799.99,
+  "brand": "Apple",
+  "categoryIds": [
+    "af1094df-ad4b-4841-ab71-94264494249b"
+  ],
+  "images": [
+    {
+      "altText": "iPhone Layer",
+      "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-model-unselect-gallery-1-202409?wid=5120&hei=2880&fmt=webp&qlt=70&.v=ZnlzVUZzRWd3dlg0RllqbHhQSUpKTGdzSmpObkZCM3MrNmJ5SkhESlNDaWhXRnNvWU5kTFRnSWM5eDdhTWw0bEpFd0xhWDVibStLdGRYRmxkNGI4VTdpMGJRT0ppMjh4RlRZQkc0Q3FZZEQ5aFhSWndydDBTaGRRd3dvbVFwcGk&traceId=1"
+    },
+    {
+      "altText": "iPhone Layer 2",
+      "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-model-unselect-gallery-2-202409_GEO_US?wid=5120&hei=2880&fmt=webp&qlt=70&.v=ZnlzVUZzRWd3dlg0RllqbHhQSUpKTGdzSmpObkZCM3MrNmJ5SkhESlNDZ1FydVY5cEpsVTdwMmk5U2U2UXBQVThLcXQxZ1h0QThIT2dnUm5qbGk5OUJkSERIUjY1Wk1Od3FtNjF6NFZLVXZtZEowT3Fwbmhld1JjblRvOVpZeVcwTko2SW91TzhmREJLUUxPTmhpZ1NB&traceId=1"
+    },
+    {
+      "altText": "iPhone Layer 3",
+      "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-ultramarine_AV3?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L28rSU1jVGx4VGxCNEFSdVNXdG1RdzROSXA0bDVkMUh3bnUrQ3QzckNHbXdUMngwVnJycmY0WkN2ZnNvOUpFNFd0WXdwZkhSYStycUNlU1I0YzZvelp6Y1dsSjlld0l1dWVQb1Bmc3Q1MTd3&traceId=1"
+    },
+    {
+      "altText": "iPhone Layer 3",
+      "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-ultramarine_AV2?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L28rSU1jVGx4VGxCNEFSdVNXdG1RdzdvdDhQaEp3aGRlYWd5eFdZcE42WkFUMngwVnJycmY0WkN2ZnNvOUpFNFY4aEdha0F6blFmTkM2c3RxTWJNZ2FUdFJkVzN6TFNEeXlHU0FCcTd2ZUl3&traceId=1"
+    }
+  ],
+  "productVariants": [
+    {
+      "image": {
+        "altText": "iPhone 16 Ultramarine",
+        "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-ultramarine?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L28rSU1jVGx4VGxCNEFSdVNXdG1RdzJrQmVLSXFrTCsvY1VvVmRlZkVnMzJKTG1lVWJJT2RXQWE0Mm9rU1V0V0E5L1ZBdzY3RU1aTVdUR3lMZHFNVzE0RzhwM3RLeUk1S0YzTkJVVmF2Ly9R&traceId=1"
+      },
+      "priceAdjustment": 0,
+      "stockQuantity": 10,
+      "attributes": [
+        {
+          "name": "Color",
+          "value": "Ultramarine"
+        },
+        {
+          "name": "Type",
+          "value": "Base"
+        }
+      ]
+    },
+    {
+      "image": {
+        "altText": "iPhone 16 Teal",
+        "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-teal?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L29KblRMQzVUOE4vMXpkMWtFcm9GcXF2TWlpSzUzejRCZGt2SjJUNGl1VEtsS0dZaHBma3VTb3UwU2F6dkc4TGRaWWVaY3B6VTFTdVNEWDF2OTRBYlY&traceId=1"
+      },
+      "priceAdjustment": 0,
+      "stockQuantity": 10,
+      "attributes": [
+        {
+          "name": "Color",
+          "value": "Teal"
+        },
+        {
+          "name": "Type",
+          "value": "Base"
+        }
+      ]
+    },
+    {
+      "image": {
+        "altText": "iPhone 16 Ultramarine Plus",
+        "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-ultramarine?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L28rSU1jVGx4VGxCNEFSdVNXdG1RdzJrQmVLSXFrTCsvY1VvVmRlZkVnMzJKTG1lVWJJT2RXQWE0Mm9rU1V0V0E5L1ZBdzY3RU1aTVdUR3lMZHFNVzE0RzhwM3RLeUk1S0YzTkJVVmF2Ly9R&traceId=1"
+      },
+      "priceAdjustment": 100,
+      "stockQuantity": 10,
+      "attributes": [
+        {
+          "name": "Color",
+          "value": "Ultramarine"
+        },
+        {
+          "name": "Type",
+          "value": "Plus"
+        }
+      ]
+    },
+    {
+      "image": {
+        "altText": "iPhone 16 Teal",
+        "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-teal?wid=5120&hei=2880&fmt=webp&qlt=70&.v=UXp1U3VDY3IyR1hNdHZwdFdOLzg1V0tFK1lhSCtYSGRqMUdhR284NTN4L29KblRMQzVUOE4vMXpkMWtFcm9GcXF2TWlpSzUzejRCZGt2SjJUNGl1VEtsS0dZaHBma3VTb3UwU2F6dkc4TGRaWWVaY3B6VTFTdVNEWDF2OTRBYlY&traceId=1"
+      },
+      "priceAdjustment": 100,
+      "stockQuantity": 10,
+      "attributes": [
+        {
+          "name": "Color",
+          "value": "Teal"
+        },
+        {
+          "name": "Type",
+          "value": "Plus"
+        }
+      ]
+    }
+  ]
+}

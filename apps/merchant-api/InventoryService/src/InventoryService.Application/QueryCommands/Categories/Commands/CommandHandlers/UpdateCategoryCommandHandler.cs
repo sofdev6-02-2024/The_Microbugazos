@@ -23,7 +23,7 @@ public class UpdateCategoryCommandHandler(
         
         var response = await validator.ValidateAsync(categoryDto, cancellationToken);
         if (!response.IsValid) return responseHandlingHelper.BadRequest<CreateCategoryDto>(
-            "The operation to create a category was not completed, please check the errors.", 
+            "The operation to update the category was not completed, please check the errors.", 
             response.Errors.Select(e => e.ErrorMessage).ToList());
         
         categoryToUpdate.Name = categoryDto.Name ?? categoryToUpdate.Name;

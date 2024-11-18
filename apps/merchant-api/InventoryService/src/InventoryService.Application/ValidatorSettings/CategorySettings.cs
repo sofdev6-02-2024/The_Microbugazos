@@ -2,6 +2,6 @@ namespace InventoryService.Application.ValidatorSettings;
 
 public class CategorySettings
 {
-    public int NameMinLength { get; set; }
-    public int NameMaxLength { get; set; }
+    public int CategoryNameMinLength { get; set; }
+    public int CategoryNameMaxLength { get; set; }
 }

@@ -1,6 +1,8 @@
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
+using FluentValidation;
 using InventoryService.Application.Dtos.Categories;
+using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.Services;
@@ -11,6 +13,7 @@ using MediatR;
 namespace InventoryService.Application.QueryCommands.Products.Commands.CommandHandlers;
 
 public class CreateProductCommandHandler(
+    IValidator<CreateProductDto> validator,
     IRepository<Product> productRepository,
     IRepository<Category> categoryRepository,
     IRepository<Image> imageRepository,
@@ -22,6 +25,11 @@ public class CreateProductCommandHandler(
         CancellationToken cancellationToken)
     {
         var productDto = request.ProductDto;
+        var response = await validator.ValidateAsync(productDto, cancellationToken);
+        if (!response.IsValid) return responseHandlingHelper.BadRequest<CreateProductVariantDto>(
+            "The operation to create a product was not completed, please check the errors.", 
+            response.Errors.Select(e => e.ErrorMessage).ToList());
+
         ICollection<Category> categories = new List<Category>();
         foreach (var categoryId in productDto.CategoryIds)
         {
