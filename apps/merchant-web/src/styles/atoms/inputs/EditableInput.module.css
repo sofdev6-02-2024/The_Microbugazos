@@ -16,7 +16,7 @@
   font-size: 16px;
   border-radius: 4px;
   color: black;
-  padding: 16px 0;
+  padding: 16px 0px;
   outline: none;
   border: none;
 }
@@ -27,6 +27,7 @@
 
 .inputWithIcon {
   border: 1px solid var(--primary-400);
+  background-color: var(--surface-background);
   display: flex;
   flex-direction: row;
   align-items: center;
