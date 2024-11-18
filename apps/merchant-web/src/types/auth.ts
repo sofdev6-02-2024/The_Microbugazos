@@ -1,9 +1,20 @@
+import {User} from "firebase/auth";
+
 export interface UpdateProfileData {
     newUsername?: string;
     newEmail?: string;
     currentPassword?: string;
     newPassword?: string;
     confirmNewPassword?: string;
+}
+
+export interface BackendProfileData {
+    Name?: string;
+    Email?: string;
+}
+
+export interface AuthUser extends User {
+    userType?: UserType;
 }
 
 export interface ProfileErrors extends UpdateProfileData {}
@@ -37,3 +48,12 @@ export interface UserData {
     userType: UserType;
 }
 
+export interface UserBasicData {
+    email: string;
+    username: string;
+}
+
+export interface UpdateResult {
+    type: 'success' | 'info' | 'error';
+    message: string;
+}
