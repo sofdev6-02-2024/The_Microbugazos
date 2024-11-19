@@ -9,7 +9,7 @@ export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
         redirectTo: '/login'
     },
     [UserType.CLIENT]: {
-        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/create-store"],
+        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/create-store", "/contact-us"],
         redirectTo: "/"
     },
     [UserType.SELLER]: {

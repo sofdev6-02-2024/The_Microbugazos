@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
-import { LuHome, LuHistory, LuPiggyBank } from "react-icons/lu";
+import { LuHome, LuHistory, LuPiggyBank, LuAlertCircle } from "react-icons/lu";
 import { RiShoppingCart2Line, RiCursorLine, RiSofaLine } from "react-icons/ri";
 import { BsBookmarkStar, BsHeartPulse } from "react-icons/bs";
 import { GiDelicatePerfume } from "react-icons/gi";
@@ -67,6 +67,7 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       <p className="subtitle">From Merchant</p>
       <Option icon={MdStorefront} text={"Store"} />
       <Option icon={MdOutlineCallEnd} text={"About Us"} />
+      <Option icon={LuAlertCircle} text={"Contact Us"} route={"contact-us"} />
     </div>
   );
 };
