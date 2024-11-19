@@ -7,7 +7,7 @@
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background-color: var(--color-border);
@@ -26,17 +26,17 @@
 
 .socialButton {
   width: 5rem;
-  height: 5rem; 
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: none; 
+  border: none;
   cursor: pointer;
   transition: background-color 0.2s;
   padding: 0;
 }
 
 .socialButton:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }

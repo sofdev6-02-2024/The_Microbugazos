@@ -4,14 +4,13 @@
     border-radius: 5px;
     text-align: center;
   }
-  
+
   .success {
-    background-color: #d4edda; 
+    background-color: var(--action-success);
     color: #155724;
   }
-  
+
   .error {
-    background-color: #f8d7da;
+    background-color: var(--action-alert);
     color: #721c24;
   }
-  

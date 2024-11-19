@@ -1,5 +1,5 @@
 import { MdCheck } from "react-icons/md";
-import '@/styles/general/Option.css'
+import '@/styles/general/option.css'
 
 interface Props {
   label: string;

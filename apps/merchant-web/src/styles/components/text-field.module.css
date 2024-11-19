@@ -1,0 +1,14 @@
+.textField {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--primary-600);
+  width: 100%;
+  font-size: 16px;
+  color: var(--secondary-600);
+  background-color: transparent;
+  outline: none;
+}
+
+.formLabel {
+  color: var(--primary-600);
+}

@@ -4,7 +4,7 @@
   right: 20px;
   width: 200px;
   border-radius: 10px;
-  background-color: var(--background-light-secondary);
+  background-color: var(--background-secondary);
   z-index: 1000;
   display: none;
   overflow: hidden;
@@ -19,7 +19,7 @@
   width: 100%;
   padding: 10px;
   display: block;
-  color: var(--primary-dark);
+  color: var(--primary-600);
   text-decoration: none;
   text-align: center;
   border: none;
@@ -28,8 +28,8 @@
 }
 
 .user-options-option:hover {
-  background-color: var(--primary-light);
-  color: var(--tertiary-light);
+  background-color: var(--primary-400);
+  color: var(--tertiary-600);
 }
 
 .user-options-option.log-out:hover {

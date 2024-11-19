@@ -7,10 +7,10 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: var(--tertiary-400);
 }
 
 .shopping-cart-icon-button {
-  color: var(--tertiary-light);
   font-size: var(--heading-2-text-size);
 }
 
@@ -22,10 +22,9 @@
   width: 20px;
   height: 20px;
   line-height: 20px;
-  background-color: var(--primary-dark);
+  background-color: var(--primary-600);
   text-align: center;
   border-radius: 50%;
-  color: var(--tertiary-light);
   font-size: var(--normal-4-text-size);
 }
 

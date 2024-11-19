@@ -7,7 +7,7 @@ import {
   MdOutlinePause,
   MdOutlinePlayArrow,
 } from "react-icons/md";
-import "@/styles/home/CoverCarousel.css";
+import "@/styles/home/cover-carousel.css";
 
 export const CoverCarousel = () => {
   const carousel = [

@@ -1,5 +1,5 @@
 import Product from "@/commons/entities/concretes/Product";
-import "@/styles/general/ProductsCarousel.css";
+import "@/styles/general/products-carousel.css";
 import { ProductCard } from "./ProductCard";
 import { ListType } from "@/commons/entities/ListType";
 import { Swiper, SwiperSlide } from "swiper/react";

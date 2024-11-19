@@ -1,7 +1,7 @@
 "use client";
 
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
-import { QuantityPicker } from "@/components/quantityPicker";
+import { QuantityPicker } from "@/components/QuantityPicker";
 import { useState } from "react";
 import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
 import { MdDeleteOutline } from "react-icons/md";

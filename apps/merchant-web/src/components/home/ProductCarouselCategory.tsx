@@ -1,7 +1,7 @@
 "use client";
 
 import Product from "@/commons/entities/concretes/Product"
-import "@/styles/general/ProductsCarousel.css";
+import "@/styles/general/products-carousel.css";
 import { ListType } from "@/commons/entities/ListType";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

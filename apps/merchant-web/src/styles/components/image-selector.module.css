@@ -17,7 +17,7 @@
     margin: 10px;
     object-fit: cover;
     border-radius: 6px;
-    border: 1px solid #7790ED;
+    border: 1px solid var(--primary-600);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,15 +30,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #7790ED;
+    border: 2px dashed var(--primary-600);
     padding: 20px;
     border-radius: 6px;
-    color: #7790ED;
+    color: var(--primary-600);
 }
 
 .sideButton {
     position: absolute;
-    background-color: white;
+    background-color: var(--background-primary);
     top: 12px;
     right: 12px;
     border-radius: 100%;

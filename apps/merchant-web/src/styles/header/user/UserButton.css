@@ -3,8 +3,8 @@
   height: 40px;
   border: 2px solid var(--primary-600);
   border-radius: 5px;
-  background-color: var(--background-light-primary);
-  color: var(--background-dark-primary);
+  background-color: var(--background-primary);
+  color: var(--foreground-primary);
   font-size: var(--normal-1-text-size);
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   width: 20px;
   height: 20px;
   background-color: var(--action-error);
-  color: var(--background-light-primary);
+  color: var(--background-primary);
   font-size: var(--normal-1-text-size);
   border-radius: 50%;
   display: none;

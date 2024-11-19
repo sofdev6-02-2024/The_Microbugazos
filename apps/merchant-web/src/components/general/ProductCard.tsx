@@ -5,9 +5,9 @@ import { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
-import "@/styles/general/ProductCard.css";
+import "@/styles/general/product-card.css";
 import Product from "@/commons/entities/concretes/Product";
-import { useProductPopUp } from "@/commons/context/PopUpContext";
+import { useProductPopUp } from "@/contexts/PopUpContext";
 
 interface Props {
   product: Product;

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import Product from "../entities/concretes/Product";
+import Product from "@/commons/entities/concretes/Product";
 
 interface Type {
   showProductPopUp: boolean;

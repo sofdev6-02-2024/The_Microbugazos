@@ -40,12 +40,11 @@
   color: var(--action-error);
 }
 
-.containerError{
+.containerError {
   border-color: var(--action-error);
 }
 
-
-.untouchable{
-  pointer-events: none!important;
-  cursor: default!important;
+.untouchable {
+  pointer-events: none !important;
+  cursor: default !important;
 }

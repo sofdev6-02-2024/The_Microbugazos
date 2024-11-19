@@ -26,10 +26,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: var(--primary-light);
+  background-color: var(--primary-400);
   border: none;
   font-size: var(--heading-3-text-size);
-  color: var(--background-light-primary);
+  color: var(--background-primary);
 }
 
 .cover-carousel-slide {

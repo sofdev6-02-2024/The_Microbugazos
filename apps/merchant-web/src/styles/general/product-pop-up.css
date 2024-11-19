@@ -7,7 +7,7 @@
   width: 600px;
   height: 600px;
   z-index: 1002;
-  background-color: var(--background-light-tertiary);
+  background-color: var(--background-tertiary);
   border-radius: 10px;
   padding: 20px;
 }
@@ -24,7 +24,7 @@
   right: 10px;
   font-size: 24px;
   cursor: pointer;
-  color: var(--primary-dark);
+  color: var(--primary-600);
   width: 40px;
   height: 40px;
   border: none;
@@ -69,9 +69,9 @@
 .view-product-button {
   width: 100%;
   min-height: 30px;
-  background-color: var(--primary-light);
+  background-color: var(--primary-400);
   border: none;
-  color: var(--background-light-primary);
+  color: var(--background-primary);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-import '@/styles/quantityPicker.css'
+import '@/styles/quantity-picker.css'
 
 interface Props {
   quantity: number,

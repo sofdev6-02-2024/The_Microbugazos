@@ -1,5 +1,3 @@
-@import '/src/app/globals.css';
-
 .quantity-picker {
   display: flex;
   flex-direction: row;
@@ -15,9 +13,9 @@
 .quantity-picker-button {
   width: 30px;
   height: 30px;
-  background-color: var(--background-light-secondary);
+  background-color: var(--background-secondary);
   border: none;
-  color: var(--primary-dark);
+  color: var(--primary-600);
   font-size: var(--normal-1-text-size);
   cursor: pointer;
   text-align: center;
@@ -26,8 +24,8 @@
 }
 
 .quantity-picker-button:hover {
-  background-color: var(--primary-dark);
-  color: var(--background-light-secondary);
+  background-color: var(--primary-600);
+  color: var(--background-secondary);
 }
 
 #quantity-picker-input {
@@ -37,5 +35,5 @@
   border: none;
   text-align: center;
   font-size: var(--normal-1-text-size);
-  color: var(--primary-dark);
+  color: var(--primary-600);
 }

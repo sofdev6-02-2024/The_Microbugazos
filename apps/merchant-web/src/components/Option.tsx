@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/styles/Option.module.css"
+import styles from "@/styles/option.module.css"
 import {useRouter} from "next/navigation";
 
 interface FormInputProps {

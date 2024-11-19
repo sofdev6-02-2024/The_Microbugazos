@@ -1,13 +1,12 @@
 "use client";
 
 import "@/styles/globals.css";
-import "./globals.css";
 import { Header } from "@/components/Header";
 import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
-import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
+import { ProductPopUpProvider } from "@/contexts/PopUpContext";
 import { ProductPopUp } from "@/components/general/ProductPopUp";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];

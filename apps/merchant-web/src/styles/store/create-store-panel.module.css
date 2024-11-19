@@ -2,15 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
   width: 100%;
   height: 100%;
   padding: 20px 20px 60px 20px;
   position: relative;
-  color: black;
-  justify-content: space-between;
-  background-color: var(--surface-light-150);
+  color: var(--foreground-primary);
+  background-color: var(--background-secondary);
   border-radius: 12px;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .buttonContainerSurface{
-  background-color: var(--surface-light-100);
+  background-color: var(--background-secondary);
 }
 
 .button {
@@ -36,13 +35,13 @@
 }
 
 .createButton {
-  color: var(--white);
+  color: var(--tertiary-400);
   background-color: var(--primary-400);
 }
 
 .cancelButton {
   color: var(--primary-400);
-  background-color: var(--surface-background);
+  background-color: var(--background-primary);
   outline: 1px solid var(--primary-400);
 }
 
@@ -71,7 +70,7 @@
   line-height: 1.6;
   text-align: justify;
   font-size: 1rem;
-  color: #333;
+  color: var(--foreground-primary);
 }
 
 .disabledButton {

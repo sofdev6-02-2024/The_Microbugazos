@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import "@/styles/SideMenu.css";
+import "@/styles/side-menu.css";
 import { Option } from "@/components/Option";
 import { LuHome, LuHistory, LuPiggyBank } from "react-icons/lu";
 import { RiShoppingCart2Line, RiCursorLine, RiSofaLine } from "react-icons/ri";

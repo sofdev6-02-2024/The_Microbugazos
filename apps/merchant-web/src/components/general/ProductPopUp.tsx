@@ -1,12 +1,12 @@
 "use client";
 
-import { useProductPopUp } from "@/commons/context/PopUpContext";
-import "@/styles/general/ProductPopUp.css";
+import { useProductPopUp } from "@/contexts/PopUpContext";
+import "@/styles/general/product-pop-up.css";
 import { MdClose, MdOpenInNew } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import ProductVariantPopUp from "@/commons/entities/ProductVariantPopUp";
 import { ProductAttributeSelect } from "./ProductAttributeSelect";
-import { QuantityPicker } from "../quantityPicker";
+import { QuantityPicker } from "@/components/QuantityPicker";
 import { AddToCart } from "./AddToCart";
 import { useRouter } from "next/navigation";
 

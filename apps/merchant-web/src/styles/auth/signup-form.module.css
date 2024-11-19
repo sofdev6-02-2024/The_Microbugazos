@@ -1,0 +1,159 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-primary);
+}
+
+.formCard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  background-color: var(--background-primary);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.leftSection {
+  width: 50%;
+  height: 100%;
+  background-color: var(--background-primary);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20vh 10% 10vh;
+  border-bottom-right-radius: 5rem;
+}
+
+.rightSection {
+  width: 50%;
+  background-color: var(--primary-400);
+  background-image: url("../../assets/images/auth-image.png");
+  background-size: 70vh;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  gap: 1rem;
+  border-top-left-radius: 5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: var(--foreground-primary);
+}
+
+.signupButton:hover {
+  background-color: var(--secondary-600);
+}
+
+.welcomeText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+
+.welcomeTitle {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.loginSection {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.loginButton {
+  padding: 0.75rem 2.5rem;
+  background-color: var(--primary-600);
+  color: #f4f9ff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.loginButton:hover {
+  background-color: #385ce1;
+}
+
+.bottomRectangle {
+  width: 100%;
+  height: 20vh;
+  background-color: var(--primary-400);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.logo {
+  width: 100%;
+  padding: 1%;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .formCard {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .leftSection,
+  .rightSection {
+    width: 100%;
+  }
+  .bottomRectangle {
+    height: 100%;
+    width: 20vh;
+    z-index: -1;
+  }
+  .rightSection {
+    border-top-right-radius: 2.5rem;
+    background-image: none;
+    padding: 2.3rem;
+    gap: 0.5rem;
+    margin-right: auto;
+  }
+  .leftSection {
+    padding: 5vh 10% 1vh;
+    border-bottom-left-radius: 2.5rem;
+  }
+  .logo {
+    width: 100%;
+    height: 8vh;
+  }
+  .welcomeText {
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+  .loginSection {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  .loginSection p {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+}

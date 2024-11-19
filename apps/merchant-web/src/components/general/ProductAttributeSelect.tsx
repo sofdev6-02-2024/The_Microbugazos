@@ -1,4 +1,4 @@
-import '@/styles/general/ProductAttributeSelect.css'
+import '@/styles/general/product-attribute-select.css'
 import { Select } from './Select';
 
 interface Props {

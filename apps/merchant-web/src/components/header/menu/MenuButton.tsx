@@ -1,5 +1,5 @@
 import { MdMenu } from "react-icons/md";
-import '@/styles/header/menu/MenuButton.css'
+import '@/styles/header/menu/menu-button.css'
 
 interface Props {
   toggleOpen: () => void;

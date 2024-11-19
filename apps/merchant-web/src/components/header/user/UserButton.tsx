@@ -1,5 +1,5 @@
 import '@/styles/header/user/UserButton.css'
-import useAuth from "@/commons/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
 interface Props {
   isLogged: boolean;

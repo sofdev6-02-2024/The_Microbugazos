@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
-import logo from "@/app/assets/logo/S.png";
+import logo from "@/assets/logo/imagotipo/merchant-s.png";
 import "@/styles/header/header.css";
 import { SearchBar } from "./header/searchbar/searchbar";
 import { ShoppingCart } from "./header/shopping-cart/shoppingCart";
