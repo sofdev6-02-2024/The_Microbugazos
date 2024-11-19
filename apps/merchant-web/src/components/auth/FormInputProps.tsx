@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import styles from '../../styles/auth/FormInput.module.css';
+import styles from '../../styles/auth/form-input.module.css';
 
 interface FormInputProps {
   id: string;

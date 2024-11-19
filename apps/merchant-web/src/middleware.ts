@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTE_PERMISSIONS, DEFAULT_UNAUTHORIZED_REDIRECT } from '@/config/routePermissions'
-import { UserData } from '@/types/user'
+import { UserData } from '@/types/auth'
 
 const matchPath = (path: string, pattern: string): boolean => {
     if (pattern === '*') return true;
