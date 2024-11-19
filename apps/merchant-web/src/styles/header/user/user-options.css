@@ -25,6 +25,7 @@
   border: none;
   font-size: var(--normal-1-text-size);
   cursor: pointer;
+  background-color: transparent;
 }
 
 .user-options-option:hover {

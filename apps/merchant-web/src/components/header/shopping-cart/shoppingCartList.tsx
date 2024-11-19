@@ -1,11 +1,11 @@
 "use client";
 
-import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { FaRegSadTear } from "react-icons/fa";
-import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
-import "@/styles/header/shoppingCart/shoppingCartList.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
+import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
+import "@/styles/header/shoppingCart/shopping-cart-list.css";
 
 interface Props {
   items: Array<ShoppingCartItem>;

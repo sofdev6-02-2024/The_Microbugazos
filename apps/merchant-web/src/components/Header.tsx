@@ -5,8 +5,8 @@ import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
 import logo from "@/assets/logo/imagotipo/merchant-s.png";
 import "@/styles/header/header.css";
-import { SearchBar } from "./header/searchbar/searchbar";
-import { ShoppingCart } from "./header/shopping-cart/shoppingCart";
+import { SearchBar } from "./header/searchbar/SearchBar";
+import { ShoppingCart } from "./header/shopping-cart/ShoppingCart";
 import { UserSession } from "./header/user/UserSession";
 import { Menu } from "@/components/header/menu/Menu";
 

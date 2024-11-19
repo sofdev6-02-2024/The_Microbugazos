@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SquarePen, Upload } from "lucide-react";
-import styles from "@/styles/atoms/ImageUpload.module.css";
+import styles from "@/styles/atoms/image-upload.module.css";
 
-interface ImageUploadProps {
+interface Props {
   shape?: "rectangle" | "circle";
   width?: string;
   height?: string;
@@ -17,7 +17,7 @@ interface ImageUploadProps {
   isEditable?: boolean;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const ImageUpload = ({
   shape = "rectangle",
   width = "200px",
   height = "200px",
@@ -29,7 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   },
   className = "",
   isEditable = true,
-}) => {
+}: Props) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -141,7 +141,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           className={styles.editButton}
           title="Edit image"
         >
-          <SquarePen color="var(--white)" />
+          <SquarePen color="var(--tertiary-400)" />
         </button>
       )}
     </div>

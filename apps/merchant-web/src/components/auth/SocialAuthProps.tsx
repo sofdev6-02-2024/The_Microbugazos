@@ -1,19 +1,19 @@
 import React from "react";
-import { FaFacebook } from "react-icons/fa";
+import { MdFacebook } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import styles from "../../styles/auth/SocialAuth.module.css";
+import styles from "@/styles/auth/social-auth.module.css";
 
-interface SocialAuthProps {
+interface Props {
   onGoogleSignIn: () => Promise<void>;
   onFacebookSignIn: () => Promise<void>;
   message: string;
 }
 
-export const SocialAuth: React.FC<SocialAuthProps> = ({
+export const SocialAuth = ({
   onGoogleSignIn,
   onFacebookSignIn,
   message,
-}) => {
+}: Props) => {
   return (
     <>
       <div className={styles.divider}>
@@ -32,7 +32,7 @@ export const SocialAuth: React.FC<SocialAuthProps> = ({
           onClick={onFacebookSignIn}
           className={styles.socialButton}
         >
-          <FaFacebook size={45} color="#3b5998" />
+          <MdFacebook size={45} color="#3b5998" />
         </button>
       </div>
     </>

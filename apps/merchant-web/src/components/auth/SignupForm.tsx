@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import styles from "@/styles/auth/SignupForm.module.css";
+import styles from "@/styles/auth/signup-form.module.css";
 import Logo from "@/assets/logo/imagotipo/merchant-l.png";
 import Image from "next/image";
 import { useSignUpForm } from "@/hooks/sign-up/useSignUp";

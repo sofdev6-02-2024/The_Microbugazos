@@ -1,4 +1,4 @@
-import styles from "@/styles/store/CreateStorePanel.module.css";
+import styles from "@/styles/store/create-store-panel.module.css";
 
 interface CreateStorePanelProps {
   onSubmit: () => void;

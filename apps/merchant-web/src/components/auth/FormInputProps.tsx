@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import styles from '../../styles/auth/FormInput.module.css';
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import styles from "@/styles/auth/form-input.module.css";
 
 interface FormInputProps {
   id: string;
@@ -14,7 +14,7 @@ interface FormInputProps {
 
 export const FormInput: React.FC<FormInputProps> = ({
   id,
-  type = 'text',
+  type = "text",
   value,
   onChange,
   label,
@@ -23,8 +23,8 @@ export const FormInput: React.FC<FormInputProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [touched, setTouched] = useState(false);
-  const isPassword = type === 'password';
-  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+  const isPassword = type === "password";
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setTouched(true);
@@ -40,7 +40,8 @@ export const FormInput: React.FC<FormInputProps> = ({
     }
   };
 
-  const showError = touched && required && !value.trim() ? `${label} is required` : error;
+  const showError =
+    touched && required && !value.trim() ? `${label} is required` : error;
 
   return (
     <div className={styles.inputGroup}>
@@ -53,11 +54,12 @@ export const FormInput: React.FC<FormInputProps> = ({
           if (touched) setTouched(true);
         }}
         onBlur={handleBlur}
-        className={`${styles.input} ${showError ? styles.errorInput : ''}`}
+        className={`${styles.input} ${showError ? styles.errorInput : ""}`}
         required={required}
       />
       <label htmlFor={id} className={styles.placeholder}>
-        {label}{required ? ' *' : ''}
+        {label}
+        {required ? " *" : ""}
       </label>
       {isPassword && (
         <button
@@ -68,11 +70,7 @@ export const FormInput: React.FC<FormInputProps> = ({
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
       )}
-      {showError && (
-        <div className={styles.errorMessage}>
-          {showError}
-        </div>
-      )}
+      {showError && <div className={styles.errorMessage}>{showError}</div>}
     </div>
   );
 };

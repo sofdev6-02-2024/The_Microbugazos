@@ -11,14 +11,10 @@
   background-color: var(--background-tertiary);
   transition: all 1s ease;
   padding: 10px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .side-menu.show {
   left: 0;
-}
-
-.subtitle {
-  padding: 1rem 2rem;
-  color: var(--secondary-400);
-  font-size: 1.3rem;
 }

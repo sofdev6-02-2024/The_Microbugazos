@@ -87,3 +87,10 @@
   font-size: var(--normal-1-text-size);
   color: var(--primary-600);
 }
+
+@media (max-width: 660px) {
+  .shopping-cart-list {
+    right: 0;
+    max-width: 100%;
+  }
+}

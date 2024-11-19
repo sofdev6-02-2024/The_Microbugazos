@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingCartButton } from "./shoppingCartButton";
+import { ShoppingCartButton } from "./ShoppingCartButton";
 import { ShoppingCartList } from "./shoppingCartList";
 
 export function ShoppingCart() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems] = useState([]);
   const [open, setOpen] = useState(false);
 
   const openCart = () => {

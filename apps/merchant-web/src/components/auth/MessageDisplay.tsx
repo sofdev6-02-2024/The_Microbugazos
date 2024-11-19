@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/auth/MessageDisplay.module.css';
+import styles from '@/styles/auth/message-display.module.css';
 
 interface MessageDisplayProps {
   message: string;
@@ -8,7 +8,7 @@ interface MessageDisplayProps {
 
 export const MessageDisplay: React.FC<MessageDisplayProps> = ({ message, type }) => {
   if (!message) return null;
-  
+
   return (
     <div className={`${styles.message} ${styles[type]}`}>
       {message}

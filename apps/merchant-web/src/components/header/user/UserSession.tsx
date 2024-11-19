@@ -1,10 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useAuth from "@/hooks/useAuth";
 import { UserButton } from "./UserButton";
 import { UserOptions } from "./UserOptions";
-import useAuth from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
 
 interface Props {
   isLogged: boolean;
@@ -28,7 +28,12 @@ export const UserSession = ({ isLogged }: Props) => {
   return (
     <>
       <UserButton isLogged={isLogged} toggleOpen={toggleOpen} />
-      <UserOptions isLogged={isLogged} isOpen={isOpen} logOut={logOut} toggleMenu={toggleOpen} />
+      <UserOptions
+        isLogged={isLogged}
+        isOpen={isOpen}
+        logOut={logOut}
+        toggleMenu={toggleOpen}
+      />
     </>
   );
 };

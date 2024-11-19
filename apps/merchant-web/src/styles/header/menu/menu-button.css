@@ -3,6 +3,10 @@
   height: 40px;
   background-color: transparent;
   border: none;
-  color: var(--background-primary);
-  font-size: var(--heading-3-text-size);
+  color: var(--primary-600);
+  font-size: var(--heading-1-text-size);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

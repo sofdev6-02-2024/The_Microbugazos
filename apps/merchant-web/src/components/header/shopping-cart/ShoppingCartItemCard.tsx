@@ -3,8 +3,9 @@
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { QuantityPicker } from "@/components/QuantityPicker";
 import { useState } from "react";
-import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
+import "@/styles/header/shoppingCart/shopping-cart-item-card.css";
 import { MdDeleteOutline } from "react-icons/md";
+import Link from "next/link";
 
 interface Props {
   item: ShoppingCartItem;
@@ -35,12 +36,12 @@ export function ShoppingCartItemCard({ item }: Readonly<Props>) {
         className="shopping-cart-item-card-image"
       />
       <div className="shopping-cart-item-card-info">
-        <a
+        <Link
           className="shopping-cart-item-card-name"
-          href={`http://localhost:3000/product/${item.id}`}
+          href={`/product/${item.id}`}
         >
           {item.name}
-        </a>
+        </Link>
         <p className="shopping-cart-item-card-price">{item.price} $</p>
       </div>
       <QuantityPicker

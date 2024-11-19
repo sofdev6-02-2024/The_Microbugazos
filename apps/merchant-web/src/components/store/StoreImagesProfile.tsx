@@ -1,6 +1,6 @@
 "use client";
 import ImageUpload from "../atoms/ImageUpload";
-import styles from "@/styles/store/StoreProfile.module.css";
+import styles from "@/styles/store/store-profile.module.css";
 interface StoreProfileProps {
   bannerImage?: string;
   profileImage?: string;

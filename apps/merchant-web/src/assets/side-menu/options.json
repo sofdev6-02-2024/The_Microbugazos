@@ -1,0 +1,22 @@
+[
+  {
+    "name": "General",
+    "options": [
+      {
+        "icon": "MdOutlineHome",
+        "text": "Home",
+        "route": ""
+      }
+    ]
+  },
+  {
+    "name": "From Merchant",
+    "options": [
+      {
+        "icon": "MdStorefront",
+        "text": "Store",
+        "route": ""
+      }
+    ]
+  }
+]

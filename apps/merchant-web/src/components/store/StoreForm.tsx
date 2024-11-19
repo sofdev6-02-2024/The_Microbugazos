@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/styles/store/StoreForm.module.css";
+import styles from "@/styles/store/store-form.module.css";
 import { EditableInput } from "@/components/atoms/inputs/EditableInput";
 import { StoreFormData } from "@/schemes/store/StoreFormDataScheme";
 import { FormikProps } from "formik";

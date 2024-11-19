@@ -9,7 +9,7 @@ import { StoreForm } from "./StoreForm";
 import { useEffect, useState } from "react";
 import useFormHandler from "@/hooks/useFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
-import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
+import buttonStyle from "@/styles/store/create-store-panel.module.css";
 import { getStoreById } from "@/request/StoreRequests";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";

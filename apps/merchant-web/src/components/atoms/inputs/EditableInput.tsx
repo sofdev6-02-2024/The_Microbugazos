@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SquarePen } from "lucide-react";
-import styles from "@/styles/atoms/inputs/EditableInput.module.css";
+import styles from "@/styles/atoms/inputs/editable-input.module.css";
 
 interface InputData {
   type?: string;

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import "@/styles/header/user/UserOptions.css";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+import "@/styles/header/user/user-options.css";
 
 interface Props {
   isLogged: boolean;
@@ -11,8 +11,12 @@ interface Props {
   toggleMenu: () => void;
 }
 
-export const UserOptions = ({ isLogged, isOpen, logOut, toggleMenu }: Props) => {
-  const route = useRouter();
+export const UserOptions = ({
+  isLogged,
+  isOpen,
+  logOut,
+  toggleMenu,
+}: Props) => {
   const userRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -36,32 +40,21 @@ export const UserOptions = ({ isLogged, isOpen, logOut, toggleMenu }: Props) => 
     <div className={`user-options ${isOpen ? "open" : ""}`} ref={userRef}>
       {isLogged ? (
         <>
-          <button
-            onClick={() => {
-              route.push("/profile");
-            }}
-            className="user-options-option"
-          >
+          <Link href="/profile" className="user-options-option">
             Profile
-          </button>
+          </Link>
           <button className="user-options-option log-out" onClick={logOut}>
             Log out
           </button>
         </>
       ) : (
         <>
-          <button
-            onClick={() => route.push("/login")}
-            className="user-options-option"
-          >
+          <Link href="/login" className="user-options-option">
             Log in
-          </button>
-          <button
-            onClick={() => route.push("/signup")}
-            className="user-options-option"
-          >
+          </Link>
+          <Link href="/signup" className="user-options-option">
             Sign up
-          </button>
+          </Link>
         </>
       )}
     </div>

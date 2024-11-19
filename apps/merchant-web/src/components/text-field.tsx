@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TextFieldStyle from "../styles/components/TextField.module.css";
+import TextFieldStyle from "../styles/components/text-field.module.css";
 import { SquarePen } from "lucide-react";
 
 interface TextFieldProps {

@@ -1,8 +1,8 @@
 "use client"
 
 import { SetStateAction, useState } from "react";
-import { Searcher } from "./searcher";
-import '@/styles/header/searchbar/searchbar.css';
+import { Searcher } from "./Searcher";
+import '@/styles/header/searchbar/search-bar.css';
 
 export function SearchBar() {
 
