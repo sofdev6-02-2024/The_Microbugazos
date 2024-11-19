@@ -5,7 +5,7 @@ import { ProfileForm } from "./ProfileForm";
 import { ProfileService } from "@/services/profileService";
 import { AuthService } from "@/services/authService";
 import { UpdateProfileData, ProfileErrors, UserBasicData } from "@/types/auth";
-import styles from "@/styles/profile/ProfileForm.module.css";
+import styles from "@/styles/profile/profile-form.module.css";
 import { Toaster, toast } from "sonner";
 
 const TOAST_STYLES = {

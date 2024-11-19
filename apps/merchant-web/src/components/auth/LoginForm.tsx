@@ -10,7 +10,7 @@ import {
 import { FormInput } from './FormInputProps';
 import { SocialAuth } from './SocialAuthProps';
 import { MessageDisplay } from './MessageDisplay';
-import styles from '../../styles/auth/LoginForm.module.css';
+import styles from '../../styles/auth/login-form.module.css';
 import Logo from '../../app/assets/logo/logo_L.png';
 import Image from 'next/image';
 import {validateTokenWithBackend} from "@/services/authService";

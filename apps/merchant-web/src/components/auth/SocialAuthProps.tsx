@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import styles from '../../styles/auth/SocialAuth.module.css';
+import styles from '../../styles/auth/social-auth.module.css';
 
 interface SocialAuthProps {
     onGoogleSignIn: () => Promise<void>;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { EditableInput } from "@/components/atoms/inputs/EditableInput";
 import { ProfileFormProps, UpdateProfileData } from "@/types/auth";
-import styles from "@/styles/profile/ProfileForm.module.css";
+import styles from "@/styles/profile/profile-form.module.css";
+import {PasswordInput} from "@/components/atoms/inputs/PasswordInput";
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({
     onSubmit, isLoading, errors, isPasswordProvider, currentEmail, currentUsername
@@ -89,54 +91,39 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                         className={`${styles.togglePasswordBtn} ${showPasswordSection ? styles.active : ''}`}
                     >
                         <span>Change Password</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
+                        <ChevronDown size={20} />
                     </button>
 
                     {showPasswordSection && (
                         <div className={styles.passwordSection}>
-                            <EditableInput
-                                id="newPassword"
-                                type="password"
-                                value={formData.newPassword || ''}
-                                onChange={handleInputChange}
-                                label="New Password"
-                                error={errors.newPassword}
-                                touched={!!errors.newPassword}
-                                isEditable={true}
+                            <PasswordInput
+                              id="newPassword"
+                              value={formData.newPassword || ''}
+                              onChange={handleInputChange}
+                              label="New Password"
+                              error={errors.newPassword}
+                              touched={!!errors.newPassword}
+                              isEditable={true}
                             />
 
-                            <EditableInput
-                                id="confirmNewPassword"
-                                type="password"
-                                value={formData.confirmNewPassword || ''}
-                                onChange={handleInputChange}
-                                label="Confirm New Password"
-                                error={errors.confirmNewPassword}
-                                touched={!!errors.confirmNewPassword}
-                                isEditable={true}
+                            <PasswordInput
+                              id="confirmNewPassword"
+                              value={formData.confirmNewPassword || ''}
+                              onChange={handleInputChange}
+                              label="Confirm New Password"
+                              error={errors.confirmNewPassword}
+                              touched={!!errors.confirmNewPassword}
+                              isEditable={true}
                             />
 
-                            <EditableInput
-                                id="currentPassword"
-                                type="password"
-                                value={formData.currentPassword || ''}
-                                onChange={handleInputChange}
-                                label="Current Password"
-                                error={errors.currentPassword}
-                                touched={!!errors.currentPassword}
-                                isEditable={true}
+                            <PasswordInput
+                              id="currentPassword"
+                              value={formData.currentPassword || ''}
+                              onChange={handleInputChange}
+                              label="Current Password"
+                              error={errors.currentPassword}
+                              touched={!!errors.currentPassword}
+                              isEditable={true}
                             />
                         </div>
                     )}

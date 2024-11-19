@@ -41,32 +41,9 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
   return (
     <div className={`side-menu ${isOpen ? 'show' : ''}`} ref={menuRef}>
       <Option icon={LuHome} text={"Home"} />
-      <Option icon={MdFavoriteBorder} text={"Favorites"} />
-      <Option icon={RiShoppingCart2Line} text={"Cart"} />
-      <Option icon={LuHistory} text={"History"} />
-      <p className="subtitle">Products</p>
-      <Option icon={BsBookmarkStar} text={"Best Seller"} route={"products"} />
-      <Option icon={LuPiggyBank} text={"Offers"} route={"products"} />
-      <Option icon={RiCursorLine} text={"Electronics"} route={"products"} />
-      <Option
-        icon={MdCheckroom}
-        text={"Clothing & Fashion"}
-        route={"products"}
-      />
-      <Option
-        icon={GiDelicatePerfume}
-        text={"Beauty & Personal Care"}
-        route={"products"}
-      />
-      <Option icon={RiSofaLine} text={"Home & Kitchen"} route={"products"} />
-      <Option
-        icon={BsHeartPulse}
-        text={"Health & Wellness"}
-        route={"products"}
-      />
+
       <p className="subtitle">From Merchant</p>
       <Option icon={MdStorefront} text={"Store"} />
-      <Option icon={MdOutlineCallEnd} text={"About Us"} />
     </div>
   );
 };
