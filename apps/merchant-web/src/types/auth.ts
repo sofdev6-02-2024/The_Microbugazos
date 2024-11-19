@@ -27,6 +27,7 @@ export interface ProfileFormProps {
     providerName?: string;
     currentEmail?: string;
     currentUsername?: string;
+    isEditable: boolean;
 }
 export enum UserType {
     GUEST = 0,

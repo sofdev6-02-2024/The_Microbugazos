@@ -17,6 +17,7 @@ const TOAST_STYLES = {
 const ProfileManagement: React.FC = () => {
     const [errors, setErrors] = useState<ProfileErrors>({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isEditable, setIsEditable] = useState(true);
     const [isPasswordProvider, setIsPasswordProvider] = useState(false);
     const [providerName, setProviderName] = useState('');
     const [currentUserData, setCurrentUserData] = useState<UserBasicData>({
@@ -37,7 +38,9 @@ const ProfileManagement: React.FC = () => {
             setCurrentUserData(userData);
         }
     };
-
+    const handleEditStatus = () => {
+      setIsEditable(!isEditable);
+    }
     const updateUIData = () => {
         const newUserData = ProfileService.getCurrentUserData();
         if (newUserData) {
@@ -66,6 +69,7 @@ const ProfileManagement: React.FC = () => {
             } else if (result.type === 'success') {
                 updateUIData();
                 showToast('success', result.message || 'Profile updated successfully');
+                handleEditStatus();
             } else {
                 showToast('error', result.message || 'Update failed');
             }
@@ -93,6 +97,7 @@ const ProfileManagement: React.FC = () => {
                 providerName={providerName}
                 currentEmail={currentUserData.email}
                 currentUsername={currentUserData.username}
+                isEditable={isEditable}
             />
         </div>
     );

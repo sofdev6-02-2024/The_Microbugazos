@@ -6,7 +6,7 @@ import styles from "@/styles/profile/profile-form.module.css";
 import {PasswordInput} from "@/components/atoms/inputs/PasswordInput";
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({
-    onSubmit, isLoading, errors, isPasswordProvider, currentEmail, currentUsername
+    onSubmit, isLoading, errors, isPasswordProvider, currentEmail, currentUsername, isEditable
 }) => {
     const [showPasswordSection, setShowPasswordSection] = useState(false);
     const [formData, setFormData] = React.useState<UpdateProfileData>({
@@ -65,7 +65,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                     error={errors.newUsername}
                     touched={!!errors.newUsername}
                     isEditable={true}
-                    isMarkedEditable={true}
+                    isMarkedEditable={isEditable}
                 />
             </div>
 
@@ -79,7 +79,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                     error={errors.newEmail}
                     touched={!!errors.newEmail}
                     isEditable={true}
-                    isMarkedEditable={true}
+                    isMarkedEditable={isEditable}
                 />
             </div>
 
@@ -103,7 +103,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                               label="New Password"
                               error={errors.newPassword}
                               touched={!!errors.newPassword}
-                              isEditable={true}
+                              isEditable={isEditable}
                             />
 
                             <PasswordInput
@@ -113,7 +113,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                               label="Confirm New Password"
                               error={errors.confirmNewPassword}
                               touched={!!errors.confirmNewPassword}
-                              isEditable={true}
+                              isEditable={isEditable}
                             />
 
                             <PasswordInput
@@ -123,7 +123,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                               label="Current Password"
                               error={errors.currentPassword}
                               touched={!!errors.currentPassword}
-                              isEditable={true}
+                              isEditable={isEditable}
                             />
                         </div>
                     )}

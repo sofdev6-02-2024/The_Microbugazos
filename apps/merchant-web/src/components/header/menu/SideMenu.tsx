@@ -43,7 +43,7 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       <Option icon={LuHome} text={"Home"} />
 
       <p className="subtitle">From Merchant</p>
-      <Option icon={MdStorefront} text={"Store"} />
+      <Option icon={MdStorefront} text={"Create Store"} />
     </div>
   );
 };
