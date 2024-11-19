@@ -1,0 +1,24 @@
+.searcher {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-light-primary);
+  border-radius: 15px;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+#search-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: var(--secondary-dark);
+  font-size: var(--normal-2-text-size);
+}
+
+.search-icon {
+  font-size: var(--heading-3-text-size);
+}

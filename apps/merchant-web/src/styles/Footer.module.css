@@ -9,7 +9,6 @@
     padding: 2% 10%;
     justify-content: space-between;
     align-items: center;
-    margin-top: 40%;
 }
 
 .linksContainer {
@@ -19,6 +18,12 @@
     flex-direction: column;
     color: var(--color-text);
     gap: 1rem;
+    text-decoration: none;
+}
+
+.linksContainer a {
+  color: var(--color-text);
+  text-decoration: none;
 }
 
 .imageContainer {

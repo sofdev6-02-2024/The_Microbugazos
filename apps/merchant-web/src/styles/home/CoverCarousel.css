@@ -1,0 +1,63 @@
+.cover-carousel {
+  width: auto;
+  height: 80vh;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+}
+
+.cover-carousel-controls {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cover-carousel-control {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  border: none;
+  font-size: var(--heading-3-text-size);
+  color: var(--background-light-primary);
+}
+
+.cover-carousel-slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: bottom;
+  border-radius: 10px;
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.cover-carousel-slide.show {
+  display: block;
+  opacity: 1;
+}
+
+@media (max-width: 1200px) {
+  .cover-carousel {
+    height: 60vh;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .cover-carousel {
+    height: 40vh;
+    padding: 10px;
+  }
+}
