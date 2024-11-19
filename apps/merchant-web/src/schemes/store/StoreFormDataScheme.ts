@@ -4,6 +4,7 @@ import parsePhoneNumber, {
   parsePhoneNumberFromString,
   PhoneNumber,
 } from "libphonenumber-js";
+import { StoreFormDto } from "./StoreFormDto";
 
 const fileSchema = z.instanceof(File).optional();
 
@@ -27,25 +28,22 @@ export const StoreFormScheme = z.object({
     .refine(
       (value) => !/\s{2,}/.test(value),
       "Name cannot contain more than one consecutive space."
-    ).refine(
+    )
+    .refine(
       (value) => value.length >= 2,
       "Name cannot be empty, must contain at least 2 character."
-    )
-    ,
-
+    ),
   description: z
     .string()
     .max(300, "Description cannot be more than 300 characters.")
     .refine(
       (value) => !/^\s*$/.test(value),
       "Description cannot contain only whitespace."
-    ).
-    refine(
+    )
+    .refine(
       (value) => value.trim().length >= 10,
       "Description cannot be empty, must contain at least 10 character."
-    )
-    ,
-
+    ),
   address: z
     .string()
     .max(60, "Address cannot be more than 60 characters.")
@@ -96,4 +94,18 @@ export const defaultStoreFormData = {
   profileImage: new File([], ""),
   bannerImageUrl: "",
   profileImageUrl: "",
+};
+
+export const parseDtoToScheme = (store: StoreFormDto): StoreFormData => {
+  return {
+    id: store.id ?? "",
+    name: store.name,
+    description: store.description,
+    address: store.address,
+    phoneNumber: store.phoneNumber,
+    bannerImage: new File([], ""),
+    profileImage: new File([], ""),
+    bannerImageUrl: store.bannerImage ?? "",
+    profileImageUrl: store.profileImage ?? "",
+  };
 };

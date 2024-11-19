@@ -6,5 +6,16 @@ export interface StoreFormDto {
   phoneNumber: string;
   bannerImage?: string;
   profileImage?: string;
-  UserIdentity: string;
+  userId: string;
 }
+
+export const defaultStoreFormData : StoreFormDto = {
+  id: "",
+  name: "",
+  description: "",
+  address: "",
+  phoneNumber: "",
+  bannerImage: "",
+  profileImage: "",
+  userId: "",
+};

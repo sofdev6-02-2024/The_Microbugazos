@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { ThemeProvider } from "@/commons/context/ThemeContext";
-import { UpdateStore } from "@/components/store/UpdateStore";
+import { UpdateStore } from "@/components/store/crud-store/UpdateStore";
 
 export default function StorePage() {
   const { id } = useParams();

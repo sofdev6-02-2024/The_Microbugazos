@@ -3,7 +3,7 @@ import styles from "@/styles/Header.module.css"
 import Logo from "@/app/assets/logo/S.png"
 import MobileLogo from "@/app/assets/logo/mobile-logo.png"
 
-import useAuth from "@/hooks/useAuth"
+import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
 import { IoMenuOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";

@@ -1,14 +1,22 @@
-import { useEffect, useState } from "react";
+/* import { createContext, useContext, useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "@firebase/auth";
 import { auth } from "@/config/firebase";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
 import { UserType } from "@/types/user";
 
-interface AuthUser extends User {
+interface AuthUser {
   userType?: UserType;
   userId?: string;
 }
 
-const useAuth = () => {
+interface AuthContextType {
+  loading: boolean;
+  user: AuthUser | null;
+  signOutHandle: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -16,13 +24,21 @@ const useAuth = () => {
     try {
       await signOut(auth);
       document.cookie = "auth-token=; max-age=0; path=/";
+      localStorage.removeItem("auth-user");
       setUser(null);
     } catch (error) {
-      console.log("Failed to close session", error);
+      console.error("Failed to close session", error);
     }
   };
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("auth-user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setLoading(false);
+      return; // Evita nuevas solicitudes si ya tienes el usuario en el almacenamiento local.
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
@@ -41,11 +57,12 @@ const useAuth = () => {
 
           if (response.ok) {
             const userData = await response.json();
-            setUser({
-              ...currentUser,
+            const userInfo = {
               userType: userData.userType,
               userId: userData.id,
-            });
+            };
+            setUser(userInfo);
+            localStorage.setItem("auth-user", JSON.stringify(userInfo));
           } else {
             setUser(null);
           }
@@ -62,7 +79,18 @@ const useAuth = () => {
     return unsubscribe;
   }, []);
 
-  return { user, loading, signOutHandle };
+  return (
+    <AuthContext.Provider value={{ user, loading, signOutHandle }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export default useAuth;
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within a AuthProvider");
+  }
+  return context;
+};
+ */

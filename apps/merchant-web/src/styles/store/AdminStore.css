@@ -1,0 +1,9 @@
+
+.admin-store-container {
+  overflow-y: hidden;
+  height: 100vh;
+}
+
+.admin-store-content > div:nth-child(2) {
+  background-color: var(--surface-light-200);
+}

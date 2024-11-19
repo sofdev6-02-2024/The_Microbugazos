@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -44,8 +43,10 @@
   --montserrat-alt-medium-weight: 500;
   --montserrat-alt-bold-weight: 700;
   --montserrat-alt-font-style: normal;
-}
 
+  --color-background-header: #1f1f1f;
+  --color-side-menu-background: #eff2f5;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -80,8 +81,8 @@ a {
 }
 
 .flag-dropdown {
-  background-color: transparent!important;
-  border: none!important;
+  background-color: transparent !important;
+  border: none !important;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -9,6 +9,7 @@ interface TwoColumnLayoutProps {
   rightWidth?: string;
   gap?: string;
   containerStyle?: CSSProperties;
+  className?: string;
 }
 
 export default function TwoColumnLayout({
@@ -18,10 +19,11 @@ export default function TwoColumnLayout({
   rightWidth = "80%",
   gap = "20px",
   containerStyle,
+  className,
 }: TwoColumnLayoutProps) {
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${className}`}
       style={{
         gridTemplateColumns: `${leftWidth} ${rightWidth}`,
         gap,

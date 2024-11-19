@@ -1,5 +1,5 @@
 "use client";
-import { CreateStorePanel } from "@/components/store/CreateStorePanel";
+import { CreateStorePanel } from "@/components/store/crud-store/CreateStorePanel";
 import {
   StoreFormData,
   StoreFormScheme,
@@ -10,14 +10,14 @@ import useFormHandler from "@/commons/hooks/UseFormHandler";
 import { createStoreHandler } from "@/scripts/store/CreateStoreHandler";
 import TwoColumnLayout from "@/components/layouts/TwoColumnLayout";
 import { useState } from "react";
-import { StoreForm } from "@/components/store/StoreForm";
+import { StoreForm } from "@/components/store/crud-store/StoreForm";
 import { toast } from "sonner";
-import useAuth from "@/commons/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 export default function CreateNewStoreForm() {
   const [clicked, setClicked] = useState(false);
   const { user } = useAuth();
-   const router = useRouter(); 
+  const router = useRouter();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
     validationSchema: StoreFormScheme,
@@ -29,7 +29,7 @@ export default function CreateNewStoreForm() {
         setClicked(false);
         return;
       }
-      toast.promise(createStoreHandler(storeFormHandler.values, user?.uid), {
+      toast.promise(createStoreHandler(storeFormHandler.values, user?.userId), {
         loading: "Creating Store",
         success: (storeId) => {
           router.push(`/stores/${storeId}`);

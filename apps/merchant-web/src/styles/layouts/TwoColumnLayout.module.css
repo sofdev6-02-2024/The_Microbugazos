@@ -1,7 +1,7 @@
 .container {
   display: grid;
   width: 100vw;
-  height: 100vh;
+  height: 93vh;
   gap: 20px;
 }
 
@@ -14,7 +14,7 @@
 
 @media (max-width: 850px) {
   .container {
-    grid-template-columns: 1fr!important;
+    grid-template-columns: 1fr !important;
     grid-template-rows: auto auto;
     height: 100%;
   }

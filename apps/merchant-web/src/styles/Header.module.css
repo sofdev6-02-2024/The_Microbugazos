@@ -1,7 +1,4 @@
 .container {
-    --color-background-header: #1F1F1F;
-    --color-side-menu-background: #EFF2F5;
-
     width: 100%;
     height: 7vh;
     gap: 10%;
@@ -86,7 +83,6 @@
     left: 0;
     width: 30%;
     height: calc(100vh - 7vh);
-    background-color: var(--color-side-menu-background);
     display: flex;
     align-items: center;
     justify-content: flex-start;

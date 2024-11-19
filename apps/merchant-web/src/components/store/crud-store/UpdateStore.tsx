@@ -1,28 +1,30 @@
 "use client";
 import {
-  defaultStoreFormData,
   StoreFormData,
   StoreFormScheme,
 } from "@/schemes/store/StoreFormDataScheme";
 import { FormikProps } from "formik";
 import { StoreForm } from "./StoreForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useFormHandler from "@/commons/hooks/UseFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
 import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
-import { getStoreById } from "@/request/StoreRequests";
 import { toast } from "sonner";
-import useAuth from "@/commons/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
+import { useStore } from "@/commons/context/StoreContext";
+import { set } from "zod";
 
 interface UpdateStoreProps {
-  id: string;
+  storeData: StoreFormData;
 }
-export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
+export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
   const [clicked, setClicked] = useState(false);
   const [isEditing, setIsEditing] = useState([true, true, true, true]);
+  const [reset, setReset] = useState(false);
   const { user } = useAuth();
+  const { setStore } = useStore();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
-    initialValues: defaultStoreFormData,
+    initialValues: storeData,
     validationSchema: StoreFormScheme,
     onSubmit: async () => {
       if (clicked) return;
@@ -32,37 +34,30 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
         setClicked(false);
         return;
       }
-      toast.promise(updateStoreHandler(id, storeFormHandler.values, user.uid), {
-        loading: "Updating Store",
-        success: () => {
-          setClicked(false);
-          return "Store Updated";
-        },
-        error: () => {
-          setClicked(false);
-          return "Failed to Update Store";
-        },
-      });
+      toast.promise(
+        updateStoreHandler(
+          storeData.id ?? "",
+          storeFormHandler.values,
+          user?.userId
+        ),
+        {
+          loading: "Updating Store",
+          success: (store) => {
+            setClicked(false);
+            setStore(store);
+            return "Store Updated";
+          },
+          error: () => {
+            setClicked(false);
+            return "Failed to Update Store";
+          },
+        }
+      );
     },
   });
 
-  useEffect(() => {
-    getStoreById(id).then((data) => {
-      storeFormHandler.setValues({
-        ...storeFormHandler.values,
-        id: data.id,
-        name: data.name,
-        description: data.description,
-        address: data.address,
-        phoneNumber: data.phoneNumber,
-        bannerImageUrl: data.bannerImage,
-        profileImageUrl: data.profileImage,
-      });
-    });
-  }, [id]);
-
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <StoreForm
         formikProps={storeFormHandler}
         defaultBannerImage={storeFormHandler.values.bannerImageUrl}
@@ -70,10 +65,9 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
         editableFields={isEditing}
         hasEditableFields={true}
         disabled={clicked}
+        reset={reset}
       />
-      <div
-        className={`${buttonStyle.buttonContainer} ${buttonStyle.buttonContainerSurface}`}
-      >
+      <div className={`${buttonStyle.buttonContainer}`}>
         <button
           type="submit"
           className={`${buttonStyle.button} ${buttonStyle.createButton} ${
@@ -97,7 +91,14 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ id }) => {
           }`}
           disabled={clicked}
           onClick={() => {
-            location.reload();
+            storeFormHandler.resetForm();
+            setReset(true);
+            setIsEditing(
+              isEditing.map((value) => {
+                return !value;
+              })
+            );
+            setReset(false);
           }}
         >
           Cancel
