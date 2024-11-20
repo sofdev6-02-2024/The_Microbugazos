@@ -1,4 +1,4 @@
-import "@/styles/store/StoreDashboard.css";
+import "@/styles/store/store-dashboard.css";
 import { DashboardCard } from "./DashboardCard";
 import { TopProductsCard } from "./TopProductCard";
 export const StoreDashboard = () => {

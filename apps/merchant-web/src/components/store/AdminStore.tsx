@@ -4,7 +4,7 @@ import { StoreAdminHeader } from "./StoreAdminHeader";
 import TwoColumnLayout from "../layouts/TwoColumnLayout";
 import { StoreAdminSideMenu } from "./StoreAdminSideMenu";
 import CreateNewStoreForm from "./crud-store/CreateNewStoreForm";
-import "@/styles/store/AdminStore.css";
+import "@/styles/store/admin-store.css";
 import useAuth from "@/hooks/useAuth";
 import { UserType } from "@/types/auth";
 import { defaultStoreFormData } from "@/schemes/store/StoreFormDto";

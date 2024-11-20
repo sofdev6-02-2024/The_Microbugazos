@@ -32,8 +32,8 @@ export default function CreateNewStoreForm() {
       toast.promise(createStoreHandler(storeFormHandler.values, user?.userId), {
         loading: "Creating Store",
         success: (storeId) => {
-          router.push(`/stores`);
           setClicked(false);
+          setTimeout(() => router.push(`/stores`), 100);
           return "Store Created";
         },
         error: () => {

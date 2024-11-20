@@ -4,7 +4,7 @@ import { LuHome } from "react-icons/lu";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
-import "@/styles/store/StoreAdminMenu.css";
+import "@/styles/store/store-admin-menu.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

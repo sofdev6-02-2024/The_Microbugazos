@@ -1,4 +1,4 @@
-import "@/styles/store/StoreAdminHeader.css";
+import "@/styles/store/store-admin-header.css";
 import { MerchantLogo } from "../atoms/MerchantLogo";
 import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { useRouter } from "next/navigation";

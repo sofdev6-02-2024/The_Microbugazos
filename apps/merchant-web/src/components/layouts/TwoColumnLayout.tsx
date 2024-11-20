@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, CSSProperties } from "react";
-import "@/styles/layouts/TwoColumnLayout.css";
+import "@/styles/layouts/two-column-layout.css";
 
 interface TwoColumnLayoutProps {
   leftContent: ReactNode;

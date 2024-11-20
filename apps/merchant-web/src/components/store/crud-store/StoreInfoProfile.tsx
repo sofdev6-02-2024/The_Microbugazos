@@ -1,7 +1,7 @@
 "use client";
 import { StoreImagesProfile } from "./StoreImagesProfile";
 import { useStore } from "@/commons/context/StoreContext";
-import "@/styles/store/StoreInfoProfile.css";
+import "@/styles/store/store-info-profile.css";
 export const StoreInfoProfile = () => {
   const { store } = useStore();
   return (

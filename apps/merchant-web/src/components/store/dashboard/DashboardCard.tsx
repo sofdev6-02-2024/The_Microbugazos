@@ -1,4 +1,4 @@
-import "@/styles/store/dashboard/DashboardCard.css";
+import "@/styles/store/dashboard/dashboard-card.css";
 interface DashboardCardProps {
   value: string;
   label: string;
