@@ -14,7 +14,7 @@ public class ProductClientService
     {
         Env.Load("../../../../../.env");
         _httpClient = httpClient;
-        _inventoryServiceRoute = Env.GetString("INVENTORY_SERVICE_ROUTE");
+        _inventoryServiceRoute = Env.GetString("INVENTORY_SERVICE_ROUTE") ?? Environment.GetEnvironmentVariable("INVENTORY_SERVICE_ROUTE") ?? throw new Exception("INVENTORY_SERVICE_ROUTE is not set");
     }
     
     public async Task<ProductDto?> GetProductByIdAsync(Guid productId)

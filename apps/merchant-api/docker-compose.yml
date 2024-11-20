@@ -89,6 +89,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
+      - INVENTORY_SERVICE_ROUTE=${INVENTORY_SERVICE_ROUTE}
     networks:
       - merchant-network
     depends_on:
