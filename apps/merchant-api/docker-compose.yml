@@ -80,6 +80,22 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  payment_service:
+    build:
+      context: .
+      dockerfile: PaymentService/Dockerfile
+    ports:
+      - "5300:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
+      - INVENTORY_SERVICE_ROUTE=${INVENTORY_SERVICE_ROUTE}
+    networks:
+      - merchant-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
   user_service:
     build:
       context: .
