@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { useFetch } from "../hooks/useFetch";
-import useAuth  from "@/hooks/useAuth";
+import { useAuth } from "./AuthContext";
 import { defaultStoreFormData } from "@/schemes/store/StoreFormDto";
 
 interface StoreContextType {
@@ -16,7 +16,7 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 const url: string = "http://localhost:5001/api/stores/user/";
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading: userLoading } = useAuth();
+  const { user} = useAuth();
 
   const {
     data: store,

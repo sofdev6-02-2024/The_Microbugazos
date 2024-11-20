@@ -20,26 +20,26 @@ export const StoreAdminSideMenu = ({
       <Option
         icon={LuHome}
         text={"Home"}
-        route="stores"
+        route="store"
         completeRoute={true}
         onRouteChange={onRouteChange}
       />
       <Option
         icon={MdOutlineInventory2}
-        text={"Store"}
-        route="stores"
+        text={"Admin Store"}
+        route="store"
         onRouteChange={onRouteChange}
       />
       <Option
         icon={RiShoppingCart2Line}
         text={"Inventory"}
-        route="stores"
+        route="store"
         onRouteChange={onRouteChange}
       />
       <Option
         icon={TbUsers}
         text={"Members"}
-        route="stores"
+        route="store"
         onRouteChange={onRouteChange}
       />
     </div>

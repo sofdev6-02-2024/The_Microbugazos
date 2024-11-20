@@ -57,4 +57,8 @@
   .two-column-default.two-column-layout-ctn > div {
     width: 100vw;
   }
+
+  .two-column-default {
+    height: 100%;
+  }
 }

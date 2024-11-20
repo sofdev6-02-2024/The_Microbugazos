@@ -46,7 +46,7 @@ const LoginForm = () => {
     const handleAuthSuccess = async (firebaseUser: User) => {
         try {
             await validateTokenWithBackend(firebaseUser);
-            router.push('/');
+            location.href = "/";
         } catch (error: any) {
             console.error('Auth error:', error);
             setMessage(error.message === 'User not registered in the system'

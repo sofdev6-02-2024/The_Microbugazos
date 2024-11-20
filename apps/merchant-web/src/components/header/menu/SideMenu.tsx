@@ -15,6 +15,7 @@ import {
 } from "react-icons/md";
 import useAuth from "@/commons/hooks/useAuth";
 import { UserType } from "@/types/auth";
+import Loader from "@/components/Loader";
 
 interface Props {
   isOpen: boolean;
@@ -43,6 +44,8 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
     };
   }, [isOpen]);
 
+
+
   return (
     <div
       className={`side-menu side-menu-overlay ${isOpen ? "show" : ""}`}
@@ -51,7 +54,7 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       <Option icon={LuHome} text={"Home"} />
 
       <p className="subtitle">From Merchant</p>
-      <Option icon={MdStorefront} text={"Stores"} completeRoute route={user?.userType === UserType.CLIENT ? "create-store" : "stores"} />
+      <Option icon={MdStorefront} text={"Store"} completeRoute route={user?.userType === UserType.CLIENT ? "create-store" : "store"} />
     </div>
   );
 };

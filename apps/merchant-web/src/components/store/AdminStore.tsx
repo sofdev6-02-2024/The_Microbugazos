@@ -5,7 +5,7 @@ import TwoColumnLayout from "../layouts/TwoColumnLayout";
 import { StoreAdminSideMenu } from "./StoreAdminSideMenu";
 import CreateNewStoreForm from "./crud-store/CreateNewStoreForm";
 import "@/styles/store/admin-store.css";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/commons/context/AuthContext";
 import { UserType } from "@/types/auth";
 import { defaultStoreFormData } from "@/schemes/store/StoreFormDto";
 import Loader from "../Loader";
@@ -18,7 +18,7 @@ interface AdminStoreProps {
 
 export const AdminStore = ({ children }: AdminStoreProps) => {
   const { store, loading } = useStore();
-  const [activeOption, setActiveOption] = useState("/stores");
+  const [activeOption, setActiveOption] = useState("/store");
 
   const handleRouteChange = (route: string) => {
     setActiveOption(route);

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/commons/context/AuthContext";
 import Image from "next/image";
 import logo from "@/app/assets/logo/S.png";
 import "@/styles/header/header.css";

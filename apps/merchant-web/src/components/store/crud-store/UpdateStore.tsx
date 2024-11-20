@@ -10,7 +10,7 @@ import useFormHandler from "@/commons/hooks/UseFormHandler";
 import { updateStoreHandler } from "@/scripts/store/UpdateStoreHandler";
 import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 import { toast } from "sonner";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/commons/context/AuthContext";
 import { useStore } from "@/commons/context/StoreContext";
 
 interface UpdateStoreProps {

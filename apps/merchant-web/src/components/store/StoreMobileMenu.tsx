@@ -18,10 +18,10 @@ export const StoreMobileMenu = ({
   setActiveOption,
 }: OptionProps) => {
   const paths = [
-    "/stores",
-    "/stores/store",
-    "/stores/inventory",
-    "/stores/members",
+    "/store",
+    "/store/admin-store",
+    "/store/inventory",
+    "/store/members",
   ];
 
   const [activeIndex, setActiveIndex] = useState(

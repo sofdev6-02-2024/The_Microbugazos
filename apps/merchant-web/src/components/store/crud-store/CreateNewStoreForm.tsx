@@ -12,7 +12,7 @@ import TwoColumnLayout from "@/components/layouts/TwoColumnLayout";
 import { useState } from "react";
 import { StoreForm } from "@/components/store/crud-store/StoreForm";
 import { toast } from "sonner";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/commons/context/AuthContext";
 import { useRouter } from "next/navigation";
 export default function CreateNewStoreForm() {
   const [clicked, setClicked] = useState(false);
@@ -33,7 +33,7 @@ export default function CreateNewStoreForm() {
         loading: "Creating Store",
         success: (storeId) => {
           setClicked(false);
-          setTimeout(() => router.push(`/stores`), 100);
+          location.href = `/store`;
           return "Store Created";
         },
         error: () => {
