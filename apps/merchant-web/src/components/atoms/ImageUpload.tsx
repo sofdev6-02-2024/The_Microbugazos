@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SquarePen, Upload } from "lucide-react";
 import styles from "@/styles/atoms/ImageUpload.module.css";
+import { reload } from "@firebase/auth";
 
 interface ImageUploadProps {
   shape?: "rectangle" | "circle";
@@ -15,6 +16,8 @@ interface ImageUploadProps {
   onImageUpload?: (file: File) => void;
   className?: string;
   isEditable?: boolean;
+  reset?: boolean;
+  reload?: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -29,6 +32,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   },
   className = "",
   isEditable = true,
+  reload= "",
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -43,7 +47,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     if (defaultImage) {
       setPreview(defaultImage);
     }
-  }, [defaultImage]);
+  }, [defaultImage, reload]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

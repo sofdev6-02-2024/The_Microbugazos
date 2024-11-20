@@ -6,7 +6,6 @@ import { FormikProps } from "formik";
 import { StoreImagesProfile } from "./StoreImagesProfile";
 import PhoneNumberInput from "../../atoms/inputs/PhoneNumberInput";
 
-
 interface StoreFormProps {
   formikProps: FormikProps<StoreFormData>;
   defaultProfileImage?: string;
@@ -15,7 +14,6 @@ interface StoreFormProps {
   hasEditableFields?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
-  reset?: boolean;
 }
 
 export const StoreForm: React.FC<StoreFormProps> = ({
@@ -34,7 +32,6 @@ export const StoreForm: React.FC<StoreFormProps> = ({
   hasEditableFields,
   disabled = false,
   style = {},
-  reset = false,
 }) => {
   const onBlur = (field: string) => {
     handleBlur(field);
@@ -48,8 +45,6 @@ export const StoreForm: React.FC<StoreFormProps> = ({
     }
   };
 
-
-
   return (
     <div
       className={`${styles.mainContainer} ${disabled && styles.disabled} `}
@@ -59,7 +54,7 @@ export const StoreForm: React.FC<StoreFormProps> = ({
         bannerImage={defaultBannerImage}
         profileImage={defaultProfileImage}
         onLoadImage={loadImage}
-        reset={reset}
+        reload={values.reloadable}
       />
       <form
         className={styles.formContainer}

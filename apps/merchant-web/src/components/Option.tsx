@@ -7,6 +7,7 @@ interface FormInputProps {
   text: string;
   route?: string;
   completeRoute?: boolean;
+  onRouteChange?: (route: string) => void;
 }
 
 export const Option: React.FC<FormInputProps> = ({
@@ -14,18 +15,21 @@ export const Option: React.FC<FormInputProps> = ({
   text,
   route = "",
   completeRoute = false,
+  onRouteChange = (route: string) => {},
 }) => {
   const router = useRouter();
 
   const handleRouterNavigation = () => {
     const formattedText = text.toLowerCase().replace(/\s/g, "-");
     if (completeRoute) {
+      onRouteChange(`/${route}`);
       router.push(`/${route}`);
       return;
     }
     if (formattedText !== "home") {
       if (route) {
         router.push(`/${route}/${formattedText}`);
+        onRouteChange(`/${route}/${formattedText}`);
       } else {
         router.push(`/${formattedText}`);
       }

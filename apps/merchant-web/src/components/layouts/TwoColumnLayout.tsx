@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, CSSProperties } from "react";
-import styles from "@/styles/layouts/TwoColumnLayout.module.css";
+import "@/styles/layouts/TwoColumnLayout.css";
 
 interface TwoColumnLayoutProps {
   leftContent: ReactNode;
@@ -10,6 +10,7 @@ interface TwoColumnLayoutProps {
   gap?: string;
   containerStyle?: CSSProperties;
   className?: string;
+  type?: "two-column-mobile" | "two-column-default";
 }
 
 export default function TwoColumnLayout({
@@ -20,18 +21,19 @@ export default function TwoColumnLayout({
   gap = "20px",
   containerStyle,
   className,
+  type = "two-column-default",
 }: TwoColumnLayoutProps) {
   return (
     <div
-      className={`${styles.container} ${className}`}
+      className={`two-column-layout-ctn ${className} ${type}`}
       style={{
         gridTemplateColumns: `${leftWidth} ${rightWidth}`,
         gap,
         ...containerStyle,
       }}
     >
-      <div className={styles.column}>{leftContent}</div>
-      <div className={styles.column}>{rightContent}</div>
+      <div className="two-column-layout-column">{leftContent}</div>
+      <div className="two-column-layout-column">{rightContent}</div>
     </div>
   );
 }

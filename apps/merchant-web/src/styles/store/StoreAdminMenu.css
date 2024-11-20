@@ -1,0 +1,45 @@
+.mobile-store-admin-menu {
+  display: none;
+}
+
+.mobile-store-admin-menu {
+  display: block;
+  background-color: white;
+  height: 7vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.mobile-store-admin-menu li > * {
+  color: var(--primary-600);
+  font-size: 30px;
+}
+
+li.mobile-store-admin-menu-border-icon {
+  background-color: var(--primary-600);
+  border-radius: 100%;
+}
+
+li.mobile-store-admin-menu-border-icon > * {
+  color: white;
+}
+
+.mobile-store-admin-menu li {
+  padding: 7px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+  .desktop-store-admin-menu {
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 850px) {
+  .mobile-store-admin-menu {
+  display: none;
+}
+}

@@ -1,3 +1,3 @@
 export default function InventoryPage() {
-  return <div>Members</div>;
+  return <div style={{ height: "86vh" }}>Inventory</div>;
 }

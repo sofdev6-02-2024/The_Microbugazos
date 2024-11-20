@@ -12,7 +12,6 @@ import buttonStyle from "@/styles/store/CreateStorePanel.module.css";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import { useStore } from "@/commons/context/StoreContext";
-import { set } from "zod";
 
 interface UpdateStoreProps {
   storeData: StoreFormData;
@@ -20,7 +19,6 @@ interface UpdateStoreProps {
 export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
   const [clicked, setClicked] = useState(false);
   const [isEditing, setIsEditing] = useState([true, true, true, true]);
-  const [reset, setReset] = useState(false);
   const { user } = useAuth();
   const { setStore } = useStore();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
@@ -65,7 +63,6 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
         editableFields={isEditing}
         hasEditableFields={true}
         disabled={clicked}
-        reset={reset}
       />
       <div className={`${buttonStyle.buttonContainer}`}>
         <button
@@ -92,13 +89,12 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
           disabled={clicked}
           onClick={() => {
             storeFormHandler.resetForm();
-            setReset(true);
             setIsEditing(
               isEditing.map((value) => {
                 return !value;
               })
             );
-            setReset(false);
+            storeFormHandler.setFieldValue("reloadable", `${Date.now()}`);
           }}
         >
           Cancel

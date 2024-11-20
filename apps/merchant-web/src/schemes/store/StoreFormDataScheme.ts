@@ -79,6 +79,7 @@ export const StoreFormScheme = z.object({
   profileImage: fileSchema,
   bannerImageUrl: z.string().optional(),
   profileImageUrl: z.string().optional(),
+  reloadable: z.string().optional(),
   id: z.string().optional(),
 });
 
@@ -94,6 +95,7 @@ export const defaultStoreFormData = {
   profileImage: new File([], ""),
   bannerImageUrl: "",
   profileImageUrl: "",
+  reloadable: "",
 };
 
 export const parseDtoToScheme = (store: StoreFormDto): StoreFormData => {
@@ -107,5 +109,6 @@ export const parseDtoToScheme = (store: StoreFormDto): StoreFormData => {
     profileImage: new File([], ""),
     bannerImageUrl: store.bannerImage ?? "",
     profileImageUrl: store.profileImage ?? "",
+    reloadable: "",
   };
 };

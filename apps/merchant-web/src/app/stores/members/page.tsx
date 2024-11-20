@@ -1,3 +1,3 @@
 export default function MembersPage() {
-  return <div>Members</div>;
+  return <div style={{ height: "86vh" }}>Members</div>;
 }

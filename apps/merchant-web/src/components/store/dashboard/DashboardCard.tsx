@@ -14,7 +14,7 @@ export const DashboardCard = ({
 }: DashboardCardProps) => {
   return (
     <div className="card hover-effect">
-      <div className="value">
+      <div className="value-card-store-container">
         {prefix && (
           <span className="prefix-dashboard-card-value">{prefix}</span>
         )}
@@ -23,7 +23,7 @@ export const DashboardCard = ({
           <span className="suffix-dashboard-card-value">{suffix}</span>
         )}
       </div>
-      <p className="label">{label}</p>
+      <p className="label-card-store-container">{label}</p>
     </div>
   );
 };

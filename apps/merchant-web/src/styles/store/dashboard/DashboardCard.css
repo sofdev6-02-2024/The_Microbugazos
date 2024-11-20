@@ -17,13 +17,13 @@
   flex-grow: 1;
 }
 
-.value {
+.value-card-store-container {
   font-size: 6rem;
   margin: 0;
   position: relative;
 }
 
-.label {
+.label-card-store-container {
   margin: 10px 0 0;
   font-size: 1.5rem;
   font-weight: 100;
@@ -59,14 +59,13 @@
   background-color: var(--primary-600);
 }
 
-.hover-effect.card:hover .value,
-.hover-effect.card:hover .label {
+.hover-effect.card:hover .value-card-store-container,
+.hover-effect.card:hover .label-card-store-container {
   color: white;
 }
 
 .suffix-dashboard-card-value {
   font-family: "montserrat";
-  position: sticky;
   bottom: 15px;
   font-size: 3.5rem;
 }

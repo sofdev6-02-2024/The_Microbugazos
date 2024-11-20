@@ -6,7 +6,7 @@ interface StoreProfileProps {
   profileImage?: string;
   onLoadImage?: (file?: File, type?: "banner" | "profile") => void;
   isEditable?: boolean;
-  reset?: boolean;
+  reload?: string;
 }
 
 export const StoreImagesProfile: React.FC<StoreProfileProps> = ({
@@ -14,10 +14,8 @@ export const StoreImagesProfile: React.FC<StoreProfileProps> = ({
   profileImage,
   onLoadImage,
   isEditable = true,
-  reset = false,
+  reload,
 }) => {
-  
-
   return (
     <div className={styles.container}>
       <ImageUpload
@@ -27,6 +25,7 @@ export const StoreImagesProfile: React.FC<StoreProfileProps> = ({
         defaultImage={bannerImage !== undefined ? bannerImage : ""}
         onImageUpload={(file: File) => onLoadImage?.(file, "banner")}
         isEditable={isEditable}
+        reload={reload}
       />
       <ImageUpload
         shape="circle"
@@ -36,6 +35,7 @@ export const StoreImagesProfile: React.FC<StoreProfileProps> = ({
         defaultImage={bannerImage !== undefined ? profileImage : ""}
         onImageUpload={(file: File) => onLoadImage?.(file, "profile")}
         isEditable={isEditable}
+        reload={reload}
       />
     </div>
   );
