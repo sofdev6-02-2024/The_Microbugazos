@@ -24,7 +24,7 @@ public class CreateStoreCommandHandler(IStoreRepository storeRepository, IUserRe
         }
 
         store = await storeRepository.AddAsync(store);
-        user.UserType = UserType.ADMIN;
+        user.UserType = UserType.OWNER;
         await userRepository.UpdateAsync(user);
         return store.Id;
     }
