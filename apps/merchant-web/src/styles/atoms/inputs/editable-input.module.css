@@ -1,0 +1,52 @@
+.inputGroup {
+  margin-bottom: 1em;
+  position: relative;
+}
+.label {
+  font-size: large;
+  font-weight: var(--ubuntu-font-weight);
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input,
+.textarea {
+  background-color: transparent;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 4px;
+  color: black;
+  padding: 16px 0px;
+  outline: none;
+  border: none;
+}
+
+.textarea {
+  resize: none;
+}
+
+.inputWithIcon {
+  border: 1px solid var(--primary-400);
+  background-color: var(--surface-background);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px;
+  padding: 0px 10px;
+  width: 100%;
+}
+
+.error {
+  color: var(--action-error);
+}
+
+.containerError{
+  border-color: var(--action-error);
+}
+
+
+.untouchable{
+  pointer-events: none!important;
+  cursor: default!important;
+}

@@ -18,7 +18,6 @@ public class CreateCategoryCommandHandler(
     public async Task<BaseResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryDto = request.CreateCategoryDto;
-        
         var response = await validator.ValidateAsync(categoryDto, cancellationToken);
         if (!response.IsValid) return responseHandlingHelper.BadRequest<CreateCategoryDto>(
             "The operation to create a category was not completed, please check the errors.", 

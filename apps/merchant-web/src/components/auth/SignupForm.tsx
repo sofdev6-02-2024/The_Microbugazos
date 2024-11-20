@@ -1,32 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { auth } from "../../config/firebase";
 import { useRouter } from "next/navigation";
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  sendEmailVerification,
-  User,
-  updateProfile,
-  getAdditionalUserInfo,
-  UserCredential,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/config/firebase";
+import { AuthService, SignUpFormData } from "@/services/authService";
 import { FormInput } from "./FormInputProps";
 import { SocialAuth } from "./SocialAuthProps";
 import { MessageDisplay } from "./MessageDisplay";
-import styles from "../../styles/auth/SignupForm.module.css";
-import Logo from "../../app/assets/logo/logo_L.png";
+import styles from "@/styles/auth/signup-form.module.css";
+import Logo from "@/app/assets/logo/logo_L.png";
 import Image from "next/image";
-import axios from "axios";
 
 const SignupForm = () => {
   const [isDarkMode] = useState(false);
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignUpFormData>({
     username: "",
     email: "",
     password: "",
@@ -38,226 +27,82 @@ const SignupForm = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">(
-    "success"
-  );
+  const [messageType, setMessageType] = useState<"success" | "error">("success");
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
-  const [tempUserData, setTempUserData] = useState<{
-    userCredential: UserCredential | null;
-    formData: typeof formData | null;
-  }>({
-    userCredential: null,
-    formData: null,
-  });
-
-  const validateEmail = (email: string): boolean => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-
-    if (id === "email" || id === "password") {
-      setErrors((prev) => ({ ...prev, [id]: "" }));
-    }
-
-    if (id === "confirmPassword" && value !== formData.password) {
-      setErrors((prev) => ({ ...prev, password: "Passwords do not match." }));
-    } else if (id === "confirmPassword") {
-      setErrors((prev) => ({ ...prev, password: "" }));
-    }
-  };
 
   useEffect(() => {
     if (!currentUserEmail) return;
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user?.email === currentUserEmail) {
-        await user.reload();
-
-        if (user.emailVerified) {
-          if (tempUserData.userCredential) {
-            await registerVerifiedUser(tempUserData.userCredential);
-          }
-          setCurrentUserEmail(null);
-          setIsEmailSent(false);
-          router.replace("/login");
-        }
+      if (user?.email === currentUserEmail && user.emailVerified) {
+        setCurrentUserEmail(null);
+        setIsEmailSent(false);
+        router.replace("/login");
       }
     });
 
-    const checkInterval = setInterval(async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser?.email === currentUserEmail) {
-        await currentUser.reload();
-        if (currentUser.emailVerified) {
-          clearInterval(checkInterval);
-          if (tempUserData.userCredential) {
-            await registerVerifiedUser(tempUserData.userCredential);
-          }
-          setCurrentUserEmail(null);
-          setIsEmailSent(false);
-          router.replace("/login");
-        }
-      }
-    }, 2000);
+    return () => unsubscribe();
+  }, [currentUserEmail, router]);
 
-    return () => {
-      unsubscribe();
-      clearInterval(checkInterval);
-    };
-  }, [router, currentUserEmail, tempUserData]);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+    setErrors((prev) => ({ ...prev, [id]: "" }));
 
-  const registerVerifiedUser = async (userCredential: UserCredential) => {
-    const userInfo = getAdditionalUserInfo(userCredential);
-    if (!userInfo?.isNewUser) return;
-    const user = userCredential.user;
-
-    try {
-      await axios.post("http://localhost:5001/api/users/Auth/signup", {
-        name: user.displayName,
-        email: user.email,
-        IdentityId: user.uid,
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const { status, data } = error.response || {};
-        if (
-          status === 500 &&
-          (data as any)?.detail?.startsWith(
-            "System.Exception: User already exists."
-          )
-        ) {
-          return;
-        }
-      }
-      console.error("Error registering verified user:", error);
-      throw error;
+    if (id === "confirmPassword" && value !== formData.password) {
+      setErrors((prev) => ({ ...prev, password: "Passwords do not match." }));
     }
-  };
-
-  const sendVerificationEmail = async (user: User) => {
-    try {
-      await sendEmailVerification(user);
-      setIsEmailSent(true);
-      setCurrentUserEmail(user.email);
-
-      await user.reload();
-    } catch (error) {
-      setMessage("Failed to send verification email. Please try again.");
-      setMessageType("error");
+    else {
+      setErrors(prev => ({ ...prev, password: "" }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    let hasErrors = false;
-
-    if (!formData.username) {
-      setErrors((prev) => ({ ...prev, username: "Username is required." }));
-      hasErrors = true;
-    }
-
-    if (!formData.email) {
-      setErrors((prev) => ({ ...prev, email: "Email is required." }));
-      hasErrors = true;
-    } else if (!validateEmail(formData.email)) {
-      setErrors((prev) => ({ ...prev, email: "Invalid email format." }));
-      hasErrors = true;
-    }
-
-    if (!formData.password) {
-      setErrors((prev) => ({ ...prev, password: "Password is required." }));
-      hasErrors = true;
-    } else if (formData.password !== formData.confirmPassword) {
-      setErrors((prev) => ({ ...prev, password: "Passwords do not match." }));
-      hasErrors = true;
-    }
-
-    if (hasErrors) return;
+    setErrors({ username: "", email: "", password: "" });
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      await updateProfile(userCredential.user, {
-        displayName: formData.username,
-      });
-
-      setTempUserData({
-        userCredential,
-        formData: { ...formData },
-      });
-      await sendVerificationEmail(userCredential.user);
+      const { userCredential, isEmailSent: emailSent } = await AuthService.signUpWithEmailAndPassword(formData);
+      setIsEmailSent(emailSent);
+      setCurrentUserEmail(userCredential.user.email);
     } catch (error) {
-      setTempUserData({
-        userCredential: null,
-        formData: null,
-      });
-      handleAuthError(error);
-    }
-  };
-
-  const registerUser = async (userCredential: UserCredential) => {
-    const userInfo = getAdditionalUserInfo(userCredential);
-    if (!userInfo?.isNewUser) return;
-    const user = userCredential.user;
-
-    try {
-      await axios.post("http://localhost:5001/api/users/Auth/signup", {
-        name: user.displayName,
-        email: user.email,
-        IdentityId: user.uid,
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const { status, data } = error.response || {};
-        if (
-          status === 500 &&
-          (data as any)?.detail?.startsWith(
-            "System.Exception: User already exists."
-          )
-        ) {
-          return;
+      if (error instanceof Error) {
+        if (error.message.includes('email')) {
+          setErrors(prev => ({ ...prev, email: error.message }));
+        } else if (error.message.includes('password')) {
+          setErrors(prev => ({ ...prev, password: error.message }));
+        } else if (error.message.includes('username')) {
+          setErrors(prev => ({ ...prev, username: error.message }));
+        } else {
+          setMessage(error.message);
+          setMessageType("error");
         }
-      }
-      console.error("Error registering user:", error);
-    }
-  };
-
-  const handleAuthError = (error: unknown) => {
-    if (error instanceof Error) {
-      if (error.message.includes("email-already-in-use")) {
-        setErrors((prev) => ({ ...prev, email: "Email is already in use." }));
-      } else {
-        setMessage(`Failed to create account: ${error.message}`);
-        setMessageType("error");
       }
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, new GoogleAuthProvider());
-      await registerUser(result);
+      await AuthService.signInWithGoogle();
       router.replace("/login");
     } catch (error) {
-      handleAuthError(error);
+      if (error instanceof Error) {
+        setMessage(error.message);
+        setMessageType("error");
+      }
     }
   };
 
   const handleFacebookSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, new FacebookAuthProvider());
-      await registerUser(result);
+      await AuthService.signInWithFacebook();
+      router.replace("/login");
     } catch (error) {
-      handleAuthError(error);
+      if (error instanceof Error) {
+        setMessage(error.message);
+        setMessageType("error");
+      }
     }
   };
 

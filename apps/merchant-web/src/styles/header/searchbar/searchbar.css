@@ -1,0 +1,18 @@
+.searchbar {
+  max-width: 600px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .searchbar {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 700px) {
+  .searchbar {
+    max-width: 100%;
+    width: 100%;
+    grid-area: search;
+  }
+}

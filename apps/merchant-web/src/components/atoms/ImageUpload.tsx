@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SquarePen, Upload } from "lucide-react";
 import styles from "@/styles/atoms/ImageUpload.module.css";
-import { reload } from "@firebase/auth";
 
 interface ImageUploadProps {
   shape?: "rectangle" | "circle";

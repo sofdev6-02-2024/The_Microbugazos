@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/styles/SideMenu.module.css";
+import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
 import { LuHome } from "react-icons/lu";
 import { MdOutlineInventory2 } from "react-icons/md";
@@ -15,8 +15,7 @@ export const StoreAdminSideMenu = ({
 }: StoreAdminSideMenuProps) => {
   return (
     <div
-      className={`${styles.sideMenu} desktop-store-admin-menu`}
-      style={{ paddingTop: "25px", height: "100%" }}
+      className={`side-menu desktop-store-admin-menu`}
     >
       <Option
         icon={LuHome}

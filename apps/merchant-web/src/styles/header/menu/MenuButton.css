@@ -1,0 +1,8 @@
+.menu-button {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  color: var(--background-light-primary);
+  font-size: var(--heading-3-text-size);
+}

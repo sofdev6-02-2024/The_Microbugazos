@@ -1,6 +1,33 @@
 {
   "Category": {
-    "NameMinLength": 3,
-    "NameMaxLength": 50
+    "CategoryNameMinLength": 3,
+    "CategoryNameMaxLength": 50
+  },
+  "Image": {
+    "AltTextMinLength": 5,
+    "AltTextMaxLength": 100,
+    "UrlMinLength": 10,
+    "UrlMaxLength": 2048
+  },
+  "Variant": {
+    "VariantNameMinLength": 3,
+    "VariantNameMaxLength": 30
+  },
+  "ProductVariant": {
+    "PriceAdjustmentMin": 0,
+    "StockQuantityMin": 0,
+    "AttributeNameMinLenght": 3,
+    "AttributeNameMaxLenght": 30,
+    "AttributeValueMinLenght": 3,
+    "AttributeValueMaxLenght": 30
+  },
+  "Product": {
+    "ProductNameMinLength": 3,
+    "ProductNameMaxLength": 70,
+    "ProductDescriptionMinLength": 5,
+    "ProductDescriptionMaxLenght": 100,
+    "PriceMinLenght": 0,
+    "ProductBrandMinLength": 3,
+    "ProductBrandMaxLength": 50
   }
 }

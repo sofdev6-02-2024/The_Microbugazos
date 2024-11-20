@@ -29,6 +29,13 @@ li.mobile-store-admin-menu-border-icon > * {
 .mobile-store-admin-menu li {
   padding: 7px;
   cursor: pointer;
+  list-style: none;
+}
+
+.desktop-store-admin-menu {
+  padding-top: 25px;
+  height: 100%;
+  width: 100%;
 }
 
 @media screen and (max-width: 850px) {
@@ -37,9 +44,8 @@ li.mobile-store-admin-menu-border-icon > * {
   }
 }
 
-
 @media screen and (min-width: 850px) {
   .mobile-store-admin-menu {
-  display: none;
-}
+    display: none;
+  }
 }
