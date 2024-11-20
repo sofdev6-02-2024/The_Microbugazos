@@ -22,7 +22,6 @@ export function useFetch<T>(url: string, initialData: Data<T>): Params<T> {
     setLoading(true);
     const fetchData = async () => {
       try {
-        console.log("RELOADING")
         if (url === "") return;
         const response = await axiosInstance.get(url, controller);
         setData(response.data);
