@@ -7,7 +7,7 @@ import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
 import { ProductPopUpProvider } from "@/contexts/PopUpContext";
-import { ProductPopUp } from "@/components/general/ProductPopUp";
+import { ProductPopUp } from "@/components/general/product-pop-up/ProductPopUp";
 
 const EXCLUDED_ROUTES = ["/login", "/signup"];
 

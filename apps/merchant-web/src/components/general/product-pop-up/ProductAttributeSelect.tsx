@@ -1,5 +1,5 @@
+import { Select } from '../Select';
 import '@/styles/general/product-attribute-select.css'
-import { Select } from './Select';
 
 interface Props {
   name: string;

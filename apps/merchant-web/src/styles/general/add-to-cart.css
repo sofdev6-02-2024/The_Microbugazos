@@ -1,9 +1,9 @@
 .add-to-cart-button {
   width: 100%;
-  min-height: 30px;
-  background-color: var(--secondary-400);
+  min-height: 40px;
+  background-color: var(--primary-400);
   border: none;
-  color: var(--background-primary);
+  color: var(--tertiary-400);
   display: flex;
   flex-direction: row;
   align-items: center;

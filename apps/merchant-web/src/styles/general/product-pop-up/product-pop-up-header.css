@@ -1,0 +1,9 @@
+.product-popup-header {
+  width: 100%;
+  color: var(--foreground-secondary);
+}
+
+.product-popup-name {
+  font-size: var(--heading-2-text-size);
+  color: var(--primary-600);
+}

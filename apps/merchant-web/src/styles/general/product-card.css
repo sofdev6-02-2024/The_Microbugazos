@@ -15,7 +15,7 @@
 
 .product-card-image {
   width: 100%;
-  max-height: 450px;
+  height: 300px;
   object-fit: cover;
 }
 
@@ -35,7 +35,7 @@
 
 .product-card-price {
   font-size: var(--normal-1-text-size);
-  color: var(--secondary-600);
+  color: var(--foreground-primary);
 }
 
 .product-card-price > .product-card-price-symbol {

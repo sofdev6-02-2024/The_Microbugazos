@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { Option } from "./Option";
-import "@/styles/general/Select.css";
+import "@/styles/general/select.css";
 
 interface Props {
   values: string[];

@@ -4,6 +4,7 @@ import { ProductCard } from "./ProductCard";
 import { ListType } from "@/commons/entities/ListType";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import Link from "next/link";
 
 interface Props {
   title: string;
@@ -34,9 +35,9 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
     <div className="products-carousel">
       <div className="products-carousel-header">
         <h2 className="products-carousel-header-title">{title}</h2>
-        <a className="products-carousel-header-link" href={url}>
+        <Link className="products-carousel-header-link" href={url}>
           More products
-        </a>
+        </Link>
       </div>
       <div className="products-carousel-section">
         <Swiper
