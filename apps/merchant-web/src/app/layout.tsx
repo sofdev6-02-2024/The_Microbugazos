@@ -13,13 +13,13 @@ import { Toaster } from "sonner";
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/stores"];
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const pathname: string | null = usePathname();
-
    const showComponents =
      pathname !== null &&
      !EXCLUDED_ROUTES.includes(pathname) &&
@@ -29,6 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Toaster richColors/>
+
         <OptionsProvider>
           <VariantsProvider>
             <ProductPopUpProvider>

@@ -3,6 +3,7 @@ import { auth } from "@/config/firebase";
 import { onAuthStateChanged, User, signOut } from "firebase/auth";
 import { AuthUser } from '@/types/auth';
 
+
 const useAuth = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);

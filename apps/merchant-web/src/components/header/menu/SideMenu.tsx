@@ -15,6 +15,7 @@ import {
 } from "react-icons/md";
 import useAuth from "@/commons/hooks/useAuth";
 import { UserType } from "@/types/auth";
+
 interface Props {
   isOpen: boolean;
   toggleMenu: () => void;
@@ -23,6 +24,7 @@ interface Props {
 const SideMenu = ({ isOpen, toggleMenu }: Props) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
