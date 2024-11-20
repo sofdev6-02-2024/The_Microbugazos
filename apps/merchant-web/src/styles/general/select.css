@@ -1,6 +1,7 @@
 .select-section {
   width: 100%;
   position: relative;
+  background: transparent;
 }
 
 .select-button {
@@ -15,6 +16,7 @@
   border: 2px solid var(--primary-600);
   border-radius: 5px;
   color: var(--primary-600);
+  background-color: transparent;
 }
 
 .select-options {
@@ -22,7 +24,7 @@
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: var(--background-light-primary);
+  background-color: var(--background-primary);
   border-radius: 5px;
   z-index: 10;
   overflow-y: auto;

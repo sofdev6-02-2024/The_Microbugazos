@@ -11,7 +11,6 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({
   value,
   onChange,
 }) => {
-
   return (
     <PhoneInput
       country={"us"}

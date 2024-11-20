@@ -7,12 +7,12 @@ import {UpdateProfileData, UpdateResult} from "@/types/auth";
 
 export class ProfileService {
   static getCurrentUserData() {
-    const user = auth.currentUser;
+    const user = auth.currentUser
     if (!user) return null;
 
     return {
-      email: user.email || '',
-      username: user.displayName || ''
+      email: user.email ?? '',
+      username: user.displayName ?? ''
     };
   }
 

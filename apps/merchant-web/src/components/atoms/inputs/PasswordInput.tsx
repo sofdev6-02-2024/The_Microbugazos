@@ -24,10 +24,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
 
   return (
     <div className={styles.passwordContainer}>
-      <EditableInput
-        {...props}
-        type={showPassword ? "text" : "password"}
-      />
+      <EditableInput {...props} type={showPassword ? "text" : "password"} />
       <button
         type="button"
         onClick={togglePasswordVisibility}

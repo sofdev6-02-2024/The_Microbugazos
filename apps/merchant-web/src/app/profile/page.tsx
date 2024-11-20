@@ -1,12 +1,13 @@
 import React from "react";
 import ProfileManagement from "@/components/profile-management/ProfileManagement";
+import { ProfileProvider } from "@/contexts/profile/ProfileContext";
 
-const Page = () => {
-    return (
-        <div>
-            <ProfileManagement/>
-        </div>
-    );
-};
-
-export default Page;
+export default function Page() {
+  return (
+    <ProfileProvider>
+      <main>
+        <ProfileManagement />
+      </main>
+    </ProfileProvider>
+  );
+}

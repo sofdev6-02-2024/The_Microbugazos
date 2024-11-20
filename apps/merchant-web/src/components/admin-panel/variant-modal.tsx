@@ -2,7 +2,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {useEffect, useState} from "react";
 import TextField from "@/components/text-field";
 import {MdImageSearch} from "react-icons/md";
-import Dropzone from "@/components/image-selector";
+import Dropzone from "@/components/ImagePicker";
 import {useVariants} from "@/commons/providers/variant-provider";
 import {ValidateLongText} from "@/utils/validators/validations/string";
 import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/utils/validators/validations/number";

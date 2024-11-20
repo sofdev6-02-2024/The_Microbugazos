@@ -1,4 +1,4 @@
-import ProductDetailsStyle from "@/styles/products/ProductDetails.module.css";
+import ProductDetailsStyle from "@/styles/products/product-details.module.css";
 import {useState} from "react";
 
 export interface Image {

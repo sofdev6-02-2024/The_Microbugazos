@@ -1,6 +1,6 @@
 "use client";
 import ComboBox from "@/components/combo-box";
-import Dropzone from "@/components/image-selector";
+import Dropzone from "@/components/ImagePicker";
 import TextField from "@/components/text-field";
 import { useEffect, useState } from "react";
 import ProductOptionsModal from "@/components/admin-panel/product-options-modal";
@@ -10,9 +10,9 @@ import VariantModal from "@/components/admin-panel/variant-modal";
 import { useVariants } from "@/commons/providers/variant-provider";
 import { ValidateName, ValidateLongText } from "@/utils/validators/validations/string";
 import { ValidateNumberWithDecimals } from "@/utils/validators/validations/number";
-import Notification from "@/components/notification";
-import AddProductStyle from "../../../styles/admin-panel/add-products.module.css";
-import TextFieldStyle from "../../../styles/components/TextField.module.css";
+import Notification from "@/components/Notification";
+import AddProductStyle from "@/styles/admin-panel/add-products.module.css";
+import TextFieldStyle from '@/styles/components/text-field.module.css';
 
 export default function AddProducts() {
   const [errors, setErrors] = useState<[{ textField: string; error: string }]>(
