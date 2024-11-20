@@ -1,4 +1,5 @@
 import styles from "@/styles/store/CreateStorePanel.module.css";
+import { ImCancelCircle } from "react-icons/im";
 
 interface CreateStorePanelProps {
   onSubmit: () => void;
@@ -25,12 +26,12 @@ export const CreateStorePanel: React.FC<CreateStorePanelProps> = ({
       <div className={styles.buttonContainer}>
         <button
           disabled={clicked}
-          className={`${styles.button} ${styles.cancelButton} ${
+          className={`${styles.button} ${styles.cancelIconButton} ${
             clicked && styles.disabledButton
           }`}
           onClick={onCancel}
         >
-          Cancel
+          <ImCancelCircle size={30} />
         </button>
         <button
           disabled={clicked}

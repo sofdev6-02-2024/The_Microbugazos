@@ -23,7 +23,6 @@
   padding: 25px 1px;
 }
 
-
 .button {
   font-size: large;
   padding: 10px 20px;
@@ -41,6 +40,18 @@
   color: var(--primary-400);
   background-color: var(--surface-background);
   outline: 1px solid var(--primary-400);
+}
+
+.cancelIconButton {
+  color: var(--primary-400);
+  background-color: var(--surface-background);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cancelIconButton:hover {
+  color: var(--primary-600);
 }
 
 .createButton:hover {
