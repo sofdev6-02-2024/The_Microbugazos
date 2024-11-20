@@ -16,7 +16,7 @@ const SignupForm = () => {
     currentUserEmail,
     tempUserData,
     unsubscribe,
-    checkInterval
+    checkInterval,
   } = useSignUpForm();
 
   useEffect(() => {
@@ -33,11 +33,7 @@ const SignupForm = () => {
         <div className={styles.leftSection}>
           <h1 className={styles.title}>SIGN UP</h1>
 
-          {isEmailSent ? (
-            <MessageVerification />
-          ) : (
-            <Form />
-          )}
+          {isEmailSent ? <MessageVerification /> : <Form />}
         </div>
 
         <div className={styles.rightSection}>

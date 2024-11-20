@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { ProductPopUpProvider } from "@/contexts/PopUpContext";
 import { ProductPopUp } from "@/components/general/ProductPopUp";
 
-const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
+const EXCLUDED_ROUTES = ["/login", "/signup"];
 
 export default function RootLayout({
   children,

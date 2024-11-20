@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { auth } from "@/config/firebase";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
-import { UserType } from "@/types/user";
-
-interface AuthUser extends User {
-  userType?: UserType;
-}
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { AuthUser } from "@/types/auth";
 
 const useAuth = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
