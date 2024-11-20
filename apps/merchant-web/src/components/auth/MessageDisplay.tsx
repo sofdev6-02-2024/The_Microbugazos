@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/auth/MessageDisplay.module.css';
+import styles from '../../styles/auth/message-display.module.css';
 
 interface MessageDisplayProps {
   message: string;

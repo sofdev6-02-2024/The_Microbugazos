@@ -32,7 +32,7 @@ export default function CreateNewStoreForm() {
       toast.promise(createStoreHandler(storeFormHandler.values, user?.userId), {
         loading: "Creating Store",
         success: (storeId) => {
-          router.push(`/stores/${storeId}`);
+          router.push(`/stores`);
           setClicked(false);
           return "Store Created";
         },
