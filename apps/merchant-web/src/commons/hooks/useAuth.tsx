@@ -24,7 +24,7 @@ const useAuth = () => {
                 try {
                     const token = await currentUser.getIdToken();
                     document.cookie = `auth-token=${token}; path=/`;
-
+                    console.log(token);
                     const response = await fetch('http://localhost:5001/api/users/Auth/token', {
                         headers: {
                             'Authorization': `Bearer ${token}`,

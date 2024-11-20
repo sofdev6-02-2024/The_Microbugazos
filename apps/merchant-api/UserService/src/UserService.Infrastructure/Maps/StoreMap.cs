@@ -24,5 +24,13 @@ public class StoreMap : IEntityTypeConfiguration<Store>
             .WithOne(u => u.Store)
             .HasForeignKey<Store>(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(s => s.SellerIds)
+            .HasConversion(
+                v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => Guid.Parse(id))
+                    .ToList()
+            );
     }
 }

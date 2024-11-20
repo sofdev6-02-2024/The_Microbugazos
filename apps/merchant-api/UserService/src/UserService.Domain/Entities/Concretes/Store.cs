@@ -13,4 +13,5 @@ public class Store : BaseEntity
     public string? ProfileImage { get; set; }
     public Guid UserId { get; set; }
     public User? User { get; set; }
+    public ICollection<Guid> SellerIds { get; set; } = new List<Guid>();
 }
