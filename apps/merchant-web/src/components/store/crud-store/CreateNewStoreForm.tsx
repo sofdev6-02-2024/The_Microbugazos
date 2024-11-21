@@ -31,9 +31,9 @@ export default function CreateNewStoreForm() {
       }
       toast.promise(createStoreHandler(storeFormHandler.values, user?.userId), {
         loading: "Creating Store",
-        success: (storeId) => {
+        success: () => {
           setClicked(false);
-          location.href = `/store`;
+          router.push("/store");
           return "Store Created";
         },
         error: () => {
@@ -45,7 +45,7 @@ export default function CreateNewStoreForm() {
   });
 
   const onCancel = () => {
-    location.href = "/";
+    router.replace("/")
   };
 
   return (
