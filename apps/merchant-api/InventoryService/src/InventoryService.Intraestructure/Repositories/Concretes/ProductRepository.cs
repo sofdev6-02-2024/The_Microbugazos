@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using InventoryService.Intraestructure.Data;
 using InventoryService.Intraestructure.Repositories.Bases;
 using InventoryService.Domain.Concretes;
+using InventoryService.Domain.Params;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryService.Intraestructure.Repositories.Concretes;
@@ -39,24 +41,30 @@ public class ProductRepository(InventoryDbContext context) : BaseProductReposito
             .ToListAsync();
     }
 
-    public override async Task<IEnumerable<Product>> GetProductsByStore(Guid id, int pageNumber, int pageSize)
+    public override async Task<IEnumerable<Product>> GetProductsByStore(
+        Guid id,
+        int pageNumber,
+        int pageSize,
+        FilteringQueryParams queryParams)
     {
-        return await DbSet
-            .Where(e => e.IsActive)
-            .Where(e => e.StoreId == id)
-            .AsSplitQuery()
-            .Include(p => p.Images)
-            .Include(p => p.Categories.Where(c => c.IsActive == true))
-            .ThenInclude(c => c.ParentCategory)
-            .Include(p => p.ProductVariants)
-            .ThenInclude(pv => pv.Image)
-            .Include(p => p.ProductVariants)
-            .ThenInclude(pa => pa.Attributes)
-            .ThenInclude(pa => pa.Variant)
-            .OrderBy(c => c.CreatedAt)
+        var query = _GetBaseQueryProductsByStore(id);
+
+        query = _ApplyFilters(query, queryParams);
+        query = _ApplySort(query, queryParams);
+
+        return await query.OrderBy(c => c.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+    }
+
+    public override async Task<int> GetCountProductsByStore(Guid id, int pageNumber, int pageSize, FilteringQueryParams queryParams)
+    {
+        var query = _GetBaseQueryProductsByStore(id);
+
+        query = _ApplyFilters(query, queryParams);
+        query = _ApplySort(query, queryParams);
+        return await query.CountAsync();
     }
 
     public override async Task<IEnumerable<Product>> GetAllAsync(int pageNumber, int pageSize)
@@ -71,9 +79,66 @@ public class ProductRepository(InventoryDbContext context) : BaseProductReposito
             .Include(p => p.ProductVariants)
             .ThenInclude(pa => pa.Attributes)
             .ThenInclude(pa => pa.Variant)
-            .OrderBy(c => c.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+    }
+
+    private IQueryable<Product> _GetBaseQueryProductsByStore(Guid id)
+    {
+        return DbSet
+            .Where(e => e.IsActive)
+            .Where(e => e.StoreId == id)
+            .Include(p => p.Images)
+            .Include(p => p.Categories.Where(c => c.IsActive == true))
+            .ThenInclude(c => c.ParentCategory)
+            .Include(p => p.ProductVariants)
+            .ThenInclude(pv => pv.Image)
+            .Include(p => p.ProductVariants)
+            .ThenInclude(pa => pa.Attributes)
+            .ThenInclude(pa => pa.Variant)
+            .AsQueryable();
+    }
+
+    private IQueryable<Product> _ApplyFilters(IQueryable<Product> query, FilteringQueryParams queryParams)
+    {
+        if (queryParams.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.BasePrice >= queryParams.MinPrice.Value);
+        }
+
+        if (queryParams.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.BasePrice <= queryParams.MaxPrice.Value);
+        }
+
+        if (queryParams.MinRating.HasValue)
+        {
+            // TODO: Implement filter support. 
+        }
+
+        if (queryParams.MaxRating.HasValue)
+        {
+            // TODO: Implement filter support. 
+        }
+
+        return query;
+    }
+
+    private IQueryable<Product> _ApplySort(IQueryable<Product> query, FilteringQueryParams queryParams)
+    {
+        if (!string.IsNullOrEmpty(queryParams.SortBy))
+        {
+            Debug.Assert(queryParams.SortOrder != null, "queryParams.SortOrder != null");
+            
+            return queryParams.SortBy.ToLower() switch
+            {
+                "price" => queryParams.SortOrder.ToLower() == "desc" ? query.OrderByDescending(p => p.BasePrice) : query.OrderBy(p => p.BasePrice),
+                "name" => queryParams.SortOrder.ToLower() == "desc" ? query.OrderByDescending(p => p.Name) : query.OrderBy(p => p.Name),
+                _ => query.OrderBy(c => c.CreatedAt),
+            };
+        }
+
+        return query;
     }
 }

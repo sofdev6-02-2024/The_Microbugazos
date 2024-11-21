@@ -24,7 +24,7 @@ export const useProductsView = () => {
 };
 
 export const ProductsViewProvider = ({children}: {children: ReactNode}) => {
-  const pageSize = 4;
+  const pageSize = 24;
   const [isGridView, setIsGridView] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -40,7 +40,7 @@ export const ProductsViewProvider = ({children}: {children: ReactNode}) => {
     totalPages,
     toggleView,
     setPage,
-    setTotalPages
+    setTotalPages,
   }), [isGridView, page, totalPages]);
 
   return (

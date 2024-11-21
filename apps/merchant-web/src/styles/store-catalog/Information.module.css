@@ -9,20 +9,20 @@
 }
 
 .storeName {
-  font-family: var(--montserrat-alt-font-family);
-  font-size: 26px;
+  font-family: var(--montserrat-font-family);
+  font-size: 32px;
   color: var(--primary-400);
 }
 
 .contactInformation {
-  font-family: var(--montserrat-alt-font-family);
-  font-size: 12px;
+  font-family: var(--ubuntu-font-family);
+  font-size: 14px;
   color: var(--secondary-400);
 }
 
 .description {
-  font-family: var(--montserrat-alt-font-family);
-  font-size: 14px;
+  font-family: var(--ubuntu-font-family);
+  font-size: 16px;
   color: black;
 }
 

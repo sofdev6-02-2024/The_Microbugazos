@@ -5,10 +5,6 @@ import axiosInstance from "@/request/AxiosConfig";
 import {StoreImagesProfile} from "@/components/store/StoreImagesProfile";
 import InformationStyle from "@/styles/store-catalog/Information.module.css"
 
-interface Props {
-  storeId: string;
-}
-
 export const StoreProfile = ({storeId}: Props) => {
   const [storeData, setStoreData] = useState<Store>();
 
@@ -31,15 +27,19 @@ export const StoreProfile = ({storeId}: Props) => {
       />
       <div className={InformationStyle.container}>
         <h1 className={InformationStyle.storeName}>
-          Store name
+          {storeData?.name ?? "Store Name"}
         </h1>
         <span className={InformationStyle.contactInformation}>
-          Cochabamba, Sacaba (+591 69459340)
+          {storeData?.address ?? "Some address"}. ({storeData?.phoneNumber ?? "+591 1234567"})
         </span>
         <p className={InformationStyle.description}>
-          lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae, lorem ipsum dolor vae
+          {storeData?.description ?? "Some description"}
         </p>
       </div>
     </div>
   );
+}
+
+interface Props {
+  storeId: string;
 }

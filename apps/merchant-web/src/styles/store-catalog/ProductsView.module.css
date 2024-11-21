@@ -36,3 +36,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 64px;
+}

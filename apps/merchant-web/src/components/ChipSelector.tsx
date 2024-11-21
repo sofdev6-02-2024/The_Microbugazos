@@ -2,13 +2,14 @@
 import {useState} from "react";
 
 interface ChipSelectorProps {
-    name: string,
-    options: string[],
-    handleChange: (string, number) => void
+  name: string,
+  options: string[],
+  handleChange: (string, number) => void,
+  defaultValue?: number,
 }
 
-export default function ChipSelector({name, options, handleChange} : ChipSelectorProps) {
-    const [indexSelected, setIndexSelected] = useState(-1);
+export default function ChipSelector({name, options, handleChange, defaultValue} : ChipSelectorProps) {
+    const [indexSelected, setIndexSelected] = useState(defaultValue ?? -1);
     return (
         <div style={{display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "8px"}}>
             {options.map((item, index) => <div style={{

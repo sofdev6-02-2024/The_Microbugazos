@@ -38,23 +38,31 @@ export default function ProductDetails() {
                 const attributeMap: Record<string, Set<string>> = {};
                 const variantSelected: Record<string, number> = {};
 
-                setImages(data.images);
-                setProduct(data);
+                setImages(data.data.images);
+                setProduct(data.data);
 
-                data.productVariants.forEach(variant => {
-                    variant.attributes.forEach(attribute => {
-                        if (!attributeMap[attribute.name]) {
-                            attributeMap[attribute.name] = new Set();
-                            variantSelected[attribute.name] = -1;
-                        }
-                        attributeMap[attribute.name].add(attribute.value);
-                    });
-                });
+                mapVariants(data.data.productVariants, attributeMap);
                 setAttributesMap(attributeMap);
                 setVariantSelected(variantSelected);
             }))
             .catch(e => console.error(e));
     }, []);
+
+    const mapVariants = (productVariants, attributeMap) => {
+      productVariants.forEach(variant => {
+        mapAttributes(variant, attributeMap);
+      });
+    }
+
+    const mapAttributes = (variant, attributeMap) => {
+      variant.attributes.forEach(attribute => {
+        if (!attributeMap[attribute.name]) {
+          attributeMap[attribute.name] = new Set();
+          variantSelected[attribute.name] = -1;
+        }
+        attributeMap[attribute.name].add(attribute.value);
+      });
+    }
 
     const handleVariantSelection = (name : string, index : number) =>  {
         const variantEdited = variantSelected;
@@ -79,7 +87,7 @@ export default function ProductDetails() {
     }
 
     function handleAddToCart() {
-        const isAllSelected = Object.entries(variantSelected).filter(([key, value]) => value === -1);
+        const isAllSelected = Object.entries(variantSelected).filter(([_, value]) => value === -1);
         console.log(variantSelected);
         console.log(isAllSelected);
 
@@ -105,12 +113,12 @@ export default function ProductDetails() {
                 gap: "16px",
                 height: "inherit"
             }}>
-                <h1 style={{color: "#000", fontFamily: "Montserrat, serif", fontSize: "28px", fontWeight: "bold"}}>{product!.name}</h1>
+                <h1 style={{color: "#000", fontFamily: "Montserrat, serif", fontSize: "28px", fontWeight: "bold"}}>{product.name}</h1>
                 <RatingSelector rating={2.5}></RatingSelector>
                 <label style={{
                     fontSize: "20px",
                     fontWeight: "600",
-                }}>$ {product!.price}
+                }}>$ {product.price}
                     <span style={{
                         fontWeight: "300",
                         fontSize: "16px"
@@ -120,9 +128,9 @@ export default function ProductDetails() {
                             + ( variantLoaded.priceAdjustment.toString()))})
                     </span>
                 </label>
-                {variantLoaded && <label>Total: $ {product!.price + variantLoaded.priceAdjustment}</label>}
+                {variantLoaded && <label>Total: $ {product.price + variantLoaded.priceAdjustment}</label>}
                 <p>
-                    {product!.description}
+                    {product.description}
                 </p>
                 <hr/>
                 {attributesMap && Object.entries(attributesMap).map(([name, value]) => (

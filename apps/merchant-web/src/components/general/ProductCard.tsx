@@ -19,8 +19,6 @@ export const ProductCard = ({ product, type }: Props) => {
   const { openProductPopUp } = useProductPopUp();
 
   const handleProductClick = () => {
-    console.clear();
-    console.log(product);
     openProductPopUp(product);
   };
 
@@ -33,7 +31,7 @@ export const ProductCard = ({ product, type }: Props) => {
       />
       <div className={`product-card-info-section ${type}`}>
         <a
-          href={`http://localhost:3000/product/${product.id}`}
+          href={`http://localhost:3000/product-details/${product.id}`}
           className={`product-card-name ${type}`}
         >
           {product.name}

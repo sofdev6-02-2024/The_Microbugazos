@@ -1,38 +1,70 @@
 "use client"
 
-import ProductsViewStyle from "@/styles/store-catalog/ProductsView.module.css"
-import {ProductCard} from "@/components/general/ProductCard";
+import React, {useEffect, useState} from "react";
+import DotLoader from "react-spinners/DotLoader";
 import {ListType} from "@/commons/entities/ListType";
-import {useProductsView} from "@/contexts/ProductsViewContext";
-import PageSelector from "@/components/PageSelector";
-import React from "react";
 import Product from "@/commons/entities/concretes/Product";
+import {ProductCard} from "@/components/general/ProductCard";
+import PageSelector from "@/components/PageSelector";
+import {useProductsView} from "@/contexts/ProductsViewContext";
+import {GetProductsByStore} from "@/services/storeCatalogService";
+import ProductsViewStyle from "@/styles/store-catalog/ProductsView.module.css"
 
 interface Props {
-  products: Array<Product>
+  id: string
 }
 
-export default function ProductsView({products}: Readonly<Props>) {
+export default function ProductsView({id}: Readonly<Props>) {
   const context = useProductsView();
   const maxVisiblePagesButton = 5;
+  const [products, setProducts] = useState<Array<Product>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    GetProductsByStore(id, context.page, context.pageSize)
+      .then(data => {
+        setProducts(data.data.items.map(product =>
+          new Product(
+            product.productId,
+            product.storeId,
+            product.name,
+            product.description,
+            product.price,
+            product.brand,
+            product.images,
+            product.productVariants,
+            product.categories,
+            product.productReviews,
+            )));
+        context.setTotalPages(Math.ceil(data.data.existingElements / context.pageSize));
+      })
+      .finally(() => setIsLoading(false));
+  }, [id, context.page]);
 
   return (
     <div className={ProductsViewStyle.container}>
-      <div
-        className={
-          `${ProductsViewStyle.base} ${
-            context.isGridView ? ProductsViewStyle.gridView : ProductsViewStyle.listView
-          }`
-        }
-      >
-        {products.map((product) =>
-          <ProductCard
-            key={product.id}
-            product={product}
-            type={context.isGridView ? ListType.Card : ListType.List}
-          />
-        )}
-      </div>
+      {isLoading ? (
+        <div className={`${ProductsViewStyle.spinnerContainer}`}>
+          <DotLoader size={64} color="#7790ED" loading={true}></DotLoader>
+        </div>
+      ) : (
+        <div
+          className={
+            `${ProductsViewStyle.base} ${
+              context.isGridView ? ProductsViewStyle.gridView : ProductsViewStyle.listView
+            }`
+          }
+        >
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              type={context.isGridView ? ListType.Card : ListType.List}
+            />
+          ))}
+        </div>
+      )}
       <PageSelector
         page={context.page}
         setPage={context.setPage}

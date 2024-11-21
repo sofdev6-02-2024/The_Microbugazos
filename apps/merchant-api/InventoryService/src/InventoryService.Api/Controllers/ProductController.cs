@@ -4,6 +4,7 @@ using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
+using InventoryService.Domain.Params;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,9 +48,10 @@ public class ProductController(IMediator mediator) : ControllerBase
     }
     
     [HttpGet("byStore/{id}")]
-    public async Task<IActionResult> GetByStore(Guid id, int page = 1, int pageSize = 10)
+    public async Task<IActionResult> GetByStore(Guid id, [FromQuery] FilteringQueryParams queryParams,
+        int page = 1, int pageSize = 10)
     {
-        var result = await mediator.Send(new GetProductsByStore(id, page, pageSize));
+        var result = await mediator.Send(new GetProductsByStore(id, page, pageSize, queryParams));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         

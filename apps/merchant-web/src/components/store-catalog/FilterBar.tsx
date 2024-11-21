@@ -1,10 +1,11 @@
 "use client"
 
 import {LayoutGrid, LayoutList, ListFilter, ArrowDownUp} from "lucide-react";
-import {useEffect} from "react";
 import Switch from "@/components/Switch";
 import {useProductsView} from "@/contexts/ProductsViewContext";
 import FilterBarStyles from "@/styles/store-catalog/FilterBar.module.css"
+import FiltersModal from "@/components/store-catalog/FiltersModal";
+import SortModal from "@/components/store-catalog/SortModal";
 
 export default function FilterBar() {
   const context = useProductsView();
@@ -12,14 +13,8 @@ export default function FilterBar() {
   return (
     <div className={FilterBarStyles.container}>
       <div className={FilterBarStyles.optionsSection}>
-        <button className={FilterBarStyles.button}>
-          <ListFilter></ListFilter>
-          <span>Filter</span>
-        </button>
-        <button className={FilterBarStyles.button}>
-          <ArrowDownUp></ArrowDownUp>
-          <span>Sort</span>
-        </button>
+        <FiltersModal></FiltersModal>
+        <SortModal></SortModal>
       </div>
       <Switch
         value={context.isGridView}
