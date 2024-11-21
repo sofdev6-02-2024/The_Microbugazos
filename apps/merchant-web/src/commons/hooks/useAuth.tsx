@@ -1,60 +1,64 @@
-import { useEffect, useState } from 'react';
-import { auth } from '@/config/firebase'
+import { useEffect, useState } from "react";
+import { auth } from "@/config/firebase";
 import { onAuthStateChanged, User, signOut } from "firebase/auth";
-import { UserType, AuthUser } from '@/types/auth';
+import { AuthUser, UserType } from '@/types/auth';
 
 
 const useAuth = () => {
-    const [user, setUser] = useState<AuthUser | null>(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    const signOutHandle = async () => {
-        try {
-            await signOut(auth);
-            document.cookie = 'auth-token=; max-age=0; path=/';
-            setUser(null);
-        } catch (error) {
-            console.log("Failed to close session", error);
-        }
+  const signOutHandle = async () => {
+    try {
+      await signOut(auth);
+      document.cookie = "auth-token=; max-age=0; path=/";
+      setUser(null);
+    } catch (error) {
+      console.log("Failed to close session", error);
     }
+  };
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                try {
-                    const token = await currentUser.getIdToken();
-                    document.cookie = `auth-token=${token}; path=/`;
-                    console.log(token);
-                    const response = await fetch('http://localhost:5001/api/users/Auth/token', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const token = await currentUser.getIdToken();
+          document.cookie = `auth-token=${token}; path=/`;
 
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser({
-                            ...currentUser,
-                            userType: userData.userType
-                        });
-                    } else {
-                        setUser(null);
-                    }
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    setUser(null);
-                }
-            } else {
-                setUser(null);
+          const response = await fetch(
+            "http://localhost:5001/api/users/Auth/token",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
             }
-            setLoading(false);
-        });
+          );
 
-        return unsubscribe;
-    }, []);
+          if (response.ok) {
+            const userData = await response.json();
+            setUser({
+              ...currentUser,
+              userType: userData.userType,
+              userId: userData.id,
+            });
+          } else {
+            setUser(null);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
 
-    return { user, loading, signOutHandle };
+    return unsubscribe;
+  }, []);
+
+  return { user, loading, signOutHandle };
 };
 
 export default useAuth;

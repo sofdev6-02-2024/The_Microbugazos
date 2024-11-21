@@ -1,0 +1,25 @@
+{
+  "shoppingCartItems": [
+    {
+      "productVariantId": "d6f901b3-2b54-414e-b7f2-86404e63f82d",
+      "name": "Product 1 - Size: Min, Color: Red",
+      "price": 13.49,
+      "imageUrl": "https://static.vecteezy.com/system/resources/thumbnails/041/642/641/small_2x/ai-generated-cleaning-product-isolated-on-transparent-background-png.png",
+      "quantity": 1
+    },
+    {
+      "productVariantId": "3482d8ad-6e7f-4ed7-bc19-21d1ef6516c5",
+      "name": "Product 1 - Size: Max, Color: Green",
+      "price": 13.49,
+      "imageUrl": "https://static.vecteezy.com/system/resources/thumbnails/041/642/641/small_2x/ai-generated-cleaning-product-isolated-on-transparent-background-png.png",
+      "quantity": 2
+    }
+  ],
+  "customer": {
+    "userId": "ae3d2f0a-3c2e-4bb5-8f72-3b4971e3b79d",
+    "email": "customer@example.com",
+    "address": "123 Example St",
+    "city": "Example City",
+    "country": "Example Country"
+  }
+}

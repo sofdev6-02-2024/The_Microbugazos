@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using UserService.Application.Dtos.Stores;
 using UserService.Application.Handlers.Stores.Request.Commands;
 using UserService.Application.Handlers.Stores.Request.Queries;
-using UserService.Application.Validators;
 
 namespace UserService.Api.Controllers;
 
@@ -47,6 +46,17 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         }
         var updatedStore = await mediator.Send(new UpdateStoreCommand(id, storeDto));
         return Ok(updatedStore);
+    }
+
+    [HttpGet("user/{id}")]
+    public async Task<ActionResult<StoreDto>> GetStoreByUserId([FromRoute] Guid id)
+    {
+        var store = await mediator.Send(new GetStoreByUserIdQuery(id));
+        if (store == null)
+        {
+            return NotFound();
+        }
+        return Ok(store);
     }
     
     [HttpPost("{id}/sellers")]

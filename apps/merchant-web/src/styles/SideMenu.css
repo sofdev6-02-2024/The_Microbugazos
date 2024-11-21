@@ -1,19 +1,23 @@
 .side-menu {
-  position: fixed;
-  top: 60px;
-  left: -300px;
   width: 300px;
   height: calc(100vh - 60px);
   display: flex;
   gap: auto;
   flex-direction: column;
-  z-index: 1001;
+
   background-color: var(--background-light-tertiary);
   transition: all 1s ease;
   padding: 10px 0;
 }
 
-.side-menu.show {
+.side-menu-overlay {
+  position: fixed;
+  top: 60px;
+  left: -300px;
+  z-index: 1001;
+}
+
+.side-menu-overlay.show {
   left: 0;
 }
 
