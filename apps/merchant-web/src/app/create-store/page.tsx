@@ -1,6 +1,6 @@
 "use client";
 import { ThemeProvider } from "@/commons/context/ThemeContext";
-import CreateNewStoreForm from "@/components/store/CreateNewStoreForm";
+import CreateNewStoreForm from "@/components/store/crud-store/CreateNewStoreForm";
 
 export default function CreateNewStore() {
   return (

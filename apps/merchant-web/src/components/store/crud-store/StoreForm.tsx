@@ -4,7 +4,7 @@ import { EditableInput } from "@/components/atoms/inputs/EditableInput";
 import { StoreFormData } from "@/schemes/store/StoreFormDataScheme";
 import { FormikProps } from "formik";
 import { StoreImagesProfile } from "./StoreImagesProfile";
-import PhoneNumberInput from "../atoms/inputs/PhoneNumberInput";
+import PhoneNumberInput from "../../atoms/inputs/PhoneNumberInput";
 
 interface StoreFormProps {
   formikProps: FormikProps<StoreFormData>;
@@ -54,6 +54,7 @@ export const StoreForm: React.FC<StoreFormProps> = ({
         bannerImage={defaultBannerImage}
         profileImage={defaultProfileImage}
         onLoadImage={loadImage}
+        reload={values.reloadable}
       />
       <form
         className={styles.formContainer}

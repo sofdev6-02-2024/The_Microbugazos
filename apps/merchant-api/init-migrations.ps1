@@ -1,5 +1,5 @@
 if (Test-Path ".env-db") {
-    . .\.env-db
+    . .\.db.env
 } else {
     Write-Host ".env file not found!"
     exit 1

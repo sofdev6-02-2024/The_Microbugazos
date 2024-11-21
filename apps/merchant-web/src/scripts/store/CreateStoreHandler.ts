@@ -4,8 +4,11 @@ import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { uploadImage } from "../FirebaseImageScripts";
 export const createStoreHandler = async (
   store: StoreFormData,
-  userId: string
+  userId: string | undefined
 ): Promise<string> => {
+  if (userId === undefined) {
+    throw new Error("User Id is undefined");
+  }
   const bannerImage = await uploadImage(
     store.bannerImage,
     `${userId}-banner`,
@@ -24,7 +27,7 @@ export const createStoreHandler = async (
     phoneNumber: store.phoneNumber.trim(),
     bannerImage: bannerImage,
     profileImage: profileImage,
-    UserIdentity: userId,
+    userId: userId,
   };
   const response = await createStore(storeToCreate);
   return response;

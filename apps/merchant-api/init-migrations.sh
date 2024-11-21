@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -f .env ]; then
-  source .env-db
+  source .db.env
 else
   echo ".env file not found!"
   exit 1

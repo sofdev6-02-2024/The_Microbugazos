@@ -1,0 +1,63 @@
+.two-column-layout-ctn {
+  display: grid;
+  width: 100vw;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "column1 column2";
+}
+
+.two-column-mobile {
+  height: 94vh;
+}
+
+.two-column-default {
+  height: 100vh;
+}
+
+.two-column-layout-column {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.two-column-layout-column:first-child {
+  grid-area: column1;
+}
+
+.two-column-layout-column:last-child {
+  grid-area: column2;
+}
+
+@media (max-width: 850px) {
+  .two-column-mobile.two-column-layout-ctn {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "column2"
+      "column1";
+    width: 100vw;
+  }
+
+  .two-column-mobile.two-column-layout-ctn .two-column-layout-column {
+    width: 100vw;
+    background-color: var(--surface-light-200);
+    overflow-y: auto;
+  }
+
+  .two-column-default.two-column-layout-ctn {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "column1"
+      "column2";
+    width: 100vw;
+  }
+
+  .two-column-default.two-column-layout-ctn > div {
+    width: 100vw;
+  }
+
+  .two-column-default {
+    height: 100%;
+  }
+}
