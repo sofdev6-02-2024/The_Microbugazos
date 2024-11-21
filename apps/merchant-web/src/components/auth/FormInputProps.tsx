@@ -24,7 +24,13 @@ export const FormInput: React.FC<FormInputProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [touched, setTouched] = useState(false);
   const isPassword = type === "password";
-  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
+  let inputType: string;
+
+  if (isPassword) {
+    inputType = showPassword ? "text" : "password";
+  } else {
+    inputType = type;
+  }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setTouched(true);
@@ -44,33 +50,40 @@ export const FormInput: React.FC<FormInputProps> = ({
     touched && required && !value.trim() ? `${label} is required` : error;
 
   return (
-    <div className={styles.inputGroup}>
-      <input
-        type={inputType}
-        id={id}
-        value={value}
-        onChange={(e) => {
-          onChange(e);
-          if (touched) setTouched(true);
-        }}
-        onBlur={handleBlur}
-        className={`${styles.input} ${showError ? styles.errorInput : ""}`}
-        required={required}
-      />
-      <label htmlFor={id} className={styles.placeholder}>
-        {label}
-        {required ? " *" : ""}
-      </label>
-      {isPassword && (
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className={styles.eyeButton}
-        >
-          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-        </button>
-      )}
-      {showError && <div className={styles.errorMessage}>{showError}</div>}
+    <div className={styles.input_section}>
+      <div
+        className={`${styles.input_container} ${
+          showError ? styles.error_input : ""
+        }`}
+      >
+        <input
+          type={inputType}
+          id={id}
+          value={value}
+          onChange={(e) => {
+            onChange(e);
+            if (touched) setTouched(true);
+          }}
+          onBlur={handleBlur}
+          className={`${styles.input}`}
+          required={required}
+        />
+        <label htmlFor={id} className={styles.placeholder}>
+          {label}
+          {required ? " *" : ""}
+        </label>
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className={styles.eye_button}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        )}
+      </div>
+
+      {showError && <div className={styles.error_message}>{showError}</div>}
     </div>
   );
 };

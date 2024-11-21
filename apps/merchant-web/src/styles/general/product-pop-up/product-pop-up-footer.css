@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  border-radius: 10px;
+  border-radius: var(--general-border-radius);
   font-size: var(--normal-1-text-size);
   cursor: pointer;
   text-decoration: none;

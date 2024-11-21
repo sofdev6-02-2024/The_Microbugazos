@@ -50,7 +50,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 2rem;
-  color: var(--foreground-primary);
+  color: var(--primary-600);
 }
 
 .signupButton:hover {

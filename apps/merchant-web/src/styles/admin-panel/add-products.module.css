@@ -27,7 +27,7 @@
 .merchantButton {
   background-color: #747bff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--general-border-radius);
   color: white;
   padding: 8px 12px 8px 12px;
 }

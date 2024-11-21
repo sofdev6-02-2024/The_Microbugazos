@@ -1,16 +1,14 @@
 .message {
-    margin-top: 16px;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-  }
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: var(--tertiary-400);
+}
 
-  .success {
-    background-color: var(--action-success);
-    color: #155724;
-  }
+.success {
+  background-color: var(--action-success);
+}
 
-  .error {
-    background-color: var(--action-alert);
-    color: #721c24;
-  }
+.error {
+  background-color: var(--action-alert);
+}

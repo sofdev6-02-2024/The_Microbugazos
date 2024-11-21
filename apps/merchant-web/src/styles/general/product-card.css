@@ -2,7 +2,7 @@
   display: flex;
   min-width: 300px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: var(--general-border-radius);
   gap: 10px;
   margin: auto;
   background-color: var(--background-tertiary);

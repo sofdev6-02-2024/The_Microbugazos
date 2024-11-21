@@ -17,7 +17,7 @@
   background-color: var(--primary-400);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--general-border-radius);
   cursor: pointer;
 }
 
@@ -31,7 +31,7 @@
   background-color: var(--background-primary);
   color: var(--primary-400);
   border: 1px solid var(--primary-400);
-  border-radius: 10px;
+  border-radius: var(--general-border-radius);
   cursor: pointer;
 }
 

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import styles from "@/styles/auth/signup-form.module.css";
-import Logo from "@/assets/logo/imagotipo/merchant-l.png";
 import Image from "next/image";
+import Logo from "@/assets/logo/imagotipo/merchant-l.png";
 import { useSignUpForm } from "@/hooks/sign-up/useSignUp";
 import { Form } from "./sign-up-form/Form";
 import { MessageVerification } from "./sign-up-form/MessageVerification";
+import styles from "@/styles/auth/signup-form.module.css";
 
 const SignupForm = () => {
   const [isDarkMode] = useState(false);
@@ -32,7 +32,6 @@ const SignupForm = () => {
       <div className={styles.formCard}>
         <div className={styles.leftSection}>
           <h1 className={styles.title}>SIGN UP</h1>
-
           {isEmailSent ? <MessageVerification /> : <Form />}
         </div>
 

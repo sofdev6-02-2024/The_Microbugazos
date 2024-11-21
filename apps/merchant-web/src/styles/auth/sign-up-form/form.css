@@ -1,18 +1,18 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
 }
 
 .sign-up-button {
   width: 30%;
   padding: 0.75rem;
-  background-color: var(--color-secondary);
-  color: black;
+  background-color: var(--primary-600);
+  color: var(--tertiary-400);
   border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  border-radius: var(--general-border-radius);
+  font-size: var(--normal-1-text-size);
   cursor: pointer;
   transition: background-color 0.2s;
 }

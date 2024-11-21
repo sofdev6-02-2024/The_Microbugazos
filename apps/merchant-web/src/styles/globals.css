@@ -38,6 +38,8 @@
   --montserrat-alt-medium-weight: 500;
   --montserrat-alt-bold-weight: 700;
   --montserrat-alt-font-style: normal;
+
+  --general-border-radius: 10px;
 }
 
 * {
@@ -74,6 +76,18 @@ h6 {
   font-style: normal;
 }
 
+h1 {
+  font-size: var(--heading-1-text-size);
+}
+
+h2 {
+  font-size: var(--heading-2-text-size);
+}
+
+h3 {
+  font-size: var(--heading-3-text-size);
+}
+
 .logo-font-text {
   font-family: "Montserrat Alternates", serif;
   font-weight: 700;
@@ -83,6 +97,7 @@ h6 {
 input,
 textarea {
   outline: none;
+  border-radius: var(--general-border-radius);
 }
 
 .flag-dropdown {
