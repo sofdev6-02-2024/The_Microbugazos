@@ -59,12 +59,17 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         return Ok(store);
     }
     
-    [HttpPost("{id}/sellers")]
-    public async Task<ActionResult<bool>> AddSellers([FromRoute] Guid id, [FromBody] AddStoreSellersDto sellersDto)
+    [HttpPost("{id}/sellers/")]
+    public async Task<ActionResult<bool>> AddSellers([FromRoute] Guid id, [FromBody] string email)
     {
         try
         {
-            var result = await mediator.Send(new AddStoreSellersCommand(id, sellersDto.SellerIds));
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest("The email address must be provided.");
+            }
+
+            var result = await mediator.Send(new AddStoreSellersCommand(id, null, email));
             return Ok(result);
         }
         catch (Exception ex)
@@ -87,12 +92,12 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         }
     }
     
-    [HttpDelete("{id}/sellers")]
-    public async Task<ActionResult<bool>> DeleteSellers([FromRoute] Guid id, [FromBody] AddStoreSellersDto sellersDto)
+    [HttpDelete("{id}/sellers/")]
+    public async Task<ActionResult<bool>> DeleteSellers([FromRoute] Guid id, [FromBody] Guid sellerId)
     {
         try
         {
-            var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellersDto.SellerIds));
+            var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellerId));
             return Ok(result);
         }
         catch (Exception ex)

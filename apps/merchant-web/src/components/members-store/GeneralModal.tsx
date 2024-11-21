@@ -5,25 +5,25 @@ import styles from "@/styles/members-store/modal-styles.module.css";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (email: string) => void;
   type: 'delete' | 'add';
   memberName?: string;
 }
 
 const GeneralModal: React.FC<ModalProps> = ({
-                                              isOpen,
-                                              onClose,
-                                              onConfirm,
-                                              type,
-                                              memberName
-                                            }) => {
+  isOpen,
+  onClose,
+  onConfirm,
+  type,
+  memberName
+}) => {
   const [email, setEmail] = useState('');
 
   if (!isOpen) return null;
 
   const handleConfirm = () => {
     if (type === 'add' && !email) return;
-    onConfirm();
+    onConfirm(email);
     onClose();
   };
 

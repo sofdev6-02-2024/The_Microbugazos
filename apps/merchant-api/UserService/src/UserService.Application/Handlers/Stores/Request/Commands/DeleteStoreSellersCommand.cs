@@ -5,11 +5,11 @@ namespace UserService.Application.Handlers.Stores.Request.Commands;
 public class DeleteStoreSellersCommand : IRequest<bool>
 {
     public Guid StoreId { get; set; }
-    public List<Guid> SellerIds { get; set; } = new();
+    public Guid SellerId { get; set; } = new();
 
-    public DeleteStoreSellersCommand(Guid storeId, List<Guid> sellerIds)
+    public DeleteStoreSellersCommand(Guid storeId, Guid sellerId)
     {
         StoreId = storeId;
-        SellerIds = sellerIds;
+        SellerId = sellerId;
     }
 }

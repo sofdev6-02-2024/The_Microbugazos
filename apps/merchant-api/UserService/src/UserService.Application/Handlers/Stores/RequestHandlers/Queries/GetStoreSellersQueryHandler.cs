@@ -28,8 +28,10 @@ public class GetStoreSellersQueryHandler(
             {
                 sellers.Add(new SellerDto 
                 { 
+                    Id = user.Id,
                     Name = user.Name,
-                    Email = user.Email 
+                    Email = user.Email,
+                    UserType = user.UserType
                 });
             }
         }

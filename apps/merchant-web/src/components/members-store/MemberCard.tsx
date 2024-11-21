@@ -2,17 +2,39 @@ import React, { useState } from 'react';
 import styles from "@/styles/members-store/card-member.module.css"
 import { FiTrash2 } from "react-icons/fi";
 import GeneralModal from './GeneralModal';
-import { toast } from 'sonner';
+import { Member } from "@/schemes/sellers/sellers";
+import { deleteStoreSeller } from "@/request/SellersRequest";
+import { useStore } from "@/commons/context/StoreContext";
+import { toast } from "sonner";
 
-const MemberCard: React.FC<{
-  member: { name: string; type: string },
-  onDelete: (name: string) => void
-}> = ({ member, onDelete }) => {
+interface MemberCardProps {
+  member: Member;
+  onDelete: (memberId: string) => void;
+}
+
+const MemberCard: React.FC<MemberCardProps> = ({ member, onDelete }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { store } = useStore();
 
-  const handleDelete = () => {
-    onDelete(member.name);
-    toast.success(`The user ${member.name} was removed from sellers`);
+  const handleDelete = async () => {
+    if (!store?.id || !member.id) {
+      toast.error("Store or member information not found");
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      await deleteStoreSeller(store.id, member.id);
+      toast.success(`The user ${member.name} was removed from sellers`);
+      setIsDeleteModalOpen(false);
+      onDelete(member.id);
+    } catch (error) {
+      console.error("Error deleting seller:", error);
+      toast.error(`Failed to remove ${member.name} from sellers`);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -27,6 +49,7 @@ const MemberCard: React.FC<{
         <button
           className={styles['red-button']}
           onClick={() => setIsDeleteModalOpen(true)}
+          disabled={member.type === "Owner" || isDeleting}
         >
           <FiTrash2 size={30} />
         </button>

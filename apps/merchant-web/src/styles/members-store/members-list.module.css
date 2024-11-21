@@ -4,7 +4,7 @@
   gap: 2rem;
 }
 
-.infoMembers {
+.info-members {
   --color-primary-600-member: #5275F5;
 
   border: 1px solid #e5e7eb;
@@ -17,7 +17,7 @@
   padding: 1rem 1rem;
 }
 
-.infoMembers h3 {
+.info-members h3 {
   font-size: 16px;
   font-weight: 600;
   margin-right: 8px;
@@ -29,13 +29,13 @@
   align-items: center;
 }
 
-.sortContainer {
+.sort-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.sortButton {
+.sort-button {
   display: flex;
   align-items: center;
   border: none;
@@ -44,15 +44,15 @@
   color: var(--color-primary-600-member);
 }
 
-.sortIcon {
+.sort-icon {
   margin-left: 0.5rem;
 }
-.typeContainer{
+.type-container{
   padding-right: 7.5rem;
 }
 
 @media screen and (max-width: 561px) {
-  .typeContainer{
+  .type-container{
     display: none;
   }
 }

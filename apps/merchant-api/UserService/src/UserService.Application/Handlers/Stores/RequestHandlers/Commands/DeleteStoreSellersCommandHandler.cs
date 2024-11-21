@@ -12,19 +12,16 @@ public class DeleteStoreSellersCommandHandler(IStoreRepository storeRepository, 
     {
         var store = await storeRepository.GetByIdAsync(request.StoreId) 
                     ?? throw new Exception("Store not found");
+        
+        var user = await userRepository.GetByIdAsync(request.SellerId)
+                   ?? throw new Exception($"User with ID {request.SellerId} not found");
 
-        foreach (var sellerId in request.SellerIds)
-        {
-            var user = await userRepository.GetByIdAsync(sellerId)
-                       ?? throw new Exception($"User with ID {sellerId} not found");
+        store.SellerIds.Remove(request.SellerId);
 
-            store.SellerIds.Remove(sellerId);
+        user.UserType = UserType.CLIENT;
 
-            user.UserType = UserType.CLIENT;
-
-            await userRepository.UpdateAsync(user);
-        }
-
+        await userRepository.UpdateAsync(user);
+        
         await storeRepository.UpdateAsync(store);
 
         return true;
