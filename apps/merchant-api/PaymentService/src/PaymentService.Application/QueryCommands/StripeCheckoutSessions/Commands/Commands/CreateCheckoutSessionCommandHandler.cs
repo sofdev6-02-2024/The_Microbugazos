@@ -16,9 +16,7 @@ public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckou
     {
         Env.Load("../../../../../.env");
         StripeConfiguration.ApiKey = Env.GetString("STRIPE_SECRET_KEY") ?? 
-                                     Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY") ?? 
-                                     throw new Exception("STRIPE_SECRET_KEY is not set");
-        
+                                     Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY") ?? throw new Exception("STRIPE_SECRET_KEY is not set");
         _responseHandlingHelper = responseHandlingHelper;
     }
 
@@ -43,10 +41,15 @@ public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckou
             PaymentMethodTypes = ["card"],
             LineItems = lineItems,
             Mode = "payment",
-            SuccessUrl = "http://localhost:5173/payment_transaction/success",
-            CancelUrl = "http://localhost:5173/payment_transaction/failed",
+            SuccessUrl = "http://localhost:3000/payment_transaction/success",
+            CancelUrl = "http://localhost:3000/payment_transaction/failed",
+            CustomerEmail = request.Customer.Email,
+            Metadata = new Dictionary<string, string>
+            {
+                { "user_id", request.Customer.UserId.ToString() }
+            }
         };
-
+        
         var service = new SessionService();
         var session = await service.CreateAsync(options, cancellationToken: cancellationToken);
         return _responseHandlingHelper.Ok("The checkout session was successfully created.", session.Id);

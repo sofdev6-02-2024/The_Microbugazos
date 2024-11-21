@@ -1,23 +1,24 @@
+using Commons.ResponseHandler.Responses.Bases;
+using Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Application.Dtos.CheckoutSessions;
 using PaymentService.Application.QueryCommands.StripeCheckoutSessions.Commands.CommandHandlers;
 
-namespace Backend.Api.Controllers;
+namespace PaymentService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/payment/[controller]")]
 public class CheckoutController(IMediator mediator) : ControllerBase
 {
     [HttpPost("submit-cart")]
-    public async Task<ActionResult<Dictionary<string, string>>> InitCheckoutSession(List<ShoppingCartItemDto> itemsToBuy)
+    public ActionResult<BaseResponse> InitCheckoutSession([FromBody] CheckoutSessionRequestDto request)
     {
-        if (itemsToBuy == null || !itemsToBuy.Any()) return BadRequest();
+        var result = mediator.Send(new CreateCheckoutSessionCommand(request)).Result;
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
 
-        var result = await mediator.Send(new CreateCheckoutSessionCommand(itemsToBuy));
-        return Ok(new Dictionary<string, string>
-        {
-            { "id", result }
-        });
+        var successResponse = (SuccessResponse<string>)result;
+        return successResponse;
     }
 }
