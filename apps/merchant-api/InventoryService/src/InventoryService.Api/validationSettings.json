@@ -17,7 +17,7 @@
     "StockQuantityMin": 0,
     "AttributeNameMinLenght": 3,
     "AttributeNameMaxLenght": 30,
-    "AttributeValueMinLenght": 3,
+    "AttributeValueMinLenght": 1,
     "AttributeValueMaxLenght": 30
   },
   "Product": {
