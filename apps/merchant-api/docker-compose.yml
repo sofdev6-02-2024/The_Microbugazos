@@ -90,6 +90,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
       - INVENTORY_SERVICE_ROUTE=${INVENTORY_SERVICE_ROUTE}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     networks:
       - merchant-network
     depends_on:
