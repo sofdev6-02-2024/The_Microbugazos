@@ -28,6 +28,7 @@ public class GetProductsBySpecificCategoryQueryHandler(
         {
             Items = totalProducts,
             TotalCount = totalProducts.Count,
+            ExistingElements = await categoryRepository.GetCountAsync(),
             Page = request.Page,
             PageSize = request.PageSize
         });

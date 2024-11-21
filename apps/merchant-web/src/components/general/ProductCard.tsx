@@ -29,30 +29,32 @@ export const ProductCard = ({ product, type }: Props) => {
       <img
         src={product.images[0].url}
         alt={product.images[0].altText}
-        className="product-card-image"
+        className={`product-card-image ${type}`}
       />
-      <a
-        href={`http://localhost:3000/product/${product.id}`}
-        className="product-card-name"
-      >
-        {product.name}
-      </a>
-      <div className="product-card-info">
-        <p className="product-card-price">
-          <span className="product-card-price-symbol">$</span> {product.price}
-        </p>
-        <p className="product-card-rating">
-          <MdOutlineStar />{" "}
-          {product.productReviews ? product.productReviews.length : 0}
-        </p>
-      </div>
-      <div className="product-card-more-actions">
-        <AddToCart product={product} action={handleProductClick} />
-        <Like
-          productId={product.id}
-          isLiked={isLiked}
-          toggleLike={() => setIsLiked(!isLiked)}
-        />
+      <div className={`product-card-info-section ${type}`}>
+        <a
+          href={`http://localhost:3000/product/${product.id}`}
+          className={`product-card-name ${type}`}
+        >
+          {product.name}
+        </a>
+        <div className={`product-card-info ${type}`}>
+          <p className="product-card-price">
+            <span className="product-card-price-symbol">$</span> {product.price}
+          </p>
+          <p className="product-card-rating">
+            <MdOutlineStar />{" "}
+            {product.productReviews ? product.productReviews.length : 0}
+          </p>
+        </div>
+        <div className={`product-card-more-actions ${type}`}>
+          <AddToCart product={product} action={handleProductClick} />
+          <Like
+            productId={product.id}
+            isLiked={isLiked}
+            toggleLike={() => setIsLiked(!isLiked)}
+          />
+        </div>
       </div>
     </div>
   );

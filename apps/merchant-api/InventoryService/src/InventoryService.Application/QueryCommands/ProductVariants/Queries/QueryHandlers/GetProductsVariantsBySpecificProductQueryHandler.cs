@@ -47,6 +47,7 @@ public class GetProductsVariantsBySpecificProductQueryHandler(
         {
             Items = totalProductVariantDto,
             TotalCount = totalProductVariantDto.Count,
+            ExistingElements = await productRepository.GetCountAsync(),
             Page = request.Page,
             PageSize = request.PageSize
         });
