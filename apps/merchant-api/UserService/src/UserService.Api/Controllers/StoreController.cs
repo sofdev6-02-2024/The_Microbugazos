@@ -76,4 +76,18 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
             return BadRequest(ex.Message);
         }
     }
+    
+    [HttpDelete("{id}/sellers")]
+    public async Task<ActionResult<bool>> DeleteSellers([FromRoute] Guid id, [FromBody] AddStoreSellersDto sellersDto)
+    {
+        try
+        {
+            var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellersDto.SellerIds));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

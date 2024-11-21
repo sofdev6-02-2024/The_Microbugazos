@@ -1,0 +1,120 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: var(--background-light-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 24rem;
+  padding: 1.5rem;
+  position: relative;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  color: #5275F5;
+  transition: color 0.2s ease-in-out;
+  background-color: transparent;
+  border: none;
+}
+
+.modal-close-button:hover {
+  color: #3253e3;
+  cursor: pointer;
+}
+
+.modal-header {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary-light);
+}
+
+.modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.modal-body-delete {
+  text-align: center;
+}
+
+.modal-body-add {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--primary-light);
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal-cancel-button {
+  padding: 0.5rem 1rem;
+  background-color: #F3F4F6;
+  color: #374151;
+  border: 1px solid var(--primary-light);
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-cancel-button:hover {
+  background-color: #E5E7EB;
+}
+
+.modal-confirm-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-confirm-button-delete {
+  background-color: #EF4444;
+  color: white;
+  border: none;
+}
+
+.modal-confirm-button-delete:hover {
+  background-color: #DC2626;
+}
+
+.modal-confirm-button-add {
+  background-color: var(--primary-light);
+  border: none;
+  color: white;
+}
+
+.modal-confirm-button-add:hover {
+  background-color: #535bf2;
+}
+
+.modal-delete-text {
+  margin-bottom: 1.5rem;
+}
+
+.modal-delete-name {
+  font-weight: 700;
+}
