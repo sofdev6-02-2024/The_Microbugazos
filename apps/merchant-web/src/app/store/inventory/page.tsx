@@ -1,3 +1,5 @@
+import { Inventory } from "@/components/inventory/Inventory";
+
 export default function InventoryPage() {
-  return <div style={{ height: "86vh" }}>Inventory</div>;
+  return <Inventory />;
 }
