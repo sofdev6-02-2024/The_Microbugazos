@@ -1,11 +1,15 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import MemberCard from "@/components/members-store/MemberCard";
 import styles from "@/styles/members-store/members-list.module.css"
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 
-const MemberList: React.FC = () => {
+interface MemberListProps {
+  searchTerm?: string;
+}
+
+const MemberList: React.FC<MemberListProps> = ({ searchTerm = '' }) => {
   const [members, setMembers] = useState([
     {
       name: 'Jeferson Jhovanri Coronel Lavadenz',
@@ -45,11 +49,24 @@ const MemberList: React.FC = () => {
     }
   ]);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [isSorted, setIsSorted] = useState(false);
+
+  const processedMembers = useMemo(() => {
+    let filteredMembers = members.filter(member =>
+      member.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (isSorted) {
+      return filteredMembers.sort((a, b) =>
+        a.name.localeCompare(b.name) * (sortDirection === 'asc' ? 1 : -1)
+      );
+    }
+
+    return filteredMembers;
+  }, [members, searchTerm, sortDirection, isSorted]);
 
   const handleSort = () => {
-    setMembers(prevMembers => [
-      ...prevMembers.sort((a, b) => a.name.localeCompare(b.name) * (sortDirection === 'asc' ? 1 : -1))
-    ]);
+    setIsSorted(true);
     setSortDirection(prevDirection => prevDirection === 'asc' ? 'desc' : 'asc');
   };
 
@@ -74,7 +91,7 @@ const MemberList: React.FC = () => {
           <h3>Type</h3>
         </div>
       </div>
-      {members.map((member, index) => (
+      {processedMembers.map((member, index) => (
         <MemberCard
           key={`${member.name}-${index}`}
           member={member}

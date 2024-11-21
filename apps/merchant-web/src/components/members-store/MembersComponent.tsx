@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 const MembersComponent = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleAddSeller = (email: string) => {
     toast.success(`${email} was added correctly`);
@@ -28,13 +29,15 @@ const MembersComponent = () => {
           <input
             type="text"
             placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button>
             <IoSearch size={22}/>
           </button>
         </div>
       </div>
-      <MemberList/>
+      <MemberList searchTerm={searchTerm}/>
       <GeneralModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
