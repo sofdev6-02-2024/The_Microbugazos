@@ -5,7 +5,8 @@
 .mobile-store-admin-menu {
   display: block;
   background-color: white;
-  height: 7vh;
+  max-height: 6vh;
+  height: 6vh;
   width: 100vw;
   display: flex;
   align-items: center;

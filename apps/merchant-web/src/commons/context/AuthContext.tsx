@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { onAuthStateChanged, signOut, User } from "@firebase/auth";
 import { auth } from "@/config/firebase";
 import { UserType } from "@/types/auth";
+import { validateUserToken } from "@/request/AuthRequests";
 
 interface AuthUser {
   userType?: UserType;
@@ -30,37 +31,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const authObserver = async (currentUser: User) => {
+    try {
+      const token = await currentUser.getIdToken();
+      document.cookie = `auth-token=${token}; path=/`;
+      const response = await validateUserToken(token);
+
+      if (response.status >= 200 && response.status < 300) {
+        const userData = response.data;
+        const userInfo = {
+          userType: userData.userType,
+          userId: userData.id,
+        };
+        setUser(userInfo);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        try {
-          const token = await currentUser.getIdToken();
-          document.cookie = `auth-token=${token}; path=/`;
-
-          const response = await fetch(
-            "http://localhost:5001/api/users/Auth/token",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "text/plain",
-              },
-            }
-          );
-
-          if (response.ok) {
-            const userData = await response.json();
-            const userInfo = {
-              userType: userData.userType,
-              userId: userData.id,
-            };
-            setUser(userInfo);
-          } else {
-            setUser(null);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setUser(null);
-        }
+        authObserver(currentUser);
       } else {
         setUser(null);
       }

@@ -1,9 +1,18 @@
-
 .admin-store-container {
   overflow-y: hidden;
   height: 100vh;
 }
 
+.admin-store-content {
+  background-color: var(--surface-light-200);
+}
+
 .admin-store-content > div:nth-child(2) {
   background-color: var(--surface-light-200);
+}
+
+@media screen and (max-width: 1240px) {
+  .admin-store-content {
+    grid-template-columns: 20% 80%!important;
+  }
 }

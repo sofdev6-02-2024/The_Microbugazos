@@ -3,7 +3,7 @@ import { StoreDashboard } from "@/components/store/dashboard/StoreDashboard";
 
 const StoresPage = () => {
   return (
-    <div style={{padding: "0 20px 20px 20px"}}>
+    <div className="padding-standard">
       <StoreInfoProfile />
       <StoreDashboard />
     </div>

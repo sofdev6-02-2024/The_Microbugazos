@@ -34,7 +34,7 @@ export const StoreMobileMenu = ({
 
   const handleRouterNavigation = (optionIndex: number) => {
     const path = paths[optionIndex];
-    router.push(path);
+    router.replace(path);
     setActiveIndex(optionIndex);
     setActiveOption(path);
   };
