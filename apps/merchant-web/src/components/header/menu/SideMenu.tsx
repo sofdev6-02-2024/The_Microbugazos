@@ -1,8 +1,10 @@
 "use client"
 
+import cartData from "@/shopping-cart-format-example.json"
 import React, { useEffect, useRef } from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
+import { handleSubmitCart } from "@/services/checkoutService";
 import { LuHome, LuHistory, LuPiggyBank } from "react-icons/lu";
 import { RiShoppingCart2Line, RiCursorLine, RiSofaLine } from "react-icons/ri";
 import { BsBookmarkStar, BsHeartPulse } from "react-icons/bs";
@@ -44,6 +46,8 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
 
       <p className="subtitle">From Merchant</p>
       <Option icon={MdStorefront} text={"Create Store"} />
+      <Option icon={MdStorefront} text={"Go to Checkout"} onClick={() => handleSubmitCart(cartData)}
+      />
     </div>
   );
 };

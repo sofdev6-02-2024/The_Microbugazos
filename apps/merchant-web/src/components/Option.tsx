@@ -6,9 +6,10 @@ interface FormInputProps {
     icon: React.ElementType;
     text: string;
     route?: string;
+  onClick?: () => void;
 }
 
-export const Option: React.FC<FormInputProps> = ({icon: Icon, text, route = '' }) => {
+export const Option: React.FC<FormInputProps> = ({icon: Icon, text, route = '', onClick }) => {
     const router = useRouter();
 
     const handleRouterNavigation = () => {
@@ -22,9 +23,17 @@ export const Option: React.FC<FormInputProps> = ({icon: Icon, text, route = '' }
         } else {
             router.push('/');
         }
-    }
+    };
+
+    const handleClick = () => {
+      if (onClick) {
+        onClick();
+      } else {
+        handleRouterNavigation();
+      }
+    };
     return (
-        <div className={styles.container} onClick={handleRouterNavigation}>
+        <div className={styles.container} onClick={handleClick}>
             <Icon className={styles.icon} />
             <p>{text}</p>
         </div>
