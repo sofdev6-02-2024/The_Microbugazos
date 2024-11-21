@@ -8,7 +8,8 @@ interface FormInputProps {
   route?: string;
   completeRoute?: boolean;
   onRouteChange?: (route: string) => void;
-  pushing? : boolean;
+  onClick?: () => void;
+  pushing?: boolean;
 }
 
 export const Option: React.FC<FormInputProps> = ({
@@ -17,17 +18,18 @@ export const Option: React.FC<FormInputProps> = ({
   route = "",
   completeRoute = false,
   onRouteChange = () => {},
-  pushing = true
+  onClick ,
+  pushing = true,
 }) => {
   const router = useRouter();
 
-  const changeRoute = (route : string) =>{
+  const changeRoute = (route: string) => {
     if (pushing) {
       router.push(route);
-    }else{
+    } else {
       router.replace(route);
     }
-  }
+  };
 
   const handleRouterNavigation = () => {
     const formattedText = text.toLowerCase().replace(/\s/g, "-");
@@ -47,8 +49,16 @@ export const Option: React.FC<FormInputProps> = ({
       router.push("/");
     }
   };
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      handleRouterNavigation();
+    }
+  };
   return (
-    <div className={styles.container} onClick={handleRouterNavigation}>
+    <div className={styles.container} onClick={handleClick}>
       <Icon className={styles.icon} />
       <p>{text}</p>
     </div>

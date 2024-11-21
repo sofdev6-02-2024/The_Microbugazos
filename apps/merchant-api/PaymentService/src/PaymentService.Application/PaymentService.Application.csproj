@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Stripe.net" Version="46.2.0"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-rc.2.24473.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\CheckoutSessions\import '\App.css' import { Header } from '\components\Header' import { Home } from '\pages\Home' import { Route, Routes, BrowserRouter } from 'react-router-dom' import { ProductDetail } from '\pages\ProductDetail' import { useState, useEffect } from 'react' import PaymentStatusSuccess from '\pages\PaymentStatusSuccess' import PaymentStatusFailed from '\pages\" />
+  </ItemGroup>
+</Project>
