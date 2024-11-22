@@ -1,13 +1,13 @@
 "use client";
 
-import { ListType } from "@/commons/entities/ListType";
 import { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
-import "@/styles/general/ProductCard.css";
+import { ListType } from "@/commons/entities/ListType";
 import Product from "@/commons/entities/concretes/Product";
 import { useProductPopUp } from "@/commons/context/PopUpContext";
+import "@/styles/general/ProductCard.css";
 
 interface Props {
   product: Product;

@@ -16,7 +16,16 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth-token');
     const currentPath = request.nextUrl.pathname;
 
-    const publicRoutes = ['/login', '/signup', '/', '/products/*','/cart','/favorites', '/product-details/*'];
+    const publicRoutes = [
+      '/',
+      '/login',
+      '/signup',
+      '/cart',
+      '/favorites',
+      '/products/*',
+      '/product-details/*',
+      "/store-catalog/*"
+    ];
 
     if (publicRoutes.some(route => matchPath(currentPath, route))) {
         return NextResponse.next();
