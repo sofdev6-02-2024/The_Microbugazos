@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
       '/favorites',
       '/products/*',
       '/product-details/*',
-      "/store-catalog/*"
+      "/catalog/*"
     ];
 
     if (publicRoutes.some(route => matchPath(currentPath, route))) {

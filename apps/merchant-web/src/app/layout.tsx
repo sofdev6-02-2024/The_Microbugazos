@@ -12,8 +12,8 @@ import {NextUIProvider} from "@nextui-org/react";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
 
-const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store", "/store"];
-const EXCLUDED_PREFIXES = [];
+const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
+const EXCLUDED_PREFIXES = ["/store"];
 
 export default function RootLayout({
   children,
