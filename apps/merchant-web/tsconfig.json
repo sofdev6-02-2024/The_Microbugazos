@@ -35,14 +35,15 @@
         "./src/components/*"
       ],
       "@/contexts/*": [
-        "./src/commons/contexts/*"
+        "./src/commons/contexts/*",
+        "./src/contexts/*"
       ],
       "@/hooks/*": [
         "./src/commons/hooks/*"
       ],
       "@/config/*": [
         "./src/config/*"
-      ]
+      ],
     },
     "target": "ES2017"
   },

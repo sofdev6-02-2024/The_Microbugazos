@@ -1,0 +1,47 @@
+
+.container {
+  width: 75%;
+  height: 0;
+  padding: 24px;
+  position: relative;
+  top: -120px;
+  left: 340px;
+}
+
+.storeName {
+  font-family: var(--montserrat-font-family);
+  font-size: 32px;
+  color: var(--primary-400);
+}
+
+.contactInformation {
+  font-family: var(--ubuntu-font-family);
+  font-size: 14px;
+  color: var(--secondary-400);
+}
+
+.description {
+  font-family: var(--ubuntu-font-family);
+  font-size: 16px;
+  color: black;
+}
+
+@media (max-width: 1280px) {
+  .container {
+    width: 65%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    height: fit-content;
+    position: initial;
+  }
+}

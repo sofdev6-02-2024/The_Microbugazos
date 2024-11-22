@@ -1,4 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&family=Ubuntu&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background-light-primary: #f4f9ff;
@@ -61,6 +66,8 @@
   --montserrat-alt-medium-weight: 500;
   --montserrat-alt-bold-weight: 700;
   --montserrat-alt-font-style: normal;
+
+  --montserrat-font-family: "Montserrat", serif ;
 
   --color-background-header: #1f1f1f;
   --color-side-menu-background: #eff2f5;

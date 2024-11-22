@@ -1,0 +1,51 @@
+
+.body {
+  width: 100%;
+}
+
+.modalButton {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  gap: 20px;
+
+  background-color: transparent;
+  color: var(--primary-400);
+  border: 1px solid var(--primary-400);
+}
+
+.modalButton.applied {
+  background-color: var(--primary-400);
+  color: var(--white);
+}
+
+.primaryButton {
+  border-radius: 14px;
+  background-color: var(--primary-400);
+  color: var(--white);
+}
+
+.secondaryButton {
+  border-radius: 14px;
+  background-color: transparent;
+  border: 1px solid var(--primary-400);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.slider {
+  color: var(--primary-400);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}

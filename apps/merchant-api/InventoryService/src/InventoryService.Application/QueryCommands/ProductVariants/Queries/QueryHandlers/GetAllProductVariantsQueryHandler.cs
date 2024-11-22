@@ -35,7 +35,8 @@ public class GetAllProductVariantsQueryHandler(IRepository<ProductVariant> produ
         return responseHandlingHelper.Ok("Product variants have been successfully obtained.", new PaginatedResponseDto<ProductVariantDto>
         {
             Items = totalProductVariantDto, 
-            TotalCount = totalProductVariantDto.Count, 
+            TotalCount = totalProductVariantDto.Count,
+            ExistingElements = await productVariantRepository.GetCountAsync(),
             Page = request.Page, 
             PageSize = request.PageSize
         });

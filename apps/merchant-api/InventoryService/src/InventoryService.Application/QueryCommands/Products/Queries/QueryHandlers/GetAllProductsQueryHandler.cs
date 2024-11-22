@@ -24,7 +24,8 @@ public class GetAllProductsQueryHandler(IRepository<Product> productRepository,
         var productsToDisplay = new PaginatedResponseDto<ProductDto>
         {
             Items = totalProductsDto, 
-            TotalCount = totalProductsDto.Count, 
+            TotalCount = totalProductsDto.Count,
+            ExistingElements = await productRepository.GetCountAsync(),
             Page = request.Page, 
             PageSize = request.PageSize
         };

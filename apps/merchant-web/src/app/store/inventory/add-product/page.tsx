@@ -167,7 +167,7 @@ export default function AddProducts() {
         fetch("http://localhost:5001/api/inventory/Category")
             .then((response) =>
                 response.json().then(data => {
-                    const categories = data.map(item => {
+                    const categories = data.data.map(item => {
                         return {
                             name: item.name,
                             id: item.id,

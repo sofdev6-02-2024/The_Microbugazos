@@ -28,6 +28,7 @@ public class GetAllImagesQueryHandler(IRepository<Image> imageRepository, IRespo
         {
             Items = totalImagesDto,
             TotalCount = totalImagesDto.Count,
+            ExistingElements = await imageRepository.GetCountAsync(),
             Page = request.Page,
             PageSize = request.PageSize
         };
