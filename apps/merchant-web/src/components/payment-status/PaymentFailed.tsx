@@ -1,8 +1,9 @@
-import PaymentStatus from "./PaymentStatus";
 import Link from "next/link";
 import styles from "@/styles/payment/StatusPayment.module.css";
+import { FC } from "react";
+import { PaymentStatus } from "@/components/payment-status/PaymentStatus";
 
-const FailedPayment: React.FC = () => {
+export const FailedPayment: FC = () => {
   return (
     <div>
       <PaymentStatus
@@ -20,5 +21,3 @@ const FailedPayment: React.FC = () => {
     </div>
   );
 };
-
-export default FailedPayment;

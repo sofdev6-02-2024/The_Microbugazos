@@ -47,7 +47,10 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
           {products && products.length > 0 ? (
             products.map((product, index) => {
               return (
-                <SwiperSlide key={`${product.id}-slide-recommended-${index}`} className="">
+                <SwiperSlide
+                  key={`${product.id}-slide-recommended-${index}`}
+                  className=""
+                >
                   <ProductCard
                     key={`product.id-card`}
                     product={product}

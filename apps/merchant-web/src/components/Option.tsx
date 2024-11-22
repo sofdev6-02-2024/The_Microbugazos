@@ -1,41 +1,66 @@
 import React from "react";
-import styles from "@/styles/Option.module.css"
-import {useRouter} from "next/navigation";
+import styles from "@/styles/Option.module.css";
+import { useRouter } from "next/navigation";
 
 interface FormInputProps {
-    icon: React.ElementType;
-    text: string;
-    route?: string;
+  icon: React.ElementType;
+  text: string;
+  route?: string;
+  completeRoute?: boolean;
+  onRouteChange?: (route: string) => void;
   onClick?: () => void;
+  pushing?: boolean;
 }
 
-export const Option: React.FC<FormInputProps> = ({icon: Icon, text, route = '', onClick }) => {
-    const router = useRouter();
+export const Option: React.FC<FormInputProps> = ({
+  icon: Icon,
+  text,
+  route = "",
+  completeRoute = false,
+  onRouteChange = () => {},
+  onClick ,
+  pushing = true,
+}) => {
+  const router = useRouter();
 
-    const handleRouterNavigation = () => {
-        const formattedText = text.toLowerCase().replace(/\s/g, '-');
-        if (formattedText !== "home") {
-            if (route) {
-                router.push(`/${route}/${formattedText}`);
-            } else {
-                router.push(`/${formattedText}`);
-            }
-        } else {
-            router.push('/');
-        }
-    };
+  const changeRoute = (route: string) => {
+    if (pushing) {
+      router.push(route);
+    } else {
+      router.replace(route);
+    }
+  };
 
-    const handleClick = () => {
-      if (onClick) {
-        onClick();
+  const handleRouterNavigation = () => {
+    const formattedText = text.toLowerCase().replace(/\s/g, "-");
+    if (completeRoute) {
+      onRouteChange(`/${route}`);
+      changeRoute(`/${route}`);
+      return;
+    }
+    if (formattedText !== "home") {
+      if (route) {
+        changeRoute(`/${route}/${formattedText}`);
+        onRouteChange(`/${route}/${formattedText}`);
       } else {
-        handleRouterNavigation();
+        changeRoute(`/${formattedText}`);
       }
-    };
-    return (
-        <div className={styles.container} onClick={handleClick}>
-            <Icon className={styles.icon} />
-            <p>{text}</p>
-        </div>
-    );
+    } else {
+      router.push("/");
+    }
+  };
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      handleRouterNavigation();
+    }
+  };
+  return (
+    <div className={styles.container} onClick={handleClick}>
+      <Icon className={styles.icon} />
+      <p>{text}</p>
+    </div>
+  );
 };

@@ -20,11 +20,7 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  padding: 10px 1px;
-}
-
-.buttonContainerSurface{
-  background-color: var(--surface-light-100);
+  padding: 25px 1px;
 }
 
 .button {
@@ -44,6 +40,18 @@
   color: var(--primary-400);
   background-color: var(--surface-background);
   outline: 1px solid var(--primary-400);
+}
+
+.cancelIconButton {
+  color: var(--primary-400);
+  background-color: var(--surface-background);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cancelIconButton:hover {
+  color: var(--primary-600);
 }
 
 .createButton:hover {

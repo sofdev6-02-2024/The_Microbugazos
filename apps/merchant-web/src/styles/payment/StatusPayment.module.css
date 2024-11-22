@@ -1,3 +1,10 @@
+.container {
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sc-container {
   display: flex;
   justify-content: center;
@@ -19,7 +26,7 @@
   width: 700px;
   margin-left: 200px;
   padding-top: 40px;
-  max-width: 100%; /* Esto asegura que la imagen no se haga más pequeña de lo necesario */
+  max-width: 100%;
 }
 
 .title {

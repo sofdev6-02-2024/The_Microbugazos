@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { UserButton } from "./UserButton";
 import { UserOptions } from "./UserOptions";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/commons/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 interface Props {

@@ -1,7 +1,7 @@
-import React from "react";
-import PaymentStatus from "./PaymentStatus";
+import { FC } from "react";
+import { PaymentStatus } from "@/components/payment-status/PaymentStatus";
 
-const PaymentSuccessful: React.FC = () => {
+export const PaymentSuccessful: FC = () => {
   return (
     <div>
       <PaymentStatus
@@ -13,5 +13,3 @@ const PaymentSuccessful: React.FC = () => {
     </div>
   );
 };
-
-export default PaymentSuccessful;
