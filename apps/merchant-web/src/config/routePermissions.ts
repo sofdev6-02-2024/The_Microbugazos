@@ -22,7 +22,7 @@ export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
         redirectTo: "/store"
     },
     [UserType.ADMIN]: {
-        paths: ['*'],
+        paths: ["*"],
         redirectTo: "/store"
     }
 };

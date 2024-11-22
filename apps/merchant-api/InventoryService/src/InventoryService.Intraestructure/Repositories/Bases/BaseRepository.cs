@@ -68,4 +68,9 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
     {
         return await DbSet.Where(e => e.IsActive).CountAsync();
     }
+
+    public virtual DbSet<T> GetDbSet()
+    {
+        return DbSet;
+    }
 }

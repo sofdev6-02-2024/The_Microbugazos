@@ -6,6 +6,7 @@ import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
+import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
 import { ModalProvider } from "@/commons/context/ModalContext";
@@ -29,21 +30,23 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="body" suppressHydrationWarning>
-        <Toaster richColors />
-        <AuthProvider>
-          <OptionsProvider>
-            <VariantsProvider>
-              <ShoppingCartProvider>
-                <ModalProvider>
-                  {showComponents && <Header />}
-                  <main>{children}</main>
-                  {showComponents && <Footer />}
-                  <Modal />
-                </ModalProvider>
-              </ShoppingCartProvider>
-            </VariantsProvider>
-          </OptionsProvider>
-        </AuthProvider>
+        <NextUIProvider>
+          <Toaster richColors />
+          <AuthProvider>
+            <OptionsProvider>
+              <VariantsProvider>
+                <ShoppingCartProvider>
+                  <ModalProvider>
+                    {showComponents && <Header />}
+                    <main>{children}</main>
+                    {showComponents && <Footer />}
+                    <Modal />
+                  </ModalProvider>
+                </ShoppingCartProvider>
+              </VariantsProvider>
+            </OptionsProvider>
+          </AuthProvider>
+        </NextUIProvider>
       </body>
     </html>
   );

@@ -1,8 +1,10 @@
 using Commons.ResponseHandler.Responses.Concretes;
+using DefaultNamespace;
 using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
+using InventoryService.Domain.Params;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +45,18 @@ public class ProductController(IMediator mediator) : ControllerBase
         
         var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);      
+    }
+    
+    [HttpGet("byStore/{id}")]
+    public async Task<IActionResult> GetByStore(Guid id, [FromQuery] FilteringQueryParams queryParams,
+        int page = 1, int pageSize = 10)
+    {
+        var result = await mediator.Send(new GetProductsByStore(id, page, pageSize, queryParams));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpDelete("{id}")]

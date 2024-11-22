@@ -1,11 +1,10 @@
 "use client";
 
-import { ListType } from "@/commons/entities/ListType";
 import { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
-import "@/styles/general/ProductCard.css";
+import { ListType } from "@/commons/entities/ListType";
 import Product from "@/commons/entities/concretes/Product";
 import { useModal } from "@/commons/context/ModalContext";
 import { ProductPopUp } from "./ProductPopUp";
@@ -32,9 +31,15 @@ export const ProductCard = ({ product, type }: Props) => {
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
-        alt={product.images[0].altText}
-        className="product-card-image"
+        src={
+          product.images.length > 0
+            ? product.images[0].url
+            : "https://images.pexels.com/photos/1292294/pexels-photo-1292294.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        }
+        alt={
+          product.images.length > 0 ? product.images[0].altText : "Some image"
+        }
+        className={`product-card-image ${type}`}
       />
       <Link
         href={`/product/${product.productId}`}

@@ -22,13 +22,14 @@ export async function middleware(request: NextRequest) {
   const publicRoutes = [
     "/login",
     "/signup",
-    "/",
-    "/products/*",
-    "/cart",
     "/favorites",
-    "/product-details/*",
     "/shopping-cart",
-  ];
+    "/",
+    "/cart",
+    "/products/*",
+    "/product-details/*",
+    "/catalog/*",
+  ];  
 
   if (publicRoutes.some((route) => matchPath(currentPath, route))) {
     return NextResponse.next();

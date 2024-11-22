@@ -12,8 +12,8 @@ import { ValidateName } from "@/commons/validations/string";
 import { ValidateLongText } from "@/commons/validations/string";
 import { ValidateNumberWithDecimals } from "@/commons/validations/number";
 import Notification from "@/components/notification";
-import AddProductStyle from "../../../../styles/admin-panel/add-products.module.css"
-import TextFieldStyle from "../../../../styles/components/TextField.module.css"
+import AddProductStyle from "../../../../styles/admin-panel/add-products.module.css";
+import TextFieldStyle from "../../../../styles/components/TextField.module.css";
 
 export default function AddProducts() {
   const [errors, setErrors] = useState<[{ textField: string; error: string }]>(
@@ -131,10 +131,13 @@ export default function AddProducts() {
         };
       }),
       productVariants: combinationVariants.map((item) => {
+        console.log(item);
+        console.log(variants);
         let index;
         if (item == "Default")
           index = variants.findIndex((i) => i.name == item);
         else index = variants.findIndex((i) => i.name == item.join("/"));
+        console.log(index);
 
         if (index !== -1) {
           const variant = variants[index];
@@ -176,7 +179,7 @@ export default function AddProducts() {
     fetch("http://localhost:5001/api/inventory/Category")
       .then((response) =>
         response.json().then((data) => {
-          const categories = data.map((item) => {
+          const categories = data.data.map((item) => {
             return {
               name: item.name,
               id: item.id,
@@ -191,6 +194,7 @@ export default function AddProducts() {
 
   const sendProduct = () => {
     const body = parseToCreateProductDTO();
+    console.log(body);
     fetch("http://localhost:5001/api/inventory/Product", {
       method: "POST",
       headers: {

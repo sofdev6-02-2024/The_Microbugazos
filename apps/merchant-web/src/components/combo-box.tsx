@@ -5,17 +5,18 @@ import ComboBoxStyle from "../styles/components/ComboBox.module.css"
 interface ComboBoxProps {
     options: Array<{id: string, name: string}>,
     value: string,
-    handleChange: (value: string) => void
+    handleChange: (value: string) => void,
+    placeholder?: string,
 }
 
-export default function ComboBox({options, value, handleChange}: ComboBoxProps) {
+export default function ComboBox({options, value, handleChange, placeholder = "Select an option"}: ComboBoxProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className={ComboBoxStyle.comboBox}>
           <div className={ComboBoxStyle.comboBoxSelected} onClick={() => setIsOpen(!isOpen)}>
             <div>
-                {value || "Select an option"}
+                {value || placeholder}
             </div>
             <SquarePen color="var(--primary-400)"/>
           </div>
