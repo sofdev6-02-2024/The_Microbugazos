@@ -4,15 +4,10 @@ import { useEffect } from "react";
 import { ProductAttributeSelect } from "./ProductAttributeSelect";
 import { QuantityPicker } from "../quantityPicker";
 import { AddToCart } from "./AddToCart";
-import Product from "@/commons/entities/concretes/Product";
 import { useShoppingItem } from "@/commons/hooks/useShoppingItem";
 import "@/styles/general/ProductPopUp.css";
 
-interface Props {
-  currentProduct: Product;
-}
-
-export const ProductPopUp = ({ currentProduct }: Props) => {
+export const ProductPopUp = () => {
   const {
     getVariants,
     product,
@@ -22,7 +17,7 @@ export const ProductPopUp = ({ currentProduct }: Props) => {
     handleQuantity,
     increaseQuantity,
     decreaseQuantity,
-  } = useShoppingItem({ currentProduct });
+  } = useShoppingItem();
 
   useEffect(() => {
     getVariants();

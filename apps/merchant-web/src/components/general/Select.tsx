@@ -6,10 +6,11 @@ import { Option } from "./Option";
 import "@/styles/general/Select.css";
 
 interface Props {
-  values: string[];
+  values: Array<string>;
+  handleOption: (value: string) => void;
 }
 
-export const Select = ({ values }: Props) => {
+export const Select = ({ values, handleOption }: Props) => {
   const [value, setValue] = useState("Select an option");
   const [isOpen, setIsOpen] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
@@ -23,6 +24,7 @@ export const Select = ({ values }: Props) => {
   const handleSelect = (option: string) => {
     setValue(option);
     setIsOpen(false);
+    handleOption(option);
   };
 
   const handleClickOutside = (event: Event) => {

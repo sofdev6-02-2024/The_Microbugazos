@@ -20,11 +20,13 @@ export const ModalProvider = ({ children }: Props) => {
   const open = (newContent: ReactNode) => {
     setIsOpen(true);
     setContent(newContent);
+    document.querySelector('.body')?.classList.add('no-scrolling')
   };
 
   const close = () => {
     setIsOpen(false);
     setContent(null);
+    document.querySelector('.body')?.classList.remove('no-scrolling')
   };
 
   const value = useMemo(() => {

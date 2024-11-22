@@ -10,6 +10,7 @@ import Product from "@/commons/entities/concretes/Product";
 import { useModal } from "@/commons/context/ModalContext";
 import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
+import { ShoppingItemProvider } from "@/commons/hooks/useShoppingItem";
 
 interface Props {
   product: Product;
@@ -21,7 +22,7 @@ export const ProductCard = ({ product, type }: Props) => {
   const { open } = useModal();
 
   const handleProductClick = () => {
-    open(<ProductPopUp currentProduct={product} />);
+    open(<ShoppingItemProvider currentProduct={product}><ProductPopUp /></ShoppingItemProvider>);
   };
 
   return (

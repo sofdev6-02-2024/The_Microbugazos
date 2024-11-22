@@ -112,6 +112,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.body.no-scrolling {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,
