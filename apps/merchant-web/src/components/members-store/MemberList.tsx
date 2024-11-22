@@ -1,13 +1,13 @@
 "use client"
 
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { useStore } from "@/commons/context/StoreContext";
 import { useAuth } from "@/commons/context/AuthContext";
 import { getStoreSellersWithOwner } from "@/request/SellersRequest";
+import { getUserTypeText, Member, MemberListProps } from "@/schemes/sellers/sellers";
 import MemberCard from "@/components/members-store/MemberCard";
 import styles from "@/styles/members-store/members-list.module.css"
-import { GoSortAsc, GoSortDesc } from "react-icons/go";
-import { getUserTypeText, Member, MemberListProps } from "@/schemes/sellers/sellers";
 
 const MemberList: React.FC<MemberListProps> = ({ searchTerm = '', refreshTrigger = 0 }) => {
   const { store } = useStore();

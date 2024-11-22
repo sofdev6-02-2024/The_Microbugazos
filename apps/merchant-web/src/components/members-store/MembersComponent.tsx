@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from 'react';
-import MemberList from "./MemberList";
-import styles from "@/styles/members-store/members-component.module.css";
 import { IoSearch, IoAdd } from "react-icons/io5";
-import GeneralModal from "./GeneralModal";
 import { toast } from "sonner";
 import { useStore } from '@/commons/context/StoreContext';
 import { addStoreSeller } from "@/request/SellersRequest";
+import MemberList from "./MemberList";
+import GeneralModal from "./GeneralModal";
+import styles from "@/styles/members-store/members-component.module.css";
 
 const MembersComponent = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

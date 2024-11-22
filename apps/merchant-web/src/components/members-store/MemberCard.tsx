@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styles from "@/styles/members-store/card-member.module.css"
+import { useState } from 'react';
 import { FiTrash2 } from "react-icons/fi";
-import GeneralModal from './GeneralModal';
 import { Member } from "@/schemes/sellers/sellers";
 import { deleteStoreSeller } from "@/request/SellersRequest";
 import { useStore } from "@/commons/context/StoreContext";
 import { toast } from "sonner";
+import GeneralModal from './GeneralModal';
+import styles from "@/styles/members-store/card-member.module.css"
 
 interface MemberCardProps {
   member: Member;

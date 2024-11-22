@@ -1,8 +1,8 @@
 "use client"
 
-import styles from "@/styles/members-store/members-component.module.css";
 import {IoAdd} from "react-icons/io5";
 import {useRouter} from "next/navigation";
+import styles from "@/styles/members-store/members-component.module.css";
 
 export default function InventoryPage() {
   const router = useRouter();
