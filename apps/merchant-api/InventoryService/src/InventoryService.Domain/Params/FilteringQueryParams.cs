@@ -2,6 +2,7 @@
 
 public class FilteringQueryParams
 {
+    public Guid? CategoryId { get; set; }
     public double? MinPrice { get; set; }
     public double? MaxPrice { get; set; }
     public float? MinRating { get; set; }

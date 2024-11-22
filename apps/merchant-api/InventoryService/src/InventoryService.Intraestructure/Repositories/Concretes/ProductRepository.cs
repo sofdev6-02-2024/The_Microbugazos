@@ -3,11 +3,13 @@ using InventoryService.Intraestructure.Data;
 using InventoryService.Intraestructure.Repositories.Bases;
 using InventoryService.Domain.Concretes;
 using InventoryService.Domain.Params;
+using InventoryService.Intraestructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryService.Intraestructure.Repositories.Concretes;
 
-public class ProductRepository(InventoryDbContext context) : BaseProductRepository(context)
+public class ProductRepository(InventoryDbContext context, IRepository<Category> categoryRepository) 
+    : BaseProductRepository(context)
 {
     public override async Task<Product?> GetByIdAsync(Guid id)
     {
@@ -49,7 +51,7 @@ public class ProductRepository(InventoryDbContext context) : BaseProductReposito
     {
         var query = _GetBaseQueryProductsByStore(id);
 
-        query = _ApplyFilters(query, queryParams);
+        query = await _ApplyFilters(query, queryParams);
         query = _ApplySort(query, queryParams);
 
         return await query.OrderBy(c => c.CreatedAt)
@@ -62,7 +64,7 @@ public class ProductRepository(InventoryDbContext context) : BaseProductReposito
     {
         var query = _GetBaseQueryProductsByStore(id);
 
-        query = _ApplyFilters(query, queryParams);
+        query = await _ApplyFilters(query, queryParams);
         query = _ApplySort(query, queryParams);
         return await query.CountAsync();
     }
@@ -100,8 +102,27 @@ public class ProductRepository(InventoryDbContext context) : BaseProductReposito
             .AsQueryable();
     }
 
-    private IQueryable<Product> _ApplyFilters(IQueryable<Product> query, FilteringQueryParams queryParams)
+    private async Task<IQueryable<Product>> _ApplyFilters(IQueryable<Product> query, FilteringQueryParams queryParams)
     {
+        if (queryParams.CategoryId.HasValue)
+        {
+            Guid id = (Guid) queryParams.CategoryId;
+            var category = await categoryRepository.GetByIdAsync(id);
+            
+            if (category == null) return query;
+            var isParent = category!.ParentCategory == null;
+
+            if (isParent)
+            {
+                var subCategories = category.SubCategories;
+                query = query.Where(p => subCategories.Contains(p.Categories.First()));
+            }
+            else
+            {
+                query = query.Where(p => p.Categories.First() == category);
+            }
+        }
+        
         if (queryParams.MinPrice.HasValue)
         {
             query = query.Where(p => p.BasePrice >= queryParams.MinPrice.Value);
