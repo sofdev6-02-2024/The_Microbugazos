@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import axiosInstance from "./AxiosConfig";
 import { SortingProduct } from "@/commons/entities/SortingProduct";
+import axiosInstance from "./AxiosConfig";
 
 export const getDefaultInventoryProductsUrl = (storeId: string) => {
   if (!storeId) {

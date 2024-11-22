@@ -1,5 +1,5 @@
-import "@/styles/atoms/buttons/buttons.css";
 import { CSSProperties, MouseEvent } from "react";
+import "@/styles/atoms/buttons/buttons.css";
 interface ButtonProps {
   type?: "button" | "submit";
   disabled?: boolean;

@@ -1,5 +1,5 @@
-import { SortingProduct } from "@/commons/entities/SortingProduct";
 import "@/styles/inventory/inventory-table-rows.css";
+import { SortingProduct } from "@/commons/entities/SortingProduct";
 import { SortingIcon } from "../atoms/SortingIcon";
 
 interface InventoryTableHeaderProps {

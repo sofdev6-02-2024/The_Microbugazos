@@ -1,6 +1,7 @@
-import { Button } from "../atoms/buttons/Button";
-import "@/styles/inventory/no-products-found.css";
 import { useRouter } from "next/navigation";
+import "@/styles/inventory/no-products-found.css";
+import { Button } from "../atoms/buttons/Button";
+
 export const NoProductsFound = () => {
   const router = useRouter();
   const addNewProduct = () => {

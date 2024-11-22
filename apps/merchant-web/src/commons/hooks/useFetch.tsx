@@ -1,5 +1,5 @@
-import axiosInstance from "@/request/AxiosConfig";
 import { useEffect, useState } from "react";
+import axiosInstance from "@/request/AxiosConfig";
 
 type ErrorType = Error | null;
 type Data<T> = T | null;

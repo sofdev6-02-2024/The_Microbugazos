@@ -1,8 +1,7 @@
-import { InventoryRow } from "./InventoryRow";
 import "@/styles/inventory/inventory-table.css";
 import Product from "@/commons/entities/concretes/Product";
 import { Pagination } from "@/commons/entities/Pagination";
-
+import { InventoryRow } from "./InventoryRow";
 interface InventoryBodyProps {
   data: Pagination<Product>;
   reloadPage: () => Promise<void>;

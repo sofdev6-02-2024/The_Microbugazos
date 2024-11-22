@@ -1,7 +1,8 @@
-import { Pagination } from "@/commons/entities/Pagination";
-import "@/styles/general/pagination.css";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
+import "@/styles/general/pagination.css";
+import { Pagination } from "@/commons/entities/Pagination";
+
 
 interface PaginationTableProps<T> {
   pagination: Pagination<T>;

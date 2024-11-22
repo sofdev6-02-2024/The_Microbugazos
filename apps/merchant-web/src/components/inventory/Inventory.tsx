@@ -1,11 +1,12 @@
 "use client";
 
 import "@/styles/inventory/inventory-table.css";
-import { InventoryTableHeader } from "./InventoryTableHeader";
-import { InventoryBody } from "./InventoryBody";
 import { useSorting } from "@/commons/hooks/useSorting";
 import { SortingProduct } from "@/commons/entities/SortingProduct";
 import { useStore } from "@/commons/context/StoreContext";
+import { InventoryTableHeader } from "./InventoryTableHeader";
+import { InventoryBody } from "./InventoryBody";
+
 import {
   getPaginatedProducts,
   getDefaultInventoryProductsUrl,
