@@ -5,8 +5,10 @@ interface Type {
   page: number;
   pageSize: number;
   totalPages: number;
+  reloadSignal: boolean;
 
   toggleView: () => void;
+  sendReloadSignal: () => void;
   setPage: (number) => void;
   setTotalPages: (number) => void;
 }
@@ -25,6 +27,7 @@ export const useProductsView = () => {
 
 export const ProductsViewProvider = ({children}: {children: ReactNode}) => {
   const pageSize = 24;
+  const [reloadSignal, setReloadSignal] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -33,15 +36,21 @@ export const ProductsViewProvider = ({children}: {children: ReactNode}) => {
     setIsGridView((prev) => !prev);
   };
 
+  const sendReloadSignal = () => {
+    setReloadSignal(!reloadSignal);
+  }
+
   const objValue = useMemo(() => ({
     isGridView,
     page,
     pageSize,
     totalPages,
+    reloadSignal,
     toggleView,
+    sendReloadSignal,
     setPage,
     setTotalPages,
-  }), [isGridView, page, totalPages]);
+  }), [isGridView, page, totalPages, reloadSignal]);
 
   return (
     <ProductsViewContext.Provider

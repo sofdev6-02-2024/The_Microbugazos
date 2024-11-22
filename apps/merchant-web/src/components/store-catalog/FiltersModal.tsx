@@ -16,6 +16,7 @@ import axiosInstance from "@/request/AxiosConfig";
 import ComboBox from "@/components/combo-box";
 import ModalStyle from "@/styles/store-catalog/Modal.module.css"
 import {useFiltersContext} from "@/contexts/FiltersContext";
+import {useProductsView} from "@/contexts/ProductsViewContext";
 
 interface Subcategory {
   id: string,
@@ -30,6 +31,7 @@ export default function FiltersModal() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const {isApplied, priceRange, ratingRange,
     setIsApplied, setCategoryId, setSubcategoryId, setPriceRange, setRatingRange} = useFiltersContext();
+  const {sendReloadSignal} = useProductsView();
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [subcategory, setSubcategory] = useState("");
@@ -133,6 +135,7 @@ export default function FiltersModal() {
               <ModalFooter>
                 <Button className={ModalStyle.primaryButton} onPress={() => {
                   setIsApplied(true);
+                  sendReloadSignal();
                   onClose();
                 }}>
                   Apply

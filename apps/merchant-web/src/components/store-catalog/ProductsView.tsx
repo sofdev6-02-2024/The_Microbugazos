@@ -9,6 +9,8 @@ import PageSelector from "@/components/PageSelector";
 import {useProductsView} from "@/contexts/ProductsViewContext";
 import {GetProductsByStore} from "@/services/storeCatalogService";
 import ProductsViewStyle from "@/styles/store-catalog/ProductsView.module.css"
+import {useFiltersContext} from "@/contexts/FiltersContext";
+import {useSortContext} from "@/contexts/SortContext";
 
 interface Props {
   id: string
@@ -19,10 +21,12 @@ export default function ProductsView({id}: Readonly<Props>) {
   const maxVisiblePagesButton = 5;
   const [products, setProducts] = useState<Array<Product>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const filtersContext = useFiltersContext();
+  const sortContext = useSortContext();
 
   useEffect(() => {
     setIsLoading(true);
-    GetProductsByStore(id, context.page, context.pageSize, "")
+    GetProductsByStore(id, context.page, context.pageSize, `${filtersContext.getQuery()}${sortContext.getQuery()}`)
       .then(data => {
         setProducts(data.data.items.map(product =>
           new Product(
@@ -40,7 +44,7 @@ export default function ProductsView({id}: Readonly<Props>) {
         context.setTotalPages(Math.ceil(data.data.existingElements / context.pageSize));
       })
       .finally(() => setIsLoading(false));
-  }, [id, context.page]);
+  }, [id, context.page, context.reloadSignal,  filtersContext.isApplied, sortContext.isApplied]);
 
   return (
     <div className={ProductsViewStyle.container}>

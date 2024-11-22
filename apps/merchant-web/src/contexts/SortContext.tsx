@@ -1,9 +1,11 @@
 import {createContext, ReactNode, useContext, useEffect, useMemo, useState} from "react";
 
 interface Type {
+  isApplied: boolean,
   nameAscending: boolean | null,
   priceAscending: boolean | null,
   ratingAscending: boolean | null,
+  setIsApplied: (boolean) => void,
   setNameAscending: (boolean) => void,
   setPriceAscending: (boolean) => void,
   setRatingAscending: (boolean) => void,
@@ -24,7 +26,7 @@ export const useSortContext = () => {
 };
 
 export const SortProvider = ({children}: {children: ReactNode}) => {
-  const [isApplied, setIsApplied] = useState(true);
+  const [isApplied, setIsApplied] = useState(false);
   const [nameAscending, setNameAscending] = useState();
   const [priceAscending, setPriceAscending] = useState();
   const [ratingAscending, setRatingAscending] = useState();
@@ -40,7 +42,15 @@ export const SortProvider = ({children}: {children: ReactNode}) => {
     let query = "";
 
     if (nameAscending != null) {
-      query += `SortBy${}`;
+      query += `&NameAsc=${nameAscending}`;
+    }
+
+    if (priceAscending != null) {
+      query += `&PriceAsc=${priceAscending}`;
+    }
+
+    if (ratingAscending != null) {
+      query += `&RatingAsc=${ratingAscending}`;
     }
 
     return query;

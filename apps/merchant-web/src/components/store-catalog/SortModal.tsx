@@ -11,9 +11,11 @@ import {ArrowDownUp} from "lucide-react";
 import ModalStyle from "@/styles/store-catalog/Modal.module.css"
 import ChipSelector from "@/components/ChipSelector";
 import {useSortContext} from "@/contexts/SortContext";
+import {useProductsView} from "@/contexts/ProductsViewContext";
 
 export default function SortModal() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const {sendReloadSignal} = useProductsView();
   const {isApplied, nameAscending, priceAscending, ratingAscending,
     setIsApplied, setNameAscending, setPriceAscending, setRatingAscending} = useSortContext();
 
@@ -63,6 +65,7 @@ export default function SortModal() {
               <ModalFooter>
                 <Button className={ModalStyle.primaryButton} onPress={() => {
                   setIsApplied(true);
+                  sendReloadSignal();
                   onClose();
                 }}>
                   Apply

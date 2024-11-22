@@ -45,7 +45,7 @@ export const FiltersProvider = ({children}: {children: ReactNode}) => {
     if (!isApplied) return "";
     let query = "";
 
-    if (categoryId === "") {
+    if (categoryId !== "") {
       query += `&CategoryId=${subcategoryId !== "" ? subcategoryId : categoryId}`
     }
 
