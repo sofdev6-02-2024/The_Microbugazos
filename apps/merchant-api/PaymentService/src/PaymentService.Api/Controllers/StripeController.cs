@@ -9,7 +9,7 @@ namespace PaymentService.Api.Controllers;
 
 [ApiController]
 [Route("api/payment/[controller]")]
-public class CheckoutController(IMediator mediator) : ControllerBase
+public class StripeController(IMediator mediator) : ControllerBase
 {
     [HttpPost("submit-cart")]
     public ActionResult<BaseResponse> InitCheckoutSession([FromBody] CheckoutSessionRequestDto request)
