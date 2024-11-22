@@ -15,8 +15,8 @@
 
 .product-card-image {
   width: 100%;
-  max-height: 450px;
-  object-fit: cover;
+  height: 300px;
+  object-fit: fit;
 }
 
 .product-card-name {

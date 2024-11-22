@@ -6,9 +6,6 @@
   --background-light-tertiary: #eff2f5;
   --background-dark-primary: #121212;
   --background-dark-secondary: #121212;
-  --action-success: #03fcba;
-  --action-alert: #e9df00;
-  --action-error: #fb5012;
   --primary-light: #7790ed;
   --primary-dark: #5275f5;
   --secondary-light: #292621;
@@ -27,15 +24,6 @@
   --foreground: #171717;
   --white: #fff;
 
-  --primary-400: #7790ed;
-  --primary-600: #5275f5;
-
-  --secondary-400: #292621;
-  --secondary-600: #262420;
-
-  --tertiary-400: #f5ede2;
-  --tertiary-600: #f4e3cc;
-
   --surface-background: #f4f9ff;
   --surface-light-100: #f4f9ff;
   --surface-light-150: #d1dae44b;
@@ -49,10 +37,6 @@
   --gray-400: #d9d9d9;
   --gray-500: #bfbfbf;
 
-  --action-success: #b4ed77;
-  --action-error: #fb5012;
-  --action-alert: #e9df00;
-
   --ubuntu-font-family: "Ubuntu", serif;
   --ubuntu-font-weight: 400;
   --ubuntu-font-style: normal;
@@ -64,13 +48,54 @@
 
   --color-background-header: #1f1f1f;
   --color-side-menu-background: #eff2f5;
+  --background-primary: #f4f9ff;
+  --background-secondary: #eaeaed;
+  --background-tertiary: #eff2f5;
+  --foreground-primary: #000000;
+  --foreground-secondary: #1f1f1f;
+  --foreground-tertiary: #282828;
+
+  --primary-400: #7790ed;
+  --primary-600: #5275f5;
+
+  --secondary-400: #292621;
+  --secondary-600: #262420;
+
+  --tertiary-400: #f5ede2;
+  --tertiary-600: #f4e3cc;
+
+  --action-success: #b4ed77;
+  --action-error: #fb5012;
+  --action-alert: #e9df00;
+
+  --logo-text-size: 32px;
+  --heading-1-text-size: 28px;
+  --heading-2-text-size: 24px;
+  --heading-3-text-size: 20px;
+  --normal-1-text-size: 18px;
+  --normal-2-text-size: 16px;
+  --normal-3-text-size: 14px;
+  --normal-4-text-size: 12px;
+
+  --ubuntu-font-family: "Ubuntu", serif;
+  --ubuntu-font-weight: 400;
+  --ubuntu-font-style: normal;
+
+  --montserrat-alt-font-family: "Montserrat Alternates", serif;
+  --montserrat-alt-medium-weight: 500;
+  --montserrat-alt-bold-weight: 700;
+  --montserrat-alt-font-style: normal;
+
+  --general-border-radius: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Ubuntu", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 html,
@@ -81,18 +106,10 @@ body {
 
 body {
   color: var(--foreground);
-  background: white;
+  background: var(--background-primary);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: "Ubuntu", serif;
-  font-weight: 400;
-  font-style: normal;
 }
 
 h1,
@@ -106,6 +123,18 @@ h6 {
   font-style: normal;
 }
 
+h1 {
+  font-size: var(--heading-1-text-size);
+}
+
+h2 {
+  font-size: var(--heading-2-text-size);
+}
+
+h3 {
+  font-size: var(--heading-3-text-size);
+}
+
 .logo-font-text {
   font-family: "Montserrat Alternates", serif;
   font-weight: 700;
@@ -115,6 +144,7 @@ h6 {
 input,
 textarea {
   outline: none;
+  border-radius: var(--general-border-radius);
 }
 
 .flag-dropdown {
@@ -123,12 +153,18 @@ textarea {
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  :root {
+    --background-primary: #000000;
+    --background-secondary: #1f1f1f;
+    --background-tertiary: #282828;
+    --foreground-primary: #f4f9ff;
+    --foreground-secondary: #eaeaed;
+    --foreground-tertiary: #eff2f5;
   }
 }
 
-
-.padding-standard{
-  padding: 0 20px 20px 20px;
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }

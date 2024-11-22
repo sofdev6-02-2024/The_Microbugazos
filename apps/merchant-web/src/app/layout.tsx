@@ -6,10 +6,10 @@ import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
-import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
-import { ProductPopUp } from "@/components/general/ProductPopUp";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
+import { ModalProvider } from "@/commons/context/ModalContext";
+import { Modal } from "@/components/Modal";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/store"];
@@ -32,12 +32,12 @@ export default function RootLayout({
         <AuthProvider>
           <OptionsProvider>
             <VariantsProvider>
-              <ProductPopUpProvider>
-                <ProductPopUp />
+              <ModalProvider>
                 {showComponents && <Header />}
                 <main>{children}</main>
                 {showComponents && <Footer />}
-              </ProductPopUpProvider>
+                <Modal />
+              </ModalProvider>
             </VariantsProvider>
           </OptionsProvider>
         </AuthProvider>

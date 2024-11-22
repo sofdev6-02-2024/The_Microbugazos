@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { Option } from "./Option";
 import "@/styles/general/Select.css";
@@ -12,9 +12,11 @@ interface Props {
 export const Select = ({ values }: Props) => {
   const [value, setValue] = useState("Select an option");
   const [isOpen, setIsOpen] = useState(false);
-  const optionsRef = useRef<HTMLDivElement|null>(null);
+  const optionsRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleOpen = () => {
+  const toggleOpen = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     setIsOpen(!isOpen);
   };
 

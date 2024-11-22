@@ -14,7 +14,7 @@ const useAuth = () => {
       document.cookie = "auth-token=; max-age=0; path=/";
       setUser(null);
     } catch (error) {
-      console.log("Failed to close session", error);
+      console.error("Failed to close session", error);
     }
   };
 

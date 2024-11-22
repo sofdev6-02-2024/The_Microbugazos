@@ -32,7 +32,6 @@ export default function ProductDetails() {
     const [error, setError] = useState<string>(null);
 
     useEffect(() => {
-        console.log(id);
         fetch(`http://localhost:5001/api/inventory/Product/${id}`)
             .then(response => response.json().then(data => {
                 const attributeMap: Record<string, Set<string>> = {};
@@ -80,11 +79,8 @@ export default function ProductDetails() {
 
     function handleAddToCart() {
         const isAllSelected = Object.entries(variantSelected).filter(([key, value]) => value === -1);
-        console.log(variantSelected);
-        console.log(isAllSelected);
 
         if (isAllSelected.length === 0) {
-            console.log("Success");
             setError(null);
         } else {
             setError("Select all attributes of the product");
