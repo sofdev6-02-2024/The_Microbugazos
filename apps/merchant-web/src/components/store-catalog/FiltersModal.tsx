@@ -71,7 +71,9 @@ export default function FiltersModal() {
 
   const clearFilters = () => {
     setCategoryId("");
+    setCategory("");
     setSubcategoryId("");
+    setSubcategory("");
     setPriceRange([100, 500]);
     setRatingRange([1, 2.5]);
   }

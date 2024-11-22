@@ -25,8 +25,16 @@ export const ProductCard = ({ product, type }: Props) => {
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
-        alt={product.images[0].altText}
+        src={
+          product.images.length > 0
+            ? product.images[0].url
+            : "https://images.pexels.com/photos/1292294/pexels-photo-1292294.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        }
+        alt={
+          product.images.length > 0
+            ? product.images[0].altText
+            : "Some image"
+        }
         className={`product-card-image ${type}`}
       />
       <div className={`product-card-info-section ${type}`}>

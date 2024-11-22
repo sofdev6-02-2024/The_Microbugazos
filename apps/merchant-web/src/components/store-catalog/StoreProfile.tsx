@@ -2,8 +2,8 @@
 
 import React, {useEffect, useState} from "react";
 import axiosInstance from "@/request/AxiosConfig";
-import {StoreImagesProfile} from "@/components/store/StoreImagesProfile";
 import InformationStyle from "@/styles/store-catalog/Information.module.css"
+import {StoreImagesProfile} from "@/components/store/crud-store/StoreImagesProfile";
 
 export const StoreProfile = ({storeId}: Props) => {
   const [storeData, setStoreData] = useState<Store>();
