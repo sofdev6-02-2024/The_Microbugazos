@@ -13,11 +13,9 @@ import { useState } from "react";
 import { StoreForm } from "@/components/store/crud-store/StoreForm";
 import { toast } from "sonner";
 import { useAuth } from "@/commons/context/AuthContext";
-import { useRouter } from "next/navigation";
 export default function CreateNewStoreForm() {
   const [clicked, setClicked] = useState(false);
   const { user } = useAuth();
-  const router = useRouter();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: defaultStoreFormData,
     validationSchema: StoreFormScheme,
@@ -31,7 +29,7 @@ export default function CreateNewStoreForm() {
       }
       toast.promise(createStoreHandler(storeFormHandler.values, user?.userId), {
         loading: "Creating Store",
-        success: (storeId) => {
+        success: () => {
           setClicked(false);
           location.href = `/store`;
           return "Store Created";

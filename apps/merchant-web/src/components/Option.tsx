@@ -8,6 +8,8 @@ interface FormInputProps {
   route?: string;
   completeRoute?: boolean;
   onRouteChange?: (route: string) => void;
+  onClick?: () => void;
+  pushing?: boolean;
 }
 
 export const Option: React.FC<FormInputProps> = ({
@@ -15,30 +17,48 @@ export const Option: React.FC<FormInputProps> = ({
   text,
   route = "",
   completeRoute = false,
-  onRouteChange = (route: string) => {},
+  onRouteChange = () => {},
+  onClick ,
+  pushing = true,
 }) => {
   const router = useRouter();
+
+  const changeRoute = (route: string) => {
+    if (pushing) {
+      router.push(route);
+    } else {
+      router.replace(route);
+    }
+  };
 
   const handleRouterNavigation = () => {
     const formattedText = text.toLowerCase().replace(/\s/g, "-");
     if (completeRoute) {
       onRouteChange(`/${route}`);
-      router.push(`/${route}`);
+      changeRoute(`/${route}`);
       return;
     }
     if (formattedText !== "home") {
       if (route) {
-        router.push(`/${route}/${formattedText}`);
+        changeRoute(`/${route}/${formattedText}`);
         onRouteChange(`/${route}/${formattedText}`);
       } else {
-        router.push(`/${formattedText}`);
+        changeRoute(`/${formattedText}`);
       }
     } else {
       router.push("/");
     }
   };
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      handleRouterNavigation();
+    }
+  };
   return (
-    <div className={styles.container} onClick={handleRouterNavigation}>
+    <div className={styles.container} onClick={handleClick}>
       <Icon className={styles.icon} />
       <p>{text}</p>
     </div>

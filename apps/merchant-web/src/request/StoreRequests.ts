@@ -1,6 +1,6 @@
-import { toast } from "sonner";
 import axiosInstance from "./AxiosConfig";
 import { StoreFormDto } from "@/schemes/store/StoreFormDto";
+import {handleAxiosError} from "@/request/AxiosErrorHandler";
 
 export const getStoreById = async (id: string) => {
   try {
@@ -30,16 +30,4 @@ export const updateStore = async (id: string, data: StoreFormDto) => {
     handleAxiosError(error);
     throw error;
   }
-};
-
-const handleAxiosError = (error: any) => {
-  console.error("Axios Error:", error.response?.data || error.message);
-  let fullMessage = error.response?.data?.detail || error.response.data.message;
-  const index = fullMessage.indexOf(":");
-  if (index !== -1) {
-    fullMessage = fullMessage.substring(index + 2);
-  }
-  toast.error(`Error: ${fullMessage}`, {
-    position: "top-center",
-  });
 };

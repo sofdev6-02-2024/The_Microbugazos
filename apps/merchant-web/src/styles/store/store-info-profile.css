@@ -9,6 +9,7 @@
   top: 330px;
   z-index: 100;
   color: black;
+  width: calc(70% - 80px);
 }
 
 .store-info-container h2 {
@@ -34,6 +35,9 @@
   .store-info-profile-main-container {
     margin-bottom: 180px;
   }
+  .store-info-container {
+    width: calc(55% - 30px);
+  }
 }
 
 @media screen and (max-width: 850px) {
@@ -47,6 +51,12 @@
     left: 0;
     text-align: center;
     padding: 10px 25px 25px 25px;
+    width: 100%;
+  }
+
+  .store-info-container p{
+    text-align: center;
+    width: 100%;
   }
 
   .store-info-container h2 {

@@ -11,17 +11,13 @@ interface InventoryBodyProps {
 export const InventoryBody = ({ data, reloadPage }: InventoryBodyProps) => {
   return (
     <tbody className="admin-store-inventory-body">
-      {data?.items && data?.items?.length > 0 ? (
-        data.items.map((product, index) => (
-          <InventoryRow
-            key={`${product.id || index + product.name}`}
-            product={product}
-            reloadPage={reloadPage}
-          />
-        ))
-      ) : (
-        <p>No products found</p>
-      )}
+      {data.items.map((product, index) => (
+        <InventoryRow
+          key={`${product.id || index + product.name}`}
+          product={product}
+          reloadPage={reloadPage}
+        />
+      ))}
     </tbody>
   );
 };

@@ -14,33 +14,35 @@ export const StoreAdminSideMenu = ({
   onRouteChange,
 }: StoreAdminSideMenuProps) => {
   return (
-    <div
-      className={`side-menu desktop-store-admin-menu`}
-    >
+    <div className={`side-menu desktop-store-admin-menu`}>
       <Option
         icon={LuHome}
         text={"Home"}
         route="store"
         completeRoute={true}
         onRouteChange={onRouteChange}
+        pushing={false}
       />
       <Option
         icon={MdOutlineInventory2}
         text={"Admin Store"}
         route="store"
         onRouteChange={onRouteChange}
+        pushing={false}
       />
       <Option
         icon={RiShoppingCart2Line}
         text={"Inventory"}
         route="store"
         onRouteChange={onRouteChange}
+        pushing={false}
       />
       <Option
         icon={TbUsers}
         text={"Members"}
         route="store"
         onRouteChange={onRouteChange}
+        pushing={false}
       />
     </div>
   );

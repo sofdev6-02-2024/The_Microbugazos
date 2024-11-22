@@ -20,9 +20,7 @@ public class CreateProductVariantValidator : AbstractValidator<CreateProductVari
             .When(x => x.Image != null);
 
         RuleFor(x => x.PriceAdjustment)
-            .NotNull().WithMessage("Price Adjustment cannot be null.")
-            .GreaterThan(productVariantSettings.PriceAdjustmentMin)
-            .WithMessage($"The Price Adjustment must be greater than {productVariantSettings.PriceAdjustmentMin}.");
+            .NotNull().WithMessage("Price Adjustment cannot be null.");
 
         RuleFor(x => x.StockQuantity)
             .NotNull().WithMessage("Stock Quantity cannot be null.")

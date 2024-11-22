@@ -14,6 +14,7 @@ import Product from "@/commons/entities/concretes/Product";
 import { useEffect } from "react";
 import Loader from "../Loader";
 import { PaginationTable } from "../general/PaginationTable";
+import { NoProductsFound } from "./NoProductsFound";
 
 export const InventoryTable = () => {
   const { sorting, handleSorting } = useSorting(new SortingProduct());
@@ -50,11 +51,16 @@ export const InventoryTable = () => {
           }}
           sorting={sorting}
         />
-        <InventoryBody
-          data={data ?? emptyPagination}
-          reloadPage={() => handlePagination(data?.page ?? 1)}
-        />
+        {data?.items && data?.items.length > 0 && (
+          <InventoryBody
+            data={data ?? emptyPagination}
+            reloadPage={() => handlePagination(data?.page ?? 1)}
+          />
+        )}
       </table>
+
+      {data && data?.totalPages == 0 && <NoProductsFound />}
+
       {data && data?.totalPages > 1 && (
         <PaginationTable pagination={data} onPageChange={handlePagination} />
       )}

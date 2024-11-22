@@ -3,10 +3,7 @@ import { useStore } from "@/commons/context/StoreContext";
 import { StoreAdminHeader } from "./StoreAdminHeader";
 import TwoColumnLayout from "../layouts/TwoColumnLayout";
 import { StoreAdminSideMenu } from "./StoreAdminSideMenu";
-import CreateNewStoreForm from "./crud-store/CreateNewStoreForm";
 import "@/styles/store/admin-store.css";
-import { useAuth } from "@/commons/context/AuthContext";
-import { UserType } from "@/types/auth";
 import { defaultStoreFormData } from "@/schemes/store/StoreFormDto";
 import Loader from "../Loader";
 import { StoreMobileMenu } from "./StoreMobileMenu";
@@ -33,8 +30,8 @@ export const AdminStore = ({ children }: AdminStoreProps) => {
       <div className="admin-store-container">
         <StoreAdminHeader store={store ?? defaultStoreFormData} />
         <TwoColumnLayout
-          leftWidth="20%"
-          rightWidth="80%"
+          leftWidth="15.5%"
+          rightWidth="84.5%"
           leftContent={
             <>
               <StoreAdminSideMenu onRouteChange={handleRouteChange} />

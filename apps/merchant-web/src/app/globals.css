@@ -129,3 +129,8 @@ textarea {
     color-scheme: dark;
   }
 }
+
+
+.padding-standard{
+  padding: 0 20px 20px 20px;
+}
