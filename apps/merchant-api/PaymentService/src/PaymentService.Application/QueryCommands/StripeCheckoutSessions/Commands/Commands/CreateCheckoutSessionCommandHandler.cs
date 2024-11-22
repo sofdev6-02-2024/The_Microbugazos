@@ -11,12 +11,21 @@ namespace PaymentService.Application.QueryCommands.StripeCheckoutSessions.Comman
 public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckoutSessionCommand, BaseResponse>
 {
     private readonly IResponseHandlingHelper _responseHandlingHelper;
+    private readonly string _stripeSuccessUrl;
+    private readonly string _stripeFailedUrl;
     
     public CreateCheckoutSessionCommandHandler(IResponseHandlingHelper responseHandlingHelper)
     {
         Env.Load("../../../../../.env");
+        _stripeSuccessUrl = Env.GetString("STRIPE_SUCCESS_URL") ?? 
+                             Environment.GetEnvironmentVariable("STRIPE_SUCCESS_URL") ?? 
+                             throw new Exception("STRIPE_SUCCESS_URL is not set");
+        _stripeFailedUrl = Env.GetString("STRIPE_FAILED_URL") ?? 
+                             Environment.GetEnvironmentVariable("STRIPE_FAILED_URL") ?? 
+                             throw new Exception("STRIPE_FAILED_URL is not set");
         StripeConfiguration.ApiKey = Env.GetString("STRIPE_SECRET_KEY") ?? 
-                                     Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY") ?? throw new Exception("STRIPE_SECRET_KEY is not set");
+                                     Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY") ?? 
+                                     throw new Exception("STRIPE_SECRET_KEY is not set");
         _responseHandlingHelper = responseHandlingHelper;
     }
 
@@ -30,7 +39,11 @@ public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckou
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = product.Name,
-                        Images = [product.ImageUrl]
+                        Images = [product.ImageUrl],
+                        Metadata = new Dictionary<string, string>
+                        { 
+                            { "product_variant_id", product.ProductVariantId.ToString() }
+                        }
                     }, UnitAmount = (long)(product.Price * 100),
                 },
                 Quantity = product.Quantity,
@@ -41,12 +54,13 @@ public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckou
             PaymentMethodTypes = ["card"],
             LineItems = lineItems,
             Mode = "payment",
-            SuccessUrl = "http://localhost:3000/payment_transaction/success",
-            CancelUrl = "http://localhost:3000/payment_transaction/failed",
+            SuccessUrl = _stripeSuccessUrl,
+            CancelUrl = _stripeFailedUrl,
             CustomerEmail = request.Customer.Email,
+            BillingAddressCollection = "required",
             Metadata = new Dictionary<string, string>
             {
-                { "user_id", request.Customer.UserId.ToString() }
+                { "user_id", request.Customer.UserId.ToString() },
             }
         };
         

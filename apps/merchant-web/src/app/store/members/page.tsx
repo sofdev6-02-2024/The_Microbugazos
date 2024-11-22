@@ -1,3 +1,7 @@
+import MembersComponent from "@/components/members-store/MembersComponent";
+
 export default function MembersPage() {
-  return <div style={{ height: "86vh" }}>Members</div>;
+  return (
+    <MembersComponent/>
+  );
 }

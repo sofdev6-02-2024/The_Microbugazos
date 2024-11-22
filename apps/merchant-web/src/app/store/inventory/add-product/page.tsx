@@ -12,8 +12,8 @@ import { ValidateName } from "@/commons/validations/string";
 import { ValidateLongText } from "@/commons/validations/string";
 import { ValidateNumberWithDecimals } from "@/commons/validations/number";
 import Notification from "@/components/notification";
-import AddProductStyle from "../../../styles/admin-panel/add-products.module.css";
-import TextFieldStyle from "../../../styles/components/TextField.module.css";
+import AddProductStyle from "../../../../styles/admin-panel/add-products.module.css"
+import TextFieldStyle from "../../../../styles/components/TextField.module.css"
 
 export default function AddProducts() {
   const [errors, setErrors] = useState<[{ textField: string; error: string }]>(

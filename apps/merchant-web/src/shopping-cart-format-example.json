@@ -17,9 +17,6 @@
   ],
   "customer": {
     "userId": "ae3d2f0a-3c2e-4bb5-8f72-3b4971e3b79d",
-    "email": "customer@example.com",
-    "address": "123 Example St",
-    "city": "Example City",
-    "country": "Example Country"
+    "email": "customer@example.com"
   }
 }

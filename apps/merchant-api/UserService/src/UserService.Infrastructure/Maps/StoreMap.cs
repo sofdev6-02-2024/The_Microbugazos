@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UserService.Domain.Entities.Concretes;
 
@@ -24,5 +25,18 @@ public class StoreMap : IEntityTypeConfiguration<Store>
             .WithOne(u => u.Store)
             .HasForeignKey<Store>(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(s => s.SellerIds)
+            .HasConversion(
+                v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => Guid.Parse(id))
+                    .ToList(),
+                new ValueComparer<ICollection<Guid>>(
+                    (c1, c2) => c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()
+                )
+            );
     }
 }

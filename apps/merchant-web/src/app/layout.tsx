@@ -12,7 +12,7 @@ import { ModalProvider } from "@/commons/context/ModalContext";
 import { Modal } from "@/components/Modal";
 import { ShoppingCartProvider } from "@/commons/context/ShoppingCartContext";
 
-const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
+const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store", "/shopping-cart"];
 const EXCLUDED_PREFIXES = ["/store"];
 
 export default function RootLayout({

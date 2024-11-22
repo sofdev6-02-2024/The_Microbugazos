@@ -6,4 +6,5 @@ public interface IUserRepository : ICrudRepository<User>
 {
     Task<User?> GetUserWithDetails(Guid id);
     Task<User?> GetUserByIdentityId(string identityId);
+    Task<User?> GetUserByEmailAsync(string email);
 }

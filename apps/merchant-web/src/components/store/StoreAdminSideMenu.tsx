@@ -9,9 +9,11 @@ import "@/styles/store/store-admin-menu.css";
 
 interface StoreAdminSideMenuProps {
   onRouteChange: (route: string) => void;
+  isSellerUser?: boolean;
 }
 export const StoreAdminSideMenu = ({
   onRouteChange,
+  isSellerUser = false,
 }: StoreAdminSideMenuProps) => {
   return (
     <div className={`side-menu desktop-store-admin-menu`}>
@@ -23,23 +25,27 @@ export const StoreAdminSideMenu = ({
         onRouteChange={onRouteChange}
         pushing={false}
       />
-      <Option
-        icon={MdOutlineInventory2}
-        text={"Admin Store"}
-        route="store"
-        onRouteChange={onRouteChange}
-        pushing={false}
-      />
+      {!isSellerUser && (
+        <>
+          <Option
+            icon={MdOutlineInventory2}
+            text={"Admin Store"}
+            route="store"
+            onRouteChange={onRouteChange}
+            pushing={false}
+          />
+          <Option
+            icon={TbUsers}
+            text={"Members"}
+            route="store"
+            onRouteChange={onRouteChange}
+            pushing={false}
+          />
+        </>
+      )}
       <Option
         icon={RiShoppingCart2Line}
         text={"Inventory"}
-        route="store"
-        onRouteChange={onRouteChange}
-        pushing={false}
-      />
-      <Option
-        icon={TbUsers}
-        text={"Members"}
         route="store"
         onRouteChange={onRouteChange}
         pushing={false}
