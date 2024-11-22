@@ -7,17 +7,7 @@ import {useEffect, useState} from "react";
 import ProductDetailsStyle from "@/styles/products/ProductDetails.module.css"
 import ImagesSection, {Image} from "@/components/product-details/ImagesSection";
 import { useParams } from 'next/navigation'
-
-interface Product {
-    productId: string,
-    name: string,
-    description: string,
-    price: number,
-    brand: string,
-    categories: [],
-    images: Image[],
-    productVariants: []
-}
+import Product from "@/commons/entities/concretes/Product";
 
 export default function ProductDetails() {
     const params = useParams();
@@ -105,24 +95,11 @@ export default function ProductDetails() {
                 images={images}
                 imageSelected={image}
             ></ImagesSection>
-            <section style={{
-                paddingTop: "12px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "start",
-                gap: "16px",
-                height: "inherit"
-            }}>
-                <h1 style={{color: "#000", fontFamily: "Montserrat, serif", fontSize: "28px", fontWeight: "bold"}}>{product.name}</h1>
+            <section className={ProductDetailsStyle.informationContainer}>
+                <h1 className={ProductDetailsStyle.title}>{product.name}</h1>
                 <RatingSelector rating={2.5}></RatingSelector>
-                <label style={{
-                    fontSize: "20px",
-                    fontWeight: "600",
-                }}>$ {product.price}
-                    <span style={{
-                        fontWeight: "300",
-                        fontSize: "16px"
-                    }}> ({variantLoaded
+                <label className={ProductDetailsStyle.label}>$ {product.price}
+                    <span className={ProductDetailsStyle.labelLight}> ({variantLoaded
                         && (
                             (variantLoaded.priceAdjustment > 0 ? "+$ " : "")
                             + ( variantLoaded.priceAdjustment.toString()))})
@@ -143,32 +120,13 @@ export default function ProductDetails() {
                         />
                     </div>
                 ))}
-                {error && <label style={{fontSize: "14px", color: "#FB5012"}}><sup>*</sup>{error}</label>}
+                {error && <label className={ProductDetailsStyle.errorLabel}><sup>*</sup>{error}</label>}
                 <hr/>
 
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        flexWrap: "wrap",
-                        gap: "16px",
-                }}>
+                <div className={ProductDetailsStyle.actionsContainer}>
                     <QuantitySelector></QuantitySelector>
                     <button
-                        style={{
-                            paddingTop: "14px",
-                            paddingBottom: "14px",
-                            width: "15vw",
-                            minWidth: "144px",
-                            border: "none",
-                            borderRadius: "24px",
-                            backgroundColor: "#7790ED",
-                            color: "white",
-                            fontSize: "16px"
-                        }}
+                        className={ProductDetailsStyle.addToCart}
                         onClick={handleAddToCart}
                     >Add to cart</button>
                     <div>

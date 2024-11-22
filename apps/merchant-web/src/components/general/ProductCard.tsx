@@ -8,6 +8,7 @@ import { ListType } from "@/commons/entities/ListType";
 import Product from "@/commons/entities/concretes/Product";
 import { useProductPopUp } from "@/commons/context/PopUpContext";
 import "@/styles/general/ProductCard.css";
+import {useRouter} from "next/navigation";
 
 interface Props {
   product: Product;
@@ -17,6 +18,7 @@ interface Props {
 export const ProductCard = ({ product, type }: Props) => {
   const [isLiked, setIsLiked] = useState(false);
   const { openProductPopUp } = useProductPopUp();
+  const router = useRouter();
 
   const handleProductClick = () => {
     openProductPopUp(product);
@@ -38,12 +40,12 @@ export const ProductCard = ({ product, type }: Props) => {
         className={`product-card-image ${type}`}
       />
       <div className={`product-card-info-section ${type}`}>
-        <a
-          href={`http://localhost:3000/product-details/${product.id}`}
+        <label
+          onClick={() => router.push(`/product-details/${product.id}`)}
           className={`product-card-name ${type}`}
         >
           {product.name}
-        </a>
+        </label>
         <div className={`product-card-info ${type}`}>
           <p className="product-card-price">
             <span className="product-card-price-symbol">$</span> {product.price}

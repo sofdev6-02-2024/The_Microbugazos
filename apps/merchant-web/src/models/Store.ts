@@ -4,7 +4,7 @@ interface Store {
   description: string;
   address: string;
   phoneNumber: string;
-  userIdentity: string | undefined | null;
+  userIdentity: string | null;
   bannerImage: string;
   profileImage: string;
 }

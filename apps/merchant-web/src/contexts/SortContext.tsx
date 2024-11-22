@@ -31,12 +31,6 @@ export const SortProvider = ({children}: {children: ReactNode}) => {
   const [priceAscending, setPriceAscending] = useState();
   const [ratingAscending, setRatingAscending] = useState();
 
-  useEffect(() => {
-    console.log(nameAscending);
-    console.log(priceAscending);
-    console.log(ratingAscending);
-  }, [nameAscending, priceAscending, ratingAscending]);
-
   const getQuery = () => {
     if (!isApplied) return "";
     let query = "";

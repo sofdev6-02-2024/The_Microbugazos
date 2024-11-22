@@ -34,13 +34,6 @@ export const FiltersProvider = ({children}: {children: ReactNode}) => {
   const [priceRange, setPriceRange] = useState<Array<number>>([100, 500]);
   const [ratingRange, setRatingRange] = useState<Array<number>>([1, 2.5]);
 
-  useEffect(() => {
-    console.log(categoryId);
-    console.log(subcategoryId);
-    console.log(priceRange);
-    console.log(ratingRange);
-  }, [priceRange, ratingRange]);
-
   const getQuery = () => {
     if (!isApplied) return "";
     let query = "";

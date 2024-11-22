@@ -1,5 +1,6 @@
 "use client"
 import {useState} from "react";
+import ChipSelectorStyle from "@/styles/general/ChipSelector.module.css"
 
 interface ChipSelectorProps {
   name: string,
@@ -11,16 +12,11 @@ interface ChipSelectorProps {
 export default function ChipSelector({name, options, handleChange, defaultValue} : ChipSelectorProps) {
     const [indexSelected, setIndexSelected] = useState(defaultValue ?? -1);
     return (
-        <div style={{display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "8px"}}>
-            {options.map((item, index) => <div style={{
-                padding: "2px 12px 2px 12px",
-                borderRadius: "12px",
-                justifyContent: "center",
-                alignItems: "center",
-                color: index == indexSelected ? "#FFF" : "#000",
-                backgroundColor: index == indexSelected ? "#7790ED" : "#ffdfe9",
-                cursor: "pointer"
-            }} onClick={() => {
+        <div className={ChipSelectorStyle.container}>
+            {options.map((item, index) => <div
+              key={index}
+              className={`${ChipSelectorStyle.chip} ${index == indexSelected && ChipSelectorStyle.selected}`}
+              onClick={() => {
                 let newIndex = index;
                 if (indexSelected == index) {
                     newIndex = -1;

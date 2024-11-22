@@ -1,6 +1,5 @@
 "use client"
 
-import React from "react";
 import {useParams} from "next/navigation";
 import {ThemeProvider} from "@/commons/context/ThemeContext";
 import {StoreProfile} from "@/components/catalog/StoreProfile";
