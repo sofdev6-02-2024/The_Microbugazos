@@ -7,12 +7,12 @@ import {
   useState,
 } from "react";
 import Product from "../entities/concretes/Product";
-import ProductVariantPopUp from "../entities/ProductVariantPopUp";
 import ShoppingItemAttribute from "../entities/ShoppingItemAttribute";
+import { UUID } from "crypto";
 
 interface Types {
   product: Product | undefined;
-  variants: Array<ProductVariantPopUp>;
+  attributes: Array<ShoppingItemAttribute>;
   getVariants: () => void;
   quantity: number;
   handleQuantity: (event: {
@@ -24,6 +24,7 @@ interface Types {
   increaseQuantity: () => void;
   decreaseQuantity: () => void;
   chooseAttribute: (name: string, value: string) => void;
+  variantId: UUID | null;
 }
 interface Props {
   children: ReactNode;
@@ -35,11 +36,14 @@ const ShoppingItemContext = createContext<Types | undefined>(undefined);
 export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
-  const [variants, setVariants] = useState<Array<ProductVariantPopUp>>([]);
+  const [attributes, setAttributes] = useState<Array<ShoppingItemAttribute>>(
+    []
+  );
   const [price, setPrice] = useState(0);
   const [selectedAttributes, setSelectedAttributes] = useState<
-    Array<ShoppingItemAttribute>
+    Array<{ name: string; value: string }>
   >([]);
+  const [variantId, setVariantId] = useState<UUID | null>(null);
 
   const getVariants = () => {
     if (product?.productVariants) {
@@ -56,10 +60,10 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
 
       const mappedVariants = Object.keys(attributeMap).map((name) => {
         const values = Array.from(attributeMap[name]);
-        return new ProductVariantPopUp(name, values);
+        return new ShoppingItemAttribute(name, values);
       });
 
-      setVariants(mappedVariants);
+      setAttributes(mappedVariants);
     }
   };
 
@@ -80,12 +84,25 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
     }
   };
 
+  const searchVariantId = () => {
+    if (product?.productVariants) {
+      const productVariants = product.productVariants;
+      productVariants.forEach((variant) => {
+        if (
+          variant.attributes.every(
+            (attr, index) =>
+              attr.name === selectedAttributes[index]?.name &&
+              attr.value === selectedAttributes[index]?.value?.toString()
+          )
+        ) {
+          setVariantId(variant.productVariantId);
+        }
+      });
+    }
+  };
+
   const chooseAttribute = (name: string, value: string) => {
-    console.log("Updating attribute:", name, "with value:", value);
-
     setSelectedAttributes((prevAttributes) => {
-      console.log("Previous attributes:", prevAttributes);
-
       const attributeIndex = prevAttributes.findIndex(
         (attribute) => attribute.name === name
       );
@@ -94,11 +111,9 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
         const updatedAttributes = prevAttributes.map((attribute, index) =>
           index === attributeIndex ? { ...attribute, value } : attribute
         );
-        console.log("Updated attributes:", updatedAttributes);
         return updatedAttributes;
       } else {
         const newAttributes = [...prevAttributes, { name, value }];
-        console.log("New attributes:", newAttributes);
         return newAttributes;
       }
     });
@@ -118,14 +133,13 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   }, [quantity]);
 
   useEffect(() => {
-    console.clear();
-    console.log(selectedAttributes);
+    searchVariantId();
   }, [selectedAttributes]);
 
   const value = useMemo(() => {
     return {
       product,
-      variants,
+      attributes,
       getVariants,
       quantity,
       handleQuantity,
@@ -133,8 +147,9 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       increaseQuantity,
       decreaseQuantity,
       chooseAttribute,
+      variantId,
     };
-  }, [product, variants, price, quantity]);
+  }, [product, attributes, price, quantity]);
 
   return (
     <ShoppingItemContext.Provider value={value}>

@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { ProductAttributeSelect } from "./ProductAttributeSelect";
 import { QuantityPicker } from "../quantityPicker";
 import { AddToCart } from "./AddToCart";
-import { useShoppingItem } from "@/commons/hooks/useShoppingItem";
+import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
 import "@/styles/general/ProductPopUp.css";
 
 export const ProductPopUp = () => {
   const {
     getVariants,
     product,
-    variants,
+    attributes,
     quantity,
     price,
     handleQuantity,
@@ -23,6 +23,10 @@ export const ProductPopUp = () => {
     getVariants();
   }, [product]);
 
+  useEffect(() => {
+    console.log(attributes);
+  }, [attributes]);
+
   return (
     <>
       <div className="product-popup-header">
@@ -30,12 +34,12 @@ export const ProductPopUp = () => {
         <p className="product-popup-brand">{product?.brand}</p>
       </div>
       <div className="product-popup-variants-section">
-        {variants && variants.length > 0 ? (
-          variants.map((variant, index) => (
+        {attributes && attributes.length > 0 ? (
+          attributes.map((variant, index) => (
             <ProductAttributeSelect
               key={index + variant.name}
               name={variant.name}
-              values={variant.values}
+              values={variant.value}
             />
           ))
         ) : (

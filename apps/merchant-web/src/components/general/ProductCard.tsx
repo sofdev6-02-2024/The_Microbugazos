@@ -10,7 +10,7 @@ import Product from "@/commons/entities/concretes/Product";
 import { useModal } from "@/commons/context/ModalContext";
 import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
-import { ShoppingItemProvider } from "@/commons/hooks/useShoppingItem";
+import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
 
 interface Props {
   product: Product;
@@ -22,7 +22,11 @@ export const ProductCard = ({ product, type }: Props) => {
   const { open } = useModal();
 
   const handleProductClick = () => {
-    open(<ShoppingItemProvider currentProduct={product}><ProductPopUp /></ShoppingItemProvider>);
+    open(
+      <ShoppingItemProvider currentProduct={product}>
+        <ProductPopUp />
+      </ShoppingItemProvider>
+    );
   };
 
   return (
@@ -32,7 +36,10 @@ export const ProductCard = ({ product, type }: Props) => {
         alt={product.images[0].altText}
         className="product-card-image"
       />
-      <Link href={`/product/${product.id}`} className="product-card-name">
+      <Link
+        href={`/product/${product.productId}`}
+        className="product-card-name"
+      >
         {product.name}
       </Link>
       <div className="product-card-info">
@@ -40,14 +47,13 @@ export const ProductCard = ({ product, type }: Props) => {
           <span className="product-card-price-symbol">$</span> {product.price}
         </p>
         <p className="product-card-rating">
-          <MdOutlineStar />{" "}
-          {product.productReviews ? product.productReviews.length : 0}
+          <MdOutlineStar /> 0
         </p>
       </div>
       <div className="product-card-more-actions">
         <AddToCart product={product} action={handleProductClick} />
         <Like
-          productId={product.id}
+          productId={product.productId}
           isLiked={isLiked}
           toggleLike={() => setIsLiked(!isLiked)}
         />
