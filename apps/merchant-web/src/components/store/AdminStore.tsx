@@ -1,13 +1,15 @@
 "use client";
-import { useStore } from "@/commons/context/StoreContext";
-import { StoreAdminHeader } from "./StoreAdminHeader";
+import {useStore} from "@/commons/context/StoreContext";
+import {StoreAdminHeader} from "./StoreAdminHeader";
 import TwoColumnLayout from "../layouts/TwoColumnLayout";
-import { StoreAdminSideMenu } from "./StoreAdminSideMenu";
+import {StoreAdminSideMenu} from "./StoreAdminSideMenu";
 import "@/styles/store/admin-store.css";
-import { defaultStoreFormData } from "@/schemes/store/StoreFormDto";
+import {defaultStoreFormData} from "@/schemes/store/StoreFormDto";
 import Loader from "../Loader";
-import { StoreMobileMenu } from "./StoreMobileMenu";
-import { useState } from "react";
+import {StoreMobileMenu} from "./StoreMobileMenu";
+import {useState} from "react";
+import {useAuth} from "@/commons/context/AuthContext";
+import {UserType} from "@/types/auth";
 
 interface AdminStoreProps {
   children: React.ReactNode;
@@ -15,6 +17,7 @@ interface AdminStoreProps {
 
 export const AdminStore = ({ children }: AdminStoreProps) => {
   const { store, loading } = useStore();
+  const {user} = useAuth();
   const [activeOption, setActiveOption] = useState("/store");
 
   const handleRouteChange = (route: string) => {
@@ -25,6 +28,8 @@ export const AdminStore = ({ children }: AdminStoreProps) => {
     return <Loader />;
   }
 
+  const isSellerUser = user?.userType === UserType.SELLER;
+
   return (
     <>
       <div className="admin-store-container">
@@ -34,10 +39,11 @@ export const AdminStore = ({ children }: AdminStoreProps) => {
           rightWidth="84.5%"
           leftContent={
             <>
-              <StoreAdminSideMenu onRouteChange={handleRouteChange} />
+              <StoreAdminSideMenu onRouteChange={handleRouteChange} isSellerUser={isSellerUser}/>
               <StoreMobileMenu
                 activeOption={activeOption}
                 setActiveOption={handleRouteChange}
+                isSellerUser={isSellerUser}
               />
             </>
           }

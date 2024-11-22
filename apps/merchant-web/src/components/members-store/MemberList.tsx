@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useStore } from "@/commons/context/StoreContext";
 import { useAuth } from "@/commons/context/AuthContext";
@@ -7,7 +9,7 @@ import styles from "@/styles/members-store/members-list.module.css"
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { getUserTypeText, Member, MemberListProps } from "@/schemes/sellers/sellers";
 
-const MemberList: React.FC<MemberListProps> = ({ searchTerm = '' }) => {
+const MemberList: React.FC<MemberListProps> = ({ searchTerm = '', refreshTrigger = 0 }) => {
   const { store } = useStore();
   const { user } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
@@ -25,6 +27,9 @@ const MemberList: React.FC<MemberListProps> = ({ searchTerm = '' }) => {
       setMembers(formattedMembers);
     }
   };
+  useEffect(() => {
+    fetchSellers();
+  }, [store?.id, user?.userId, refreshTrigger]);
 
   const handleMemberDelete = useCallback(async (memberId: string) => {
     setMembers(prevMembers => prevMembers.filter(member => member.id !== memberId));

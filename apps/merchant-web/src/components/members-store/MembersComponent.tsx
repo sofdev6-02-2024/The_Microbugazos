@@ -7,11 +7,12 @@ import { IoSearch, IoAdd } from "react-icons/io5";
 import GeneralModal from "./GeneralModal";
 import { toast } from "sonner";
 import { useStore } from '@/commons/context/StoreContext';
-import {addStoreSeller} from "@/request/SellersRequest";
+import { addStoreSeller } from "@/request/SellersRequest";
 
 const MembersComponent = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const { store } = useStore();
 
   const handleAddSeller = async (email: string) => {
@@ -23,11 +24,12 @@ const MembersComponent = () => {
       }
       await addStoreSeller(storeId, email);
       toast.success(`${email} was added correctly`);
+      setRefreshTrigger(prev => prev + 1);
+      setIsAddModalOpen(false);
     } catch (error: any) {
       toast.error(`Failed to add seller: ${error.message}`);
     }
   };
-
 
   return (
     <div className={styles.container}>
@@ -36,22 +38,23 @@ const MembersComponent = () => {
           className={styles['add-seller-button']}
           onClick={() => setIsAddModalOpen(true)}
         >
-          <IoAdd/>
+          <IoAdd />
           Add Seller
         </button>
+
         <div className={styles.searcher}>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search members..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button>
-            <IoSearch size={22}/>
-          </button>
+          <IoSearch className={styles['search-icon']} />
         </div>
       </div>
-      <MemberList searchTerm={searchTerm}/>
+
+      <MemberList searchTerm={searchTerm} refreshTrigger={refreshTrigger} />
+
       <GeneralModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}

@@ -105,4 +105,22 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
             return BadRequest(ex.Message);
         }
     }
+    
+    [HttpGet("seller/{id}")]
+    public async Task<ActionResult<StoreDto>> GetStoreForSeller([FromRoute] Guid id)
+    {
+        try
+        {
+            var store = await mediator.Send(new GetStoreForSellerQuery(id));
+            if (store == null)
+            {
+                return NotFound();
+            }
+            return Ok(store);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

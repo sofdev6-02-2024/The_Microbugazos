@@ -15,6 +15,7 @@ export interface SellerDto {
 
 export interface MemberListProps {
   searchTerm?: string;
+  refreshTrigger?: number;
 }
 
 export const getUserTypeText = (userType: UserType): string => {
