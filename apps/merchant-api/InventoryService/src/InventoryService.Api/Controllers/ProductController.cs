@@ -64,14 +64,16 @@ public class ProductController(IMediator mediator) : ControllerBase
         int page = 1,
         int pageSize = 10,
         SortingType name = 0,
-        SortingType price = 0)
+        SortingType price = 0,
+        string search = "")
     {
         var result = await mediator.Send(new GetProductsByStoreIdQuery(
             storeId,
             page,
             pageSize,
             name,
-            price
+            price,
+            search
         ));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);

@@ -6,22 +6,22 @@ export const getDefaultInventoryProductsUrl = (storeId: string) => {
   if (!storeId) {
     return "";
   }
-  return `http://localhost:5001/api/inventory/Product/Store/${storeId}?page=1&pageSize=10&name=0&price=0`;
+  return `/inventory/Product/Store/${storeId}?page=1&pageSize=10&name=0&price=0`;
 };
 
 export const getPaginatedProducts = async (
   page: number,
   pageSize: number,
   sorting: SortingProduct,
-  storeId?: string
+  storeId?: string,
+  searchValue: string = ""
 ) => {
-  console.log(sorting);
   try {
     if (!storeId) {
       return;
     }
     const response = await axiosInstance.get(
-      `/inventory/Product/Store/${storeId}?page=${page}&pageSize=${pageSize}&name=${sorting.name}&price=${sorting.price}`
+      `/inventory/Product/Store/${storeId}?page=${page}&pageSize=${pageSize}&name=${sorting.name}&price=${sorting.price}&search=${searchValue}`
     );
     return await response.data.data;
   } catch (error) {

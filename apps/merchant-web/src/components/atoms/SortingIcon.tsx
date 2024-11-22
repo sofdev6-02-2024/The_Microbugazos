@@ -10,8 +10,8 @@ interface SortingIconProps {
 export const SortingIcon = ({ sortType }: SortingIconProps) => {
   const sortingIcons: Record<SortingType, JSX.Element> = {
     [SortingType.NONE]: <BiSortAlt2 />,
-    [SortingType.ASC]: <BiSortUp  />,
-    [SortingType.DESC]: <BiSortDown  />,
+    [SortingType.DESC]: <BiSortUp  />,
+    [SortingType.ASC]: <BiSortDown  />,
   };
 
   return sortingIcons[sortType] || <BiSortAlt2 />;

@@ -9,7 +9,8 @@ public class GetProductsByStoreIdQuery(
     int page,
     int pageSize,
     SortingType name,
-    SortingType price
+    SortingType price,
+    string search
 ) : IRequest<BaseResponse>
 {
     public Guid Id { get; set; } = id;
@@ -17,4 +18,5 @@ public class GetProductsByStoreIdQuery(
     public int PageSize { get; set; } = pageSize;
     public SortingType Name { get; set; } = name;
     public SortingType Price { get; set; } = price;
+    public string Search { get; set; } = search;
 }

@@ -10,5 +10,7 @@ public interface IProductRepository : IRepository<Product>
              Guid storeId,
              int page,
              int pageSize,
-             List<(string, SortingType)> sorting);
+             List<(string, SortingType)> sorting,
+             string search
+             );
 }

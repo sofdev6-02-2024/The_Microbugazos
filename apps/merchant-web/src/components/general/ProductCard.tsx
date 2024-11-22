@@ -8,6 +8,7 @@ import { Like } from "./Like";
 import "@/styles/general/ProductCard.css";
 import Product from "@/commons/entities/concretes/Product";
 import { useProductPopUp } from "@/commons/context/PopUpContext";
+import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 
 interface Props {
   product: Product;
@@ -27,8 +28,14 @@ export const ProductCard = ({ product, type }: Props) => {
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
-        alt={product.images[0].altText}
+        src={
+          product.images.length > 0 ? product?.images[0].url : defaultSmallImage
+        }
+        alt={
+          product.images.length > 0
+            ? product?.images[0].altText
+            : defaultSmallImage
+        }
         className="product-card-image"
       />
       <a

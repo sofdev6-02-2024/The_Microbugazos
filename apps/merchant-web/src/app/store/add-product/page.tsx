@@ -14,6 +14,7 @@ import {ValidateNumberWithDecimals} from "@/commons/validations/number";
 import Notification from "@/components/notification";
 import AddProductStyle from "../../../styles/admin-panel/add-products.module.css"
 import TextFieldStyle from "../../../styles/components/TextField.module.css"
+import { useStore } from "@/commons/context/StoreContext";
 
 export default function AddProducts() {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
@@ -30,6 +31,8 @@ export default function AddProducts() {
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [isSuccess, setIsSuccess] = useState(false);
+
+    const {store} = useStore();
 
     useEffect(() => {
         setCombinationVariants(getVariants());
@@ -106,6 +109,7 @@ export default function AddProducts() {
 
     const parseToCreateProductDTO = () => {
         return {
+            storeId : store?.id,
             name: productName,
             description: productDescription,
             price: parseFloat(productPrice),
@@ -165,19 +169,19 @@ export default function AddProducts() {
 
     useEffect(() => {
         fetch("http://localhost:5001/api/inventory/Category")
-            .then((response) =>
-                response.json().then(data => {
-                    const categories = data.map(item => {
-                        return {
-                            name: item.name,
-                            id: item.id,
-                            subCategories: item.subCategories
-                        }
-                    });
-                    setCategories(categories);
-                })
-            )
-            .catch((e) => console.error(e))
+          .then((response) =>
+            response.json().then((response) => {
+              const categories = response.data.map((item) => {
+                return {
+                  name: item.name,
+                  id: item.id,
+                  subCategories: item.subCategories,
+                };
+              });
+              setCategories(categories);
+            })
+          )
+          .catch((e) => console.error(e));
     }, []);
 
     const sendProduct = () => {

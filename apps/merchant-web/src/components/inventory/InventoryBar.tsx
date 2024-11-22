@@ -3,12 +3,20 @@ import { Button } from "@/components/atoms/buttons/Button";
 import { FaPlus } from "react-icons/fa6";
 import { Searcher } from "../header/searchbar/searcher";
 import { IoFilter } from "react-icons/io5";
-import { useState } from "react";
 import "@/styles/inventory/admin-store-inventory.css";
 import { useRouter } from "next/navigation";
 
-export const InventoryBar = () => {
-  const [searchValue, setSearchValue] = useState<string>("");
+interface InventoryBarProps {
+  handleSearch: (searchTerm: string) => Promise<void>;
+  setSearchTerm: (searchTerm: string) => void;
+  searchTerm: string;
+}
+
+export const InventoryBar = ({
+  handleSearch,
+  setSearchTerm,
+  searchTerm,
+}: InventoryBarProps) => {
   const router = useRouter();
   const handleAddNewProduct = () => {
     router.push("add-product");
@@ -30,8 +38,9 @@ export const InventoryBar = () => {
       </Button>
       <div className="admin-store-inventory-search">
         <Searcher
-          value={searchValue}
-          changeValue={(e) => setSearchValue(e.target.value)}
+          onSearch={handleSearch}
+          value={searchTerm}
+          changeValue={setSearchTerm}
         />
       </div>
       <Button

@@ -21,7 +21,7 @@ export default function ComboBox({options, value, handleChange}: ComboBoxProps) 
           </div>
           {isOpen && (
             <div className={ComboBoxStyle.comboBoxOptions}>
-              {options.map((option) => (
+              {options && options.map((option) => (
                 <div
                   key={option.id}
                   className={ComboBoxStyle.comboBoxOption}

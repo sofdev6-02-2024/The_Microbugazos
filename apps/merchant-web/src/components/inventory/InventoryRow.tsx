@@ -4,7 +4,7 @@ import "@/styles/inventory/product-row-inventory.css";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Button } from "../atoms/buttons/Button";
 import { FaEllipsisV } from "react-icons/fa";
-import { defaultImage } from "@/schemes/store/StoreFormDto";
+import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 import { deleteProductById } from "@/request/ProductRequests";
 import { useState } from "react";
 import { InventoryRowOptions } from "./InventoryRowOptions";
@@ -40,7 +40,7 @@ export const InventoryRow = ({ product, reloadPage }: InventoryRowProps) => {
       <td className="inventory-product-name-ctn">
         <img
           className="image-inventory-row"
-          src={product.images.length > 0 ? product.images[0].url : defaultImage}
+          src={product.images.length > 0 ? product.images[0].url : defaultSmallImage}
           alt={product.images.length > 0 ? product.images[0].url : product.name}
         />
         <p>{product.name}</p>

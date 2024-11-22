@@ -41,6 +41,7 @@ public class CreateProductCommandHandler(
         
         var productToAdd = await productRepository.AddAsync(new Product
         {
+            StoreId = productDto.StoreId,
             Name = productDto.Name,
             Description = productDto.Description,
             BasePrice = productDto.Price,

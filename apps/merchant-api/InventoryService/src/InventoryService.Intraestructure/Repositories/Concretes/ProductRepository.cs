@@ -4,6 +4,7 @@ using InventoryService.Domain.Concretes;
 using Microsoft.EntityFrameworkCore;
 using InventoryService.Intraestructure.Types;
 using InventoryService.Intraestructure.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace InventoryService.Intraestructure.Repositories.Concretes;
 
@@ -59,30 +60,29 @@ public class ProductRepository(InventoryDbContext context) : BaseRepository<Prod
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetProductByStoreId(Guid storeId, int page, int pageSize, List<(string, SortingType)> sorting)
+    
+    public async Task<IEnumerable<Product>> GetProductByStoreId(
+        Guid storeId,
+        int page,
+        int pageSize,
+        List<(string, SortingType)> sorting,
+        string search = "")
     {
         var query = DbSet
-                        .Where(p => p.StoreId == storeId && p.IsActive == true)
-                        .AsSplitQuery()
+                        .Where(p => p.StoreId == storeId && p.IsActive)
+                        .Where(p => string.IsNullOrEmpty(search) || p.Name.ToLower().Contains(search.ToLower()))
                         .Include(p => p.Images)
-                        .Include(p => p.Categories.Where(c => c.IsActive == true))
+                        .Include(p => p.Categories.Where(c => c.IsActive))
                         .ThenInclude(c => c.ParentCategory)
                         .Include(p => p.ProductVariants)
                         .ThenInclude(pv => pv.Image)
                         .Include(p => p.ProductVariants)
                         .ThenInclude(pa => pa.Attributes)
-                        .ThenInclude(pa => pa.Variant)
-                        .AsQueryable();
+                        .ThenInclude(pa => pa.Variant);
 
-        foreach (var (field, sortingType) in sorting)
-        {
-            if (sortingType != SortingType.NONE)
-            {
-                query = query.ApplySorting(field, sortingType);
-            }
-        }
+        var orderedquery = query.ApplySorting(sorting);
 
-        var pagedProducts = await query
+        var pagedProducts = await orderedquery
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
