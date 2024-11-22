@@ -1,16 +1,16 @@
-import React from "react";
 import Link from "next/link";
 import styles from "@/styles/payment/StatusPayment.module.css";
+import { FC, ReactNode } from "react";
 
 interface PaymentStatusProps {
   title: string;
   description: string;
   imageSrc: string;
   altText: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-const PaymentStatus: React.FC<PaymentStatusProps> = ({
+export const PaymentStatus: FC<PaymentStatusProps> = ({
                                                        title,
                                                        description,
                                                        imageSrc,
@@ -19,7 +19,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
                                                      }) => {
 
   return (
-    <div className="container xl:h-screen xl:flex xl:justify-center xl:items-center">
+    <div className="container">
       <div className={styles["sc-container"]}>
         <div className={styles["text-container_payment"]}>
           <label className={styles["title"]}>{title}</label>
@@ -42,11 +42,6 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
         </div>
         <img src={imageSrc} alt={altText}/>
       </div>
-      <style>
-        @import url(&#39;https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap&#39;);
-      </style>
     </div>
   );
 };
-
-export default PaymentStatus;
