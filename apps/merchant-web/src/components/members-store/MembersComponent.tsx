@@ -19,15 +19,15 @@ const MembersComponent = () => {
     try {
       const storeId = store?.id;
       if (!storeId) {
-        toast.error("Store ID is missing.");
+        toast.error("Store ID is missing");
         return;
       }
       await addStoreSeller(storeId, email);
-      toast.success(`${email} was added correctly`);
+      toast.success("Seller added successfully");
       setRefreshTrigger(prev => prev + 1);
       setIsAddModalOpen(false);
     } catch (error: any) {
-      toast.error(`Failed to add seller: ${error.message}`);
+      toast.error(error.message);
     }
   };
 

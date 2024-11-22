@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { IoClose } from "react-icons/io5";
 import styles from "@/styles/members-store/modal-styles.module.css";
 
@@ -19,13 +19,24 @@ const GeneralModal: React.FC<ModalProps> = ({
 }) => {
   const [email, setEmail] = useState('');
 
+  useEffect(() => {
+    if (!isOpen) {
+      setEmail('');
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleConfirm = () => {
     if (type === 'add' && !email) return;
     onConfirm(email);
-    onClose();
+    setEmail('');
   };
+
+  const handleClose = () => {
+    setEmail('');
+    onClose();
+  }
 
   return (
     <div className={styles['modal-overlay']}>
@@ -62,7 +73,7 @@ const GeneralModal: React.FC<ModalProps> = ({
 
         <div className={styles['modal-footer']}>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className={styles['modal-cancel-button']}
           >
             Cancel

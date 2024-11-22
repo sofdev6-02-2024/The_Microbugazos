@@ -1,12 +1,7 @@
-import { ThemeProvider } from "@/commons/context/ThemeContext";
 import MembersComponent from "@/components/members-store/MembersComponent";
 
-export default function SignupPage() {
+export default function MembersPage() {
   return (
-    <ThemeProvider>
-      <main>
-        <MembersComponent/>
-      </main>
-    </ThemeProvider>
+    <MembersComponent/>
   );
 }

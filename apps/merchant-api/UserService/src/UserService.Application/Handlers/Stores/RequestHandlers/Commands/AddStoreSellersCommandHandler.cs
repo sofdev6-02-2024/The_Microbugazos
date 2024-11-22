@@ -16,6 +16,12 @@ public class AddStoreSellersCommandHandler(IStoreRepository storeRepository, IUs
             throw new ArgumentException("Store ID cannot be empty", nameof(request.StoreId));
         }
 
+        var store = await storeRepository.GetByIdAsync(request.StoreId);
+        if (store == null)
+        {
+            throw new KeyNotFoundException($"Store with ID {request.StoreId} not found");
+        }
+
         User? user = null;
 
         if (request.SellerId.HasValue)
@@ -32,19 +38,14 @@ public class AddStoreSellersCommandHandler(IStoreRepository storeRepository, IUs
             throw new KeyNotFoundException($"User not found");
         }
 
-        var store = await storeRepository.GetByIdAsync(request.StoreId);
-        if (store == null)
-        {
-            throw new KeyNotFoundException($"Store with ID {request.StoreId} not found");
-        }
-
         store.SellerIds ??= new List<Guid>();
 
-        if (!store.SellerIds.Contains(user.Id))
+        if (store.SellerIds.Contains(user.Id))
         {
-            store.SellerIds.Add(user.Id);
+            throw new InvalidOperationException("Seller already exists in this store");
         }
 
+        store.SellerIds.Add(user.Id);
         user.UserType = UserType.SELLER;
 
         await storeRepository.UpdateAsync(store);

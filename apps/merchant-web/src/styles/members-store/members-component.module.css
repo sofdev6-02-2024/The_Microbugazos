@@ -1,6 +1,7 @@
 .container{
   padding: 2% 10%;
   gap: 4%;
+  min-height: 88vh;
 }
 
 .member-options {

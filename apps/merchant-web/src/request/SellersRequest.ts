@@ -66,7 +66,7 @@ export const addStoreSeller = async (storeId: string, sellerEmail: string) => {
     }
     const token = await currentUser.getIdToken();
 
-    await axiosInstance.post(
+    const response = await axiosInstance.post(
       `/stores/${storeId}/sellers/`,
       JSON.stringify(sellerEmail),
       {
@@ -76,9 +76,9 @@ export const addStoreSeller = async (storeId: string, sellerEmail: string) => {
         },
       }
     );
-    return true;
-  } catch (error) {
-    console.error("Error adding store seller:", error);
-    throw error;
+    return response.data;
+  } catch (error: any) {
+    const backendMessage = error.response?.data?.message || error.message;
+    throw new Error(backendMessage);
   }
 };

@@ -59,22 +59,27 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         return Ok(store);
     }
     
-    [HttpPost("{id}/sellers/")]
-    public async Task<ActionResult<bool>> AddSellers([FromRoute] Guid id, [FromBody] string email)
+    [HttpPost("{storeId}/sellers")]
+    public async Task<IActionResult> AddSeller(Guid storeId, [FromBody] string sellerEmail)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return BadRequest("The email address must be provided.");
-            }
+            var command = new AddStoreSellersCommand(storeId, null, sellerEmail);
 
-            var result = await mediator.Send(new AddStoreSellersCommand(id, null, email));
+            var result = await mediator.Send(command);
             return Ok(result);
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists"))
+        {
+            return Conflict(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
