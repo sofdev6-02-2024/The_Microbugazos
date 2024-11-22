@@ -1,5 +1,6 @@
-import axiosInstance from "@/request/AxiosConfig";
 import { useEffect, useState } from "react";
+import { AxiosInstance } from "axios";
+import axiosInstance from "@/request/AxiosConfig";
 
 type ErrorType = Error | null;
 type Data<T> = T | null;
@@ -11,7 +12,15 @@ interface Params<T> {
   setData: (data: Data<T>) => void;
 }
 
-export function useFetch<T>(url: string, initialData: Data<T>): Params<T> {
+interface FetchConfig {
+  signal?: AbortSignal;
+}
+
+export function useFetch<T>(
+  url: string,
+  initialData: Data<T>,
+  customAxios: AxiosInstance = axiosInstance
+): Params<T> {
   const [data, setData] = useState<Data<T>>(initialData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<ErrorType>(null);
@@ -23,10 +32,19 @@ export function useFetch<T>(url: string, initialData: Data<T>): Params<T> {
     const fetchData = async () => {
       try {
         if (url === "") return;
-        const response = await axiosInstance.get(url, controller);
+
+        const config: FetchConfig = {
+          signal: controller.signal,
+        };
+
+        const response = await customAxios.get(url, config);
         setData(response.data);
       } catch (error) {
-        setError(error as Error);
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error('An unknown error occurred'));
+        }
       } finally {
         setLoading(false);
       }
@@ -36,7 +54,7 @@ export function useFetch<T>(url: string, initialData: Data<T>): Params<T> {
     return () => {
       controller.abort();
     };
-  }, [url]);
+  }, [url, customAxios]);
 
   return { data, error, loading, setData };
 }
