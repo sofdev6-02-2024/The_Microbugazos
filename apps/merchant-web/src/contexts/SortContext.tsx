@@ -7,6 +7,7 @@ interface Type {
   setNameAscending: (boolean) => void,
   setPriceAscending: (boolean) => void,
   setRatingAscending: (boolean) => void,
+  getQuery: () => string,
 }
 
 
@@ -34,6 +35,17 @@ export const SortProvider = ({children}: {children: ReactNode}) => {
     console.log(ratingAscending);
   }, [nameAscending, priceAscending, ratingAscending]);
 
+  const getQuery = () => {
+    if (!isApplied) return "";
+    let query = "";
+
+    if (nameAscending != null) {
+      query += `SortBy${}`;
+    }
+
+    return query;
+  }
+
   const objValue = useMemo(() => ({
     isApplied,
     nameAscending,
@@ -43,6 +55,7 @@ export const SortProvider = ({children}: {children: ReactNode}) => {
     setNameAscending,
     setPriceAscending,
     setRatingAscending,
+    getQuery,
   }), [isApplied, nameAscending, priceAscending, ratingAscending]);
 
   return (

@@ -7,6 +7,7 @@ public class FilteringQueryParams
     public double? MaxPrice { get; set; }
     public float? MinRating { get; set; }
     public float? MaxRating { get; set; }
-    public string? SortBy { get; set; }
-    public string? SortOrder { get; set; } = "asc";
+    public bool? NameAsc { get; set; }
+    public bool? PriceAsc { get; set; }
+    public bool? RatingAsc { get; set; }
 }

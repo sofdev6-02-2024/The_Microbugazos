@@ -11,6 +11,7 @@ interface Type {
   setSubcategoryId: (string) => void,
   setPriceRange: (Array) => void,
   setRatingRange: (Array) => void,
+  getQuery: () => string,
 }
 
 
@@ -40,6 +41,19 @@ export const FiltersProvider = ({children}: {children: ReactNode}) => {
     console.log(ratingRange);
   }, [priceRange, ratingRange]);
 
+  const getQuery = () => {
+    if (!isApplied) return "";
+    let query = "";
+
+    if (categoryId === "") {
+      query += `&CategoryId=${subcategoryId !== "" ? subcategoryId : categoryId}`
+    }
+
+    query += `&MinPrice=${priceRange[0]}&MaxPrice=${priceRange[1]}`;
+    query += `&MinRating=${ratingRange[0]}&MaxRating=${ratingRange[1]}`;
+    return query;
+  }
+
   const objValue = useMemo(() => ({
     isApplied,
     categoryId,
@@ -51,6 +65,7 @@ export const FiltersProvider = ({children}: {children: ReactNode}) => {
     setSubcategoryId,
     setPriceRange,
     setRatingRange,
+    getQuery,
   }), [isApplied, categoryId, subcategoryId, priceRange, ratingRange]);
 
   return (

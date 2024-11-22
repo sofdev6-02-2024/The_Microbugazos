@@ -54,7 +54,7 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
         query = await _ApplyFilters(query, queryParams);
         query = _ApplySort(query, queryParams);
 
-        return await query.OrderBy(c => c.CreatedAt)
+        return await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -110,7 +110,7 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
             var category = await categoryRepository.GetByIdAsync(id);
             
             if (category == null) return query;
-            var isParent = category!.ParentCategory == null;
+            var isParent = category.ParentCategory == null;
 
             if (isParent)
             {
@@ -148,16 +148,36 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
 
     private IQueryable<Product> _ApplySort(IQueryable<Product> query, FilteringQueryParams queryParams)
     {
-        if (!string.IsNullOrEmpty(queryParams.SortBy))
+        bool someSortApplied = false;
+
+        if (queryParams.NameAsc.HasValue)
         {
-            Debug.Assert(queryParams.SortOrder != null, "queryParams.SortOrder != null");
-            
-            return queryParams.SortBy.ToLower() switch
-            {
-                "price" => queryParams.SortOrder.ToLower() == "desc" ? query.OrderByDescending(p => p.BasePrice) : query.OrderBy(p => p.BasePrice),
-                "name" => queryParams.SortOrder.ToLower() == "desc" ? query.OrderByDescending(p => p.Name) : query.OrderBy(p => p.Name),
-                _ => query.OrderBy(c => c.CreatedAt),
-            };
+            query = (bool)queryParams.NameAsc
+                ? query.OrderBy(p => p.Name.ToLower())
+                : query.OrderByDescending(p => p.Name.ToLower());
+            someSortApplied = true;
+        }
+
+        if (queryParams.PriceAsc.HasValue)
+        {
+            query = (bool)queryParams.PriceAsc
+                ? someSortApplied
+                    ? ((IOrderedQueryable<Product>)query).ThenBy(p => p.BasePrice)
+                    : query.OrderBy(p => p.BasePrice)
+                : someSortApplied
+                    ? ((IOrderedQueryable<Product>)query).ThenByDescending(p => p.BasePrice)
+                    : query.OrderByDescending(p => p.BasePrice);
+            someSortApplied = true;
+        }
+
+        if (queryParams.RatingAsc.HasValue)
+        {
+            // TODO: Add support for rating sort.
+        }
+
+        if (!someSortApplied)
+        {
+            query = query.OrderBy(p => p.CreatedAt);
         }
 
         return query;

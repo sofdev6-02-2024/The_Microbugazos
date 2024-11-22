@@ -22,7 +22,7 @@ export default function ProductsView({id}: Readonly<Props>) {
 
   useEffect(() => {
     setIsLoading(true);
-    GetProductsByStore(id, context.page, context.pageSize)
+    GetProductsByStore(id, context.page, context.pageSize, "")
       .then(data => {
         setProducts(data.data.items.map(product =>
           new Product(
