@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
 import { ModalProvider } from "@/commons/context/ModalContext";
 import { Modal } from "@/components/Modal";
+import { ShoppingCartProvider } from "@/commons/context/ShoppingCartContext";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/store"];
@@ -32,12 +33,14 @@ export default function RootLayout({
         <AuthProvider>
           <OptionsProvider>
             <VariantsProvider>
-              <ModalProvider>
-                {showComponents && <Header />}
-                <main>{children}</main>
-                {showComponents && <Footer />}
-                <Modal />
-              </ModalProvider>
+              <ShoppingCartProvider>
+                <ModalProvider>
+                  {showComponents && <Header />}
+                  <main>{children}</main>
+                  {showComponents && <Footer />}
+                  <Modal />
+                </ModalProvider>
+              </ShoppingCartProvider>
             </VariantsProvider>
           </OptionsProvider>
         </AuthProvider>

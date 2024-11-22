@@ -26,9 +26,7 @@
 }
 
 .shopping-cart-item-card-name {
-  font-size: var(--heading-3-text-size);
   color: var(--primary-dark);
-  text-decoration: none;
   text-align: left;
 }
 

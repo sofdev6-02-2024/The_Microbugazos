@@ -6,6 +6,7 @@ import { QuantityPicker } from "../quantityPicker";
 import { AddToCart } from "./AddToCart";
 import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
 import "@/styles/general/ProductPopUp.css";
+import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
 
 export const ProductPopUp = () => {
   const {
@@ -17,15 +18,14 @@ export const ProductPopUp = () => {
     handleQuantity,
     increaseQuantity,
     decreaseQuantity,
+    createProduct,
   } = useShoppingItem();
+
+  const { addProductToCart } = useShoppingCart();
 
   useEffect(() => {
     getVariants();
   }, [product]);
-
-  useEffect(() => {
-    console.log(attributes);
-  }, [attributes]);
 
   return (
     <>
@@ -60,9 +60,7 @@ export const ProductPopUp = () => {
           <div className="product-popup-footer-actions">
             <AddToCart
               product={product}
-              action={() => {
-                console.log(product);
-              }}
+              action={() => addProductToCart(createProduct())}
             />
           </div>
         )}

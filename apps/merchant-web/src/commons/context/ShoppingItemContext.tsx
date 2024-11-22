@@ -7,8 +7,13 @@ import {
   useState,
 } from "react";
 import Product from "../entities/concretes/Product";
-import ShoppingItemAttribute from "../entities/ShoppingItemAttribute";
+import {
+  ShoppingItemAttribute,
+  ShoppingItemSelectedAttribute,
+} from "../entities/ShoppingItemAttribute";
 import { UUID } from "crypto";
+import axiosInstance from "@/request/AxiosConfig";
+import ShoppingCartItem from "../entities/ShoppingCartItem";
 
 interface Types {
   product: Product | undefined;
@@ -25,6 +30,7 @@ interface Types {
   decreaseQuantity: () => void;
   chooseAttribute: (name: string, value: string) => void;
   variantId: UUID | null;
+  createProduct: () => ShoppingCartItem | null;
 }
 interface Props {
   children: ReactNode;
@@ -41,9 +47,12 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   );
   const [price, setPrice] = useState(0);
   const [selectedAttributes, setSelectedAttributes] = useState<
-    Array<{ name: string; value: string }>
+    Array<ShoppingItemSelectedAttribute>
   >([]);
   const [variantId, setVariantId] = useState<UUID | null>(null);
+  const [priceAdjustment, setPriceAdjustment] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [image, setImage] = useState('')
 
   const getVariants = () => {
     if (product?.productVariants) {
@@ -68,14 +77,18 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   };
 
   const handleQuantity = (event: { target: { value: string } }) => {
-    if (parseInt(event.target.value)) {
-      const newQuantity = parseInt(event.target.value);
-      setQuantity(newQuantity);
+    const newQuantity = parseInt(event.target.value);
+    if (!isNaN(newQuantity)) {
+      const validQuantity = Math.min(Math.max(newQuantity, 1), stock);
+      setQuantity(validQuantity);
     }
   };
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    console.log(stock);
+    if (quantity < stock) {
+      setQuantity(quantity + 1);
+    }
   };
 
   const decreaseQuantity = () => {
@@ -119,6 +132,31 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
     });
   };
 
+  const handleInfo = async () => {
+    if (variantId !== null) {
+      const response = await axiosInstance.get(
+        `/inventory/ProductVariant/${variantId}`
+      );
+      setPriceAdjustment(response.data.data.priceAdjustment);
+      setStock(response.data.data.stockQuantity);
+      setImage(response.data.data.productVariantImage.url);
+    }
+  };
+
+  const createProduct = (): ShoppingCartItem | null => {
+    return product && variantId
+      ? new ShoppingCartItem(
+          product.productId,
+          image,
+          product.name,
+          quantity,
+          price,
+          selectedAttributes,
+          variantId
+        )
+      : null;
+  };
+
   useEffect(() => {
     setProduct(currentProduct);
   }, [currentProduct]);
@@ -128,13 +166,25 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   }, [product]);
 
   useEffect(() => {
-    const newPrice = (product?.price ?? 1) * quantity;
+    const newPrice = ((product?.price ?? 1) + priceAdjustment) * quantity;
     setPrice(parseFloat(newPrice.toFixed(2)));
   }, [quantity]);
 
   useEffect(() => {
     searchVariantId();
   }, [selectedAttributes]);
+
+  useEffect(() => {
+    handleInfo();
+  }, [variantId, attributes]);
+
+  useEffect(() => {
+    console.log(priceAdjustment);
+  }, [priceAdjustment]);
+
+  useEffect(() => {
+    console.log(stock);
+  }, [stock]);
 
   const value = useMemo(() => {
     return {
@@ -148,6 +198,7 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       decreaseQuantity,
       chooseAttribute,
       variantId,
+      createProduct,
     };
   }, [product, attributes, price, quantity]);
 

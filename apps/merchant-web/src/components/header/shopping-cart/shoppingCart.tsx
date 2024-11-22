@@ -1,21 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingCartButton } from "./shoppingCartButton";
 import { ShoppingCartList } from "./shoppingCartList";
+import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
 
 export function ShoppingCart() {
-  const [cartItems, setCartItems] = useState([]);
+  const { products, initializeShoppingCart } = useShoppingCart();
   const [open, setOpen] = useState(false);
 
   const openCart = () => {
     setOpen(!open);
   };
 
+  useEffect(() => {
+    initializeShoppingCart();
+  }, []);
+
   return (
     <>
-      <ShoppingCartButton open={openCart} quantity={cartItems.length} />
-      <ShoppingCartList items={cartItems} isOpen={open} toggleOpen={openCart} />
+      <ShoppingCartButton open={openCart} quantity={products.length} />
+      <ShoppingCartList isOpen={open} toggleOpen={openCart} />
     </>
   );
 }
