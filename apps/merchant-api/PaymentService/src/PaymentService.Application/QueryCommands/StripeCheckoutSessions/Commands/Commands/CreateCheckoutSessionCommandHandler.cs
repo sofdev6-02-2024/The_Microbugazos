@@ -47,6 +47,7 @@ public class CreateCheckoutSessionCommandHandler : IRequestHandler<CreateCheckou
                     }, UnitAmount = (long)(product.Price * 100),
                 },
                 Quantity = product.Quantity,
+                
             }).ToList();
 
         var options = new SessionCreateOptions

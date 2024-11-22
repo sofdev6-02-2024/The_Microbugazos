@@ -29,6 +29,7 @@ public static class ApplicationConfiguration
         
         services.AddTransient<OrderItemService>();
         services.AddTransient<OrderService>();
+        services.AddTransient<PaymentTransactionService>();
         
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
         services.AddTransient<ProductClientService>();
