@@ -107,12 +107,14 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
 
     private async Task<BaseResponse> ProcessPaymentTransaction(Session session, SuccessResponse<Guid> orderResponse)
     {
-        var paymentMethod = await _paymentMethodRepository.FindAsync(p => 
-            p.Name == session.PaymentMethodTypes[0]);
+        var paymentMethod = await _paymentMethodRepository.AddAsync(new PaymentMethod
+        {
+            Name = session.PaymentMethodTypes[0]
+        });
             
         var paymentTransactionDto = new CreatePaymentTransactionDto
         {
-            PaymentMethodId = paymentMethod.First().Id,
+            PaymentMethodId = paymentMethod.Id,
             Amount = (double)session.AmountTotal / 100,
             OrderId = orderResponse.Data
         };

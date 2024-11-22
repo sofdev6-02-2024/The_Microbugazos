@@ -2,12 +2,9 @@ using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
 using MediatR;
-using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.Dtos.PaymentTransactions;
 using PaymentService.Application.QueryCommands.PaymentTransactions.Commands.Commands;
 using PaymentService.Application.Services;
-using PaymentService.Domain.Entities.Concretes;
-using PaymentService.Infrastructure.Repositories.Interfaces;
 
 namespace PaymentService.Application.QueryCommands.PaymentTransactions.Commands.CommandHandlers;
 
