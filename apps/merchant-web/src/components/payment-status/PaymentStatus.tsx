@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "@/styles/payment/StatusPayment.module.css";
+import "@/styles/payment/status-payment.css";
 import { ReactNode } from "react";
 
 interface PaymentStatusProps {
@@ -18,22 +18,22 @@ export const PaymentStatus = ({
   children,
 }: PaymentStatusProps) => {
   return (
-    <div className="container">
-      <div className={styles["sc-container"]}>
-        <div className={styles["text-container_payment"]}>
-          <label className={styles["title"]}>{title}</label>
-          <p>{description}</p>
+    <div className="payment-status-container">
+      <div className="status-container">
+        <div className="text-container-payment">
+          <h1 className="title">{title}</h1>
+          <p className="description">{description}</p>
           <p>
             For Any Support Email:{" "}
             <a
-              className={styles["support-link"]}
+              className="support-link"
               href="mailto:merchant.ecommerce.jala.support@gmail.com"
             >
-              merchant.ecommerce.jala.support@gmail.com
+              <b>merchant.ecommerce.jala.support@gmail.com</b>
             </a>
           </p>
-          <div className={styles["button-container"]}>
-            <Link href="/">Back to HomePage</Link>
+          <div className="button-container">
+            <Link href="/" className="status-btn">Back to HomePage</Link>
             {children}
           </div>
         </div>

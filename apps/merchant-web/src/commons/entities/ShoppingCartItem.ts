@@ -1,8 +1,9 @@
 import { UUID } from "crypto";
-import { ShoppingItemSelectedAttribute } from "./ShoppingItemAttribute";
+import { ShoppingItemSelectedAttribute } from "../entities/ShoppingItemAttribute";
 
 class ShoppingCartItem {
   id: string;
+  productId: UUID;
   imageUrl: string;
   name: string;
   quantity: number;
@@ -17,7 +18,8 @@ class ShoppingCartItem {
     quantity: number,
     price: number,
     attributes: Array<ShoppingItemSelectedAttribute>,
-    productVariantId: UUID
+    productVariantId: UUID,
+    productId: UUID
   ) {
     this.imageUrl = imageUrl;
     this.name = name;
@@ -25,15 +27,14 @@ class ShoppingCartItem {
     this.price = price;
     this.attributes = attributes;
     this.productVariantId = productVariantId;
-    this.id = this.generateId(id);
-  }
+    this.productId = productId;
+    this.id = (() => {
+      const attributesString = this.attributes
+        .map((attribute) => `[${attribute.name}-${attribute.value}]`)
+        .join("");
 
-  generateId(id: UUID) {
-    const attributesString = this.attributes
-      .map((attribute) => `[${attribute.name}-${attribute.value}]`)
-      .join("");
-
-    return id + attributesString;
+      return id + attributesString;
+    })();
   }
 }
 

@@ -85,7 +85,6 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   };
 
   const increaseQuantity = () => {
-    console.log(stock);
     if (quantity < stock) {
       setQuantity(quantity + 1);
     }
@@ -152,7 +151,8 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
           quantity,
           price,
           selectedAttributes,
-          variantId
+          variantId,
+          product.productId
         )
       : null;
   };
@@ -177,14 +177,6 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   useEffect(() => {
     handleInfo();
   }, [variantId, attributes]);
-
-  useEffect(() => {
-    console.log(priceAdjustment);
-  }, [priceAdjustment]);
-
-  useEffect(() => {
-    console.log(stock);
-  }, [stock]);
 
   const value = useMemo(() => {
     return {
