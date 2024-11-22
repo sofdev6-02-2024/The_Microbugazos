@@ -24,7 +24,7 @@ export function useFetch<T>(url: string, initialData: Data<T>): Params<T> {
       try {
         if (url === "") return;
         const response = await axiosInstance.get(url, controller);
-        setData(response.data);
+        setData(response?.data?.data ? response.data.data : response.data);
       } catch (error) {
         setError(error as Error);
       } finally {

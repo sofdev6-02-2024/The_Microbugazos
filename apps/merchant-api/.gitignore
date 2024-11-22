@@ -72,3 +72,6 @@ node_modules/
 ocelot.json
 
 **/Migrations/
+
+
+rabbitmq/

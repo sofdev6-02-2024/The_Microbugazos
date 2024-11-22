@@ -1,14 +1,42 @@
-.primary{
-  background-color: var(--primary-400);
+.button-style {
   border: none;
-  padding: 15px 20px;
   border-radius: 10px;
-  color: white;
-  font-size: var(--normal-1-text-size);
   cursor: pointer;
 }
 
+.button-delete {
+  background-color: var(--action-error);
+  color: white;
+}
 
-.primary:hover{
+.button-free {
+  color: var(--primary-400);
+  background-color: transparent;
+}
+
+.button-free:hover {
+  color: var(--primary-600);
+}
+
+.button-delete:hover {
+  background-color: var(--action-error-intense);
+}
+
+.primary {
+  background-color: var(--primary-400);
+  color: white;
+}
+
+.primary:hover {
   background-color: var(--primary-600);
+}
+
+.button-variant-default {
+  padding: 10px 15px;
+  font-size: var(--normal-2-text-size);
+}
+
+.button-variant-small {
+  font-size: var(--normal-3-text-size);
+  padding: 5px;
 }

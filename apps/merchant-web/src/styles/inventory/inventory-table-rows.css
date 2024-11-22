@@ -1,0 +1,52 @@
+.admin-store-inventory-table-header-ctn {
+  width: 100%;
+}
+
+.admin-store-inventory-table-header {
+  background-color: var(--background-light-primary);
+  padding: 15px 20px !important;
+}
+
+.admin-store-inventory-table-header th {
+  cursor: pointer;
+  font-size: var(--normal-1-text-size) !important;
+}
+
+.admin-store-inventory-row svg {
+  font-size: 25px;
+  min-width: 25px !important;
+}
+
+.admin-store-inventory-table-header th:hover {
+  color: var(--primary-600);
+}
+
+.admin-store-inventory-row {
+  display: grid;
+  grid-template-columns: 50% 15% 15% 20%;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: var(--surface-background);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+}
+
+.admin-store-inventory-row th {
+  font-size: var(--normal-2-text-size);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-400);
+  font-weight: 500;
+}
+
+.admin-store-inventory-row th:first-child {
+  justify-content: start;
+}
+
+@media screen and (max-width: 850px) {
+  .admin-store-inventory-row {
+    grid-template-columns: 50% 22.5% 22.5% 5%;
+  }
+}

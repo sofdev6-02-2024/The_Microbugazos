@@ -11,6 +11,6 @@ public interface IRepository<T> where T : BaseEntity
     Task<T?> GetByIdAsync(Guid id);
     Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize);
     Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-    Task<int> GetCountAsync();
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = 10);
+    Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null);
 }

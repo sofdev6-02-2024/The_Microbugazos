@@ -10,7 +10,7 @@ using MediatR;
 namespace InventoryService.Application.QueryCommands.Products.Queries.QueryHandlers;
 
 public class GetProductByIdQueryHandler(
-    IRepository<Product> productRepository, 
+IProductRepository productRepository, 
     ProductService productService, 
     IResponseHandlingHelper responseHandlingHelper)
     : IRequestHandler<GetProductByIdQuery, BaseResponse>

@@ -1,0 +1,44 @@
+.admin-inventory-row-options-ctn {
+  position: absolute;
+  background-color: var(--primary-100);
+  border-radius: 5px;
+  z-index: 600;
+  overflow-y: auto;
+  max-height: 200px;
+  right: 0px;
+  bottom: -40px;
+  width: 100px;
+  display: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.295);
+  padding: 10px 10px;
+  text-align: left;
+  overflow: visible;
+}
+
+.admin-inventory-row-options-ctn::after {
+  content: " ";
+  position: absolute;
+  top: -15px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary-100);
+  z-index: 650;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+
+
+.show-inventory-row-options {
+  display: block !important;
+}
+
+.show-inventory-row-options li {
+  color: var(--primary-400);
+  font-size: var(--normal-2-text-size);
+  list-style: none;
+}
+
+.show-inventory-row-options li:hover {
+  color: var(--primary-600);
+}

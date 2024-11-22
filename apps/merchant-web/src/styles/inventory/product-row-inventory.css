@@ -1,0 +1,51 @@
+.inventory-product-row-ctn {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 2px;
+}
+
+.inventory-product-row {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.inventory-product-name-ctn {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.image-inventory-row {
+  height: 25px;
+  width: 25px;
+}
+
+.inventory-product-buttons-ctn {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.inventory-product-variantes-ctn {
+  background-color: blue;
+  width: 98%;
+}
+
+.inventory-product-buttons-ctn-mobile {
+  display: none;
+  position: relative;
+}
+
+@media screen and (max-width: 850px) {
+  .inventory-product-buttons-ctn {
+    display: none;
+  }
+
+  .inventory-product-buttons-ctn-mobile {
+    display: flex;
+    justify-content: end;
+  }
+}

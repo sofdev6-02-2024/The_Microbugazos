@@ -34,19 +34,19 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
         entity.DeletedAt = DateTime.UtcNow;
         entity.IsActive = false;
         await Context.SaveChangesAsync();
-        return true; 
+        return true;
     }
 
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
         var entity = await DbSet.FindAsync(id);
-        return entity is { IsActive: true } ? entity : null;    
+        return entity is { IsActive: true } ? entity : null;
     }
 
     public virtual async Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize)
     {
-        return await DbSet.Where(e => e.IsActive) 
-            .OrderBy(e => e.CreatedAt) 
+        return await DbSet.Where(e => e.IsActive)
+            .OrderBy(e => e.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -56,16 +56,38 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
     {
         return await DbSet.Where(e => e.IsActive).ToListAsync();
     }
-    
+
     public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
-        return await DbSet.Where(e => e.IsActive) 
+        return await DbSet.Where(e => e.IsActive)
             .Where(predicate)
             .ToListAsync();
     }
 
-    public virtual async Task<int> GetCountAsync()
+    public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = 10)
     {
-        return await DbSet.Where(e => e.IsActive).CountAsync();
+        if (pageSize < 1) pageSize = 10;
+
+        IQueryable<T> query = DbSet.Where(e => e.IsActive)
+            .Where(predicate);
+
+        if (pageNumber > 0 && pageSize > 0)
+        {
+            query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        return await query.ToListAsync();
     }
+
+
+    public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null)
+    {
+        var finalPredicate = predicate ?? (e => true);
+
+        return await DbSet
+            .Where(e => e.IsActive)
+            .Where(finalPredicate)
+            .CountAsync();
+    }
+
 }

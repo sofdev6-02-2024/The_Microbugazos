@@ -14,7 +14,7 @@ namespace InventoryService.Application.QueryCommands.Products.Commands.CommandHa
 
 public class CreateProductCommandHandler(
     IValidator<CreateProductDto> validator,
-    IRepository<Product> productRepository,
+    IProductRepository productRepository,
     IRepository<Category> categoryRepository,
     IRepository<Image> imageRepository,
     ProductVariantService productVariantService, 

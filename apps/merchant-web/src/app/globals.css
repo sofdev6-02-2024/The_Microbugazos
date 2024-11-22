@@ -9,6 +9,7 @@
   --action-success: #03fcba;
   --action-alert: #e9df00;
   --action-error: #fb5012;
+   --action-error-intense: #e44207;
   --primary-light: #7790ed;
   --primary-dark: #5275f5;
   --secondary-light: #292621;
@@ -27,6 +28,7 @@
   --foreground: #171717;
   --white: #fff;
 
+  --primary-100: #e9eeff;
   --primary-400: #7790ed;
   --primary-600: #5275f5;
 
