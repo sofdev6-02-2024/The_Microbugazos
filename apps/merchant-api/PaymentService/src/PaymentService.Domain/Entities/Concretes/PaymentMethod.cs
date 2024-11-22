@@ -5,5 +5,5 @@ namespace PaymentService.Domain.Entities.Concretes;
 public class PaymentMethod : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
-    public PaymentTransaction PaymentTransaction { get; set; }
+    public ICollection<PaymentTransaction> PaymentTransactions { get; set; }
 }
