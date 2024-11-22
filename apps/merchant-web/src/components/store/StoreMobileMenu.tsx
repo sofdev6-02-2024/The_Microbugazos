@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 interface OptionProps {
   activeOption: string;
   setActiveOption: (option: string) => void;
+  isSellerUser?: boolean;
 }
 
 export const StoreMobileMenu = ({
   activeOption,
   setActiveOption,
+  isSellerUser = false,
 }: OptionProps) => {
   const paths = [
     "/store",
@@ -48,14 +50,18 @@ export const StoreMobileMenu = ({
       <li className={`${activeIndex === 0 ? activeOpt : ""}`}>
         <LuHome onClick={() => handleRouterNavigation(0)} />
       </li>
-      <li className={`${activeIndex === 1 ? activeOpt : ""}`}>
-        <MdOutlineInventory2 onClick={() => handleRouterNavigation(1)} />
-      </li>
+      {!isSellerUser && (
+        <>
+          <li className={`${activeIndex === 1 ? activeOpt : ""}`}>
+            <MdOutlineInventory2 onClick={() => handleRouterNavigation(1)}/>
+          </li>
+          <li className={`${activeIndex === 3 ? activeOpt : ""}`}>
+            <TbUsers onClick={() => handleRouterNavigation(3)}/>
+          </li>
+        </>
+      )}
       <li className={`${activeIndex === 2 ? activeOpt : ""}`}>
         <RiShoppingCart2Line onClick={() => handleRouterNavigation(2)} />
-      </li>
-      <li className={`${activeIndex === 3 ? activeOpt : ""}`}>
-        <TbUsers onClick={() => handleRouterNavigation(3)} />
       </li>
     </ul>
   );

@@ -7,7 +7,6 @@ export const deleteProductById = async (id: string) => {
     `/inventory/product/${id}`
   );
   const data = response.data;
-  console.log(data);
   if (data.success) {
     toast.success(data.message);
   }

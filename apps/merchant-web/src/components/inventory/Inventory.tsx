@@ -14,12 +14,14 @@ import {
 import { useFetch } from "@/commons/hooks/useFetch";
 import { emptyPagination, Pagination } from "@/commons/entities/Pagination";
 import Product from "@/commons/entities/concretes/Product";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "../Loader";
 import { PaginationTable } from "../general/PaginationTable";
 import { NoProductsFound } from "./NoProductsFound";
 import "@/styles/inventory/admin-store-inventory.css";
 import { InventoryBar } from "./InventoryBar";
+
+import GeneralModal from "../members-store/GeneralModal";
 
 export const Inventory = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -29,6 +31,11 @@ export const Inventory = () => {
     getDefaultInventoryProductsUrl(store?.id ?? ""),
     emptyPagination
   );
+  const productToDeleteAsigned = useRef(false);
+  const delteProduct = useRef<() => Promise<void>>();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productToRemoveName, setProductToRemoveName] = useState("");
 
   const handleSearch = async (value: string) => {
     const newData = await getPaginatedProducts(
@@ -52,12 +59,22 @@ export const Inventory = () => {
     setData(data);
   };
 
+  const openModal = (deleteProduct: () => Promise<void>) => {
+    setIsModalOpen(true);
+    productToDeleteAsigned.current = true;
+    delteProduct.current = deleteProduct;
+  };
+
+  const closeModal = () => {
+    productToDeleteAsigned.current = false;
+    setIsModalOpen(false);
+  };
+
   const handleDelete = async () => {
     let page = data?.page ?? 1;
     if (data?.items.length === 1 && page > 1) {
       page = page - 1;
     }
-     console.log(page)
     handlePagination(page);
   };
 
@@ -72,7 +89,7 @@ export const Inventory = () => {
     return <Loader />;
   }
 
-  if (error) {
+  if (error && error?.name !== "CanceledError") {
     return <p>{error?.message}</p>;
   }
   return (
@@ -94,6 +111,8 @@ export const Inventory = () => {
             <InventoryBody
               data={data ?? emptyPagination}
               reloadPage={() => handleDelete()}
+              deleteProduct={openModal}
+              setCurrentProductName={setProductToRemoveName}
             />
           )}
         </table>
@@ -103,7 +122,21 @@ export const Inventory = () => {
         {data && data?.totalPages > 1 && (
           <PaginationTable pagination={data} onPageChange={handlePagination} />
         )}
-      </div>{" "}
+      </div>
+
+      <GeneralModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={async () => {
+          if (productToDeleteAsigned.current && delteProduct.current) {
+            await delteProduct.current();
+          }
+          closeModal();
+        }}
+        type="delete"
+        memberName={productToRemoveName}
+        suffix=""
+      />
     </div>
   );
 };

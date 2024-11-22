@@ -12,9 +12,16 @@ import { InventoryRowOptions } from "./InventoryRowOptions";
 interface InventoryRowProps {
   product: Product;
   reloadPage: () => Promise<void>;
+  deleteProduct: (deleteProduct: () => Promise<void>) => void;
+  setCurrentProductName: (name: string) => void;
 }
 
-export const InventoryRow = ({ product, reloadPage }: InventoryRowProps) => {
+export const InventoryRow = ({
+  product,
+  reloadPage,
+  deleteProduct,
+  setCurrentProductName,
+}: InventoryRowProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const formatToK = (number: number) => {
     if (number < 1000) {
@@ -33,6 +40,11 @@ export const InventoryRow = ({ product, reloadPage }: InventoryRowProps) => {
   const handleDeleteProduct = async () => {
     await deleteProductById(product.id);
     await reloadPage();
+  };
+
+  const handleOpenPoopupToDeleteProduct = () => {
+    setCurrentProductName(product.name);
+    deleteProduct(handleDeleteProduct);
   };
 
   return (
@@ -57,7 +69,7 @@ export const InventoryRow = ({ product, reloadPage }: InventoryRowProps) => {
         <Button
           variant="button-variant-small"
           buttonStyle="button-delete"
-          handleClick={handleDeleteProduct}
+          handleClick={handleOpenPoopupToDeleteProduct}
         >
           <FaRegTrashAlt />
         </Button>
@@ -73,7 +85,7 @@ export const InventoryRow = ({ product, reloadPage }: InventoryRowProps) => {
           <InventoryRowOptions
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            onRemove={handleDeleteProduct}
+            onRemove={handleOpenPoopupToDeleteProduct}
           />
         </Button>
       </td>

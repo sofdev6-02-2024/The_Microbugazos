@@ -58,4 +58,74 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         }
         return Ok(store);
     }
+    
+    [HttpPost("{storeId}/sellers")]
+    public async Task<IActionResult> AddSeller(Guid storeId, [FromBody] string sellerEmail)
+    {
+        try
+        {
+            var command = new AddStoreSellersCommand(storeId, null, sellerEmail);
+
+            var result = await mediator.Send(command);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists"))
+        {
+            return Conflict(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    [HttpGet("{id}/sellers")]
+    public async Task<ActionResult<List<SellerDto>>> GetSellers([FromRoute] Guid id)
+    {
+        try
+        {
+            var sellers = await mediator.Send(new GetStoreSellersQuery(id));
+            return Ok(sellers);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpDelete("{id}/sellers/")]
+    public async Task<ActionResult<bool>> DeleteSellers([FromRoute] Guid id, [FromBody] Guid sellerId)
+    {
+        try
+        {
+            var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellerId));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpGet("seller/{id}")]
+    public async Task<ActionResult<StoreDto>> GetStoreForSeller([FromRoute] Guid id)
+    {
+        try
+        {
+            var store = await mediator.Send(new GetStoreForSellerQuery(id));
+            if (store == null)
+            {
+                return NotFound();
+            }
+            return Ok(store);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

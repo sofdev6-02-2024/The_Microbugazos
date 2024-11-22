@@ -18,4 +18,8 @@ public class UserRepository(DbContext context) : BaseRepository<User>(context), 
                             .Include(x => x.Address)
                             .FirstOrDefaultAsync(x => x.Id == id);
     }
+    public Task<User?> GetUserByEmailAsync(string email)
+    {
+        return Context.Set<User>().FirstOrDefaultAsync(x => x.Email == email);
+    }
 }
