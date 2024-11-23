@@ -8,6 +8,7 @@ class ShoppingCartItem {
   name: string;
   quantity: number;
   price: number;
+  priceTotal: number;
   attributes: Array<ShoppingItemSelectedAttribute>;
   productVariantId: UUID;
 
@@ -17,6 +18,7 @@ class ShoppingCartItem {
     name: string,
     quantity: number,
     price: number,
+    priceTotal: number,
     attributes: Array<ShoppingItemSelectedAttribute>,
     productVariantId: UUID,
     productId: UUID
@@ -25,6 +27,7 @@ class ShoppingCartItem {
     this.name = name;
     this.quantity = quantity;
     this.price = price;
+    this.priceTotal = priceTotal;
     this.attributes = attributes;
     this.productVariantId = productVariantId;
     this.productId = productId;

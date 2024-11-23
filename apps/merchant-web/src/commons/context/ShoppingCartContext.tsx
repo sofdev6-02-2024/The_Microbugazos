@@ -31,9 +31,12 @@ const ShoppingCartContext = createContext<Types | undefined>(undefined);
 export const ShoppingCartProvider = ({ children }: Props) => {
   const [products, setProducts] = useState<Array<ShoppingCartItem>>([]);
   const { user } = useAuth();
+
   const addProductToCart = (newProduct: ShoppingCartItem | null) => {
     if (newProduct) {
-      setProducts([...products, newProduct]);
+      if (products.find((product) => product.id !== newProduct.id)) {
+        setProducts([...products, newProduct]);
+      }
     }
 
     updateLocalStorage();
@@ -100,7 +103,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           email: user.email,
         },
       };
-      console.log(cartData)
+      console.log(cartData);
       handleSubmitCart(cartData);
     }
   };
@@ -118,7 +121,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       increaseQuantityProduct,
       decreaseQuantityProduct,
       changeQuantity,
-      handleStripe
+      handleStripe,
     };
   }, [products]);
 

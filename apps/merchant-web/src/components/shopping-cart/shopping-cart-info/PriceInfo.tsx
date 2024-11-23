@@ -1,4 +1,4 @@
-import "@/styles/shopping-cart/shopping-cart-info/price-info.css"
+import "@/styles/shopping-cart-page/shopping-cart-info/price-info.css"
 
 interface Props {
   name: string;

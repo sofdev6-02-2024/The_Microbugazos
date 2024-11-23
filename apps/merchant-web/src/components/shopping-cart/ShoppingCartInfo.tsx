@@ -1,7 +1,9 @@
+"use client"
+
 import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
 import { PriceInfo } from "./shopping-cart-info/PriceInfo";
 import { useEffect, useState } from "react";
-import "@/styles/shopping-cart/shopping-cart-info.css";
+import "@/styles/shopping-cart-page/shopping-cart-info.css";
 
 export const ShoppingCartInfo = () => {
   const [shipping, setShipping] = useState(0);
@@ -23,7 +25,8 @@ export const ShoppingCartInfo = () => {
   }, [products]);
 
   return (
-    <div className="shopping-cart-info">
+    <div className="shopping-cart-info-section">
+      <div className="shopping-cart-info">
       <h2 className="shopping-cart-info-title">Order Summary</h2>
       <PriceInfo name="Total items" value={`${products.length}`} />
       <hr />
@@ -41,6 +44,7 @@ export const ShoppingCartInfo = () => {
       >
         Checkout
       </button>
+    </div>
     </div>
   );
 };

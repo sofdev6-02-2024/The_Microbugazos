@@ -52,7 +52,7 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const [variantId, setVariantId] = useState<UUID | null>(null);
   const [priceAdjustment, setPriceAdjustment] = useState(0);
   const [stock, setStock] = useState(0);
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState("");
 
   const getVariants = () => {
     if (product?.productVariants) {
@@ -143,12 +143,15 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   };
 
   const createProduct = (): ShoppingCartItem | null => {
+    const quantityAux = quantity;
+    setQuantity(1)
     return product && variantId
       ? new ShoppingCartItem(
           product.productId,
           image,
           product.name,
-          quantity,
+          quantityAux,
+          (product.price + priceAdjustment),
           price,
           selectedAttributes,
           variantId,

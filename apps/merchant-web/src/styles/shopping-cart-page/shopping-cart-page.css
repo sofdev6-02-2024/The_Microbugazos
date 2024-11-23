@@ -1,0 +1,21 @@
+.shopping-cart-page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 600px;
+  gap: 2rem;
+}
+
+@media (max-width: 1650px) {
+  .shopping-cart-page {
+    grid-template-columns: auto 400px;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .shopping-cart-page {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 20px;
+  }
+}

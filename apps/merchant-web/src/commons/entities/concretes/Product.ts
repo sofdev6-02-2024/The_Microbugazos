@@ -2,28 +2,34 @@ import { UUID } from "crypto";
 import ProductVariant from "./ProductVariant";
 import Category from "./Category";
 import Image from "./Image";
+import ProductReview from "./ProductReview";
 
 export default class Product {
   productId: UUID;
+  storeId: UUID;
   name: string;
   description: string;
   price: number;
   brand: string;
-  categories: Array<Category>;
   images: Array<Image>;
   productVariants: Array<ProductVariant>;
+  categories: Array<Category>;
+  productReviews: Array<ProductReview>;
 
   constructor(
     productId: UUID,
+    storeId: UUID,
     name: string,
     description: string,
     price: number,
     brand: string,
-    categories: Array<Category>,
     images: Array<Image>,
-    productVariants: Array<ProductVariant>
+    productVariants: Array<ProductVariant>,
+    categories: Array<Category>,
+    productReviews: Array<ProductReview>
   ) {
     this.productId = productId;
+    this.storeId = storeId;
     this.name = name;
     this.description = description;
     this.price = price;
@@ -31,5 +37,7 @@ export default class Product {
     this.categories = categories;
     this.images = images;
     this.productVariants = productVariants;
+    this.productReviews = productReviews;
+    this.categories = categories;
   }
 }
