@@ -16,12 +16,12 @@ export
 const defaultSmallImage =
   "https://firebasestorage.googleapis.com/v0/b/merchant-auth-9c7f2.appspot.com/o/images%2Fstore%2Fdefault-image-icon.png?alt=media&token=3f7f5804-460e-43e2-bb04-ec002268f2ec";
   export const defaultStoreFormData: StoreFormDto = {
-  id: "",
-  name: "",
-  description: "",
-  address: "",
-  phoneNumber: "",
-  bannerImage: defaultImage,
-  profileImage: defaultImage,
-  userId: "",
-};
+    id: "",
+    name: "Store Name",
+    description: "Some description",
+    address: "Some address",
+    phoneNumber: "+591 1234567",
+    bannerImage: defaultImage,
+    profileImage: defaultImage,
+    userId: "",
+  };

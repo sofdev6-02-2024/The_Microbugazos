@@ -16,15 +16,12 @@ public class GetProductsByStoreIdQueryHandler(IProductRepository productReposito
 
     public async Task<BaseResponse> Handle(GetProductsByStoreIdQuery request, CancellationToken cancellationToken)
     {
-        var products = await productRepository.GetProductByStoreId(request.Id, request.Page, request.PageSize, [
-            ("Name", request.Name),
-            ("BasePrice", request.Price)
-        ], request.Search);
+        var products = await productRepository.GetProductsByStoreId(request.StoreId, request.Page, request.PageSize, request.QueryParams);
 
         List<ProductDto> productsDto = products.Select(
             product => productService.GetProductDtoByProduct(product).Result).ToList();
 
-        int totalItems = await productRepository.GetCountAsync((product) => product.StoreId == request.Id && product.IsActive == true && product.Name.ToLower().Contains(request.Search.ToLower()));
+        int totalItems = await productRepository.GetCountProductsByStoreId(request.StoreId, request.QueryParams);
 
         var productsToDisplay = new PaginatedResponseDto<ProductDto>(productsDto, totalItems, request.Page, request.PageSize);
 

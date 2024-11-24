@@ -1,9 +1,10 @@
 using Commons.ResponseHandler.Responses.Concretes;
+
 using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
-using InventoryService.Intraestructure.Types;
+using InventoryService.Commons.Params;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,18 @@ public class ProductController(IMediator mediator) : ControllerBase
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 
+    [HttpGet("store/{id}")]
+    public async Task<IActionResult> GetByStore(Guid id, [FromQuery] ProductFilteringQueryParams queryParams,
+        int page = 1, int pageSize = 10)
+    {
+        var result = await mediator.Send(new GetProductsByStoreIdQuery(id, page, pageSize, queryParams));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -54,31 +67,6 @@ public class ProductController(IMediator mediator) : ControllerBase
             return StatusCode(errorResponse.StatusCode, errorResponse);
 
         var successResponse = (SuccessResponse<bool>)result;
-        return StatusCode(successResponse.StatusCode, successResponse);
-    }
-
-
-    [HttpGet("store/{storeId}")]
-    public async Task<IActionResult> GetProductsByStoreId(
-        Guid storeId,
-        int page = 1,
-        int pageSize = 10,
-        SortingType name = 0,
-        SortingType price = 0,
-        string search = "")
-    {
-        var result = await mediator.Send(new GetProductsByStoreIdQuery(
-            storeId,
-            page,
-            pageSize,
-            name,
-            price,
-            search
-        ));
-        if (result is ErrorResponse errorResponse)
-            return StatusCode(errorResponse.StatusCode, errorResponse);
-
-        var successResponse = (SuccessResponse<PaginatedResponseDto<ProductDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 }

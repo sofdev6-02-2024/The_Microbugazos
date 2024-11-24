@@ -79,15 +79,14 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
         return await query.ToListAsync();
     }
 
-
     public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null)
     {
-        var finalPredicate = predicate ?? (e => true);
+        var query = DbSet.Where(e => e.IsActive);
 
-        return await DbSet
-            .Where(e => e.IsActive)
-            .Where(finalPredicate)
-            .CountAsync();
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+        return await query.CountAsync();
     }
-
 }

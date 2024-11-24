@@ -1,16 +1,11 @@
+using InventoryService.Commons.Params;
 using InventoryService.Domain.Concretes;
-using InventoryService.Intraestructure.Types;
-
 namespace InventoryService.Intraestructure.Repositories.Interfaces;
 
 
 public interface IProductRepository : IRepository<Product>
 {
-    Task<IEnumerable<Product>> GetProductByStoreId(
-             Guid storeId,
-             int page,
-             int pageSize,
-             List<(string, SortingType)> sorting,
-             string search
-             );
+
+    Task<IEnumerable<Product>> GetProductsByStoreId(Guid id, int pageNumber, int pageSize, ProductFilteringQueryParams queryParams);
+    Task<int> GetCountProductsByStoreId(Guid id, ProductFilteringQueryParams queryParams);
 }

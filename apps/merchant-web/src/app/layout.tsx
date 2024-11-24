@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
 import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
 import { ProductPopUp } from "@/components/general/ProductPopUp";
+import {NextUIProvider} from "@nextui-org/react";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+      <NextUIProvider>
         <Toaster richColors />
         <AuthProvider>
           <OptionsProvider>
@@ -41,6 +43,7 @@ export default function RootLayout({
             </VariantsProvider>
           </OptionsProvider>
         </AuthProvider>
+      </NextUIProvider>
       </body>
     </html>
   );

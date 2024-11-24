@@ -33,12 +33,9 @@ public static class ApplicationConfiguration
         services.AddScoped<IRepository<ProductReview>, ProductReviewRepository>();
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
-
         services.AddTransient<ProductVariantService>();
         services.AddTransient<ProductService>();
-
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
-
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
         services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
         services.AddScoped<IValidator<CreateImageDto>, CreateImageValidator>();

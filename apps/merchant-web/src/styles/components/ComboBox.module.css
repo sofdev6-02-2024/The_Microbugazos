@@ -1,12 +1,12 @@
 .comboBox {
     position: relative;
     width: 100%;
-    min-width: 300px;
+    min-width: 200px;
     flex: 1 1 300px;
     cursor: pointer;
     margin-top: 8px;
     margin-bottom: 8px;
-    padding: 8px, 0, 8px, 0;
+    padding: 8px 0 8px 0;
     border-radius: 4px;
     border: 1px solid #7790ED;
 }
@@ -22,6 +22,8 @@
 }
 
 .comboBoxOptions {
+    max-height: 200px;
+    overflow-y: auto;
     position: absolute;
     top: 100%;
     left: 0;
@@ -29,7 +31,7 @@
     border: 1px solid #7790ed;
     border-radius: 4px;
     background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
 

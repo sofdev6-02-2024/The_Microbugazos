@@ -19,14 +19,23 @@
 }
 
 .image-inventory-row {
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
+  border-radius: 4px;
 }
 
 .inventory-product-buttons-ctn {
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+.inventory-product-reviews-ctn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--normal-1-text-size);
+  color: var(--action-alert);
 }
 
 .inventory-product-variantes-ctn {

@@ -42,11 +42,10 @@ public class GetProductsVariantsBySpecificProductQueryHandler(
                     Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
-
-
-        var totalItems = await productVariantRepository.GetCountAsync(variant=>variant.ProductId == request.IdProduct);
+        var totalItems = await productVariantRepository.GetCountAsync(variant => variant.ProductId == request.IdProduct);
 
         var productVariants = new PaginatedResponseDto<ProductVariantDto>(totalProductVariantDto, totalItems, request.Page, request.PageSize);
         return responseHandlingHelper.Ok("Product variants have been successfully obtained.", productVariants);
+
     }
 }

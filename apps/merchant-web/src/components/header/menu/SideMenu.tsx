@@ -56,6 +56,12 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
         text={"Go to Checkout"}
         onClick={() => handleSubmitCart(cartData)}
       />
+      <Option
+        icon={MdStorefront}
+        text={"Store Catalog"}
+        completeRoute
+        route={"catalog/b9ee7997-ecfb-4aeb-b886-e485408ec49f"}
+      />
     </div>
   );
 };

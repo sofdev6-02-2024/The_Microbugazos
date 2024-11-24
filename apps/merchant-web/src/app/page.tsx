@@ -5,16 +5,29 @@ import "./page.css";
 import { CoverCarousel } from "@/components/home/CoverCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Product from "@/commons/entities/concretes/Product";
 
 export default function Home() {
-  const [productsRecommendations, setProductsRecommendations] = useState([]);
+  const [productsRecommendations, setProductsRecommendations] = useState<Array<Product>>([]);
 
   const getProductsRecommendations = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5001/api/inventory/Product?page=1&pageSize=10"
       );
-      setProductsRecommendations(response.data.data.items);
+      setProductsRecommendations(response.data.data.items.map(product =>
+        new Product(
+          product.productId,
+          product.storeId,
+          product.name,
+          product.description,
+          product.price,
+          product.brand,
+          product.images,
+          product.productVariants,
+          product.categories,
+          product.productReviews,
+        )));
     } catch (error) {
       console.error(error);
     }

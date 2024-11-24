@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { MdOutlineStar } from "react-icons/md";
 import "@/styles/inventory/inventory-table-rows.css";
 import "@/styles/inventory/product-row-inventory.css";
 import Product from "@/commons/entities/concretes/Product";
@@ -8,6 +9,7 @@ import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 import { deleteProductById } from "@/request/ProductRequests";
 import { Button } from "../atoms/buttons/Button";
 import { InventoryRowOptions } from "./InventoryRowOptions";
+
 
 interface InventoryRowProps {
   product: Product;
@@ -28,13 +30,6 @@ export const InventoryRow = ({
       return number.toString();
     }
     return (number / 1000).toFixed(1).replace(/\.0$/, "") + "k";
-  };
-
-  const getTotalAmount = () => {
-    return product.productVariants.reduce(
-      (total, variant) => total + variant.stockQuantity,
-      0
-    );
   };
 
   const handleDeleteProduct = async () => {
@@ -64,7 +59,10 @@ export const InventoryRow = ({
       <td>
         <p>{formatToK(product.price)} $</p>
       </td>
-      <td>{formatToK(getTotalAmount())}</td>
+      <td className="inventory-product-reviews-ctn">
+        <MdOutlineStar />
+        {product.productReviews ? product.productReviews.length : 0}
+      </td>
       <td className="inventory-product-buttons-ctn">
         <Button
           variant="button-variant-small"

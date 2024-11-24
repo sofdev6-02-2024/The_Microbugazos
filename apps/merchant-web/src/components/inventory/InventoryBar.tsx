@@ -1,11 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { FaPlus } from "react-icons/fa6";
-import { IoFilter } from "react-icons/io5";
 import "@/styles/inventory/admin-store-inventory.css";
 import { Searcher } from "../header/searchbar/searcher";
 import { Button } from "@/components/atoms/buttons/Button";
-
+import FiltersModal from "@/components/catalog/FiltersModal";
 
 interface InventoryBarProps {
   handleSearch: (searchTerm: string) => Promise<void>;
@@ -23,9 +22,6 @@ export const InventoryBar = ({
     router.push("add-product");
   };
 
-  const handleFilters = () => {
-    console.log("filtering ...");
-  };
 
   return (
     <div className="admin-store-inventory-bar">
@@ -34,7 +30,7 @@ export const InventoryBar = ({
         disabled={false}
         handleClick={handleAddNewProduct}
       >
-        <FaPlus />{" "}
+        <FaPlus fontSize={24} />{" "}
         <span className="admin-store-inventory-btn-text">Add Products</span>
       </Button>
       <div className="admin-store-inventory-search">
@@ -44,15 +40,7 @@ export const InventoryBar = ({
           changeValue={setSearchTerm}
         />
       </div>
-      <Button
-        type={"button"}
-        disabled={false}
-        handleClick={handleFilters}
-        style={{ visibility: "hidden", userSelect: "none" }}
-      >
-        <IoFilter />{" "}
-        <span className="admin-store-inventory-btn-text">Filters</span>
-      </Button>
+      <FiltersModal buttonStyleClass="admin-store-inventory-btn-text"></FiltersModal>
     </div>
   );
 };

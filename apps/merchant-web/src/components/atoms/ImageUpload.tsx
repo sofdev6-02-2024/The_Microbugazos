@@ -98,7 +98,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       className={`${styles.container} ${styles[shape]} ${
         isDragging ? styles.dragging : ""
       } ${styles[className]}  ${
-        (isEditable === false || hasImage) && styles.containerHover
+        (!isEditable || hasImage) && styles.containerHover
+      } ${
+        isEditable && styles.pointer
       }`}
       style={{ width, height, top, left }}
       onDragOver={handleDragOver}

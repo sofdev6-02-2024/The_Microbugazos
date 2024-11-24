@@ -23,7 +23,6 @@ public class GetProductsBySpecificCategoryQueryHandler(
             return responseHandlingHelper.NotFound<Category>("The category with the follow id " + request.IdCategory + " was not found");
 
         var totalProducts = category.Products.Select(c => productService.GetProductDtoByProduct(c).Result).ToList();
-
         return responseHandlingHelper.Ok("Products have been successfully obtained.", new PaginatedResponseDto<ProductDto>(
             totalProducts, totalProducts.Count, request.Page, request.PageSize
         ));

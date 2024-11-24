@@ -10,7 +10,7 @@ export const createProcessPayment = async (data: CartData) => {
       Customer: customer,
     };
 
-    const response = await axiosInstance.post("/payment/Checkout/submit-cart", requestBody);
+    const response = await axiosInstance.post("/payment/Stripe/checkout-session/submit-cart", requestBody);
     return response.data.data;
   } catch (error) {
     handleAxiosError(error);

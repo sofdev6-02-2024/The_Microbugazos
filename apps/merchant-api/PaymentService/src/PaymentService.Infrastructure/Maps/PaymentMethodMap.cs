@@ -13,8 +13,8 @@ public class PaymentMethodMap : IEntityTypeConfiguration<PaymentMethod>
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
         builder.Property(o => o.Name).IsRequired();
 
-        builder.HasOne(pm => pm.PaymentTransaction)
+        builder.HasMany(pm => pm.PaymentTransactions)
             .WithOne(pt => pt.PaymentMethod)
-            .HasForeignKey<PaymentTransaction>(pt => pt.PaymentMethodId);
+            .HasForeignKey(pt => pt.PaymentMethodId);
     }
 }

@@ -18,7 +18,8 @@ public class PaymentTransactionMap : IEntityTypeConfiguration<PaymentTransaction
             .HasForeignKey<PaymentTransaction>(pt => pt.OrderId);
         
         builder.HasOne(pt => pt.PaymentMethod)
-            .WithOne(pm => pm.PaymentTransaction)
-            .HasForeignKey<PaymentTransaction>(pt => pt.PaymentMethodId);
+            .WithMany(pm => pm.PaymentTransactions) 
+            .HasForeignKey(pt => pt.PaymentMethodId); 
+
     }
 }

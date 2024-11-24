@@ -22,6 +22,8 @@ import "@/styles/inventory/admin-store-inventory.css";
 import { InventoryBar } from "./InventoryBar";
 
 import GeneralModal from "../members-store/GeneralModal";
+import { useFiltersContext } from "@/contexts/FiltersContext";
+import { useProductsView } from "@/contexts/ProductsViewContext";
 
 export const Inventory = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -31,6 +33,8 @@ export const Inventory = () => {
     getDefaultInventoryProductsUrl(store?.id ?? ""),
     emptyPagination
   );
+  const filtersContext = useFiltersContext();
+  const context = useProductsView();
   const productToDeleteAsigned = useRef(false);
   const delteProduct = useRef<() => Promise<void>>();
 
@@ -38,23 +42,25 @@ export const Inventory = () => {
   const [productToRemoveName, setProductToRemoveName] = useState("");
 
   const handleSearch = async (value: string) => {
-    const newData = await getPaginatedProducts(
+    setSearchValue(value);
+    await setProductsData(1, value);
+  };
+
+  const handlePagination = async (page: number) => {
+    setProductsData(page, searchValue);
+  };
+
+  const setProductsData = async (
+    page: number,
+    searchValue: string
+  ) => {
+    const data = await getPaginatedProducts(
       1,
       10,
       sorting,
       store?.id,
-      value
-    );
-    setData(newData);
-  };
-
-  const handlePagination = async (page: number) => {
-    const data = await getPaginatedProducts(
-      page,
-      10,
-      sorting,
-      store?.id,
-      searchValue
+      searchValue,
+      filtersContext.getQuery()
     );
     setData(data);
   };
@@ -83,7 +89,7 @@ export const Inventory = () => {
       return;
     }
     handlePagination(data?.page ?? 1);
-  }, [sorting, store?.id]);
+  }, [sorting, store?.id, context.reloadSignal, filtersContext.isApplied]);
 
   if (loading) {
     return <Loader />;

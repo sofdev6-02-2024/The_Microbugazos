@@ -19,7 +19,7 @@ export const InventoryTableHeader = ({
         <th onClick={() => handleSorting("price")}>
           Price <SortingIcon sortType={sorting.price} />
         </th>
-        <th>Quantity</th>
+        <th>Rating</th>
         <th></th>
       </tr>
     </thead>
