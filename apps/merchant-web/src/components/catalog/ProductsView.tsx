@@ -30,7 +30,7 @@ export default function ProductsView({id}: Readonly<Props>) {
       .then(data => {
         setProducts(data.data.items.map(product =>
           new Product(
-            product.productId,
+            product.id,
             product.storeId,
             product.name,
             product.description,
