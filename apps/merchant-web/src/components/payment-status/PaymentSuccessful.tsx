@@ -1,6 +1,9 @@
 import { PaymentStatus } from "@/components/payment-status/PaymentStatus";
 
 export const PaymentSuccessful = () => {
+
+  
+
   return (
     <div>
       <PaymentStatus

@@ -96,25 +96,28 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const handleStripe = () => {
-    if (user) {
-      if (user.userId && user.email && products) {
-        const cartData: CartData = {
-          shoppingCartItems: products.map((product) => ({
-            productVariantId: product.productVariantId,
-            name: product.name,
-            price: product.price,
-            imageUrl: product.imageUrl,
-            quantity: product.quantity,
-          })),
-          customer: {
-            userId: user.userId,
-            email: user.email,
-          },
-        };
-        handleSubmitCart(cartData);
-      }
-    } else {
+    console.log(user)
+
+    if (!user) {
       router.push("/login");
+      return;
+    }
+
+    if (user.userId && user.email && products) {
+      const cartData: CartData = {
+        shoppingCartItems: products.map((product) => ({
+          productVariantId: product.productVariantId,
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          quantity: product.quantity,
+        })),
+        customer: {
+          userId: user.userId,
+          email: user.email,
+        },
+      };
+      handleSubmitCart(cartData);
     }
   };
 

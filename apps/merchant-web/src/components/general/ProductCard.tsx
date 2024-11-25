@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
@@ -11,6 +11,7 @@ import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
 import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
 import "@/styles/general/ProductCard.css";
+import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
 
 interface Props {
   product: Product;
@@ -29,10 +30,14 @@ export const ProductCard = ({ product, type }: Props) => {
     );
   };
 
+  useEffect(() => {
+    console.log(product);
+  }, [product]);
+
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
+        src={product.images?.[0]?.url ?? defaultImage}
         alt={
           product.images.length > 0 ? product.images[0].altText : "Some image"
         }
