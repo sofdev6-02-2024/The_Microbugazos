@@ -40,12 +40,25 @@
   font-weight: 500;
 }
 
-.admin-store-inventory-row th:first-child {
+.admin-store-inventory-row th:first-child,
+.admin-store-inventory-row td:first-child {
   justify-content: start;
+  text-align: start;
+}
+
+.admin-store-inventory-row th,
+.admin-store-inventory-row td {
+  justify-content: end;
+  text-align: end;
 }
 
 @media screen and (max-width: 850px) {
   .admin-store-inventory-row {
-    grid-template-columns: 50% 22.5% 22.5% 5%;
+    grid-template-columns: 50% 22% 22% 6%;
+  }
+  .admin-store-inventory-row th:nth-child(2),
+  .admin-store-inventory-row td:nth-child(2),
+  .admin-store-inventory-row td:nth-child(3) {
+    padding-right: 13px;
   }
 }

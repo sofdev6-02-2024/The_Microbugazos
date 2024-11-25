@@ -7,7 +7,7 @@ export const getDefaultInventoryProductsUrl = (storeId: string) => {
   if (!storeId) {
     return "";
   }
-  return `/inventory/Product/Store/${storeId}?page=1&pageSize=10&name=0&price=0`;
+  return `/inventory/Product/Store/${storeId}?page=1&pageSize=20&name=0&price=0`;
 };
 
 export const getPaginatedProducts = async (
@@ -24,10 +24,6 @@ export const getPaginatedProducts = async (
     }
 
     const sortingParam = filterParams(sorting);
-
-    console.log(
-      `/inventory/Product/Store/${storeId}?page=${page}&pageSize=${pageSize}${sortingParam}${filters}`
-    );
     const response = await axiosInstance.get(
       `/inventory/Product/Store/${storeId}?page=${page}&pageSize=${pageSize}${
         searchValue !== "" ? `&search=${searchValue}` : ""
@@ -51,6 +47,11 @@ const filterParams = (params: SortingProduct) => {
   if (params.price !== SortingType.NONE) {
     paramsResult += `&PriceAsc=${
       params.price === SortingType.ASC ? "true" : "false"
+    }`;
+  }
+  if (params.rating !== SortingType.NONE) {
+    paramsResult += `&RatingAsc=${
+      params.rating === SortingType.ASC ? "true" : "false"
     }`;
   }
 

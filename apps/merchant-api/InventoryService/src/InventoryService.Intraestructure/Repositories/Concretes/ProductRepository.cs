@@ -200,18 +200,6 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
         }
 
 
-        if (queryParams.CreatedAtAsc.HasValue)
-        {
-            query = (bool)queryParams.CreatedAtAsc
-                ? someSortApplied
-                    ? ((IOrderedQueryable<Product>)query).ThenBy(p => p.CreatedAt)
-                    : query.OrderBy(p => p.CreatedAt)
-                : someSortApplied
-                    ? ((IOrderedQueryable<Product>)query).ThenByDescending(p => p.CreatedAt)
-                    : query.OrderByDescending(p => p.CreatedAt);
-            someSortApplied = true;
-        }
-
         if (queryParams.RatingAsc.HasValue)
         {
             // TODO: Add support for rating sort.
@@ -219,7 +207,7 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
 
         if (!someSortApplied)
         {
-            query = query.OrderBy(p => p.CreatedAt);
+            query = query.OrderByDescending(p => p.CreatedAt);
         }
 
         return query;

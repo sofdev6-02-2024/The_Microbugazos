@@ -11,5 +11,4 @@ public class ProductFilteringQueryParams
     public bool? NameAsc { get; set; }
     public bool? PriceAsc { get; set; }
     public bool? RatingAsc { get; set; }
-    public bool? CreatedAtAsc { get; set; }
 }

@@ -42,7 +42,7 @@ const TextField = ({
             {label && <label className={TextFieldStyle.formLabel} style={{ display: 'block', marginBottom: '4px'}}>
                 {label}{required && <sup>*</sup>}
             </label>}
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
                 <input
                     type={type}
                     placeholder={placeholder}
@@ -72,7 +72,7 @@ const TextField = ({
                     color="var(--primary-400)"
                     style={{
                         position: 'absolute',
-                        right: '35px',
+                        right: '15px',
                     }}
                 />}
             </div>

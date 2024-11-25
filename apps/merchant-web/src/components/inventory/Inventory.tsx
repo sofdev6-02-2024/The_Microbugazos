@@ -55,8 +55,8 @@ export const Inventory = () => {
     searchValue: string
   ) => {
     const data = await getPaginatedProducts(
-      1,
-      10,
+      page,
+      20,
       sorting,
       store?.id,
       searchValue,

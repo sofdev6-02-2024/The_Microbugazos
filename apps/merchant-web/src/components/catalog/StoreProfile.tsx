@@ -1,6 +1,8 @@
 "use client";
 
+
 import React, { useEffect, useState } from "react";
+import InformationStyle from "@/styles/store-catalog/Information.module.css";
 import axiosInstance from "@/request/AxiosConfig";
 import { StoreInfoProfile } from "../store/crud-store/StoreInfoProfile";
 import {
@@ -22,7 +24,7 @@ export const StoreProfile = ({ storeId }: Props) => {
   }, []);
 
   return (
-    <div>
+    <div className={InformationStyle.container}>
       <StoreInfoProfile store={storeData ?? defaultStoreFormData} />
     </div>
   );
