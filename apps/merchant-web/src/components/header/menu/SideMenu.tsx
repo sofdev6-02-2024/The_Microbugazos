@@ -60,7 +60,7 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
         icon={MdStorefront}
         text={"Store Catalog"}
         completeRoute
-        route={"catalog/9110e4d1-3b95-45fb-a90c-ba9c8cb67107"}
+        route={"catalog/3f1ff1b8-f5e8-41e9-ba7a-1891b4090359"}
       />
     </div>
   );

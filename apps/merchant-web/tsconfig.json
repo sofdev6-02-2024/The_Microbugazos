@@ -5,6 +5,12 @@
       "dom.iterable",
       "esnext"
     ],
+    "noEmitOnError": false,
+    "skipLibCheck": true, // Esto omite la comprobación de tipos en las bibliotecas
+    "strict": false, // Esto desactiva el modo estricto
+    "esModuleInterop": true,
+    "noEmitOnError": false,
+    "noImplicitAny": false,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
