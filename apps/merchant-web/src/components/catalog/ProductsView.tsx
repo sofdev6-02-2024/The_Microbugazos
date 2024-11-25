@@ -35,9 +35,9 @@ export default function ProductsView({ id }: Readonly<Props>) {
       .then((data) => {
         setProducts(
           data.data.items.map(
-            (product: Product) =>
+            (product) =>
               new Product(
-                product.productId,
+                product.id,
                 product.storeId,
                 product.name,
                 product.description,
@@ -51,7 +51,7 @@ export default function ProductsView({ id }: Readonly<Props>) {
           )
         );
         context.setTotalPages(
-          Math.ceil(data.data.existingElements / context.pageSize)
+          Math.ceil(data.data.totalPages)
         );
       })
       .finally(() => setIsLoading(false));
