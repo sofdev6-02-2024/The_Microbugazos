@@ -1,9 +1,8 @@
-import "@/styles/store/store-admin-header.css";
-import { MerchantLogo } from "../atoms/MerchantLogo";
-import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { useRouter } from "next/navigation";
-const defaultImage =
-  "https://firebasestorage.googleapis.com/v0/b/merchant-auth-9c7f2.appspot.com/o/images%2Fstore%2Fdefault-image-icon.png?alt=media&token=3f7f5804-460e-43e2-bb04-ec002268f2ec";
+import "@/styles/store/store-admin-header.css";
+import { defaultSmallImage, StoreFormDto } from "@/schemes/store/StoreFormDto";
+import { MerchantLogo } from "../atoms/MerchantLogo";
+
 interface StoreAdminHeaderProps {
   store: StoreFormDto;
 }
@@ -19,7 +18,9 @@ export const StoreAdminHeader = ({ store }: StoreAdminHeaderProps) => {
         <div className="store-admin-logo-sepaator"></div>
         <img
           className="store-admin-logo"
-          src={store && store.profileImage ? store.profileImage : defaultImage}
+          src={
+            store && store.profileImage ? store.profileImage : defaultSmallImage
+          }
           alt={`${store?.name} logo`}
         />
       </div>

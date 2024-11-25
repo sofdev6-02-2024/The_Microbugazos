@@ -1,0 +1,37 @@
+.admin-store-inventory-ctn {
+  min-height: 88vh;
+  width: 100%;
+}
+
+.admin-store-inventory-search {
+  width: 60%;
+}
+
+.admin-store-inventory-search > div {
+  padding: 25px 20px !important;
+  background-color: white;
+  border: 1px solid var(--primary-400);
+}
+
+.admin-store-inventory-search div:hover {
+  border: 1px solid var(--primary-600);
+}
+
+.admin-store-inventory-search input {
+  min-height: 25px;
+  font-size: var(--normal-1-text-size);
+}
+
+.admin-store-inventory-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media screen and (max-width: 1140px) {
+  .admin-store-inventory-btn-text {
+    display: none;
+  }
+}

@@ -1,0 +1,16 @@
+.admin-store-inventory-table-ctn {
+  padding: 30px 40px 20px 40px;
+}
+.admin-store-inventory-table {
+  width: 100%;
+}
+.admin-store-inventory-body {
+  max-height: 100%;
+  scrollbar-width: none;
+}
+
+.admin-store-inventory-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+

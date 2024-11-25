@@ -10,8 +10,8 @@ using MediatR;
 namespace InventoryService.Application.QueryCommands.ProductVariants.Queries.QueryHandlers;
 
 public class GetProductsVariantsBySpecificProductQueryHandler(
-    IRepository<Product> productRepository,
-    IRepository<ProductVariant> productVariantRepository, 
+    IProductRepository productRepository,
+    IRepository<ProductVariant> productVariantRepository,
     IResponseHandlingHelper responseHandlingHelper) :
     IRequestHandler<GetProductsVariantsBySpecificProductQuery, BaseResponse>
 {
@@ -21,10 +21,9 @@ public class GetProductsVariantsBySpecificProductQueryHandler(
         var product = await productRepository.GetByIdAsync(request.IdProduct);
         if (product == null)
             return responseHandlingHelper.NotFound<Product>("The product with the follow id " + request.IdProduct + " was not found");
-        
-        var totalProductVariants = await productVariantRepository.GetAllAsync(request.Page, request.PageSize);
+
+        var totalProductVariants = await productVariantRepository.FindAsync(variant => variant.ProductId == request.IdProduct, request.Page, request.PageSize);
         var totalProductVariantDto = totalProductVariants
-            .Where(existingProductVariant => existingProductVariant.ProductId == request.IdProduct)
             .Select(existingProductVariant => new ProductVariantDto
             {
                 ProductVariantId = existingProductVariant.Id,
@@ -43,13 +42,10 @@ public class GetProductsVariantsBySpecificProductQueryHandler(
                     Value = currentProductAttribute.Value
                 }).ToList()
             }).ToList();
-        return responseHandlingHelper.Ok("Product variants have been successfully obtained.",  new PaginatedResponseDto<ProductVariantDto>
-        {
-            Items = totalProductVariantDto,
-            TotalCount = totalProductVariantDto.Count,
-            ExistingElements = await productRepository.GetCountAsync(),
-            Page = request.Page,
-            PageSize = request.PageSize
-        });
+        var totalItems = await productVariantRepository.GetCountAsync(variant => variant.ProductId == request.IdProduct);
+
+        var productVariants = new PaginatedResponseDto<ProductVariantDto>(totalProductVariantDto, totalItems, request.Page, request.PageSize);
+        return responseHandlingHelper.Ok("Product variants have been successfully obtained.", productVariants);
+
     }
 }

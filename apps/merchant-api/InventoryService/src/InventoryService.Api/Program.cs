@@ -32,7 +32,6 @@ var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? throw
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>
     options.UseNpgsql(connectionString,
             b => b.MigrationsAssembly("InventoryService.Api"))
-        .EnableSensitiveDataLogging(false)
         .LogTo(Console.WriteLine, LogLevel.Information)
 );
 

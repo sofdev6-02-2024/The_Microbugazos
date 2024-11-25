@@ -13,7 +13,7 @@ public class ProductService
 
         return Task.FromResult(new ProductDto
         {
-            ProductId = existingProduct.Id,
+            Id = existingProduct.Id,
             Name = existingProduct.Name,
             Description = existingProduct.Description,
             Price = existingProduct.BasePrice,

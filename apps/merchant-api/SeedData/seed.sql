@@ -56,3 +56,16 @@ VALUES
 ('c26f09eb-f7ec-4524-9367-26ee4616b3d5', '373f70cc-4277-4377-88bf-3dca3f589d0a', 'First Aid', NOW(), NULL, NULL, TRUE),
 ('f0cadf66-82f1-4829-a057-b87a40d1476b', '373f70cc-4277-4377-88bf-3dca3f589d0a', 'Yoga & Meditation', NOW(), NULL, NULL, TRUE),
 ('4a9c5571-6234-48b3-bfac-cc02e5edd156', '373f70cc-4277-4377-88bf-3dca3f589d0a', 'Massage & Relaxation', NOW(), NULL, NULL, TRUE);
+
+
+
+
+
+INSERT INTO public."PaymentMethod"(
+	"Id", "Name", "CreatedAt", "UpdatedAt", "DeletedAt", "IsActive")
+VALUES 
+	('a000f1fb-5180-43fa-9855-5e901f36a2bb', 'Credit Card', '2024-11-20 12:00:00', '2024-11-20 12:00:00', NULL, TRUE),
+	('964ad561-8a8b-4292-afb8-8ae6fb884093', 'PayPal', '2024-11-20 12:00:00', '2024-11-20 12:00:00', NULL, TRUE);
+
+
+

@@ -5,6 +5,7 @@ COPY InventoryService/src/InventoryService.Api/InventoryService.Api.csproj Inven
 COPY InventoryService/src/InventoryService.Application/InventoryService.Application.csproj InventoryService/src/InventoryService.Application/
 COPY InventoryService/src/InventoryService.Intraestructure/InventoryService.Intraestructure.csproj InventoryService/src/InventoryService.Intraestructure/
 COPY InventoryService/src/InventoryService.Domain/InventoryService.Domain.csproj InventoryService/src/InventoryService.Domain/
+COPY InventoryService/src/InventoryService.Commons/InventoryService.Commons.csproj InventoryService/src/InventoryService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
 COPY MerchantCommon/Commons/Commons.csproj MerchantCommon/Commons/
 
@@ -15,6 +16,7 @@ COPY InventoryService/src/InventoryService.Api/. .
 COPY InventoryService/src/InventoryService.Application/. ../InventoryService.Application/
 COPY InventoryService/src/InventoryService.Intraestructure/. ../InventoryService.Intraestructure/
 COPY InventoryService/src/InventoryService.Domain/. ../InventoryService.Domain/
+COPY InventoryService/src/InventoryService.Commons/. ../InventoryService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
 COPY MerchantCommon/Commons/. /app/MerchantCommon/Commons/
 

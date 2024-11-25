@@ -1,0 +1,15 @@
+.no-products-found-ctn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 1rem;
+}
+
+
+.no-products-found-ctn span{
+  font-size: var(--heading-3-text-size);
+}
+
+

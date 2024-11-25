@@ -1,20 +1,19 @@
-"use client"
+"use client";
 
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Searcher } from "./searcher";
-import '@/styles/header/searchbar/searchbar.css';
+import "@/styles/header/searchbar/searchbar.css";
 
 export function SearchBar() {
-
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearchChange = (event: { target: { value: SetStateAction<string>; }; }) => {
-    setSearchValue(event.target.value);
-  };
+  const [searchValue, setSearchValue] = useState("");
 
   return (
     <div className="searchbar">
-      <Searcher value={searchValue} changeValue={handleSearchChange} />
+      <Searcher
+        value={searchValue}
+        changeValue={setSearchValue}
+        onSearch={async (value) => console.log(value)}
+      />
     </div>
   );
 }
