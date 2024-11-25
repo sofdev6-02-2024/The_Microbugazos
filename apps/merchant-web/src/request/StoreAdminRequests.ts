@@ -7,7 +7,7 @@ export const getDefaultInventoryProductsUrl = (storeId: string) => {
   if (!storeId) {
     return "";
   }
-  return `/inventory/Product/Store/${storeId}?page=1&pageSize=20&name=0&price=0`;
+  return `/inventory/Product/Store/${storeId}?page=1&pageSize=10&name=0&price=0`;
 };
 
 export const getPaginatedProducts = async (
