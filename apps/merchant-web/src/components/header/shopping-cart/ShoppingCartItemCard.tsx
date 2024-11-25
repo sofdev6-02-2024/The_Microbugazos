@@ -29,7 +29,7 @@ export function ShoppingCartItemCard({ item }: Readonly<Props>) {
       <div className="shopping-cart-item-card-info">
         <h3 className="shopping-cart-item-card-name">{item.name}</h3>
       </div>
-      <p className="shopping-cart-item-card-price">{item.price} $</p>
+      <p className="shopping-cart-item-card-price">{item.price.toFixed(2)} $</p>
       <button
         className="shopping-cart-item-card-remove"
         onClick={handleDeleteItem}
