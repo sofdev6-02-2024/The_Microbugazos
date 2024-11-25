@@ -63,10 +63,12 @@ export const ProductPopUp = () => {
         </div>
         {product && (
           <div className="product-popup-footer-actions">
-            <AddToCart
-              product={product}
-              action={() => addProductToCart(createProduct())}
-            />
+            {stock > 0 && (
+              <AddToCart
+                product={product}
+                action={() => addProductToCart(createProduct())}
+              />
+            )}
           </div>
         )}
       </div>

@@ -56,8 +56,6 @@ export default function FiltersModal() {
     if (!category) return;
     let categoryId = categories.find(e => e.name == category).id;
     let subcategories = subcategoriesMap.find(item => item.id === categoryId);
-    console.log(categoryId);
-    console.log(subcategories?.subcategories);
     setCategoryId(categoryId);
     setSubcategories(subcategories?.subcategories ?? []);
   }, [category]);
@@ -65,7 +63,6 @@ export default function FiltersModal() {
   useEffect(() => {
     if (!subcategory) return;
     let id = subcategories.find(e => e.name === subcategory).id;
-    console.log(id);
     setSubcategoryId(id);
   }, [subcategory]);
 

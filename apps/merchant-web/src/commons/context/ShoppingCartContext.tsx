@@ -34,12 +34,17 @@ export const ShoppingCartProvider = ({ children }: Props) => {
 
   const addProductToCart = (newProduct: ShoppingCartItem | null) => {
     if (newProduct) {
-      if (products.find((product) => product.id !== newProduct.id)) {
-        setProducts([...products, newProduct]);
-      }
+      setProducts((prevProducts) => {
+        const existingProduct = prevProducts.find(
+          (product) => product.id === newProduct.id
+        );
+        if (existingProduct) {
+          return prevProducts;
+        } else {
+          return [...prevProducts, newProduct];
+        }
+      });
     }
-
-    updateLocalStorage();
   };
 
   const deleteProductToCart = (id: string) => {
@@ -103,7 +108,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           email: user.email,
         },
       };
-      console.log(cartData);
       handleSubmitCart(cartData);
     }
   };

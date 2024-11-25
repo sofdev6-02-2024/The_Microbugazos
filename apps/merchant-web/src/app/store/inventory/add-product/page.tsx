@@ -131,13 +131,10 @@ export default function AddProducts() {
         };
       }),
       productVariants: combinationVariants.map((item) => {
-        console.log(item);
-        console.log(variants);
         let index;
         if (item == "Default")
           index = variants.findIndex((i) => i.name == item);
         else index = variants.findIndex((i) => i.name == item.join("/"));
-        console.log(index);
 
         if (index !== -1) {
           const variant = variants[index];
@@ -194,7 +191,6 @@ export default function AddProducts() {
 
   const sendProduct = () => {
     const body = parseToCreateProductDTO();
-    console.log(body);
     fetch("http://localhost:5001/api/inventory/Product", {
       method: "POST",
       headers: {

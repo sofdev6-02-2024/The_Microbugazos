@@ -162,19 +162,22 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const createProduct = (): ShoppingCartItem | null => {
     const quantityAux = quantity;
     setQuantity(1);
-    return product && variantId
-      ? new ShoppingCartItem(
-          product.productId,
-          image,
-          product.name,
-          quantityAux,
-          product.price + priceAdjustment,
-          price,
-          selectedAttributes,
-          variantId,
-          product.productId
-        )
-      : null;
+    if (product && variantId) {
+      const shoppingItem = new ShoppingCartItem(
+        product.productId,
+        image,
+        product.name,
+        quantityAux,
+        product.price + priceAdjustment,
+        price,
+        selectedAttributes,
+        variantId,
+        product.productId
+      );
+      return shoppingItem;
+    } else {
+      return null;
+    }
   };
 
   useEffect(() => {
