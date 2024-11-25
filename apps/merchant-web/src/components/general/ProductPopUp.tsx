@@ -1,99 +1,47 @@
 "use client";
 
-import { useProductPopUp } from "@/commons/context/PopUpContext";
-import "@/styles/general/ProductPopUp.css";
-import { MdClose, MdOpenInNew } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
-import ProductVariantPopUp from "@/commons/entities/ProductVariantPopUp";
+import { useEffect } from "react";
 import { ProductAttributeSelect } from "./ProductAttributeSelect";
 import { QuantityPicker } from "../quantityPicker";
 import { AddToCart } from "./AddToCart";
-import { useRouter } from "next/navigation";
+import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import "@/styles/general/ProductPopUp.css";
+import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
 
 export const ProductPopUp = () => {
   const {
-    showProductPopUp,
+    getVariants,
     product,
-    closeProductPopUp,
+    attributes,
     quantity,
-    setQuantity,
+    price,
+    handleQuantity,
     increaseQuantity,
     decreaseQuantity,
-  } = useProductPopUp();
-  const [variants, setVariants] = useState<ProductVariantPopUp[] | null>(null);
-  const popUpRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
+    createProduct,
+    stock,
+    priceAdjustment,
+  } = useShoppingItem();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      showProductPopUp &&
-      popUpRef.current &&
-     !popUpRef.current.contains(event.target as Node)
-    ) {
-      closeProductPopUp();
-    }
-  }
-
-  const handleQuantity = (event: { target: { value: string } }) => {
-    setQuantity(Number(event.target.value));
-  };
-
-  const handleProductPage = () => {
-    router.push(`/product/${product?.id}`)
-  }
+  const { addProductToCart } = useShoppingCart();
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [])
-
-  useEffect(() => {
-    if (product?.productVariants) {
-      const attributeMap: Record<string, Set<string>> = {};
-
-      product.productVariants.forEach((variant) => {
-        variant.attributes.forEach((attr) => {
-          if (!attributeMap[attr.name]) {
-            attributeMap[attr.name] = new Set();
-          }
-          attributeMap[attr.name].add(attr.value);
-        });
-      });
-
-      const mappedVariants = Object.keys(attributeMap).map((name) => {
-        const values = Array.from(attributeMap[name]);
-        return new ProductVariantPopUp(name, values);
-      });
-
-      setVariants(mappedVariants);
-    }
+    getVariants();
   }, [product]);
 
-  if (!showProductPopUp || !product) {
-    return null;
-  }
-
   return (
-    <div className={`product-popup ${showProductPopUp ? "show" : ""}`} ref={popUpRef}>
-      <button
-        onClick={closeProductPopUp}
-        className="product-popup-close-button"
-      >
-        <MdClose />
-      </button>
+    <>
       <div className="product-popup-header">
         <h2 className="product-popup-name">{product?.name} Variants</h2>
-        <p className="product-popup-brand">{product.brand}</p>
+        <p className="product-popup-brand">{product?.brand}</p>
       </div>
       <div className="product-popup-variants-section">
-        {variants && variants.length > 0 ? (
-          variants.map((variant, index) => (
+        {attributes && attributes.length > 0 ? (
+          attributes.map((variant, index) => (
             <ProductAttributeSelect
               key={index + variant.name}
               name={variant.name}
-              values={variant.values}
+              values={variant.value}
             />
           ))
         ) : (
@@ -102,21 +50,33 @@ export const ProductPopUp = () => {
       </div>
       <div className="product-popup-footer">
         <div className="product-popup-footer-info">
-          <p className="total-price">Total: {quantity * product.price} $</p>
-          <QuantityPicker
-            quantity={quantity}
-            changeQuantity={handleQuantity}
-            increase={increaseQuantity}
-            decrease={decreaseQuantity}
-          />
+          <p className="total-price">
+            Price: {product?.price} ${" "}
+            {priceAdjustment > 0 ? `+${priceAdjustment} $` : ""}
+          </p>
+          <p className="total-price">Total: {price} $</p>
         </div>
-        <div className="product-popup-footer-actions">
-          <AddToCart product={product} action={() => {
-            console.log(product);
-          }} />
-          <button className="view-product-button" onClick={handleProductPage}>View product<MdOpenInNew /></button>
-        </div>
+        {product && (
+          <div className="product-popup-footer-actions">
+            {stock > 0 ? (
+              <QuantityPicker
+                quantity={quantity}
+                changeQuantity={handleQuantity}
+                increase={increaseQuantity}
+                decrease={decreaseQuantity}
+              />
+            ) : (
+              <p className="no-stock">No stock</p>
+            )}
+            {stock > 0 && (
+              <AddToCart
+                product={product}
+                action={() => addProductToCart(createProduct())}
+              />
+            )}
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };

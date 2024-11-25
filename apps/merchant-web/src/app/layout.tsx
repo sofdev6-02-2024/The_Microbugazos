@@ -6,11 +6,12 @@ import { OptionsProvider } from "@/commons/providers/add-product-provider";
 import { VariantsProvider } from "@/commons/providers/variant-provider";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
-import { ProductPopUpProvider } from "@/commons/context/PopUpContext";
-import { ProductPopUp } from "@/components/general/ProductPopUp";
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
+import { ModalProvider } from "@/commons/context/ModalContext";
+import { Modal } from "@/components/Modal";
+import { ShoppingCartProvider } from "@/commons/context/ShoppingCartContext";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/store"];
@@ -28,22 +29,24 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
-      <NextUIProvider>
-        <Toaster richColors />
-        <AuthProvider>
-          <OptionsProvider>
-            <VariantsProvider>
-              <ProductPopUpProvider>
-                <ProductPopUp />
-                {showComponents && <Header />}
-                <main>{children}</main>
-                {showComponents && <Footer />}
-              </ProductPopUpProvider>
-            </VariantsProvider>
-          </OptionsProvider>
-        </AuthProvider>
-      </NextUIProvider>
+      <body className="body" suppressHydrationWarning>
+        <NextUIProvider>
+          <Toaster richColors />
+          <AuthProvider>
+            <OptionsProvider>
+              <VariantsProvider>
+                <ShoppingCartProvider>
+                  <ModalProvider>
+                    {showComponents && <Header />}
+                    <main>{children}</main>
+                    {showComponents && <Footer />}
+                    <Modal />
+                  </ModalProvider>
+                </ShoppingCartProvider>
+              </VariantsProvider>
+            </OptionsProvider>
+          </AuthProvider>
+        </NextUIProvider>
       </body>
     </html>
   );

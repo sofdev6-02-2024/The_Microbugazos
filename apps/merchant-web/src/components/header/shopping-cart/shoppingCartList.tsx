@@ -1,25 +1,21 @@
 "use client";
 
-import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { FaRegSadTear } from "react-icons/fa";
 import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
 import "@/styles/header/shoppingCart/shoppingCartList.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
 
 interface Props {
-  items: Array<ShoppingCartItem>;
   isOpen: boolean;
   toggleOpen: () => void;
 }
 
-export function ShoppingCartList({
-  items,
-  isOpen,
-  toggleOpen,
-}: Readonly<Props>) {
+export function ShoppingCartList({ isOpen, toggleOpen }: Readonly<Props>) {
   const route = useRouter();
   const shoppingCartRef = useRef<HTMLDivElement>(null);
+  const { products } = useShoppingCart();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -49,8 +45,8 @@ export function ShoppingCartList({
     >
       <h2 className="shopping-cart-list-heading">Shopping cart</h2>
       <div className="shopping-cart-list-items-section">
-        {items && items.length > 0 ? (
-          items.map((item) => {
+        {products && products.length > 0 ? (
+          products.map((item) => {
             return <ShoppingCartItemCard key={item.id} item={item} />;
           })
         ) : (
@@ -64,11 +60,11 @@ export function ShoppingCartList({
       </div>
       <div className="shopping-cart-list-more-options">
         <p className="shopping-cart-list-total">
-          Total: {items.reduce((total, item) => total + item.price, 0)} $
+          Total: {products.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)} $
         </p>
         <button
           className="shopping-cart-list-go-button"
-          disabled={items && items.length === 0}
+          disabled={products && products.length === 0}
           onClick={handleGoShoppingCart}
         >
           Go shopping cart

@@ -1,30 +1,22 @@
 "use client";
 
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
-import { QuantityPicker } from "@/components/quantityPicker";
-import { useState } from "react";
 import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
 import { MdDeleteOutline } from "react-icons/md";
+import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { MouseEvent } from "react";
 
 interface Props {
   item: ShoppingCartItem;
 }
 
 export function ShoppingCartItemCard({ item }: Readonly<Props>) {
-  const [quantity, setQuantity] = useState(0);
+  const { deleteProductToCart } = useShoppingCart();
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const decreaseQuantity = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  const handleQuantity = (event: { target: { value: string } }) => {
-    setQuantity(Number(event.target.value));
+  const handleDeleteItem = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    deleteProductToCart(item.id);
   };
 
   return (
@@ -35,21 +27,14 @@ export function ShoppingCartItemCard({ item }: Readonly<Props>) {
         className="shopping-cart-item-card-image"
       />
       <div className="shopping-cart-item-card-info">
-        <a
-          className="shopping-cart-item-card-name"
-          href={`http://localhost:3000/product/${item.id}`}
-        >
-          {item.name}
-        </a>
-        <p className="shopping-cart-item-card-price">{item.price} $</p>
+        <h3 className="shopping-cart-item-card-name">{item.name}</h3>
+        <p className="shopping-cart-item-card-price">{item.price.toFixed(2)} $</p>
       </div>
-      <QuantityPicker
-        quantity={quantity}
-        increase={increaseQuantity}
-        decrease={decreaseQuantity}
-        changeQuantity={handleQuantity}
-      />
-      <button className="shopping-cart-item-card-remove">
+      <p className="shopping-cart-item-card-quantity">{item.quantity}</p>
+      <button
+        className="shopping-cart-item-card-remove"
+        onClick={handleDeleteItem}
+      >
         <MdDeleteOutline className="shopping-cart-item-card-remove-icon" />
       </button>
     </div>

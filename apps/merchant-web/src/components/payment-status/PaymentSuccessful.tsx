@@ -1,7 +1,9 @@
-import { FC } from "react";
 import { PaymentStatus } from "@/components/payment-status/PaymentStatus";
 
-export const PaymentSuccessful: FC = () => {
+export const PaymentSuccessful = () => {
+
+  
+
   return (
     <div>
       <PaymentStatus

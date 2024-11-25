@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { auth } from "@/config/firebase";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
-import { AuthUser, UserType } from '@/types/auth';
-
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { AuthUser } from "@/types/auth";
 
 const useAuth = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -14,7 +13,7 @@ const useAuth = () => {
       document.cookie = "auth-token=; max-age=0; path=/";
       setUser(null);
     } catch (error) {
-      console.log("Failed to close session", error);
+      console.error("Failed to close session", error);
     }
   };
 

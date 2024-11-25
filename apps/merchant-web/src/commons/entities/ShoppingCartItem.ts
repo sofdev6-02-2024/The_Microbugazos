@@ -1,21 +1,43 @@
 import { UUID } from "crypto";
-import ProductVariant from "./concretes/ProductVariant";
+import { ShoppingItemSelectedAttribute } from "../entities/ShoppingItemAttribute";
 
 class ShoppingCartItem {
-  id: UUID;
+  id: string;
+  productId: UUID;
   imageUrl: string;
   name: string;
   quantity: number;
   price: number;
-  variants: Map<string, ProductVariant>;
+  priceTotal: number;
+  attributes: Array<ShoppingItemSelectedAttribute>;
+  productVariantId: UUID;
 
-  constructor(id: UUID, imageUrl: string, name: string, quantity: number, price: number, variants: Map<string, ProductVariant>) {
-    this.id = id;
+  constructor(
+    id: UUID,
+    imageUrl: string,
+    name: string,
+    quantity: number,
+    price: number,
+    priceTotal: number,
+    attributes: Array<ShoppingItemSelectedAttribute>,
+    productVariantId: UUID,
+    productId: UUID
+  ) {
     this.imageUrl = imageUrl;
     this.name = name;
     this.quantity = quantity;
     this.price = price;
-    this.variants = variants;
+    this.priceTotal = priceTotal;
+    this.attributes = attributes;
+    this.productVariantId = productVariantId;
+    this.productId = productId;
+    this.id = (() => {
+      const attributesString = this.attributes
+        .map((attribute) => `[${attribute.name}-${attribute.value}]`)
+        .join("");
+
+      return id + attributesString;
+    })();
   }
 }
 

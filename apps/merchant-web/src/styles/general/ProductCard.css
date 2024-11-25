@@ -5,7 +5,8 @@
   border-radius: 10px;
   gap: 10px;
   margin: auto;
-  background-color: var(--background-light-tertiary);
+  background-color: var(--background-tertiary);
+  color: var(--foreground-primary);
 }
 
 .product-card.card {
@@ -25,8 +26,8 @@
 
 .product-card-image {
   width: 100%;
-  max-height: 450px;
-  object-fit: cover;
+  height: 300px;
+  object-fit: fit;
 }
 
 .product-card-image.list {
@@ -40,7 +41,7 @@
   font-weight: 500;
   font-style: normal;
   font-size: var(--heading-3-text-size);
-  color: var(--primary-dark);
+  color: var(--primary-600);
   margin: 0 10px;
   text-decoration: none;
   cursor: pointer;
@@ -65,7 +66,6 @@
 
 .product-card-price {
   font-size: var(--normal-1-text-size);
-  color: var(--secondary-dark);
 }
 
 .product-card-price > .product-card-price-symbol {

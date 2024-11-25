@@ -71,18 +71,15 @@ export default function FiltersModal({ buttonStyleClass = ""}: Props) {
 
   useEffect(() => {
     if (!category) return;
-    let categoryId = categories.find((e) => e.name == category).id;
-    let subcategories = subcategoriesMap.find((item) => item.id === categoryId);
-    console.log(categoryId);
-    console.log(subcategories?.subcategories);
+    let categoryId = categories.find(e => e.name == category).id;
+    let subcategories = subcategoriesMap.find(item => item.id === categoryId);
     setCategoryId(categoryId);
     setSubcategories(subcategories?.subcategories ?? []);
   }, [category]);
 
   useEffect(() => {
     if (!subcategory) return;
-    let id = subcategories.find((e) => e.name === subcategory).id;
-    console.log(id);
+    let id = subcategories.find(e => e.name === subcategory).id;
     setSubcategoryId(id);
   }, [subcategory]);
 

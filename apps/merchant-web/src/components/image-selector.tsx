@@ -26,7 +26,6 @@ export default function ImagePicker({maxImages = 3, selectedImages, setSelectedI
                 await uploadBytes(storageRef, file);
 
                 const downloadURL = await getDownloadURL(storageRef);
-                console.log(`Firebase Download URL: ${downloadURL}`);
                 return downloadURL;
             });
 
