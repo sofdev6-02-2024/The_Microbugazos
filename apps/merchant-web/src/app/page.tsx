@@ -19,9 +19,9 @@ export default function Home() {
       );
       setProductsRecommendations(
         response.data.data.items.map(
-          (product) =>
+          (product: Product) =>
             new Product(
-              product.id,
+              product.productId,
               product.storeId,
               product.name,
               product.description,
