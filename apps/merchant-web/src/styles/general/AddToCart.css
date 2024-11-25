@@ -1,6 +1,6 @@
 .add-to-cart-button {
   width: 100%;
-  min-height: 30px;
+  height: 40px;
   background-color: var(--primary-600);
   border: none;
   color: var(--tertiary-400);

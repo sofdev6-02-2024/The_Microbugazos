@@ -32,7 +32,9 @@
 
 .product-popup-footer-actions {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
   gap: 10px;
 }
 

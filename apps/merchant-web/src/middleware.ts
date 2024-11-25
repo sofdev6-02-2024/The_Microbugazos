@@ -23,12 +23,12 @@ export async function middleware(request: NextRequest) {
     "/login",
     "/signup",
     "/favorites",
-    "/shopping-cart",
     "/",
-    "/cart",
+    "/shopping-cart",
     "/products/*",
     "/product-details/*",
     "/catalog/*",
+    "/shopping-cart"
   ];  
 
   if (publicRoutes.some((route) => matchPath(currentPath, route))) {

@@ -10,6 +10,7 @@ import ShoppingCartItem from "../entities/ShoppingCartItem";
 import { handleSubmitCart } from "@/services/checkoutService";
 import { CartData } from "@/schemes/shopping-cart/CartDataDto";
 import useAuth from "../hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -31,6 +32,7 @@ const ShoppingCartContext = createContext<Types | undefined>(undefined);
 export const ShoppingCartProvider = ({ children }: Props) => {
   const [products, setProducts] = useState<Array<ShoppingCartItem>>([]);
   const { user } = useAuth();
+  const router = useRouter();
 
   const addProductToCart = (newProduct: ShoppingCartItem | null) => {
     if (newProduct) {
@@ -94,21 +96,25 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const handleStripe = () => {
-    if (user?.userId && user.email && products) {
-      const cartData: CartData = {
-        shoppingCartItems: products.map((product) => ({
-          productVariantId: product.productVariantId,
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          quantity: product.quantity,
-        })),
-        customer: {
-          userId: user.userId,
-          email: user.email,
-        },
-      };
-      handleSubmitCart(cartData);
+    if (user) {
+      if (user.userId && user.email && products) {
+        const cartData: CartData = {
+          shoppingCartItems: products.map((product) => ({
+            productVariantId: product.productVariantId,
+            name: product.name,
+            price: product.price,
+            imageUrl: product.imageUrl,
+            quantity: product.quantity,
+          })),
+          customer: {
+            userId: user.userId,
+            email: user.email,
+          },
+        };
+        handleSubmitCart(cartData);
+      }
+    } else {
+      router.push("/login");
     }
   };
 

@@ -60,7 +60,7 @@ export function ShoppingCartList({ isOpen, toggleOpen }: Readonly<Props>) {
       </div>
       <div className="shopping-cart-list-more-options">
         <p className="shopping-cart-list-total">
-          Total: {products.reduce((total, item) => total + item.price, 0).toFixed(2)} $
+          Total: {products.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)} $
         </p>
         <button
           className="shopping-cart-list-go-button"

@@ -32,6 +32,7 @@ interface Types {
   variantId: UUID | null;
   createProduct: () => ShoppingCartItem | null;
   stock: number;
+  priceAdjustment: number;
 }
 interface Props {
   children: ReactNode;
@@ -180,6 +181,11 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
     }
   };
 
+  const changeNewPrice = () => {
+    const newPrice = ((product?.price ?? 1) + priceAdjustment) * quantity;
+    setPrice(parseFloat(newPrice.toFixed(2)));
+  }
+
   useEffect(() => {
     setProduct(currentProduct);
   }, [currentProduct]);
@@ -189,9 +195,8 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   }, [product]);
 
   useEffect(() => {
-    const newPrice = ((product?.price ?? 1) + priceAdjustment) * quantity;
-    setPrice(parseFloat(newPrice.toFixed(2)));
-  }, [quantity]);
+    changeNewPrice();
+  }, [priceAdjustment, quantity]);
 
   useEffect(() => {
     searchVariantId();
@@ -215,6 +220,7 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       variantId,
       createProduct,
       stock,
+      priceAdjustment
     };
   }, [product, attributes, price, quantity, stock]);
 
