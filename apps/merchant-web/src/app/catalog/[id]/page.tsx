@@ -10,7 +10,7 @@ import {FiltersProvider} from "@/contexts/FiltersContext";
 import {SortProvider} from "@/contexts/SortContext";
 
 export default function StoreCatalog() {
-  const { id } = useParams<string>();
+  const { id } = useParams<{ id: string }>();
 
   return (
     <ThemeProvider>

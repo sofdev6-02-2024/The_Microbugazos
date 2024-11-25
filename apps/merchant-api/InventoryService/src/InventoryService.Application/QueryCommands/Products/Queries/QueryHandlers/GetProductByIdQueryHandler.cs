@@ -3,14 +3,13 @@ using Commons.ResponseHandler.Responses.Bases;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.QueryCommands.Products.Queries.Queries;
 using InventoryService.Application.Services;
-using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
 using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Queries.QueryHandlers;
 
 public class GetProductByIdQueryHandler(
-    IRepository<Product> productRepository, 
+IProductRepository productRepository, 
     ProductService productService, 
     IResponseHandlingHelper responseHandlingHelper)
     : IRequestHandler<GetProductByIdQuery, BaseResponse>

@@ -1,9 +1,13 @@
 "use client";
+import { StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { StoreImagesProfile } from "./StoreImagesProfile";
-import { useStore } from "@/commons/context/StoreContext";
 import "@/styles/store/store-info-profile.css";
-export const StoreInfoProfile = () => {
-  const { store } = useStore();
+
+interface Props {
+  store: StoreFormDto;
+}
+
+export const StoreInfoProfile = ({ store }: Props) => {
   return (
     <div className="store-info-profile-main-container">
       <StoreImagesProfile
@@ -12,8 +16,12 @@ export const StoreInfoProfile = () => {
         profileImage={store?.profileImage}
       />
       <div className="store-info-container">
-        <h2>{store?.name}</h2>
-        <p>{store?.description}</p>
+        <h1>{store?.name}</h1>
+        <p className="store-info-address">
+          {store?.address ?? "Some address"}. (
+          {store?.phoneNumber ?? "+591 1234567"})
+        </p>
+        <p className="store-info-description">{store?.description}</p>
       </div>
     </div>
   );

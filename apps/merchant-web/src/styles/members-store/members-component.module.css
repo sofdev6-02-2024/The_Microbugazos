@@ -1,8 +1,14 @@
 .container{
   padding: 2% 10%;
   gap: 4%;
-  min-height: 88vh;
 }
+
+.container *{
+  font-family: var(--ubuntu-font-family);
+  font-size: var(--normal-2-text-size);
+}
+
+
 
 .member-options {
   margin-bottom: 2rem;

@@ -11,6 +11,10 @@
   --background-light-tertiary: #eff2f5;
   --background-dark-primary: #121212;
   --background-dark-secondary: #121212;
+  --action-success: #03fcba;
+  --action-alert: #e9df00;
+  --action-error: #fb5012;
+   --action-error-intense: #e44207;
   --primary-light: #7790ed;
   --primary-dark: #5275f5;
   --secondary-light: #292621;
@@ -28,6 +32,16 @@
   --background: #ffffff;
   --foreground: #171717;
   --white: #fff;
+
+  --primary-100: #e9eeff;
+  --primary-400: #7790ed;
+  --primary-600: #5275f5;
+
+  --secondary-400: #292621;
+  --secondary-600: #262420;
+
+  --tertiary-400: #f5ede2;
+  --tertiary-600: #f4e3cc;
 
   --surface-background: #f4f9ff;
   --surface-light-100: #f4f9ff;

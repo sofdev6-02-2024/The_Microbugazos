@@ -27,19 +27,15 @@ public static class ApplicationConfiguration
             cfg.RegisterServicesFromAssemblies(typeof(CreateImageDto).Assembly)
         );
         services.AddScoped<IRepository<Category>, CategoryRepository>();
-        services.AddScoped<IRepository<Product>, ProductRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IRepository<Image>, ImageRepository>();
         services.AddScoped<IRepository<ProductAttribute>, ProductAttributeRepository>();
         services.AddScoped<IRepository<ProductReview>, ProductReviewRepository>();
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-        
         services.AddTransient<ProductVariantService>();
         services.AddTransient<ProductService>();
-        
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
-        
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
         services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
         services.AddScoped<IValidator<CreateImageDto>, CreateImageValidator>();

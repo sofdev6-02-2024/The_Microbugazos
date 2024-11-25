@@ -18,7 +18,7 @@ export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
         redirectTo: "/store/inventory"
     },
     [UserType.OWNER]: {
-        paths: ["/", "/products", "/profile", "/admin-panel/*","/store/*"],
+        paths: ["/", "/products", "/profile","/store/*"],
         redirectTo: "/store"
     },
     [UserType.ADMIN]: {

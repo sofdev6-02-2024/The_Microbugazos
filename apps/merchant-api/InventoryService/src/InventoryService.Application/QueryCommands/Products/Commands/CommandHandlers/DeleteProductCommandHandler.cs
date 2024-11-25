@@ -7,7 +7,7 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Commands.CommandHandlers;
 
-public class DeleteProductCommandHandler(IRepository<Product> productRepository, IResponseHandlingHelper responseHandlingHelper)
+public class DeleteProductCommandHandler(IProductRepository productRepository, IResponseHandlingHelper responseHandlingHelper)
     : IRequestHandler<DeleteProductCommand, BaseResponse>
 {
     public async Task<BaseResponse> Handle(DeleteProductCommand request, CancellationToken cancellationToken)

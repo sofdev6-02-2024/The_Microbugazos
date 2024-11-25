@@ -13,7 +13,7 @@ namespace InventoryService.Application.QueryCommands.ProductVariants.Commands.Co
 
 public class CreateProductVariantCommandHandler(
     IValidator<CreateProductVariantDto> validator,
-    IRepository<Product> productRepository,
+    IProductRepository productRepository,
     ProductVariantService productVariantService, 
     IResponseHandlingHelper responseHandlingHelper)
     : IRequestHandler<CreateProductVariantCommand, BaseResponse>

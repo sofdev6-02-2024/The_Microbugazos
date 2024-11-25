@@ -14,7 +14,7 @@ namespace InventoryService.Application.QueryCommands.Products.Commands.CommandHa
 
 public class CreateProductCommandHandler(
     IValidator<CreateProductDto> validator,
-    IRepository<Product> productRepository,
+    IProductRepository productRepository,
     IRepository<Category> categoryRepository,
     IRepository<Image> imageRepository,
     ProductVariantService productVariantService, 
@@ -41,6 +41,7 @@ public class CreateProductCommandHandler(
         
         var productToAdd = await productRepository.AddAsync(new Product
         {
+            StoreId = productDto.StoreId,
             Name = productDto.Name,
             Description = productDto.Description,
             BasePrice = productDto.Price,

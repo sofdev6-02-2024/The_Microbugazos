@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "axios";
+
 import axiosInstance from "@/request/AxiosConfig";
 
 type ErrorType = Error | null;
@@ -38,12 +39,17 @@ export function useFetch<T>(
         };
 
         const response = await customAxios.get(url, config);
-        setData(response.data);
+        if (url.startsWith("/inventory")) {
+          setData(response.data.data);
+        }else{
+          setData(response.data);
+        }
+
       } catch (error) {
         if (error instanceof Error) {
           setError(error);
         } else {
-          setError(new Error('An unknown error occurred'));
+          setError(new Error("An unknown error occurred"));
         }
       } finally {
         setLoading(false);

@@ -33,7 +33,7 @@ export default function PageSelector({ page, setPage, pages, maxVisible }: Reado
     <div className={PageSelectorStyle.container}>
       <button
         className={PageSelectorStyle.arrowButton}
-        onClick={() => setPage((prev) => Math.max(0, prev - 1))}
+        onClick={() => setPage(Math.max(0, page - 1))}
       >
         <ChevronLeft />
       </button>
@@ -57,7 +57,7 @@ export default function PageSelector({ page, setPage, pages, maxVisible }: Reado
 
       <button
         className={PageSelectorStyle.arrowButton}
-        onClick={() => setPage((prev) => Math.min(pages - 1, prev + 1))}
+        onClick={() => setPage(Math.min(pages - 1, page + 1))}
       >
         <ChevronRight />
       </button>

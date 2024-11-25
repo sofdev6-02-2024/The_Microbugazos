@@ -18,6 +18,10 @@ import ModalStyle from "@/styles/store-catalog/Modal.module.css"
 import {useFiltersContext} from "@/contexts/FiltersContext";
 import {useProductsView} from "@/contexts/ProductsViewContext";
 
+interface Props {
+  buttonStyleClass?: string;
+}
+
 interface Subcategory {
   id: string,
   name: string,
@@ -27,29 +31,42 @@ interface CategoryMap {
   subcategories: Array<Subcategory>,
 }
 
-export default function FiltersModal() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const {isApplied, priceRange, ratingRange,
-    setIsApplied, setCategoryId, setSubcategoryId, setPriceRange, setRatingRange} = useFiltersContext();
-  const {sendReloadSignal} = useProductsView();
+export default function FiltersModal({ buttonStyleClass = ""}: Props) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isApplied,
+    priceRange,
+    ratingRange,
+    setIsApplied,
+    setCategoryId,
+    setSubcategoryId,
+    setPriceRange,
+    setRatingRange,
+  } = useFiltersContext();
+  const { sendReloadSignal } = useProductsView();
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [subcategory, setSubcategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
-  const [subcategoriesMap, setSubcategoriesMap] = useState<Array<CategoryMap>>([]);
+  const [subcategoriesMap, setSubcategoriesMap] = useState<Array<CategoryMap>>(
+    []
+  );
 
   useEffect(() => {
-    axiosInstance.get("/inventory/Category")
-      .then(response => response.data)
-      .then(data => {
+    axiosInstance
+      .get("/inventory/Category")
+      .then((response) => response.data)
+      .then((data) => {
         setCategories(data.data);
-        setSubcategoriesMap(data.data.map(category => {
-          return {
-            id: category.id,
-            subcategories: category.subCategories
-          }
-        }));
-      })
+        setSubcategoriesMap(
+          data.data.map((category) => {
+            return {
+              id: category.id,
+              subcategories: category.subCategories,
+            };
+          })
+        );
+      });
   }, []);
 
   useEffect(() => {
@@ -73,22 +90,20 @@ export default function FiltersModal() {
     setSubcategory("");
     setPriceRange([100, 500]);
     setRatingRange([1, 2.5]);
-  }
+  };
 
   return (
     <>
       <button
-        className={`${ModalStyle.modalButton} ${isApplied && ModalStyle.applied}`}
+        className={`${ModalStyle.modalButton} ${
+          isApplied && ModalStyle.applied
+        }`}
         onClick={onOpen}
       >
         <ListFilter></ListFilter>
-        <span>Filter</span>
+        <span className={buttonStyleClass}>Filter</span>
       </button>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        closeButton
-      >
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} closeButton>
         <ModalContent>
           {(onClose) => (
             <>
@@ -100,14 +115,14 @@ export default function FiltersModal() {
                       options={categories}
                       value={category}
                       handleChange={setCategory}
-                      placeholder={"Category"}>
-                    </ComboBox>
+                      placeholder={"Category"}
+                    ></ComboBox>
                     <ComboBox
                       options={subcategories}
                       value={subcategory}
                       handleChange={setSubcategory}
-                      placeholder={"Subcategory"}>
-                    </ComboBox>
+                      placeholder={"Subcategory"}
+                    ></ComboBox>
                   </div>
                   <Slider
                     label="Price Range"
@@ -115,7 +130,7 @@ export default function FiltersModal() {
                     minValue={0}
                     maxValue={1000}
                     defaultValue={priceRange}
-                    formatOptions={{style: "currency", currency: "USD"}}
+                    formatOptions={{ style: "currency", currency: "USD" }}
                     className="max-w-md"
                     onChange={(range) => setPriceRange(range)}
                   />
@@ -125,25 +140,31 @@ export default function FiltersModal() {
                     minValue={0.0}
                     maxValue={5.0}
                     defaultValue={ratingRange}
-                    formatOptions={{style: "decimal"}}
+                    formatOptions={{ style: "decimal" }}
                     className="max-w-md"
                     onChange={(range) => setRatingRange(range)}
                   />
                 </form>
               </ModalBody>
               <ModalFooter>
-                <Button className={ModalStyle.primaryButton} onPress={() => {
-                  setIsApplied(true);
-                  sendReloadSignal();
-                  onClose();
-                }}>
+                <Button
+                  className={ModalStyle.primaryButton}
+                  onPress={() => {
+                    setIsApplied(true);
+                    sendReloadSignal();
+                    onClose();
+                  }}
+                >
                   Apply
                 </Button>
-                <Button className={ModalStyle.secondaryButton} onPress={() => {
-                  setIsApplied(false);
-                  clearFilters();
-                  onClose();
-                }}>
+                <Button
+                  className={ModalStyle.secondaryButton}
+                  onPress={() => {
+                    setIsApplied(false);
+                    clearFilters();
+                    onClose();
+                  }}
+                >
                   Clear
                 </Button>
               </ModalFooter>
