@@ -31,6 +31,7 @@ interface Types {
   chooseAttribute: (name: string, value: string) => void;
   variantId: UUID | null;
   createProduct: () => ShoppingCartItem | null;
+  stock: number;
 }
 interface Props {
   children: ReactNode;
@@ -98,18 +99,28 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
 
   const searchVariantId = () => {
     if (product?.productVariants) {
-      const productVariants = product.productVariants;
-      productVariants.forEach((variant) => {
-        if (
-          variant.attributes.every(
-            (attr, index) =>
-              attr.name === selectedAttributes[index]?.name &&
-              attr.value === selectedAttributes[index]?.value?.toString()
+      let found = false;
+
+      for (const variant of product.productVariants) {
+        const matches = variant.attributes.every((attr) =>
+          selectedAttributes.some(
+            (selectedAttr) =>
+              selectedAttr.name === attr.name &&
+              selectedAttr.value === attr.value
           )
+        );
+        if (
+          matches &&
+          selectedAttributes.length === variant.attributes.length
         ) {
           setVariantId(variant.productVariantId);
+          found = true;
+          break;
         }
-      });
+      }
+      if (!found) {
+        setVariantId(null);
+      }
     }
   };
 
@@ -139,19 +150,25 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       setPriceAdjustment(response.data.data.priceAdjustment);
       setStock(response.data.data.stockQuantity);
       setImage(response.data.data.productVariantImage.url);
+    } else {
+      setPriceAdjustment(0);
+      setStock(0);
+      if (product) {
+        setImage(product.images[0].url);
+      }
     }
   };
 
   const createProduct = (): ShoppingCartItem | null => {
     const quantityAux = quantity;
-    setQuantity(1)
+    setQuantity(1);
     return product && variantId
       ? new ShoppingCartItem(
           product.productId,
           image,
           product.name,
           quantityAux,
-          (product.price + priceAdjustment),
+          product.price + priceAdjustment,
           price,
           selectedAttributes,
           variantId,
@@ -194,8 +211,9 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       chooseAttribute,
       variantId,
       createProduct,
+      stock,
     };
-  }, [product, attributes, price, quantity]);
+  }, [product, attributes, price, quantity, stock]);
 
   return (
     <ShoppingItemContext.Provider value={value}>

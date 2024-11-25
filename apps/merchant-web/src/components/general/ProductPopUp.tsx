@@ -19,6 +19,7 @@ export const ProductPopUp = () => {
     increaseQuantity,
     decreaseQuantity,
     createProduct,
+    stock,
   } = useShoppingItem();
 
   const { addProductToCart } = useShoppingCart();
@@ -48,13 +49,17 @@ export const ProductPopUp = () => {
       </div>
       <div className="product-popup-footer">
         <div className="product-popup-footer-info">
+          {stock > 0 ? (
+            <QuantityPicker
+              quantity={quantity}
+              changeQuantity={handleQuantity}
+              increase={increaseQuantity}
+              decrease={decreaseQuantity}
+            />
+          ) : (
+            <p className="no-stock">No stock</p>
+          )}
           <p className="total-price">Total: {price} $</p>
-          <QuantityPicker
-            quantity={quantity}
-            changeQuantity={handleQuantity}
-            increase={increaseQuantity}
-            decrease={decreaseQuantity}
-          />
         </div>
         {product && (
           <div className="product-popup-footer-actions">

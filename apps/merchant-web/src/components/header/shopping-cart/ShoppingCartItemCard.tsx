@@ -4,6 +4,7 @@ import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { MouseEvent } from "react";
 
 interface Props {
   item: ShoppingCartItem;
@@ -11,6 +12,12 @@ interface Props {
 
 export function ShoppingCartItemCard({ item }: Readonly<Props>) {
   const { deleteProductToCart } = useShoppingCart();
+
+  const handleDeleteItem = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    deleteProductToCart(item.id);
+  };
 
   return (
     <div className="shopping-cart-item-card">
@@ -25,7 +32,7 @@ export function ShoppingCartItemCard({ item }: Readonly<Props>) {
       <p className="shopping-cart-item-card-price">{item.price} $</p>
       <button
         className="shopping-cart-item-card-remove"
-        onClick={() => deleteProductToCart(item.id)}
+        onClick={handleDeleteItem}
       >
         <MdDeleteOutline className="shopping-cart-item-card-remove-icon" />
       </button>
