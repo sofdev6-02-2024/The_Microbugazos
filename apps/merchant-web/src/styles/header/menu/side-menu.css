@@ -1,7 +1,4 @@
 .side-menu {
-  position: fixed;
-  top: 60px;
-  left: -300px;
   width: 300px;
   height: calc(100vh - 60px);
   display: flex;
@@ -15,6 +12,13 @@
   overflow-x: hidden;
 }
 
-.side-menu.show {
+.side-menu-overlay {
+  position: fixed;
+  top: 60px;
+  left: -300px;
+  z-index: 1001;
+}
+
+.side-menu-overlay.show {
   left: 0;
 }

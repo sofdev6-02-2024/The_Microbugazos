@@ -1,17 +1,24 @@
-import { Select } from '../Select';
-import '@/styles/general/product-attribute-select.css'
+import { useShoppingItem } from "@/contexts/ShoppingItemContext";
+import "@/styles/general/ProductAttributeSelect.css";
+import { Select } from "../Select";
 
 interface Props {
   name: string;
-  values: string[];
+  values: Array<string>;
 }
 
-export const ProductAttributeSelect = ({name, values}: Readonly<Props>) => {
+export const ProductAttributeSelect = ({ name, values }: Props) => {
+  const { chooseAttribute } = useShoppingItem();
 
   return (
     <div className="product-attribute-section">
       <h3 className="product-attribute-name">{name}</h3>
-      <Select values={values} />
+      <Select
+        values={values}
+        handleOption={(value: string) => {
+          chooseAttribute(name, value);
+        }}
+      />
     </div>
   );
-}
+};

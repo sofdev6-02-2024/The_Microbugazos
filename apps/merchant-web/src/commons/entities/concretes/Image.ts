@@ -1,21 +1,9 @@
-import { UUID } from "crypto";
-import EntityBase from "../EntityBase";
-import Product from "./Product";
-import ProductVariant from "./ProductVariant";
-
-export default class Image extends EntityBase {
-  productId: UUID | null;
+export default class Image {
   altText: string;
   url: string;
-  product: Product | null;
-  productVariant: ProductVariant | null;
 
-  constructor(id: UUID, productId: UUID | null, altText: string, url: string, product: Product, productVariant: ProductVariant) {
-    super(id);
-    this.productId = productId;
+  constructor(altText: string, url: string) {
     this.altText = altText;
     this.url = url;
-    this.product = product;
-    this.productVariant = productVariant;
   }
 }

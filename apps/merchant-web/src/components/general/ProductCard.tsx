@@ -1,13 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { ListType } from "@/commons/entities/ListType";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
 import Product from "@/commons/entities/concretes/Product";
-import { useProductPopUp } from "@/contexts/PopUpContext";
 import "@/styles/general/product-card.css";
+import { useModal } from "@/contexts/ModalContext";
+import { ProductPopUp } from "./ProductPopUp";
+import Link from "next/link";
+import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
+import "@/styles/general/ProductCard.css";
+import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
 
 interface Props {
   product: Product;
@@ -16,40 +21,47 @@ interface Props {
 
 export const ProductCard = ({ product, type }: Props) => {
   const [isLiked, setIsLiked] = useState(false);
-  const { openProductPopUp } = useProductPopUp();
+  const { open } = useModal();
 
   const handleProductClick = () => {
-    console.clear();
-    console.log(product);
-    openProductPopUp(product);
+    open(
+      <ShoppingItemProvider currentProduct={product}>
+        <ProductPopUp />
+      </ShoppingItemProvider>
+    );
   };
+
+  useEffect(() => {
+    console.log(product);
+  }, [product]);
 
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
-        alt={product.images[0].altText}
-        className="product-card-image"
+        src={product.images?.[0]?.url ?? defaultImage}
+        alt={
+          product.images.length > 0 ? product.images[0].altText : "Some image"
+        }
+        className={`product-card-image ${type}`}
       />
-      <a
-        href={`http://localhost:3000/product/${product.id}`}
+      <Link
+        href={`/product-details/${product.productId}`}
         className="product-card-name"
       >
         {product.name}
-      </a>
+      </Link>
       <div className="product-card-info">
         <p className="product-card-price">
           <span className="product-card-price-symbol">$</span> {product.price}
         </p>
         <p className="product-card-rating">
-          <MdOutlineStar />{" "}
-          {product.productReviews ? product.productReviews.length : 0}
+          <MdOutlineStar /> 0
         </p>
       </div>
       <div className="product-card-more-actions">
         <AddToCart product={product} action={handleProductClick} />
         <Like
-          productId={product.id}
+          productId={product.productId}
           isLiked={isLiked}
           toggleLike={() => setIsLiked(!isLiked)}
         />

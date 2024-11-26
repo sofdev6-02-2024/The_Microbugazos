@@ -48,7 +48,6 @@ export const VariantsProvider: React.FC<VariantsProviderProps> = ({ children }) 
             const updateVariant = variants.filter((i) => i.name != newVariant.name);
             setVariants([...updateVariant, newVariant])
         }
-        console.log(variants);
     };
 
     const removeVariant = (variant: string) => {

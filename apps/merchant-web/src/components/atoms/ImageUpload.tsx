@@ -15,6 +15,8 @@ interface Props {
   onImageUpload?: (file: File) => void;
   className?: string;
   isEditable?: boolean;
+  reset?: boolean;
+  reload?: string;
 }
 
 const ImageUpload = ({
@@ -29,6 +31,7 @@ const ImageUpload = ({
   },
   className = "",
   isEditable = true,
+  reload= "",
 }: Props) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -43,7 +46,7 @@ const ImageUpload = ({
     if (defaultImage) {
       setPreview(defaultImage);
     }
-  }, [defaultImage]);
+  }, [defaultImage, reload]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -95,7 +98,9 @@ const ImageUpload = ({
       className={`${styles.container} ${styles[shape]} ${
         isDragging ? styles.dragging : ""
       } ${styles[className]}  ${
-        (isEditable === false || hasImage) && styles.containerHover
+        (!isEditable || hasImage) && styles.containerHover
+      } ${
+        isEditable && styles.pointer
       }`}
       style={{ width, height, top, left }}
       onDragOver={handleDragOver}

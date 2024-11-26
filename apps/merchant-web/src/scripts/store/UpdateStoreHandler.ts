@@ -5,8 +5,12 @@ import { deleteImageFromFirebase, uploadImage } from "../FirebaseImageScripts";
 export const updateStoreHandler = async (
   storeId: string,
   store: StoreFormData,
-  userId: string
-): Promise<boolean> => {
+  userId: string | undefined
+): Promise<StoreFormDto> => {
+  if (userId === undefined) {
+    throw new Error("User Id is undefined");
+  }
+
   const profileImage = await changeImage(
     `${userId}-profile`,
     store.profileImageUrl,
@@ -27,10 +31,10 @@ export const updateStoreHandler = async (
     phoneNumber: store.phoneNumber.trim(),
     bannerImage: bannerImage,
     profileImage: profileImage,
-    UserIdentity: userId,
+    userId: userId,
   };
   const response = await updateStore(storeId, storeToUpdate);
-  return (response.id as string) !== "";
+  return response;
 };
 
 const changeImage = async (

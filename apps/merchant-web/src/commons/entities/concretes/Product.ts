@@ -1,12 +1,12 @@
 import { UUID } from "crypto";
-import EntityBase from "../EntityBase";
 import ProductVariant from "./ProductVariant";
-import ProductReview from "./ProductReview";
 import Category from "./Category";
 import Image from "./Image";
+import ProductReview from "./ProductReview";
 
-export default class Product extends EntityBase {
-  storeId: UUID | null;
+export default class Product {
+  productId: UUID;
+  storeId: UUID;
   name: string;
   description: string;
   price: number;
@@ -16,16 +16,28 @@ export default class Product extends EntityBase {
   categories: Array<Category>;
   productReviews: Array<ProductReview>;
 
-  constructor(id: UUID, storeId: UUID | null, name: string, description: string, price: number, brand: string, images: Array<Image>, productVariants: Array<ProductVariant>, categories: Array<Category>, productReviews: Array<ProductReview>) {
-    super(id);
+  constructor(
+    productId: UUID,
+    storeId: UUID,
+    name: string,
+    description: string,
+    price: number,
+    brand: string,
+    images: Array<Image>,
+    productVariants: Array<ProductVariant>,
+    categories: Array<Category>,
+    productReviews: Array<ProductReview>
+  ) {
+    this.productId = productId;
     this.storeId = storeId;
     this.name = name;
     this.description = description;
     this.price = price;
     this.brand = brand;
+    this.categories = categories;
     this.images = images;
     this.productVariants = productVariants;
-    this.categories = categories;
     this.productReviews = productReviews;
+    this.categories = categories;
   }
 }

@@ -22,14 +22,14 @@
       "@/app/*": ["./src/app/*"],
       "@/commons/*": ["./src/commons/*"],
       "@/components/*": ["./src/components/*"],
-      "@/contexts/*": ["./src/contexts/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/config/*": ["./src/config/*"],
+      "@/hooks/*": ["./src/hooks/*", "./src/commons/hooks/*"],
       "@/styles/*": ["./src/styles/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/services/*": ["./src/services/*"],
-      "@/entities/*": ["./src/entities/*"]
+      "@/entities/*": ["./src/entities/*"],
+      "@/contexts/*": ["./src/commons/contexts/*", "./src/contexts/*"],
+      "@/config/*": ["./src/config/*"]
     },
     "target": "ES2017"
   },

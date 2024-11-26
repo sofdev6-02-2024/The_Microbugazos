@@ -1,8 +1,8 @@
 import { UUID } from "crypto";
-import EntityBase from "../EntityBase";
 import Product from "./Product";
 
-export default class ProductReview extends EntityBase {
+export default class ProductReview {
+  id: UUID;
   userId: UUID;
   productId: UUID;
   rating: number;
@@ -10,7 +10,7 @@ export default class ProductReview extends EntityBase {
   product: Product | null;
 
   constructor(id: UUID, userId: UUID, productId: UUID, rating: number, comment: string, product: Product) {
-    super(id);
+    this.id = id;
     this.userId = userId;
     this.productId = productId;
     this.rating = rating;

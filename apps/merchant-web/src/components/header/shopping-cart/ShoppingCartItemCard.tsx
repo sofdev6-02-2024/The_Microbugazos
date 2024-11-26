@@ -1,31 +1,22 @@
-"use client";
-
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
-import { QuantityPicker } from "@/components/QuantityPicker";
-import { useState } from "react";
 import "@/styles/header/shoppingCart/shopping-cart-item-card.css";
 import { MdDeleteOutline } from "react-icons/md";
 import Link from "next/link";
+import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
+import { MouseEvent } from "react";
 
 interface Props {
   item: ShoppingCartItem;
 }
 
 export function ShoppingCartItemCard({ item }: Readonly<Props>) {
-  const [quantity, setQuantity] = useState(0);
+  const { deleteProductToCart } = useShoppingCart();
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const decreaseQuantity = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  const handleQuantity = (event: { target: { value: string } }) => {
-    setQuantity(Number(event.target.value));
+  const handleDeleteItem = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    deleteProductToCart(item.id);
   };
 
   return (
@@ -44,13 +35,11 @@ export function ShoppingCartItemCard({ item }: Readonly<Props>) {
         </Link>
         <p className="shopping-cart-item-card-price">{item.price} $</p>
       </div>
-      <QuantityPicker
-        quantity={quantity}
-        increase={increaseQuantity}
-        decrease={decreaseQuantity}
-        changeQuantity={handleQuantity}
-      />
-      <button className="shopping-cart-item-card-remove">
+      <p className="shopping-cart-item-card-quantity">{item.quantity}</p>
+      <button
+        className="shopping-cart-item-card-remove"
+        onClick={handleDeleteItem}
+      >
         <MdDeleteOutline className="shopping-cart-item-card-remove-icon" />
       </button>
     </div>

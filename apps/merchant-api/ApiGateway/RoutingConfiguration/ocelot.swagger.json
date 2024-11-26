@@ -22,5 +22,17 @@
     ],
     "UpstreamPathTemplate": "/swagger/user",
     "UpstreamHttpMethod": ["GET"]
-  }
+  },
+  {
+    "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "payment_service",
+        "Port": 8080
+      }
+    ],
+    "UpstreamPathTemplate": "/swagger/payment",
+    "UpstreamHttpMethod": ["GET"]
+  },
 ]

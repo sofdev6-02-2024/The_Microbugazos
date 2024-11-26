@@ -9,17 +9,7 @@ import ImagesSection, {
   Image,
 } from "@/components/product-details/ImagesSection";
 import { useParams } from "next/navigation";
-
-interface Product {
-  productId: string;
-  name: string;
-  description: string;
-  price: number;
-  brand: string;
-  categories: [];
-  images: Image[];
-  productVariants: [];
-}
+import Product from "@/commons/entities/concretes/Product";
 
 export default function ProductDetails() {
   const params = useParams();
@@ -38,31 +28,38 @@ export default function ProductDetails() {
   const [error, setError] = useState<string>(null);
 
   useEffect(() => {
-    console.log(id);
     fetch(`http://localhost:5001/api/inventory/Product/${id}`)
       .then((response) =>
         response.json().then((data) => {
           const attributeMap: Record<string, Set<string>> = {};
           const variantSelected: Record<string, number> = {};
 
-          setImages(data.images);
-          setProduct(data);
+          setImages(data.data.images);
+          setProduct(data.data);
 
-          data.productVariants.forEach((variant) => {
-            variant.attributes.forEach((attribute) => {
-              if (!attributeMap[attribute.name]) {
-                attributeMap[attribute.name] = new Set();
-                variantSelected[attribute.name] = -1;
-              }
-              attributeMap[attribute.name].add(attribute.value);
-            });
-          });
+          mapVariants(data.data.productVariants, attributeMap);
           setAttributesMap(attributeMap);
           setVariantSelected(variantSelected);
         })
       )
       .catch((e) => console.error(e));
   }, []);
+
+  const mapVariants = (productVariants, attributeMap) => {
+    productVariants.forEach((variant) => {
+      mapAttributes(variant, attributeMap);
+    });
+  };
+
+  const mapAttributes = (variant, attributeMap) => {
+    variant.attributes.forEach((attribute) => {
+      if (!attributeMap[attribute.name]) {
+        attributeMap[attribute.name] = new Set();
+        variantSelected[attribute.name] = -1;
+      }
+      attributeMap[attribute.name].add(attribute.value);
+    });
+  };
 
   const handleVariantSelection = (name: string, index: number) => {
     const variantEdited = variantSelected;
@@ -90,13 +87,9 @@ export default function ProductDetails() {
 
   function handleAddToCart() {
     const isAllSelected = Object.entries(variantSelected).filter(
-      ([key, value]) => value === -1
+      ([_, value]) => value === -1
     );
-    console.log(variantSelected);
-    console.log(isAllSelected);
-
     if (isAllSelected.length === 0) {
-      console.log("Success");
       setError(null);
     } else {
       setError("Select all attributes of the product");
@@ -106,40 +99,12 @@ export default function ProductDetails() {
   return (
     <div className={ProductDetailsStyle.productDetailsSection}>
       <ImagesSection images={images} imageSelected={image}></ImagesSection>
-      <section
-        style={{
-          paddingTop: "12px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "start",
-          gap: "16px",
-          height: "inherit",
-        }}
-      >
-        <h1
-          style={{
-            color: "#000",
-            fontFamily: "Montserrat, serif",
-            fontSize: "28px",
-            fontWeight: "bold",
-          }}
-        >
-          {product!.name}
-        </h1>
+      <section className={ProductDetailsStyle.informationContainer}>
+        <h1 className={ProductDetailsStyle.title}>{product.name}</h1>
         <RatingSelector rating={2.5}></RatingSelector>
-        <label
-          style={{
-            fontSize: "20px",
-            fontWeight: "600",
-          }}
-        >
-          $ {product!.price}
-          <span
-            style={{
-              fontWeight: "300",
-              fontSize: "16px",
-            }}
-          >
+        <label className={ProductDetailsStyle.label}>
+          $ {product.price}
+          <span className={ProductDetailsStyle.labelLight}>
             {" "}
             (
             {variantLoaded &&
@@ -150,10 +115,10 @@ export default function ProductDetails() {
         </label>
         {variantLoaded && (
           <label>
-            Total: $ {product!.price + variantLoaded.priceAdjustment}
+            Total: $ {product.price + variantLoaded.priceAdjustment}
           </label>
         )}
-        <p>{product!.description}</p>
+        <p>{product.description}</p>
         <hr />
         {attributesMap &&
           Object.entries(attributesMap).map(([name, value]) => (
@@ -167,37 +132,17 @@ export default function ProductDetails() {
             </div>
           ))}
         {error && (
-          <label style={{ fontSize: "14px", color: "#FB5012" }}>
+          <label className={ProductDetailsStyle.errorLabel}>
             <sup>*</sup>
             {error}
           </label>
         )}
         <hr />
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            alignContent: "center",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
+        <div className={ProductDetailsStyle.actionsContainer}>
           <QuantitySelector></QuantitySelector>
           <button
-            style={{
-              paddingTop: "14px",
-              paddingBottom: "14px",
-              width: "15vw",
-              minWidth: "144px",
-              border: "none",
-              borderRadius: "24px",
-              backgroundColor: "#7790ED",
-              color: "white",
-              fontSize: "16px",
-            }}
+            className={ProductDetailsStyle.addToCart}
             onClick={handleAddToCart}
           >
             Add to cart

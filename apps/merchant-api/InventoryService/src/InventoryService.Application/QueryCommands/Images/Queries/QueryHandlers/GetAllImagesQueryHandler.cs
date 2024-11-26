@@ -16,21 +16,17 @@ public class GetAllImagesQueryHandler(IRepository<Image> imageRepository, IRespo
     {
         var totalImages = await imageRepository.GetAllAsync(request.Page, request.PageSize);
         var totalImagesDto = totalImages.Select(image => new ImageDto
-            {
-                ImageId = image.Id,
-                ProductId = image.ProductId,
-                Url = image.Url,
-                AltText = image.AltText,
-                IsActive = image.IsActive
-            }).ToList();
-
-        var imagesToDisplay = new PaginatedResponseDto<ImageDto>
         {
-            Items = totalImagesDto,
-            TotalCount = totalImagesDto.Count,
-            Page = request.Page,
-            PageSize = request.PageSize
-        };
-        
-        return responseHandlingHelper.Ok("Images have been successfully obtained.", imagesToDisplay);    }
+            ImageId = image.Id,
+            ProductId = image.ProductId,
+            Url = image.Url,
+            AltText = image.AltText,
+            IsActive = image.IsActive
+        }).ToList();
+        int totalItems = await imageRepository.GetCountAsync();
+
+        var imagesToDisplay = new PaginatedResponseDto<ImageDto>(totalImagesDto, totalItems, request.Page, request.PageSize);
+
+        return responseHandlingHelper.Ok("Images have been successfully obtained.", imagesToDisplay);
+    }
 }

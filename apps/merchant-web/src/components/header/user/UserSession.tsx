@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import useAuth from "@/hooks/useAuth";
 import { UserButton } from "./UserButton";
 import { UserOptions } from "./UserOptions";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface Props {
   isLogged: boolean;

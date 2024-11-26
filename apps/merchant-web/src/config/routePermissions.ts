@@ -1,27 +1,28 @@
 import { UserType, UserPermissions } from '@/types/auth';
 
-export const DEFAULT_UNAUTHORIZED_REDIRECT = '/login';
-export const DEFAULT_FORBIDDEN_REDIRECT = '/';
+export const DEFAULT_UNAUTHORIZED_REDIRECT = "/login";
+export const DEFAULT_FORBIDDEN_REDIRECT = "/";
 
 export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
+
     [UserType.GUEST]: {
-        paths: ["/login", "/signup", "/", "/products/*", "/cart", "/create-store"],
+        paths: ["/login", "/signup", "/", "/products/*"],
         redirectTo: '/login'
     },
     [UserType.CLIENT]: {
-        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/cart", "/history","/create-store"],
+        paths: ["/", "/products/*", "/profile", "/payment/*", "/orders", "/favorites", "/contact-us", "/history","/create-store"],
         redirectTo: DEFAULT_FORBIDDEN_REDIRECT
     },
     [UserType.SELLER]: {
-        paths: ["/", "/products", "/profile", "/admin/products", "/admin/orders"],
-        redirectTo: "/products"
-    },
-    [UserType.ADMIN]: {
-        paths: ["/", "/products", "/profile", "/admin-panel/*"],
-        redirectTo: "/admin-panel/dashboard"
+        paths: ["/", "/products", "/profile", "/admin/products", "/admin/orders","/store/inventory/*","/store"],
+        redirectTo: "/store/inventory"
     },
     [UserType.OWNER]: {
-        paths: ['*'],
-        redirectTo: "/admin-panel/dashboard"
+        paths: ["/", "/products", "/profile","/store/*"],
+        redirectTo: "/store"
+    },
+    [UserType.ADMIN]: {
+        paths: ["*"],
+        redirectTo: "/store"
     }
 };

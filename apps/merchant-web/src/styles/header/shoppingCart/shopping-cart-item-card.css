@@ -4,9 +4,10 @@
   max-height: 200px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 15% auto 25% 10%;
+  grid-template-columns: 15% auto 15% 10%;
   align-items: center;
   background-color: var(--background-primary);
+  color: var(--foreground-primary);
   padding: 10px;
   border-radius: var(--general-border-radius);
 }
@@ -32,7 +33,7 @@
 
 .shopping-cart-item-card-price {
   font-size: var(--normal-2-text-size);
-  color: var(--secondary-light);
+  color: var(--secondary-400);
   text-align: left;
 }
 
@@ -52,6 +53,6 @@
 
 .shopping-cart-item-card-remove-icon {
   font-size: var(--heading-3-text-size);
-  color: var(--tertiary-light);
+  color: var(--tertiary-400);
   cursor: pointer;
 }

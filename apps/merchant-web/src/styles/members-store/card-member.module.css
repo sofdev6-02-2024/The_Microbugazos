@@ -1,0 +1,98 @@
+.container {
+  --color-primary-600-member: #5275f5;
+
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-light-primary);
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 8px;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.container * {
+  font-family: var(--ubuntu-font-family);
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+.member-info h3 {
+  font-size: var(--normal-1-text-size);
+  margin-right: 8px;
+  word-break: break-word;
+  color: var(--color-primary-600-member);
+}
+
+.member-info p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.actions-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions-container p {
+  font-size: 14px;
+  color: white;
+}
+
+.type-member {
+  background-color: var(--color-primary-600-member);
+  border-radius: 1rem;
+  margin-right: 3rem;
+  min-width: 100px;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+}
+
+.red-button {
+  padding: 5px;
+  color: white;
+  background-color: #d30c0c;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+}
+.red-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .member-info h3 {
+    font-size: 14px;
+  }
+
+  .actions-container {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .red-button {
+    min-width: 35px;
+    height: 35px;
+  }
+}

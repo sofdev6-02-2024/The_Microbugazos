@@ -5,8 +5,11 @@
   justify-content: center;
   border: 2px solid #e2e8f0;
   background: #f9fafb;
-  cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .previewContainer {
@@ -129,4 +132,14 @@
 
 .movible {
   position: absolute;
+  top: 195px !important;
+  left: 84px !important;
+}
+
+@media screen and (max-width: 850px) {
+  .movible {
+    position: absolute;
+    top: 195px !important;
+    left: calc(50% - 125px) !important;
+  }
 }

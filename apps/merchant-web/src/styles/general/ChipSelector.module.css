@@ -1,0 +1,22 @@
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 2px 12px 2px 12px;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  background-color: var(--gray-400);
+  cursor: pointer;
+}
+
+.selected {
+  color: var(--white);
+  background-color: var(--primary-400);
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "UpstreamPathTemplate": "/api/payment/{everything}",
+    "UpstreamHttpMethod": ["GET"],
+    "DownstreamPathTemplate": "/api/payment/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "payment_service",
+        "Port": 8080
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/payment/{everything}",
+    "UpstreamHttpMethod": ["POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/payment/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "payment_service",
+        "Port": 8080
+      }
+    ]
+  }
+]

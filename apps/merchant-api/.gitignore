@@ -54,6 +54,7 @@ coverage/
 
 # Ignore the .env file
 .env
+.db.env
 
 # Ignore user-specific files
 *.suo
@@ -71,3 +72,6 @@ node_modules/
 ocelot.json
 
 **/Migrations/
+
+
+rabbitmq/
