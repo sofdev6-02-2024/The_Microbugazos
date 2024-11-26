@@ -58,7 +58,7 @@ export const ProductCard = ({ product, type }: Props) => {
         </p>
       </div>
       <div className="product-card-more-actions">
-        <AddToCart product={product} action={handleProductClick} />
+        <AddToCart action={handleProductClick} />
         <Like
           productId={product.productId}
           isLiked={isLiked}

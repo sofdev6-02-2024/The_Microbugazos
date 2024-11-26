@@ -11,8 +11,8 @@
   border-radius: 12px;
   justify-content: center;
   align-items: center;
-  color: #000;
-  background-color: var(--gray-400);
+  color: var(--foreground-tertiary);
+  background-color: var(--background-tertiary);
   cursor: pointer;
 }
 

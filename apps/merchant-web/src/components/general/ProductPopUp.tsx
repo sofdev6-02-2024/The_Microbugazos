@@ -70,7 +70,6 @@ export const ProductPopUp = () => {
             )}
             {stock > 0 && (
               <AddToCart
-                product={product}
                 action={() => addProductToCart(createProduct())}
               />
             )}

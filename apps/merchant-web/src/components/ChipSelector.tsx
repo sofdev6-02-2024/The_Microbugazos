@@ -1,33 +1,40 @@
-"use client"
-import {useState} from "react";
-import ChipSelectorStyle from "@/styles/general/ChipSelector.module.css"
+import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import ChipSelectorStyle from "@/styles/general/ChipSelector.module.css";
 
 interface ChipSelectorProps {
-  name: string,
-  options: string[],
-  handleChange: (string, number) => void,
-  defaultValue?: number,
+  name: string;
+  options: string[];
+  handleChange: (value: string) => void;
 }
 
-export default function ChipSelector({name, options, handleChange, defaultValue} : ChipSelectorProps) {
-    const [indexSelected, setIndexSelected] = useState(defaultValue ?? -1);
-    return (
-        <div className={ChipSelectorStyle.container}>
-            {options.map((item, index) => <div
-              key={index}
-              className={`${ChipSelectorStyle.chip} ${index == indexSelected && ChipSelectorStyle.selected}`}
-              onClick={() => {
-                let newIndex = index;
-                if (indexSelected == index) {
-                    newIndex = -1;
-                }
+export default function ChipSelector({
+  name,
+  options,
+  handleChange,
+}: Readonly<ChipSelectorProps>) {
+  const { selectedAttributes } = useShoppingItem();
 
-                setIndexSelected(newIndex);
-                handleChange(name, newIndex);
-            }}
-            >
-                {item}
-            </div>)}
-        </div>
-    )
+  const isSelected = (item: string) => {
+    return selectedAttributes.some(
+      (attribute) => attribute.name === name && attribute.value === item
+    );
+  };
+
+  return (
+    <div className={ChipSelectorStyle.container}>
+      {options.map((item, index) => (
+        <button
+          key={`option-variant-${index}-${name}-${item}`}
+          className={`${ChipSelectorStyle.chip} ${
+            isSelected(item) ? ChipSelectorStyle.selected : ""
+          }`}
+          onClick={() => {
+            handleChange(item);
+          }}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  );
 }

@@ -33,6 +33,7 @@ interface Types {
   createProduct: () => ShoppingCartItem | null;
   stock: number;
   priceAdjustment: number;
+  selectedAttributes: Array<ShoppingItemSelectedAttribute>;
 }
 interface Props {
   children: ReactNode;
@@ -44,13 +45,9 @@ const ShoppingItemContext = createContext<Types | undefined>(undefined);
 export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
-  const [attributes, setAttributes] = useState<Array<ShoppingItemAttribute>>(
-    []
-  );
+  const [attributes, setAttributes] = useState<Array<ShoppingItemAttribute>>([]);
   const [price, setPrice] = useState(0);
-  const [selectedAttributes, setSelectedAttributes] = useState<
-    Array<ShoppingItemSelectedAttribute>
-  >([]);
+  const [selectedAttributes, setSelectedAttributes] = useState<Array<ShoppingItemSelectedAttribute>>([]);
   const [variantId, setVariantId] = useState<UUID | null>(null);
   const [priceAdjustment, setPriceAdjustment] = useState(0);
   const [stock, setStock] = useState(0);
@@ -220,7 +217,8 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       variantId,
       createProduct,
       stock,
-      priceAdjustment
+      priceAdjustment,
+      selectedAttributes
     };
   }, [product, attributes, price, quantity, stock]);
 
