@@ -2,7 +2,7 @@
 
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { QuantityPicker } from "../quantityPicker";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { MdDeleteOutline } from "react-icons/md";
 import "@/styles/shopping-cart-page/shopping-item-card.css";
 import { useEffect, useState } from "react";

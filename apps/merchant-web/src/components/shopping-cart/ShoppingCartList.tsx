@@ -1,6 +1,6 @@
 "use client";
 
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
 import "@/styles/shopping-cart-page/shopping-cart-page-list.css";
 

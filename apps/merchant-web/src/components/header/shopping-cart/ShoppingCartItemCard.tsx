@@ -3,7 +3,7 @@
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import "@/styles/header/shoppingCart/shoppingCartItemCard.css";
 import { MdDeleteOutline } from "react-icons/md";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { MouseEvent } from "react";
 
 interface Props {

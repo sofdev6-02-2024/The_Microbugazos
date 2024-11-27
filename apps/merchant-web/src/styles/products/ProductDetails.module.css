@@ -1,16 +1,15 @@
-
 .productDetailsSection {
-    padding: 24px 48px 24px 48px;
-    background-color: #fff;
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    font-family: Montserrat, serif;
-    color: #000;
+  min-height: 71vh;
+  background-color: var(--background-primary);
+  display: grid;
+  grid-template-columns: 800px auto;
+  gap: 2rem;
+  color: var(--foreground-secondary);
+  padding: 2rem;
 }
 
 .informationContainer {
-  padding-top: 12px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -18,55 +17,17 @@
   height: inherit;
 }
 
-.imagesSection {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-}
-
-.primaryImage {
-    object-fit: cover;
-    width: 38vw;
-    min-width: 200px;
-    max-width: 600px;
-    max-height: 60vh;
-    border-radius: 12px;
-}
-
-.secondaryImages {
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.secondaryImage {
-    width: 12vw;
-    min-width: 150px;
-    max-width: 200px;
-    object-fit: cover;
-    max-height: 100px;
-    border-radius: 12px;
-}
-
-.secondaryImage:hover {
-    border: 1px solid #000;
-    cursor: pointer;
-}
-
 .actionsContainer {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 40px auto 120px;
   align-items: center;
-  justify-content: space-between;
   align-content: center;
   flex-wrap: wrap;
   gap: 16px;
 }
 
 .title {
-  color: #000;
-  font-family: var(--montserrat-font-family);
+  color: var(--foreground-primary);
   font-size: 28px;
   font-weight: bold;
 }
@@ -83,57 +44,14 @@
 
 .errorLabel {
   font-size: 14px;
-  color: #FB5012;
+  color: #fb5012;
 }
 
-.addToCart {
-  padding-top: 14px;
-  padding-bottom: 14px;
-  width: 15vw;
-  min-width: 144px;
-  border: none;
-  border-radius: 24px;
-  background-color: var(--primary-400);
-  color: white;
-  font-size: 16px;
-}
-
-@media (max-width: 768px) {
-    .productDetailsSection {
-        flex-wrap: wrap;
-    }
-
-    .imagesSection{
-        flex-wrap: wrap;
-        flex-direction: column-reverse;
-    }
-
-    .primaryImage {
-        width: 100%;
-    }
-
-    .secondaryImages {
-        flex-direction: row;
-    }
-
-    .secondaryImage {
-        width: 32%;
-        min-width: 80px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .primaryImage {
-        width: 100%;
-    }
-
-    .imagesSection{
-        flex-wrap: wrap;
-        flex-direction: column-reverse;
-        justify-content: start;
-    }
-
-    .secondaryImages{
-        flex-direction: row;
-    }
+@media (max-width: 1340px) {
+  .productDetailsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
 }

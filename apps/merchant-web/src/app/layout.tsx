@@ -11,7 +11,7 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/commons/context/AuthContext";
 import { ModalProvider } from "@/commons/context/ModalContext";
 import { Modal } from "@/components/Modal";
-import { ShoppingCartProvider } from "@/commons/context/ShoppingCartContext";
+import { ShoppingCartProvider } from "@/contexts/ShoppingCartContext";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/store"];

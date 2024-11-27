@@ -9,14 +9,14 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error as Error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error as Error);
   }
 );
 
