@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {createContext, useContext, useState, ReactNode, useMemo} from "react";
 
 export interface Image {
     url: string;
@@ -15,11 +15,14 @@ export interface Variant {
 
 export interface VariantContextType {
     variants: Variant[]
+    addVariant: (Variant) => void;
+    removeVariant: (Variant) => void;
+    getByName: (string) => Variant | null ;
+    resetVariants: () => void;
+    setVariants: (any) => void;
 }
 
-const VariantContext = createContext<VariantContextType>({
-    variants: [],
-});
+const VariantContext = createContext<VariantContextType | undefined>(undefined);
 
 export const useVariants = () => {
     const context = useContext(VariantContext);
@@ -62,8 +65,17 @@ export const VariantsProvider: React.FC<VariantsProviderProps> = ({ children }) 
         } else return null;
     }
 
+    const objValue = useMemo(() => ({
+      variants,
+      addVariant,
+      removeVariant,
+      getByName,
+      resetVariants,
+      setVariants
+    }), [variants]);
+
     return (
-        <VariantContext.Provider value={{ variants, addVariant, removeVariant, getByName, resetVariants }}>
+        <VariantContext.Provider value={objValue}>
             {children}
         </VariantContext.Provider>
     );

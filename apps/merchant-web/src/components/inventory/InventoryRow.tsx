@@ -1,14 +1,15 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaEllipsisV, FaRegTrashAlt} from "react-icons/fa";
+import { SquarePen } from "lucide-react";
 import { MdOutlineStar } from "react-icons/md";
-import "@/styles/inventory/inventory-table-rows.css";
-import "@/styles/inventory/product-row-inventory.css";
-import Product from "@/commons/entities/concretes/Product";
 import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 import { deleteProductById } from "@/request/ProductRequests";
 import { Button } from "../atoms/buttons/Button";
 import { InventoryRowOptions } from "./InventoryRowOptions";
+import Product from "@/commons/entities/concretes/Product";
+import "@/styles/inventory/inventory-table-rows.css";
+import "@/styles/inventory/product-row-inventory.css";
 
 
 interface InventoryRowProps {
@@ -24,6 +25,7 @@ export const InventoryRow = ({
   deleteProduct,
   setCurrentProductName,
 }: InventoryRowProps) => {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   const formatToK = (number: number) => {
@@ -38,10 +40,14 @@ export const InventoryRow = ({
     await reloadPage();
   };
 
-  const handleOpenPoopupToDeleteProduct = () => {
+  const handleOpenPopUpToDeleteProduct = () => {
     setCurrentProductName(product.name);
     deleteProduct(handleDeleteProduct);
   };
+
+  const handleUpdateProduct = () => {
+    router.push(`/store/add-product/${product.id}`);
+  }
 
   return (
     <tr className="admin-store-inventory-row inventory-product-row">
@@ -67,8 +73,17 @@ export const InventoryRow = ({
       <td className="inventory-product-buttons-ctn">
         <Button
           variant="button-variant-small"
+          shape="squared"
+          buttonStyle="button-filled"
+          handleClick={handleUpdateProduct}
+        >
+          <SquarePen />
+        </Button>
+        <Button
+          variant="button-variant-small"
+          shape="squared"
           buttonStyle="button-delete"
-          handleClick={handleOpenPoopupToDeleteProduct}
+          handleClick={handleOpenPopUpToDeleteProduct}
         >
           <FaRegTrashAlt />
         </Button>
@@ -84,7 +99,7 @@ export const InventoryRow = ({
           <InventoryRowOptions
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            onRemove={handleOpenPoopupToDeleteProduct}
+            onRemove={handleOpenPopUpToDeleteProduct}
           />
         </Button>
       </td>

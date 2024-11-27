@@ -5,8 +5,8 @@
   },
   "Image": {
     "AltTextMinLength": 5,
-    "AltTextMaxLength": 100,
-    "UrlMinLength": 10,
+    "AltTextMaxLength": 256,
+    "UrlMinLength": 0,
     "UrlMaxLength": 2048
   },
   "Variant": {
@@ -24,7 +24,7 @@
     "ProductNameMinLength": 3,
     "ProductNameMaxLength": 70,
     "ProductDescriptionMinLength": 5,
-    "ProductDescriptionMaxLenght": 100,
+    "ProductDescriptionMaxLenght": 256,
     "PriceMinLenght": 0,
     "ProductBrandMinLength": 3,
     "ProductBrandMaxLength": 50
