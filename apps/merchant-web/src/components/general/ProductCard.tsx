@@ -24,7 +24,7 @@ export const ProductCard = ({ product, type }: Props) => {
 
   const handleProductClick = () => {
     open(
-      <ShoppingItemProvider currentIdProduct={product.productId}>
+      <ShoppingItemProvider currentIdProduct={product.id}>
         <ProductPopUp />
       </ShoppingItemProvider>
     );
@@ -40,7 +40,7 @@ export const ProductCard = ({ product, type }: Props) => {
         className={`product-card-image ${type}`}
       />
       <Link
-        href={`/product-details/${product.productId}`}
+        href={`/product-details/${product.id}`}
         className="product-card-name"
       >
         {product.name}
@@ -56,7 +56,7 @@ export const ProductCard = ({ product, type }: Props) => {
       <div className="product-card-more-actions">
         <AddToCart action={handleProductClick} />
         <Like
-          productId={product.productId}
+          productId={product.id}
           isLiked={isLiked}
           toggleLike={() => setIsLiked(!isLiked)}
         />

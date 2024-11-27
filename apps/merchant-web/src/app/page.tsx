@@ -21,7 +21,7 @@ export default function Home() {
         response.data.data.items.map(
           (product: Product) =>
             new Product(
-              product.productId,
+              product.id,
               product.storeId,
               product.name,
               product.description,

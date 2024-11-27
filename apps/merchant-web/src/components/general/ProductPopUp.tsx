@@ -66,7 +66,7 @@ export const ProductPopUp = () => {
                 decrease={decreaseQuantity}
               />
             ) : (
-              <p className="no-stock">No stock</p>
+              <p className="no-stock">Variant not available</p>
             )}
             {stock > 0 && (
               <AddToCart

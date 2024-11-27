@@ -180,7 +180,7 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
     setQuantity(1);
     if (product && variantId) {
       const shoppingItem = new ShoppingCartItem(
-        product.productId,
+        product.id,
         image,
         product.name,
         quantityAux,
@@ -188,7 +188,7 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
         price,
         selectedAttributes,
         variantId,
-        product.productId
+        product.id
       );
       return shoppingItem;
     } else {

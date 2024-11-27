@@ -152,7 +152,7 @@ export const ProductDetail = () => {
           <Like
             isLiked={isFavorite}
             toggleLike={handleLike}
-            productId={product.productId}
+            productId={product.id}
           />
           <AddToCart action={handleAddToCart} />
           <QuantityPicker

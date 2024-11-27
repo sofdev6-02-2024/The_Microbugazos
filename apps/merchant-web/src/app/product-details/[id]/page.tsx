@@ -33,7 +33,7 @@ export default function ProductDetails() {
   }
 
   return product ? (
-    <ShoppingItemProvider currentIdProduct={product.productId}>
+    <ShoppingItemProvider currentIdProduct={product.id}>
       <ProductDetail />
     </ShoppingItemProvider>
   ) : (
