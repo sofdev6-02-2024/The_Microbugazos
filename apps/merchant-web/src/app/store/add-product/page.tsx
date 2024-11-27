@@ -1,20 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axiosInstance from "@/request/AxiosConfig";
 import ComboBox from "@/components/combo-box";
 import Dropzone from "@/components/image-selector";
 import TextField from "@/components/text-field";
 import ProductOptionsModal from "@/components/admin-panel/product-options-modal";
 import OptionRow from "@/components/admin-panel/option-row";
-import { useOptions } from "@/commons/providers/add-product-provider";
+import {Option, useOptions} from "@/commons/providers/add-product-provider";
 import VariantModal from "@/components/admin-panel/variant-modal";
-import { useVariants } from "@/commons/providers/variant-provider";
-import { ValidateName, ValidateLongText} from "@/commons/validations/string";
-import { ValidateNumberWithDecimals } from "@/commons/validations/number";
+import {useVariants, Variant} from "@/commons/providers/variant-provider";
+import {ValidateLongText, ValidateName} from "@/commons/validations/string";
+import {ValidateNumberWithDecimals} from "@/commons/validations/number";
 import Notification from "@/components/notification";
-import { useStore } from "@/commons/context/StoreContext";
+import {useStore} from "@/commons/context/StoreContext";
 import AddProductStyle from "../../../styles/admin-panel/add-products.module.css";
 import TextFieldStyle from "../../../styles/components/TextField.module.css";
+import {toast} from "sonner";
+import Category from "@/commons/entities/concretes/Category";
 
 interface Props {
   id?: string;
@@ -22,17 +24,18 @@ interface Props {
 
 export default function AddProducts({id}: Readonly<Props>) {
   const [errors, setErrors] = useState<[{ textField: string; error: string }]>([]);
+  const [editMode, setEditMode] = useState(false);
   const [productName, setProductName] = useState<string>("");
   const [productDescription, setProductDescription] = useState<string>("");
   const [productBrand, setProductBrand] = useState<string>("");
   const [productPrice, setProductPrice] = useState<string>("");
   const [productCategory, setProductCategory] = useState<string>("");
   const [productSubCategory, setProductSubCategory] = useState<string>("");
-  const { options } = useOptions();
-  const { variants } = useVariants();
+  const { options, setOptions } = useOptions();
+  const { variants, setVariants } = useVariants();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [combinationVariants, setCombinationVariants] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Array<Category>>([]);
   const [subCategories, setSubCategories] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -40,10 +43,14 @@ export default function AddProducts({id}: Readonly<Props>) {
 
   useEffect(() => {
     loadCategoriesInfo();
-    if (id != null) {
+  }, []);
+
+  useEffect(() => {
+    if (id != null && categories.length != 0) {
+      setEditMode(true);
       loadEditInfo();
     }
-  }, []);
+  }, [categories]);
 
   useEffect(() => {
     setCombinationVariants(getVariants());
@@ -52,11 +59,9 @@ export default function AddProducts({id}: Readonly<Props>) {
   useEffect(() => {
     let mapSubcategories = categories
       .filter((item) => item.name == productCategory)
-      .map((item) => {
-        return item.subCategories;
-      });
+      .map((item) => item.subCategories);
 
-    setSubCategories(mapSubcategories[0]);
+    setSubCategories(mapSubcategories[0] ?? []);
   }, [productCategory]);
 
   const validators = [
@@ -195,20 +200,12 @@ export default function AddProducts({id}: Readonly<Props>) {
   const loadCategoriesInfo = () => {
     axiosInstance.get("/inventory/Category")
       .then(response => response.data)
-      .then(data => {
-        const categories = data.data.map(item => {
-          return {
-            name: item.name,
-            id: item.id,
-            subCategories: item.subCategories,
-          }
-        });
-        setCategories(categories);
-      });
+      .then(data => setCategories(data.data.map(item => new Category(
+        item.id, item.name, item.subCategories
+      ))));
   }
 
   const loadEditInfo = () => {
-    console.log("Edit product");
     axiosInstance.get(`/inventory/Product/${id}`)
       .then(response => response.data)
       .then(data => {
@@ -216,13 +213,50 @@ export default function AddProducts({id}: Readonly<Props>) {
         setProductDescription(data.data.description);
         setProductBrand(data.data.brand);
         setProductPrice(data.data.price);
-        setProductCategory(getParentCategory(data.data.categories[0].id));
+        setProductCategory(getParentCategory(data.data.categories[0].id)?.name ?? "");
         setProductSubCategory(data.data.categories[0].name);
-      });
+        setSelectedImages(data.data.images.map(i => i.url));
+        setOptions(getOptions(data.data.productVariants));
+        setVariants(getVariantsFromResponse(data.data.productVariants));
+      })
+      .catch(e => toast.error(e));
   }
 
   const getParentCategory = (id) => {
-    return categories.find(i => i.subCategories.some(sc => sc.id == id)) ?? ""
+    if (!categories.length) {
+      console.log("Categories don't have data");
+      return null;
+    }
+
+    return categories.find(i => i.subCategories.some(sc => sc.id == id)) ?? null;
+  }
+
+  const getOptions = (variants: any[]): Option[] => {
+    const groupedAttributes = variants.reduce((result, variant) => {
+      variant.attributes.forEach((attribute: { name: string; value: string }) => {
+        if (!result[attribute.name]) {
+          result[attribute.name] = new Set<string>();
+        }
+        result[attribute.name].add(attribute.value);
+      });
+      return result;
+    }, {} as Record<string, Set<string>>);
+
+    return Object.entries(groupedAttributes).map(([name, valueSet]) => ({
+      name,
+      options: Array.from(valueSet as Array<string>),
+    }));
+  };
+
+  const getVariantsFromResponse = (variants: any[]): Variant[] => {
+    return variants.map(v => {
+      return {
+        name: v.attributes.map(attr => attr.value).join("/"),
+        priceAdjustment: v.priceAdjustment,
+        stockQuantity: v.stockQuantity,
+        image: v.productVariantImage,
+      };
+    });
   }
 
   const sendProduct = () => {
@@ -242,9 +276,20 @@ export default function AddProducts({id}: Readonly<Props>) {
       .catch((e) => console.error(e));
   };
 
+  const handleSubmit = () => {
+    touchAllFields();
+    if (errors.length == 0) {
+      if (editMode) {
+        console.log(parseToCreateProductDTO());
+      } else {
+        sendProduct();
+      }
+    }
+  }
+
   return (
     <div className={AddProductStyle.addProductForm}>
-      <h3 className={AddProductStyle.heading1}>Add Product</h3>
+      <h3 className={AddProductStyle.heading1}>{editMode ? "Update Product" : "Add Product"}</h3>
       <TextField
         label="Name"
         placeholder="Write the name of the product"
@@ -379,12 +424,7 @@ export default function AddProducts({id}: Readonly<Props>) {
         </button>
         <button
           className={AddProductStyle.merchantButton}
-          onClick={() => {
-            touchAllFields();
-            if (errors.length == 0) {
-              sendProduct();
-            }
-          }}
+          onClick={handleSubmit}
         >
           Confirm
         </button>

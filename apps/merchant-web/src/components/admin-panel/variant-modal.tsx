@@ -3,13 +3,13 @@ import {useEffect, useState} from "react";
 import TextField from "@/components/text-field";
 import {MdImageSearch} from "react-icons/md";
 import Dropzone from "@/components/image-selector";
-import {useVariants} from "@/commons/providers/variant-provider";
+import {useVariants, Variant} from "@/commons/providers/variant-provider";
 import {ValidateLongText} from "@/commons/validations/string";
 import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/commons/validations/number";
 
 export default function VariantModal({item}) {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
-    const [variantOnMemory, setVariantOnMemory] = useState(null);
+    const [variantOnMemory, setVariantOnMemory] = useState<Variant | null>(null);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [altText, setAltText] = useState("");
     const [priceAdjustment, setPriceAdjustment] = useState("0");
@@ -21,6 +21,15 @@ export default function VariantModal({item}) {
         const updatedVariant = getByName(item.join("/"));
         setVariantOnMemory(updatedVariant);
     }, [item, getByName, variants]);
+
+    useEffect(() => {
+      if (variantOnMemory != null) {
+        setPriceAdjustment(variantOnMemory.priceAdjustment);
+        setProductQty(variantOnMemory.stockQuantity.toFixed());
+        setSelectedImages(variantOnMemory.image === null ? [] : [variantOnMemory.image.url]);
+        setAltText(variantOnMemory.image === null ? "" : variantOnMemory.image.altText);
+      }
+    }, [variantOnMemory]);
 
     const handleFloatNumberChange = (value: string, setter: (value: string) => void) => {
         if (/^-?\d*\.?\d{0,2}$/.test(value)) {

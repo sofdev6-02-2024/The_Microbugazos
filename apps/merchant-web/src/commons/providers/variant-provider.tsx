@@ -10,7 +10,7 @@ export interface Variant {
     name: string;
     priceAdjustment: string;
     stockQuantity: number;
-    image: Image;
+    image?: Image;
 }
 
 export interface VariantContextType {
