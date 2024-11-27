@@ -14,13 +14,33 @@ public class GetAllCategoriesQueryHandler(IRepository<Category> categoryReposito
     public async Task<BaseResponse> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
         var totalCategories = await categoryRepository.GetAllAsync();
-        var categoriesToDisplay = new HashSet<string>();
-        
-        return responseHandlingHelper.Ok("Categories have been successfully obtained.", (from category in totalCategories
-            where categoriesToDisplay.Add(category.Name)
-            let subcategories = category.SubCategories.Where(sc => categoriesToDisplay.Add(sc.Name))
-                .Select(sc => new SubCategoryDto { Name = sc.Name, Id = sc.Id })
-                .ToList()
-            select new CategoryDto { Name = category.Name, Id = category.Id, SubCategories = subcategories }).ToList());
+        Dictionary<Guid, List<Category>> subcategories = [];
+        List<Category> categories = [];
+
+        foreach (var category in totalCategories)
+        {
+            if (category.ParentCategoryId == null)
+            {
+                categories.Add(category);
+            }
+            else
+            {
+                if (subcategories.TryGetValue(category.ParentCategoryId.Value, out var value))
+                {
+                    value.Add(category);
+                }
+                else
+                {
+
+                    subcategories[category.ParentCategoryId.Value] = [];
+                }
+            }
+        }
+
+        return responseHandlingHelper.Ok("Categories have been successfully obtained.", (from category in categories
+                                                                                         let subcats = subcategories[category.Id]
+                                                                                             .Select(sc => new SubCategoryDto { Name = sc.Name, Id = sc.Id })
+                                                                                             .ToList()
+                                                                                         select new CategoryDto { Name = category.Name, Id = category.Id, SubCategories = subcats }).ToList());
     }
 }

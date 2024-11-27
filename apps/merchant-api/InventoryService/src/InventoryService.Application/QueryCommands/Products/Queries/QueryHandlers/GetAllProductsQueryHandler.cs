@@ -9,8 +9,8 @@ using MediatR;
 
 namespace InventoryService.Application.QueryCommands.Products.Queries.QueryHandlers;
 
-public class GetAllProductsQueryHandler(IProductRepository productRepository, 
-    ProductService productService, 
+public class GetAllProductsQueryHandler(IProductRepository productRepository,
+    ProductService productService,
     IResponseHandlingHelper responseHandlingHelper)
     : IRequestHandler<GetAllProductsQuery, BaseResponse>
 {
@@ -23,6 +23,6 @@ public class GetAllProductsQueryHandler(IProductRepository productRepository,
 
         var productsToDisplay = new PaginatedResponseDto<ProductDto>(totalProductsDto, totalItems, request.Page, request.PageSize);
 
-        return responseHandlingHelper.Ok("Products have been successfully obtained.", productsToDisplay);    
+        return responseHandlingHelper.Ok("Products have been successfully obtained.", productsToDisplay);
     }
 }
