@@ -5,7 +5,7 @@ import { ShoppingCartItemCard } from "./ShoppingCartItemCard";
 import "@/styles/header/shoppingCart/shoppingCartList.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 
 interface Props {
   isOpen: boolean;

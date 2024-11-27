@@ -1,4 +1,4 @@
-import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import { useShoppingItem } from "@/contexts/ShoppingItemContext";
 import ChipSelectorStyle from "@/styles/general/ChipSelector.module.css";
 
 interface ChipSelectorProps {

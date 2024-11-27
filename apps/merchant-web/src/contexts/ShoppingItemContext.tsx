@@ -6,14 +6,14 @@ import {
   useMemo,
   useState,
 } from "react";
-import Product from "../entities/concretes/Product";
+import Product from "@/commons/entities/concretes/Product";
 import {
   ShoppingItemAttribute,
   ShoppingItemSelectedAttribute,
-} from "../entities/ShoppingItemAttribute";
+} from "@/commons/entities/ShoppingItemAttribute";
 import { UUID } from "crypto";
 import axiosInstance from "@/request/AxiosConfig";
-import ShoppingCartItem from "../entities/ShoppingCartItem";
+import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 
 interface Types {
   product: Product | undefined;

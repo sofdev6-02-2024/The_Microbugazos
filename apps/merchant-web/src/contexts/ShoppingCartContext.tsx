@@ -6,11 +6,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import ShoppingCartItem from "../entities/ShoppingCartItem";
+import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { handleSubmitCart } from "@/services/checkoutService";
 import { CartData } from "@/schemes/shopping-cart/CartDataDto";
-import useAuth from "../hooks/useAuth";
+import useAuth from "@/commons/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -21,6 +22,7 @@ interface Types {
   decreaseQuantityProduct: (id: string) => void;
   changeQuantity: (id: string, quantity: number) => void;
   handleStripe: () => void;
+  clearShoppingCart: () => void;
 }
 
 interface Props {
@@ -41,8 +43,10 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           (product) => product.id === newProduct.id
         );
         if (existingProduct) {
+          toast.info('This product has already been added')
           return prevProducts;
         } else {
+          toast.success('Product added to cart')
           return [...prevProducts, newProduct];
         }
       });
@@ -52,6 +56,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const deleteProductToCart = (id: string) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
+    toast.info('Product deleted');
   };
 
   const updateLocalStorage = () => {
@@ -100,6 +105,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
 
     if (!user) {
       router.push("/login");
+      toast.error('Please log in to your account')
       return;
     }
 
@@ -121,6 +127,10 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     }
   };
 
+  const clearShoppingCart = () => {
+    setProducts([]);
+  }
+
   useEffect(() => {
     updateLocalStorage();
   }, [products]);
@@ -135,6 +145,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       decreaseQuantityProduct,
       changeQuantity,
       handleStripe,
+      clearShoppingCart
     };
   }, [products]);
 

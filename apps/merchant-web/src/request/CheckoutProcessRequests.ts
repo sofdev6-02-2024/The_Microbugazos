@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosConfig";
-import {handleAxiosError} from "@/request/AxiosErrorHandler";
-import {CartData} from "@/schemes/shopping-cart/CartDataDto";
+import { handleAxiosError } from "@/request/AxiosErrorHandler";
+import { CartData } from "@/schemes/shopping-cart/CartDataDto";
 
 export const createProcessPayment = async (data: CartData) => {
   try {
@@ -10,7 +10,10 @@ export const createProcessPayment = async (data: CartData) => {
       Customer: customer,
     };
 
-    const response = await axiosInstance.post("/payment/Stripe/checkout-session/submit-cart", requestBody);
+    const response = await axiosInstance.post(
+      "/payment/Stripe/checkout-session/submit-cart",
+      requestBody
+    );
     return response.data.data;
   } catch (error) {
     handleAxiosError(error);

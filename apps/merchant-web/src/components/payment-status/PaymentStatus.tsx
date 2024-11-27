@@ -2,6 +2,7 @@ import Link from "next/link";
 import "@/styles/payment/status-payment.css";
 import { ReactNode } from "react";
 
+
 interface PaymentStatusProps {
   title: string;
   description: string;
@@ -33,7 +34,9 @@ export const PaymentStatus = ({
             </a>
           </p>
           <div className="button-container">
-            <Link href="/" className="status-btn">Back to HomePage</Link>
+            <Link href="/" className="status-btn">
+              Back to HomePage
+            </Link>
             {children}
           </div>
         </div>

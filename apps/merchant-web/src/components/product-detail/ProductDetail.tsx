@@ -10,9 +10,9 @@ import ImagesSection, {
 import { Like } from "@/components/general/Like";
 import { AddToCart } from "@/components/general/AddToCart";
 import { QuantityPicker } from "@/components/quantityPicker";
-import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import { useShoppingItem } from "@/contexts/ShoppingItemContext";
 import axiosInstance from "@/request/AxiosConfig";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 
 export const ProductDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);

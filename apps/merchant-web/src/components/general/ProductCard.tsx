@@ -9,7 +9,7 @@ import Product from "@/commons/entities/concretes/Product";
 import { useModal } from "@/commons/context/ModalContext";
 import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
-import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
+import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
 import "@/styles/general/ProductCard.css";
 import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
 

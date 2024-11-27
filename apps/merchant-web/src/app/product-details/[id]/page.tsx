@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Product from "@/commons/entities/concretes/Product";
 import axiosInstance from "@/request/AxiosConfig";
 
-import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
+import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
 import { ProductDetail } from "@/components/product-detail/ProductDetail";
 
 export default function ProductDetails() {
