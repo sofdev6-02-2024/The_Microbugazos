@@ -44,14 +44,12 @@ export const ShoppingCartProvider = ({ children }: Props) => {
         );
         if (existingProduct) {
           toast.info('This product has already been added', {
-            id: `info-${newProduct.id}`,
-            duration: 3000
+            id: `info-${newProduct.id}`
           });
           return prevProducts;
         } else {
           toast.success('Product added to cart', {
-            id: `success-${newProduct.id}`,
-            duration: 3000
+            id: `success-${newProduct.id}`
           });
           return [...prevProducts, newProduct];
         }
