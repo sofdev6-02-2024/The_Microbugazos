@@ -11,6 +11,7 @@ import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
 import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
 import "@/styles/general/ProductCard.css";
+import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 
 interface Props {
   product: Product;
@@ -32,7 +33,9 @@ export const ProductCard = ({ product, type }: Props) => {
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images[0].url}
+        src={
+          product.images.length > 0 ? product.images[0].url : defaultSmallImage
+        }
         alt={
           product.images.length > 0 ? product.images[0].altText : "Some image"
         }
