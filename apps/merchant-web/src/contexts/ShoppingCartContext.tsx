@@ -43,10 +43,16 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           (product) => product.id === newProduct.id
         );
         if (existingProduct) {
-          toast.info('This product has already been added')
+          toast.info('This product has already been added', {
+            id: `info-${newProduct.id}`,
+            duration: 3000
+          });
           return prevProducts;
         } else {
-          toast.success('Product added to cart')
+          toast.success('Product added to cart', {
+            id: `success-${newProduct.id}`,
+            duration: 3000
+          });
           return [...prevProducts, newProduct];
         }
       });
@@ -56,7 +62,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const deleteProductToCart = (id: string) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
-    toast.info('Product deleted');
+    toast.error('Product deleted');
   };
 
   const updateLocalStorage = () => {
@@ -101,8 +107,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const handleStripe = () => {
-    console.log(user)
-
     if (!user) {
       router.push("/login");
       toast.error('Please log in to your account')

@@ -39,7 +39,7 @@
   width: 30px;
   height: 30px;
   border: none;
-  background-color: var(--primary-600);
+  background-color: var(--action-error);
   font-size: var(--normal-1-text-size);
   cursor: pointer;
   display: flex;  

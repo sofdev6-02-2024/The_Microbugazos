@@ -24,20 +24,16 @@ export const ProductCard = ({ product, type }: Props) => {
 
   const handleProductClick = () => {
     open(
-      <ShoppingItemProvider currentProduct={product}>
+      <ShoppingItemProvider currentIdProduct={product.productId}>
         <ProductPopUp />
       </ShoppingItemProvider>
     );
   };
 
-  useEffect(() => {
-    console.log(product);
-  }, [product]);
-
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images?.[0]?.url ?? defaultImage}
+        src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
         alt={
           product.images.length > 0 ? product.images[0].altText : "Some image"
         }

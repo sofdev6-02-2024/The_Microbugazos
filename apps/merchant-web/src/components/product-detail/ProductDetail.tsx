@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import RatingSelector from "@/components/RatingSelector";
-import ChipSelector from "@/components/ChipSelector";
-import ProductDetailsStyle from "@/styles/products/ProductDetails.module.css";
 import ImagesSection, {
   Image,
 } from "@/components/product-details/ImagesSection";
@@ -13,6 +11,8 @@ import { QuantityPicker } from "@/components/quantityPicker";
 import { useShoppingItem } from "@/contexts/ShoppingItemContext";
 import axiosInstance from "@/request/AxiosConfig";
 import { useShoppingCart } from "@/contexts/ShoppingCartContext";
+import { AttributeSelector } from "./AttributeSelector";
+import styles from "@/styles/products/ProductDetails.module.css";
 
 export const ProductDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -32,6 +32,7 @@ export const ProductDetail = () => {
     price,
     variantId,
     createProduct,
+    getDefaultSelectedAttributes
   } = useShoppingItem();
 
   const { addProductToCart } = useShoppingCart();
@@ -43,7 +44,7 @@ export const ProductDetail = () => {
   };
 
   const getImage = async () => {
-    if (product === undefined) return
+    if (product === undefined) return;
 
     if (variantId) {
       const response = await axiosInstance(
@@ -53,17 +54,17 @@ export const ProductDetail = () => {
       if (response.status === 200) {
         setImage(response.data.data.productVariantImage);
       } else {
-        setImage(images[0]);
+        setImage(null);
       }
     } else {
-      setImage(product.images[0]);
+      setImage(null);
     }
   };
 
   const handleAddToCart = () => {
     if (variantId) {
       addProductToCart(createProduct());
-      setError(null)
+      setError(null);
     } else {
       setError("No variant selected");
     }
@@ -73,12 +74,21 @@ export const ProductDetail = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const verifyVariant = () => {
+    if (!variantId) {
+      setError('The variant is not available')
+    } else {
+      setError(null);
+    }
+  }
+
   useEffect(() => {
     getVariants();
   }, [product]);
 
   useEffect(() => {
     getImage();
+    verifyVariant()
   }, [variantId]);
 
   useEffect(() => {
@@ -87,19 +97,24 @@ export const ProductDetail = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    getDefaultSelectedAttributes();
+  }, [attributes]);
+
+
   if (product === undefined) {
     return <div className="no-product-fount">No found product</div>;
   }
 
   return (
-    <div className={ProductDetailsStyle.productDetailsSection}>
+    <div className={styles.productDetailsSection}>
       <ImagesSection images={images} imageSelected={image}></ImagesSection>
-      <section className={ProductDetailsStyle.informationContainer}>
-        <h1 className={ProductDetailsStyle.title}>{product.name}</h1>
+      <section className={styles.informationContainer}>
+        <h1 className={styles.title}>{product.name}</h1>
         <RatingSelector rating={2.5}></RatingSelector>
-        <label className={ProductDetailsStyle.label}>
+        <label className={styles.label}>
           $ {product.price}
-          <span className={ProductDetailsStyle.labelLight}>
+          <span className={styles.labelLight}>
             {" "}
             ({priceAdjustment > 0 ? `+ ${priceAdjustment} $` : ""})
           </span>
@@ -112,7 +127,7 @@ export const ProductDetail = () => {
             return (
               <div key={attribute.name} className="variant-option-section">
                 <h4>Select {attribute.name}</h4>
-                <ChipSelector
+                <AttributeSelector
                   name={attribute.name}
                   options={attribute.value}
                   handleChange={(value: string) => {
@@ -126,30 +141,26 @@ export const ProductDetail = () => {
           <p>No variants available</p>
         )}
         {error && (
-          <label className={ProductDetailsStyle.errorLabel}>
+          <label className={styles.errorLabel}>
             <sup>*</sup>
             {error}
           </label>
         )}
         <hr />
 
-        <div className={ProductDetailsStyle.actionsContainer}>
+        <div className={styles.actionsContainer}>
           <Like
             isLiked={isFavorite}
             toggleLike={handleLike}
             productId={product.productId}
           />
-          {variantId && (
-            <>
-              <QuantityPicker
-                quantity={quantity}
-                increase={increaseQuantity}
-                decrease={decreaseQuantity}
-                changeQuantity={handleQuantity}
-              />
-              <AddToCart action={handleAddToCart} />
-            </>
-          )}
+          <AddToCart action={handleAddToCart} />
+          <QuantityPicker
+            quantity={quantity}
+            increase={increaseQuantity}
+            decrease={decreaseQuantity}
+            changeQuantity={handleQuantity}
+          />
         </div>
       </section>
     </div>

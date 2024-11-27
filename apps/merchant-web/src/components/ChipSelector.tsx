@@ -1,35 +1,38 @@
-import { useShoppingItem } from "@/contexts/ShoppingItemContext";
+"use client";
+
+import { useState } from "react";
 import ChipSelectorStyle from "@/styles/general/ChipSelector.module.css";
 
 interface ChipSelectorProps {
   name: string;
   options: string[];
-  handleChange: (value: string) => void;
+  handleChange: (name: string, option: number) => void;
+  defaultValue?: number;
 }
 
-export default function ChipSelector({
+export const ChipSelector = ({
   name,
   options,
   handleChange,
-}: Readonly<ChipSelectorProps>) {
-  const { selectedAttributes } = useShoppingItem();
-
-  const isSelected = (item: string) => {
-    return selectedAttributes.some(
-      (attribute) => attribute.name === name && attribute.value === item
-    );
-  };
-
+  defaultValue,
+}: Readonly<ChipSelectorProps>) => {
+  const [indexSelected, setIndexSelected] = useState(defaultValue ?? -1);
   return (
     <div className={ChipSelectorStyle.container}>
       {options.map((item, index) => (
         <button
-          key={`option-variant-${index}-${name}-${item}`}
+          key={`chip-select-${index}-${item}`}
           className={`${ChipSelectorStyle.chip} ${
-            isSelected(item) ? ChipSelectorStyle.selected : ""
+            index == indexSelected && ChipSelectorStyle.selected
           }`}
           onClick={() => {
-            handleChange(item);
+            let newIndex = index;
+            if (indexSelected == index) {
+              newIndex = -1;
+            }
+
+            setIndexSelected(newIndex);
+            handleChange(name, newIndex);
           }}
         >
           {item}
@@ -37,4 +40,4 @@ export default function ChipSelector({
       ))}
     </div>
   );
-}
+};

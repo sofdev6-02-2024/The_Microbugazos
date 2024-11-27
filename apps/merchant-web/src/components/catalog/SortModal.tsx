@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import {ArrowDownUp} from "lucide-react";
 import ModalStyle from "@/styles/store-catalog/Modal.module.css"
-import ChipSelector from "@/components/ChipSelector";
+import {ChipSelector} from "@/components/ChipSelector";
 import {useSortContext} from "@/contexts/SortContext";
 import {useProductsView} from "@/contexts/ProductsViewContext";
 
