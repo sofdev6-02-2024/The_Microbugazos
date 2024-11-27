@@ -36,6 +36,7 @@ export function ShoppingCartList({ isOpen, toggleOpen }: Readonly<Props>) {
 
   const handleGoShoppingCart = () => {
     route.push("/shopping-cart");
+    toggleOpen();
   };
 
   return (
