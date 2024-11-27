@@ -11,6 +11,7 @@ class ShoppingCartItem {
   priceTotal: number;
   attributes: Array<ShoppingItemSelectedAttribute>;
   productVariantId: UUID;
+  stock: number;
 
   constructor(
     id: UUID,
@@ -21,7 +22,8 @@ class ShoppingCartItem {
     priceTotal: number,
     attributes: Array<ShoppingItemSelectedAttribute>,
     productVariantId: UUID,
-    productId: UUID
+    productId: UUID,
+    stock: number
   ) {
     this.imageUrl = imageUrl;
     this.name = name;
@@ -31,6 +33,7 @@ class ShoppingCartItem {
     this.attributes = attributes;
     this.productVariantId = productVariantId;
     this.productId = productId;
+    this.stock = stock;
     this.id = (() => {
       const attributesString = this.attributes
         .map((attribute) => `[${attribute.name}-${attribute.value}]`)

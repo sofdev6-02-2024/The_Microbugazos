@@ -25,7 +25,7 @@
 
 .quantity-picker-button:hover {
   background-color: var(--primary-600);
-  color: var(--foreground-secondary);
+  color: var(--tertiary-400);
 }
 
 #quantity-picker-input {

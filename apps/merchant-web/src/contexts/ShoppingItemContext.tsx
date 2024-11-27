@@ -188,7 +188,8 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
         price,
         selectedAttributes,
         variantId,
-        product.id
+        product.id,
+        stock
       );
       return shoppingItem;
     } else {

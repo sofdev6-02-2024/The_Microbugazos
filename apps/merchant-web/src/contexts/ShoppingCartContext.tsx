@@ -78,13 +78,13 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const increaseQuantityProduct = (id: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === id
+        product.id === id && product.quantity < product.stock
           ? { ...product, quantity: product.quantity + 1 }
           : product
       )
     );
   };
-
+  
   const decreaseQuantityProduct = (id: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -94,15 +94,17 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-
+  
   const changeQuantity = (id: string, quantity: number) => {
-    if (quantity < 1) return;
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === id ? { ...product, quantity } : product
+        product.id === id && quantity >= 1 && quantity <= product.stock
+          ? { ...product, quantity }
+          : product
       )
     );
   };
+  
 
   const handleStripe = () => {
     if (!user) {
