@@ -6,6 +6,7 @@ COPY UserService/src/UserService.Application/UserService.Application.csproj User
 COPY UserService/src/UserService.Infrastructure/UserService.Infrastructure.csproj UserService/src/UserService.Infrastructure/
 COPY UserService/src/UserService.Domain/UserService.Domain.csproj UserService/src/UserService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
+COPY MerchantCommon/Commons/Commons.csproj MerchantCommon/Commons/
 
 WORKDIR /app/UserService/src/UserService.Api
 RUN dotnet restore
@@ -15,6 +16,7 @@ COPY UserService/src/UserService.Application/. ../UserService.Application/
 COPY UserService/src/UserService.Infrastructure/. ../UserService.Infrastructure/
 COPY UserService/src/UserService.Domain/. ../UserService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
+COPY MerchantCommon/Commons/. /app/MerchantCommon/Commons/
 
 RUN dotnet publish -c Release -o /app/out
 

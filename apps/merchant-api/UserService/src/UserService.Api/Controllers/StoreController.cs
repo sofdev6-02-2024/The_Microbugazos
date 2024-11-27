@@ -1,3 +1,4 @@
+using Commons.ResponseHandler.Responses.Concretes;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,11 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     public async Task<ActionResult<StoreDto?>> GetStoreById([FromRoute] Guid id)
     {
         var store = await mediator.Send(new GetStoreByIdQuery(id));
-        if (store == null)
-        {
-            return NotFound();
-        }
-        return Ok(store);
+        if (store is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<StoreDto>)store!;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpPost]
@@ -52,11 +53,11 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     public async Task<ActionResult<StoreDto>> GetStoreByUserId([FromRoute] Guid id)
     {
         var store = await mediator.Send(new GetStoreByUserIdQuery(id));
-        if (store == null)
-        {
-            return NotFound();
-        }
-        return Ok(store);
+        if (store is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<StoreDto>)store!;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
     
     [HttpPost("{storeId}/sellers")]
@@ -86,15 +87,20 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     [HttpGet("{id}/sellers")]
     public async Task<ActionResult<List<SellerDto>>> GetSellers([FromRoute] Guid id)
     {
-        try
+        var sellers = await mediator.Send(new GetStoreSellersQuery(id));
+
+        if (sellers.All(item => item is ErrorResponse))
         {
-            var sellers = await mediator.Send(new GetStoreSellersQuery(id));
-            return Ok(sellers);
+            var errorResponse = sellers.First() as ErrorResponse;
+            return StatusCode(errorResponse!.StatusCode, errorResponse);
         }
-        catch (Exception ex)
+
+        if (sellers.All(item => item is SuccessResponse<List<SellerDto>>))
         {
-            return BadRequest(ex.Message);
+            var successResponse = sellers.First() as SuccessResponse<List<SellerDto>>;
+            return StatusCode(successResponse!.StatusCode, successResponse);
         }
+        return StatusCode(500, new { Message = "An unexpected error occurred." });
     }
     
     [HttpDelete("{id}/sellers/")]
@@ -114,18 +120,12 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     [HttpGet("seller/{id}")]
     public async Task<ActionResult<StoreDto>> GetStoreForSeller([FromRoute] Guid id)
     {
-        try
-        {
-            var store = await mediator.Send(new GetStoreForSellerQuery(id));
-            if (store == null)
-            {
-                return NotFound();
-            }
-            return Ok(store);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var store = await mediator.Send(new GetStoreForSellerQuery(id));
+
+        if (store is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<StoreDto>)store!;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 }

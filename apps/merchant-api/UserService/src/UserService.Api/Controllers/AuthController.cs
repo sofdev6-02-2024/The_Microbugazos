@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using Commons.ResponseHandler.Responses.Concretes;
 using UserService.Application.Dtos.Users;
 using UserService.Application.Handlers.Auth.Request.Commands;
 using UserService.Domain.Entities.Concretes;
@@ -32,12 +33,12 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
         {
             return await Task.FromResult<ActionResult<UserDto?>>(Unauthorized());
         }
-        User? user = await _mediator.Send(new GetUserByTokenQuery(authHeader));
-        if (user == null)
-        {
-            return NotFound();
-        }
-        return Ok(_mapper.Map<UserDto>(user));
+        var user = await _mediator.Send(new GetUserByTokenQuery(authHeader));
+        if (user is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<UserDto>)user!;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
     
     [HttpPut]
@@ -49,7 +50,7 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
             return Unauthorized();
         }
 
-        User? currentUser = await _mediator.Send(new GetUserByTokenQuery(authHeader));
+        var currentUser = await _mediator.Send(new GetUserByTokenQuery(authHeader));
         if (currentUser == null)
         {
             return NotFound();
@@ -57,7 +58,6 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
 
         var updateUserCommand = new UpdateUserCommand
         {
-            Id = currentUser.Id,
             Name = updateUserDto.Name,
             Email = updateUserDto.Email,
         };

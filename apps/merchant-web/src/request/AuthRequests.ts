@@ -8,5 +8,5 @@ export const validateUserToken = async (token: string) => {
       "Content-Type": "text/plain",
     },
   });
-  return response;
+  return response.data;
 };

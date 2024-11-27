@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Concretes;
+using Commons.ResponseHandler.Handler.Interfaces;
 using UserService.Api;
 using Microsoft.AspNetCore.Diagnostics;
 using UserService.Application;
@@ -25,6 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddApplication(builder.Configuration);
 
+builder.Services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
 
 string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
                      ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION");

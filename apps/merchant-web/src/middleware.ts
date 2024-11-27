@@ -56,8 +56,8 @@ export async function middleware(request: NextRequest) {
       response.cookies.delete("auth-token");
       return response;
     }
-
-    const userData: UserData = await response.json();
+    const responseData = await response.json();
+    const userData: UserData = responseData.data;
 
     if (!(userData.userType in ROUTE_PERMISSIONS)) {
       throw new Error("Invalid user type");
