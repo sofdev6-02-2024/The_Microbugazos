@@ -14,14 +14,16 @@ namespace UserService.Api.Controllers;
 [Route("api/users/[controller]")]
 public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
-    private readonly IMapper _mapper = mapper;
 
     [HttpPost("signup")]
-    public async Task<ActionResult<UserDto>> SignUp(UserRegisterCommand userRegisterCommand)
+    public async Task<ActionResult> SignUp([FromBody] RegisterUserDto request)
     {
-        User user = await _mediator.Send(userRegisterCommand);
-        return Ok(_mapper.Map<UserDto>(user));
+        var user = await mediator.Send(new UserRegisterCommand(request));
+        if (user is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<Guid>)user;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpGet("token")]
@@ -30,10 +32,9 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
         var authHeader = Request.Headers.Authorization.ToString();
 
         if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
-        {
-            return await Task.FromResult<ActionResult<UserDto?>>(Unauthorized());
-        }
-        var user = await _mediator.Send(new GetUserByTokenQuery(authHeader));
+            return Unauthorized();
+        
+        var user = await mediator.Send(new GetUserByTokenQuery(authHeader));
         if (user is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
 
@@ -42,27 +43,30 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
     }
     
     [HttpPut]
-    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
+    public async Task<ActionResult<UserDto?>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
     {
         var authHeader = Request.Headers.Authorization.ToString();
-        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
-        {
-            return Unauthorized();
-        }
 
-        var currentUser = await _mediator.Send(new GetUserByTokenQuery(authHeader));
-        if (currentUser == null)
-        {
-            return NotFound();
-        }
+        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            return Unauthorized();
+
+        var userResponse = await mediator.Send(new GetUserByTokenQuery(authHeader));
+        if (userResponse is ErrorResponse userError)
+            return StatusCode(userError.StatusCode, userError);
+
+        var currentUser = ((SuccessResponse<UserDto>)userResponse!).Data;
 
         var updateUserCommand = new UpdateUserCommand
         {
+            Id = currentUser!.Id,
             Name = updateUserDto.Name,
-            Email = updateUserDto.Email,
+            Email = updateUserDto.Email
         };
+        var updateResponse = await mediator.Send(updateUserCommand);
+        if (updateResponse is ErrorResponse updateError)
+            return StatusCode(updateError.StatusCode, updateError);
 
-        var updatedUser = await _mediator.Send(updateUserCommand);
-        return Ok(_mapper.Map<UserDto>(updatedUser));
+        var successResponse = (SuccessResponse<UserDto>)updateResponse;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 }

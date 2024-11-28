@@ -25,28 +25,25 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     }
 
     [HttpPost]
-
-    public async Task<ActionResult<Guid>> CreateStore([FromBody] StoreDto storeDto)
+    public async Task<ActionResult> CreateStore([FromBody] StoreDto storeDto)
     {
-        var validation = validator.Validate(storeDto);
-        if (validation.IsValid == false)
-        {
-            return BadRequest(validation.Errors);
-        }
-        var newId = await mediator.Send(new CreateStoreCommand(storeDto));
-        return Ok(newId);
+        var result = await mediator.Send(new CreateStoreCommand(storeDto));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<Guid>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<StoreDto>> UpdateStore([FromRoute] Guid id, [FromBody] StoreDto storeDto)
+    public async Task<ActionResult> UpdateStore([FromRoute] Guid id, [FromBody] StoreDto storeDto)
     {
-        var validation = validator.Validate(storeDto);
-        if (validation.IsValid == false)
-        {
-            return BadRequest(validation.Errors);
-        }
         var updatedStore = await mediator.Send(new UpdateStoreCommand(id, storeDto));
-        return Ok(updatedStore);
+        if (updatedStore is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<StoreDto>)updatedStore;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpGet("user/{id}")]
@@ -63,25 +60,12 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     [HttpPost("{storeId}/sellers")]
     public async Task<IActionResult> AddSeller(Guid storeId, [FromBody] string sellerEmail)
     {
-        try
-        {
-            var command = new AddStoreSellersCommand(storeId, null, sellerEmail);
-
-            var result = await mediator.Send(command);
-            return Ok(result);
-        }
-        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists"))
-        {
-            return Conflict(new { message = ex.Message });
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        var result = await mediator.Send(new AddStoreSellersCommand(new AddStoreSellersDto(storeId, sellerEmail)));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<Guid>)result;
+        return StatusCode(successResponse.StatusCode, successResponse); 
     }
 
     [HttpGet("{id}/sellers")]
@@ -104,17 +88,14 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
     }
     
     [HttpDelete("{id}/sellers/")]
-    public async Task<ActionResult<bool>> DeleteSellers([FromRoute] Guid id, [FromBody] Guid sellerId)
+    public async Task<ActionResult> DeleteSellers([FromRoute] Guid id, [FromBody] Guid sellerId)
     {
-        try
-        {
-            var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellerId));
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellerId));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
     
     [HttpGet("seller/{id}")]
