@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Concretes;
+using Commons.ResponseHandler.Handler.Interfaces;
 using UserService.Application.Profiles;
 using UserService.Application.Services.Auth.Concretes;
 using UserService.Application.Services.Auth.Interfaces;
@@ -12,6 +14,8 @@ using UserService.Application.Dtos.Stores;
 using UserService.Application.Dtos.Users;
 using UserService.Application.Validators.Stores;
 using UserService.Application.Validators.Users;
+using UserService.Application.Validators.ContactUsMessages;
+using UserService.Application.Validators.Stores;
 
 namespace UserService.Application
 {
@@ -31,15 +35,22 @@ namespace UserService.Application
                     Credential = GoogleCredential.FromJson(firebaseCredentials)
                 }
             );
+            
+            services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
+            
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IContactUsMessageRepository, ContactUsMessagesRepository>();
             services.AddSingleton<IJwtDecoder, JwtDecoder>();
             //validators
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
             services.AddScoped<IValidator<UpdateUserDto>, UpdateUserDtoValidator>();
             services.AddScoped<IValidator<StoreDto>, StoreDtoValidator>();
+            
+            services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
+            services.AddValidatorsFromAssemblyContaining<CreateContactUsMessageValidator>(); 
         }
     }
 }

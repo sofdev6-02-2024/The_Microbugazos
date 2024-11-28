@@ -1,0 +1,18 @@
+.contact-us form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-us button[type='submit'] {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #3970D7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-us button[type='submit']:hover {
+  background-color: #3970D7;
+}

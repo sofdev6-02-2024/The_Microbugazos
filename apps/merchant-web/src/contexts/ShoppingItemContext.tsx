@@ -6,14 +6,15 @@ import {
   useMemo,
   useState,
 } from "react";
-import Product from "../entities/concretes/Product";
+import Product from "@/commons/entities/concretes/Product";
 import {
   ShoppingItemAttribute,
   ShoppingItemSelectedAttribute,
-} from "../entities/ShoppingItemAttribute";
+} from "@/commons/entities/ShoppingItemAttribute";
 import { UUID } from "crypto";
 import axiosInstance from "@/request/AxiosConfig";
-import ShoppingCartItem from "../entities/ShoppingCartItem";
+import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
+import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
 
 interface Types {
   product: Product | undefined;
@@ -33,15 +34,17 @@ interface Types {
   createProduct: () => ShoppingCartItem | null;
   stock: number;
   priceAdjustment: number;
+  selectedAttributes: Array<ShoppingItemSelectedAttribute>;
+  getDefaultSelectedAttributes: () => void;
 }
 interface Props {
   children: ReactNode;
-  currentProduct: Product;
+  currentIdProduct: UUID;
 }
 
 const ShoppingItemContext = createContext<Types | undefined>(undefined);
 
-export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
+export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const [attributes, setAttributes] = useState<Array<ShoppingItemAttribute>>(
@@ -55,6 +58,13 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const [priceAdjustment, setPriceAdjustment] = useState(0);
   const [stock, setStock] = useState(0);
   const [image, setImage] = useState("");
+
+  const getProduct = async () => {
+    const response = await axiosInstance.get(
+      `/inventory/Product/${currentIdProduct}`
+    );
+    setProduct(response.data.data);
+  };
 
   const getVariants = () => {
     if (product?.productVariants) {
@@ -155,7 +165,12 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       setPriceAdjustment(0);
       setStock(0);
       if (product) {
-        setImage(product.images[0].url);
+        if (product.images.length > 0) {
+          const image = product.images[0].url;
+          setImage(image);
+        } else {
+          setImage(defaultImage.src);
+        }
       }
     }
   };
@@ -165,7 +180,7 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
     setQuantity(1);
     if (product && variantId) {
       const shoppingItem = new ShoppingCartItem(
-        product.productId,
+        product.id,
         image,
         product.name,
         quantityAux,
@@ -173,7 +188,8 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
         price,
         selectedAttributes,
         variantId,
-        product.productId
+        product.id,
+        stock
       );
       return shoppingItem;
     } else {
@@ -184,11 +200,24 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
   const changeNewPrice = () => {
     const newPrice = ((product?.price ?? 1) + priceAdjustment) * quantity;
     setPrice(parseFloat(newPrice.toFixed(2)));
-  }
+  };
+
+  const getDefaultSelectedAttributes = () => {
+    if (product) {
+      if (product.productVariants.length > 0 && attributes.length > 0) {
+        const firstVariant = product.productVariants[0];
+        const defaultAttributes = firstVariant.attributes.map((attr) => ({
+          name: attr.name,
+          value: attr.value,
+        }));
+        setSelectedAttributes(defaultAttributes);
+      }
+    }
+  };
 
   useEffect(() => {
-    setProduct(currentProduct);
-  }, [currentProduct]);
+    getProduct();
+  }, [currentIdProduct]);
 
   useEffect(() => {
     setPrice(product?.price ?? 0);
@@ -220,7 +249,9 @@ export const ShoppingItemProvider = ({ children, currentProduct }: Props) => {
       variantId,
       createProduct,
       stock,
-      priceAdjustment
+      priceAdjustment,
+      selectedAttributes,
+      getDefaultSelectedAttributes
     };
   }, [product, attributes, price, quantity, stock]);
 

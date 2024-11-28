@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ShoppingCartButton } from "./shoppingCartButton";
 import { ShoppingCartList } from "./shoppingCartList";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 
 export function ShoppingCart() {
   const { products, initializeShoppingCart } = useShoppingCart();

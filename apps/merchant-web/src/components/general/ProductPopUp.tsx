@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { ProductAttributeSelect } from "./ProductAttributeSelect";
 import { QuantityPicker } from "../quantityPicker";
 import { AddToCart } from "./AddToCart";
-import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import { useShoppingItem } from "@/contexts/ShoppingItemContext";
 import "@/styles/general/ProductPopUp.css";
-import { useShoppingCart } from "@/commons/context/ShoppingCartContext";
+import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 
 export const ProductPopUp = () => {
   const {
@@ -66,11 +66,10 @@ export const ProductPopUp = () => {
                 decrease={decreaseQuantity}
               />
             ) : (
-              <p className="no-stock">No stock</p>
+              <p className="no-stock">Variant not available</p>
             )}
             {stock > 0 && (
               <AddToCart
-                product={product}
                 action={() => addProductToCart(createProduct())}
               />
             )}

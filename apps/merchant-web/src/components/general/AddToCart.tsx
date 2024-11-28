@@ -1,15 +1,13 @@
 import { MdAddShoppingCart } from "react-icons/md";
-import Product from "@/commons/entities/concretes/Product"
 import '@/styles/general/AddToCart.css'
 
 interface Props {
-  product: Product;
-  action: (product: Product) => void;
+  action: () => void;
 }
 
-export const AddToCart = ({product, action}: Props) => {
+export const AddToCart = ({action}: Props) => {
   return (
-    <button className="add-to-cart-button" onClick={() => action(product)}>
+    <button className="add-to-cart-button" onClick={action}>
       <MdAddShoppingCart />
       Add to cart
     </button>

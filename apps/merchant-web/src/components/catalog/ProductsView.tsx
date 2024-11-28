@@ -79,7 +79,7 @@ export default function ProductsView({ id }: Readonly<Props>) {
         >
           {products.map((product) => (
             <ProductCard
-              key={product.productId}
+              key={product.id}
               product={product}
               type={context.isGridView ? ListType.Card : ListType.List}
             />
