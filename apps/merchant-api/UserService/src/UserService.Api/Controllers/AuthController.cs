@@ -1,9 +1,9 @@
 
 using AutoMapper;
+using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Concretes;
 using UserService.Application.Dtos.Users;
 using UserService.Application.Handlers.Auth.Request.Commands;
-using UserService.Domain.Entities.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.Handlers.Auth.Request.Queries;
@@ -12,7 +12,7 @@ namespace UserService.Api.Controllers;
 
 [ApiController]
 [Route("api/users/[controller]")]
-public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
+public class AuthController(IMediator mediator) : ControllerBase
 {
 
     [HttpPost("signup")]
@@ -53,16 +53,8 @@ public class AuthController(IMediator mediator, IMapper mapper) : ControllerBase
         var userResponse = await mediator.Send(new GetUserByTokenQuery(authHeader));
         if (userResponse is ErrorResponse userError)
             return StatusCode(userError.StatusCode, userError);
-
-        var currentUser = ((SuccessResponse<UserDto>)userResponse!).Data;
-
-        var updateUserCommand = new UpdateUserCommand
-        {
-            Id = currentUser!.Id,
-            Name = updateUserDto.Name,
-            Email = updateUserDto.Email
-        };
-        var updateResponse = await mediator.Send(updateUserCommand);
+     
+        var updateResponse = await mediator.Send(new UpdateUserCommand(updateUserDto));
         if (updateResponse is ErrorResponse updateError)
             return StatusCode(updateError.StatusCode, updateError);
 

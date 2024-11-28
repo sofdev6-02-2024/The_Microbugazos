@@ -1,11 +1,10 @@
 using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
+using UserService.Application.Dtos.Users;
 
 namespace UserService.Application.Handlers.Auth.Request.Commands;
 
-public class UpdateUserCommand : IRequest<BaseResponse>
+public class UpdateUserCommand (UpdateUserDto updateUserDto) : IRequest<BaseResponse>
 {
-    public Guid Id { get; set; }
-    public string? Name { get; set; }
-    public string? Email { get; set; }
+    public UpdateUserDto UpdateUserDto { get; set; } = updateUserDto;
 }

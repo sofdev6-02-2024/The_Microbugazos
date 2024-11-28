@@ -6,8 +6,9 @@ export class ProfileAPI {
     static async updateBackendProfile(token: string, data: BackendProfileData): Promise<void> {
         try {
             const response = await axiosInstance.put('/users/Auth', {
-                name: data.Name,
-                email: data.Email
+                Id: data.Id,
+                Name: data.Name,
+                Email: data.Email
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -19,8 +20,8 @@ export class ProfileAPI {
                 throw new Error('Failed to update profile in backend');
             }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.data?.message) {
-                throw new Error(error.response.data.message);
+            if (axios.isAxiosError(error) && error.response?.data?.errors) {
+                throw new Error(error.response.data.errors);
             }
             throw new Error('Failed to update profile in backend');
         }

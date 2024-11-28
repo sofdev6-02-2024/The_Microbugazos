@@ -3,13 +3,15 @@ using UserService.Application.Services.Auth.Concretes;
 using UserService.Application.Services.Auth.Interfaces;
 using UserService.Infrastructure.Repositories.Concretes;
 using UserService.Infrastructure.Repositories.Interfaces;
-using DotNetEnv;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using UserService.Application.Validators;
 using FluentValidation;
+using UserService.Application.Dtos.Stores;
+using UserService.Application.Dtos.Users;
+using UserService.Application.Validators.Stores;
+using UserService.Application.Validators.Users;
 
 namespace UserService.Application
 {
@@ -34,7 +36,10 @@ namespace UserService.Application
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IJwtDecoder, JwtDecoder>();
-            services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
+            //validators
+            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
+            services.AddScoped<IValidator<UpdateUserDto>, UpdateUserDtoValidator>();
+            services.AddScoped<IValidator<StoreDto>, StoreDtoValidator>();
         }
     }
 }
