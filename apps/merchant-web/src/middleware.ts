@@ -28,7 +28,8 @@ export async function middleware(request: NextRequest) {
     "/products/*",
     "/product-details/*",
     "/catalog/*",
-    "/shopping-cart"
+    "/shopping-cart",
+    "/contact-us",
   ];  
 
   if (publicRoutes.some((route) => matchPath(currentPath, route))) {
