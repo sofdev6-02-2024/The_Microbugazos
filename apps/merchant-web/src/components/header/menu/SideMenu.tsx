@@ -1,12 +1,11 @@
 "use client";
 
-import cartData from "@/shopping-cart-format-example.json";
 import React, { useEffect, useRef } from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
-import { handleSubmitCart } from "@/services/checkoutService";
 import { LuHome } from "react-icons/lu";
 import { MdStorefront } from "react-icons/md";
+import { GrContact, GrCatalog } from "react-icons/gr";
 import useAuth from "@/commons/hooks/useAuth";
 import { UserType } from "@/types/auth";
 
@@ -41,7 +40,10 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       className={`side-menu side-menu-overlay ${isOpen ? "show" : ""}`}
       ref={menuRef}
     >
-      <Option icon={LuHome} text={"Home"} />
+      <Option
+        icon={LuHome}
+        text={"Home"}
+      />
 
       <p className="subtitle">From Merchant</p>
       <Option
@@ -52,15 +54,17 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       />
 
       <Option
-        icon={MdStorefront}
-        text={"Go to Checkout"}
-        onClick={() => handleSubmitCart(cartData)}
-      />
-      <Option
-        icon={MdStorefront}
+        icon={GrCatalog}
         text={"Store Catalog"}
         completeRoute
         route={"catalog/e9882e57-4b87-45de-8153-260653751e5b"}
+      />
+
+      <Option
+        icon={GrContact}
+        text={"Contact Us"}
+        completeRoute
+        route="contact-us"
       />
     </div>
   );
