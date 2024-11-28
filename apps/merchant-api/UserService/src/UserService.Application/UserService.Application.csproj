@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
     <ProjectReference Include="..\UserService.Infrastructure\UserService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DotNetEnv">

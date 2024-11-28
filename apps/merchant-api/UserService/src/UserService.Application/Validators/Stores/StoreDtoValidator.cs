@@ -1,7 +1,7 @@
 using FluentValidation;
 using UserService.Application.Dtos.Stores;
 
-namespace UserService.Application.Validators;
+namespace UserService.Application.Validators.Stores;
 public class StoreDtoValidator : AbstractValidator<StoreDto>
 {
     public StoreDtoValidator()
