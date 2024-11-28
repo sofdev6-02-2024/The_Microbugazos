@@ -12,7 +12,6 @@ public class MessageConsumer : IMessageConsumer
     private readonly IModel _channel;
     private const int MaxRetryAttempts = 3;
     private const string RetryHeader = "x-retry-count";
-    private string _retryExchangeName = "retry-exchange";
 
     public MessageConsumer(IConnection connection)
     {
@@ -20,9 +19,8 @@ public class MessageConsumer : IMessageConsumer
         _channel = _connection.CreateModel();
     }
 
-    public Task StartAsync<T>(string queueName, Action<T> onMessageReceived, string retryExchangeName = "email.notifications.retry")
+    public Task StartAsync<T>(string queueName, Action<T> onMessageReceived)
     {
-        _retryExchangeName = retryExchangeName;
 
         var consumer = new EventingBasicConsumer(_channel);
 
@@ -85,23 +83,8 @@ public class MessageConsumer : IMessageConsumer
         else
         {
             Console.WriteLine($"Retry attempt {retryCount} for message.");
-            SendToRetryQueue(args.Body.ToArray(), args.BasicProperties, retryCount, queueName);
-            _channel.BasicAck(deliveryTag: args.DeliveryTag, multiple: false);
+            _channel.BasicNack(deliveryTag: args.DeliveryTag, multiple: false, requeue: true);
         }
-    }
-    private void SendToRetryQueue(byte[] body, IBasicProperties properties, int retryCount, string queueName)
-    {
-        var retryQueue = $"{queueName}.retry";
-
-        var newProperties = _channel.CreateBasicProperties();
-        newProperties.Headers = properties.Headers ?? new Dictionary<string, object>();
-        newProperties.Headers[RetryHeader] = retryCount;
-
-        _channel.BasicPublish(
-            exchange: _retryExchangeName,
-            routingKey: retryQueue,
-            basicProperties: newProperties,
-            body: body);
     }
 
 
