@@ -1,0 +1,40 @@
+.sc-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px 150px 50px;
+  gap: 100px;
+}
+
+.title {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.text-container-contact {
+  width: 400px;
+  border-radius: 4px;
+}
+
+.sc-container img {
+  max-width: 100%;
+  padding-bottom: 30px
+}
+
+@media (max-width: 1215px) {
+  .sc-container img {
+    max-width: 50%;
+    padding-bottom: 30px
+  }
+}
+
+@media (max-width: 1000px) {
+  .sc-container {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0 50px;
+  }
+}
+
