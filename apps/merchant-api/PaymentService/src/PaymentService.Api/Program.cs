@@ -22,6 +22,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
+builder.Services.AddQueueHandlers();
 builder.Services.AddHttpClient();
 
 var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? 

@@ -5,6 +5,7 @@ COPY UserService/src/UserService.Api/UserService.Api.csproj UserService/src/User
 COPY UserService/src/UserService.Application/UserService.Application.csproj UserService/src/UserService.Application/
 COPY UserService/src/UserService.Infrastructure/UserService.Infrastructure.csproj UserService/src/UserService.Infrastructure/
 COPY UserService/src/UserService.Domain/UserService.Domain.csproj UserService/src/UserService.Domain/
+COPY NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj NotificationService/src/NotificationService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
 
 WORKDIR /app/UserService/src/UserService.Api
@@ -14,6 +15,7 @@ COPY UserService/src/UserService.Api/. .
 COPY UserService/src/UserService.Application/. ../UserService.Application/
 COPY UserService/src/UserService.Infrastructure/. ../UserService.Infrastructure/
 COPY UserService/src/UserService.Domain/. ../UserService.Domain/
+COPY NotificationService/src/NotificationService.Domain/. /app/NotificationService/src/NotificationService.Domain/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
 
 RUN dotnet publish -c Release -o /app/out

@@ -1,20 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using NotificationService.Application.Services.Templates;
 using NotificationService.Domain.Dtos.Emails;
-using NotificationService.Infraestructure.EmailService;
+using RabbitMqMessaging.Services.Interfaces;
 
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
-    [Route("api/recommendations")]
-    public class ProductRecommendationEmailController : ControllerBase
+    [Route("api/notification/recommendations")]
+    public class ProductRecommendationEmailController(IMessageProducer producer) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Send([FromBody] ProductRecommendationEmail productRecommendationEmail)
+        public ActionResult Send([FromBody] ProductRecommendationEmail productRecommendationEmail)
         {
-            EmailTemplateService<ProductRecommendationEmail> service = new ProductRecommendationEmailTemplateService();
-            var emailService = new EmailService<ProductRecommendationEmail>(service);
-            await emailService.Send(productRecommendationEmail.Contact.ContactEmail, "Product recommendation", productRecommendationEmail);
+            producer.PublishToDirectExchange("email.notifications", "marketing.recommendation", productRecommendationEmail);
             return Ok();
         }
     }

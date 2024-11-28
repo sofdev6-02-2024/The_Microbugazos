@@ -6,7 +6,7 @@ using NotificationService.Infraestructure.EmailService;
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
-    [Route("api/order/returned")]
+    [Route("api/notification/order/returned")]
     public class ReturnedEmailController : ControllerBase
     {
         [HttpPost]

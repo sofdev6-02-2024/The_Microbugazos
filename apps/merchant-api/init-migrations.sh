@@ -57,4 +57,10 @@ echo "Applying migration and updating database for UserService..."
 execute_with_retry "dotnet ef migrations add $INITIAL_MIGRATION_NAME --project $USER_PROJECT"
 execute_with_retry "dotnet ef database update --project $USER_PROJECT"
 
+
+# Run migrations and database update for PaymentService
+echo "Applying migration and updating database for PaymentService..."
+execute_with_retry "dotnet ef migrations add $INITIAL_MIGRATION_NAME --project $PAYMENT_PROJECT""
+execute_with_retry "dotnet ef database update --project $PAYMENT_PROJECT"
+
 echo "All migrations applied and databases updated."
