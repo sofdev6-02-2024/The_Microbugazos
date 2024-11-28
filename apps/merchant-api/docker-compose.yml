@@ -38,9 +38,9 @@ services:
       - ${RABBITMQ_PORT}:5672
       - ${RABBITMQ_WEB_PORT}:15672
     volumes:
-      - ./config/rabbitmq:/var/lib/rabbitmq:rw
-      - ./config/rabbitmq/definitions.json:/opt/definitions.json:ro
-      - ./config/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./config/rabbitmqdata/definitions.json:/opt/definitions.json:ro
+      - ./config/rabbitmqdata/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
 
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
