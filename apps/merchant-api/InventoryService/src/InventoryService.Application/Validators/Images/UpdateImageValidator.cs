@@ -11,7 +11,7 @@ public class UpdateImageValidator : AbstractValidator<UpdateImageDto>
     {
         var imageSettings = validationSettings.Value.Image;
         
-        RuleFor(i => i.ImageId)
+        RuleFor(i => i.Id)
             .NotNull().WithMessage("Image ID cannot be null.")
             .NotEmpty().WithMessage("Image ID is required.");
         
