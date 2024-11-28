@@ -2,53 +2,43 @@
 
 import React from "react";
 import { FormikProps, useFormik } from "formik";
-import * as Yup from "yup";
 import { toast } from "sonner";
 import { EditableInput } from "@/components/atoms/inputs/EditableInput";
 import { ContactFormData } from "@/schemes/contact-us-form/ContactUsDto";
 import styles from "@/styles/contact-us/ContactUsForm.module.css"
 import {createContactUsMessage} from "@/request/ContactUsMessageRequest";
+import {ContactFormSchema, defaultContactData} from "@/schemes/contact-us-form/ContactFormSchema";
+import { z } from "zod";
 
-const defaultContactData: ContactFormData = {
-  name: "",
-  email: "",
-  message: "",
-  reloadable: false,
+const validateWithZod = (schema: z.ZodSchema) => (values: any) => {
+  try {
+    schema.parse(values);
+    return {};
+  } catch (error) {
+    const zodErrors = (error as z.ZodError).flatten();
+    return zodErrors.fieldErrors;
+  }
 };
-
-const ContactFormSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(5, "Name should be at least 5 characters")
-    .max(100, "Name should not exceed 100 characters")
-    .required("Name is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  message: Yup.string()
-    .min(10, "Message should be at least 10 characters")
-    .max(500, "Message should not exceed 500 characters")
-    .required("Message is required"),
-});
 
 const ContactForm: React.FC = () => {
   const formik: FormikProps<ContactFormData> = useFormik<ContactFormData>({
     initialValues: defaultContactData,
-    validationSchema: ContactFormSchema,
+    validate: validateWithZod(ContactFormSchema),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const response = await createContactUsMessage(values);
-        console.log(response != null);
         if (response != null) {
-          toast.success('Your request has been sent. It will be analyzed and you will receive a reply to the e-mail address you provided.');
+          toast.success(
+            "Your request has been sent. It will be analyzed and you will receive a reply to the e-mail address you provided."
+          );
           resetForm();
         } else {
-          toast.error('Error submitting the form. Please try again.');
+          toast.error("Error submitting the form. Please try again.");
         }
       } catch (error) {
-        console.error('Error:', error);
-        toast.error('Error submitting the form. Please try again.');
-      }
-      finally {
+        console.error("Error:", error);
+        toast.error("Error submitting the form. Please try again.");
+      } finally {
         setSubmitting(false);
       }
     },
@@ -61,9 +51,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className={styles["contact-us"]}>
-      <form
-        onSubmit={formik.handleSubmit}
-      >
+      <form onSubmit={formik.handleSubmit}>
         <EditableInput
           type="text"
           value={formik.values.name}
@@ -112,7 +100,7 @@ const ContactForm: React.FC = () => {
           type="submit"
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {formik.isSubmitting ? 'Sending...' : 'Submit'}
+          {formik.isSubmitting ? "Sending..." : "Submit"}
         </button>
       </form>
     </div>
