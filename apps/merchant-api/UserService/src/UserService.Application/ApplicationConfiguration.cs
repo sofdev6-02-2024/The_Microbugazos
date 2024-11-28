@@ -10,12 +10,12 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using FluentValidation;
+using UserService.Application.Dtos.ContactUsMessages;
 using UserService.Application.Dtos.Stores;
 using UserService.Application.Dtos.Users;
 using UserService.Application.Validators.Stores;
 using UserService.Application.Validators.Users;
 using UserService.Application.Validators.ContactUsMessages;
-using UserService.Application.Validators.Stores;
 
 namespace UserService.Application
 {
@@ -48,9 +48,7 @@ namespace UserService.Application
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
             services.AddScoped<IValidator<UpdateUserDto>, UpdateUserDtoValidator>();
             services.AddScoped<IValidator<StoreDto>, StoreDtoValidator>();
-            
-            services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
-            services.AddValidatorsFromAssemblyContaining<CreateContactUsMessageValidator>(); 
+            services.AddScoped<IValidator<CreateContactUsMessageDto>, CreateContactUsMessageValidator>();
         }
     }
 }

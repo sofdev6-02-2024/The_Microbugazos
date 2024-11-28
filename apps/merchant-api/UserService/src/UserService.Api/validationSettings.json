@@ -16,5 +16,11 @@
     "PhoneNumberMinLength": 3,
     "PhoneNumberMaxLength": 30,
     "PhoneNumberRegex": "^\\+?[0-9\\s-]*$"
+  },
+  "ContactUs": {
+    "NameMinLength": 5,
+    "NameMaxLength": 100,
+    "MessageMinLength": 10,
+    "MessageMaxLength": 500
   }
 }
