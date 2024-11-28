@@ -8,28 +8,35 @@ namespace UserService.Infrastructure.Repositories.Abstract;
 public abstract class BaseRepository<T>(DbContext context) : ICrudRepository<T>
     where T : BaseEntity
 {
-
     protected readonly DbContext Context = context;
-
-    public virtual Task<T> AddAsync(T entity)
+    protected readonly DbSet<T> DbSet = context.Set<T>();
+ 
+    public virtual async Task<T> AddAsync(T entity)
     {
-        Context.Set<T>().Add(entity);
-        Context.SaveChanges();
-
-        return Task.FromResult(entity);
+        await DbSet.AddAsync(entity);
+        await Context.SaveChangesAsync();
+        return entity;
     }
-
-    public async Task<bool> DeleteAsync(Guid id)
+    
+    public virtual async Task<T> UpdateAsync(T entity)
+    {
+        entity.UpdatedAt = DateTime.UtcNow;
+        DbSet.Update(entity);
+        await Context.SaveChangesAsync();
+        return entity;
+    }
+    
+    public virtual async Task<bool> DeleteAsync(Guid id)
     {
         var entity = await GetByIdAsync(id);
-        if (entity != null)
-        {
-            entity.IsActive = false;
-            await UpdateAsync(entity);
-            Context.SaveChanges();
-        }
+        if (entity == null) return false;
+
+        entity.DeletedAt = DateTime.UtcNow;
+        entity.IsActive = false;
+        await Context.SaveChangesAsync();
         return true;
     }
+    
     public virtual async Task<IEnumerable<T>> GetAllAsync(int page, int limit)
     {
         return await Context.Set<T>()
@@ -37,23 +44,18 @@ public abstract class BaseRepository<T>(DbContext context) : ICrudRepository<T>
             .Take(limit)
             .ToListAsync();
     }
-
-
+    
+    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await DbSet.Where(e => e.IsActive).ToListAsync();
+    }
+    
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
         var entity = await Context.Set<T>().FindAsync(id);
         return entity;
     }
-
-    public virtual Task<T> UpdateAsync(T entity)
-    {
-        entity.UpdatedAt = DateTime.UtcNow;
-        Context.Set<T>().Update(entity);
-        Context.SaveChanges();
-        return Task.FromResult(entity);
-    }
-
-
+    
     public async Task<int> GetCountAsync()
     {
         return await Context.Set<T>().CountAsync();
