@@ -6,9 +6,10 @@ import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import React, { useEffect } from "react";
 
 export default function FailedPaymentPage() {
-  const { clearShoppingCart } = useShoppingCart();
+  const { clearShoppingCart, handleSuccessPayment } = useShoppingCart();
 
   useEffect(() => {
+    handleSuccessPayment();
     clearShoppingCart();
   }, []);
 

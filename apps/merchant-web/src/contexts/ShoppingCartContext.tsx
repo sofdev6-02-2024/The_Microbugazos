@@ -12,6 +12,8 @@ import { CartData } from "@/schemes/shopping-cart/CartDataDto";
 import useAuth from "@/commons/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import VariantStock from "@/commons/entities/VariantStock";
+import axiosInstance from "@/request/AxiosConfig";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -23,6 +25,7 @@ interface Types {
   changeQuantity: (id: string, quantity: number) => void;
   handleStripe: () => void;
   clearShoppingCart: () => void;
+  handleSuccessPayment: () => void;
 }
 
 interface Props {
@@ -43,13 +46,13 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           (product) => product.id === newProduct.id
         );
         if (existingProduct) {
-          toast.info('This product has already been added', {
-            id: `info-${newProduct.id}`
+          toast.info("This product has already been added", {
+            id: `info-${newProduct.id}`,
           });
           return prevProducts;
         } else {
-          toast.success('Product added to cart', {
-            id: `success-${newProduct.id}`
+          toast.success("Product added to cart", {
+            id: `success-${newProduct.id}`,
           });
           return [...prevProducts, newProduct];
         }
@@ -60,7 +63,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const deleteProductToCart = (id: string) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
-    toast.error('Product deleted');
+    toast.error("Product deleted");
   };
 
   const updateLocalStorage = () => {
@@ -84,7 +87,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
+
   const decreaseQuantityProduct = (id: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -94,7 +97,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
+
   const changeQuantity = (id: string, quantity: number) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -104,12 +107,17 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
 
   const handleStripe = () => {
     if (!user) {
       router.push("/login");
-      toast.error('Please log in to your account')
+      toast.error("Please log in to your account");
+      return;
+    }
+
+    if (products.length <= 0) {
+      router.push("/");
+      toast.error("No products in the cart");
       return;
     }
 
@@ -131,9 +139,29 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     }
   };
 
+  const handleSuccessPayment = async () => {
+    const shoppingCartItems = localStorage.getItem("shoppingCartItems");
+
+    if (shoppingCartItems) {
+      const shoppingCartData: Array<ShoppingCartItem> =
+        JSON.parse(shoppingCartItems);
+      if (shoppingCartData.length > 0) {
+        const variantsToReduce: Array<VariantStock> = shoppingCartData.map(
+          (item) => {
+            return new VariantStock(item.productVariantId, item.quantity);
+          }
+        );
+  
+        await axiosInstance.patch("/inventory/ProductVariant/stocks/reduce", {
+          VariantsStock: variantsToReduce,
+        });
+      }
+    }
+  };
+
   const clearShoppingCart = () => {
     setProducts([]);
-  }
+  };
 
   useEffect(() => {
     updateLocalStorage();
@@ -149,7 +177,8 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       decreaseQuantityProduct,
       changeQuantity,
       handleStripe,
-      clearShoppingCart
+      clearShoppingCart,
+      handleSuccessPayment,
     };
   }, [products]);
 
