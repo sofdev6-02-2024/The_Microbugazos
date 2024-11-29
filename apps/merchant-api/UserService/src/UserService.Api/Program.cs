@@ -1,9 +1,13 @@
+using Commons.ResponseHandler.Handler.Concretes;
+using Commons.ResponseHandler.Handler.Interfaces;
 using UserService.Api;
 using Microsoft.AspNetCore.Diagnostics;
 using UserService.Application;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using UserService.Infrastructure.Context;
+using UserService.Application.ValidatorSettings;
+using PaymentService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +28,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddQueueHandlers();
 
+builder.Services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
+
+// configurations
+builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
+builder.Services.Configure<ValidationSettings>(builder.Configuration);
 
 string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
                      ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION");

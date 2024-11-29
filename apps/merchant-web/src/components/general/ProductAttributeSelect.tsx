@@ -1,5 +1,5 @@
 import { Select } from "./Select";
-import { useShoppingItem } from "@/commons/context/ShoppingItemContext";
+import { useShoppingItem } from "@/contexts/ShoppingItemContext";
 import "@/styles/general/ProductAttributeSelect.css";
 
 interface Props {

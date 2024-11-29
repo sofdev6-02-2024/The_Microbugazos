@@ -1,20 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using NotificationService.Application.Services.Templates;
 using NotificationService.Domain.Dtos.Emails;
-using NotificationService.Infraestructure.EmailService;
+using RabbitMqMessaging.Services.Interfaces;
 
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
-    [Route("api/low-stock")]
-    public class LowStockEmailController : ControllerBase
+    [Route("api/notification/low-stock")]
+    public class LowStockEmailController(IMessageProducer producer) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Send([FromBody] LowStockEmail lowStockEmail)
+        public ActionResult Send([FromBody] LowStockEmail lowStockEmail)
         {
-            EmailTemplateService<LowStockEmail> emailTemplateService = new LowStockEmailTemplaceService();
-            var emailService = new EmailService<LowStockEmail>(emailTemplateService);
-            await emailService.Send(lowStockEmail.Contact.ContactEmail, "Low stock", lowStockEmail);
+            producer.PublishToDirectExchange("email.notifications", "administrative.low_stock", lowStockEmail);
             return Ok();
         }
     }

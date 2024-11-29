@@ -5,7 +5,7 @@ import Image from "./Image";
 import ProductReview from "./ProductReview";
 
 export default class Product {
-  productId: UUID;
+  id: UUID;
   storeId: UUID;
   name: string;
   description: string;
@@ -17,7 +17,7 @@ export default class Product {
   productReviews: Array<ProductReview>;
 
   constructor(
-    productId: UUID,
+    id: UUID,
     storeId: UUID,
     name: string,
     description: string,
@@ -28,7 +28,7 @@ export default class Product {
     categories: Array<Category>,
     productReviews: Array<ProductReview>
   ) {
-    this.productId = productId;
+    this.id = id;
     this.storeId = storeId;
     this.name = name;
     this.description = description;

@@ -9,7 +9,7 @@ import Product from "@/commons/entities/concretes/Product";
 import { useModal } from "@/commons/context/ModalContext";
 import { ProductPopUp } from "./ProductPopUp";
 import Link from "next/link";
-import { ShoppingItemProvider } from "@/commons/context/ShoppingItemContext";
+import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
 import "@/styles/general/ProductCard.css";
 import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
 
@@ -24,27 +24,23 @@ export const ProductCard = ({ product, type }: Props) => {
 
   const handleProductClick = () => {
     open(
-      <ShoppingItemProvider currentProduct={product}>
+      <ShoppingItemProvider currentIdProduct={product.id}>
         <ProductPopUp />
       </ShoppingItemProvider>
     );
   };
 
-  useEffect(() => {
-    console.log(product);
-  }, [product]);
-
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images?.[0]?.url ?? defaultImage}
+        src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
         alt={
           product.images.length > 0 ? product.images[0].altText : "Some image"
         }
         className={`product-card-image ${type}`}
       />
       <Link
-        href={`/product-details/${product.productId}`}
+        href={`/product-details/${product.id}`}
         className="product-card-name"
       >
         {product.name}
@@ -58,9 +54,9 @@ export const ProductCard = ({ product, type }: Props) => {
         </p>
       </div>
       <div className="product-card-more-actions">
-        <AddToCart product={product} action={handleProductClick} />
+        <AddToCart action={handleProductClick} />
         <Like
-          productId={product.productId}
+          productId={product.id}
           isLiked={isLiked}
           toggleLike={() => setIsLiked(!isLiked)}
         />

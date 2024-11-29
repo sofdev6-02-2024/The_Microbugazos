@@ -1,9 +1,9 @@
+using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
-using UserService.Domain.Entities.Concretes;
 
 namespace UserService.Application.Handlers.Auth.Request.Queries
 {
-    public class GetUserByTokenQuery(string token) : IRequest<User?>
+    public class GetUserByTokenQuery(string token) : IRequest<BaseResponse?>
     {
         public string Token { get; set; } = token;
     }

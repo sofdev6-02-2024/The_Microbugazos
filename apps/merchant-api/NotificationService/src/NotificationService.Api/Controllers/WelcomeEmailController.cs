@@ -2,18 +2,18 @@ using Microsoft.AspNetCore.Mvc;
 using NotificationService.Application.Services.Templates;
 using NotificationService.Domain.Dtos.Emails;
 using NotificationService.Infraestructure.EmailService;
+using RabbitMqMessaging.Services.Interfaces;
 
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class WelcomeEmailController : ControllerBase
+    [Route("api/notification/[controller]")]
+    public class WelcomeEmailController(IMessageProducer producer) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Send([FromBody] WelcomeEmail welcomeEmail) {
-            EmailTemplateService<WelcomeEmail> service = new WelcomeEmailTemplateService();
-            var emailService = new EmailService<WelcomeEmail>(service);
-            await emailService.Send(welcomeEmail.Contact.ContactEmail, "Welcome", welcomeEmail);
+        public ActionResult Send([FromBody] WelcomeEmail welcomeEmail)
+        {
+            producer.PublishToDirectExchange("email.notifications", "merchant.welcome_email", welcomeEmail);
             return Ok();
         }
     }

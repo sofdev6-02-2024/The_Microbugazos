@@ -1,6 +1,7 @@
 namespace UserService.Application.Dtos.Stores;
 
-public class AddStoreSellersDto
+public class AddStoreSellersDto (Guid storeId, string email)
 {
-    public List<Guid> SellerIds { get; set; } = new();
+    public Guid StoreId { get; set; } = storeId;
+    public string? SellerEmail { get; set; } = email;
 }

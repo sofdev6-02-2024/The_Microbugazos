@@ -9,6 +9,7 @@ export interface UpdateProfileData {
 }
 
 export interface BackendProfileData {
+  Id?: string;
   Name?: string;
   Email?: string;
 }

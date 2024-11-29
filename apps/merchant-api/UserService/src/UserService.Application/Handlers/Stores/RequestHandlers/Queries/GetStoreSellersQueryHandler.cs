@@ -1,4 +1,6 @@
 using AutoMapper;
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
 using UserService.Application.Dtos.Stores;
 using UserService.Application.Handlers.Stores.Request.Queries;
@@ -9,16 +11,15 @@ namespace UserService.Application.Handlers.Stores.RequestHandlers.Queries;
 public class GetStoreSellersQueryHandler(
     IStoreRepository storeRepository,
     IUserRepository userRepository,
-    IMapper mapper)
-    : IRequestHandler<GetStoreSellersQuery, List<SellerDto>>
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<GetStoreSellersQuery, List<BaseResponse>>
 {
-    private readonly IMapper _mapper = mapper;
-
-    public async Task<List<SellerDto>> Handle(GetStoreSellersQuery request, CancellationToken cancellationToken)
+    public async Task<List<BaseResponse>> Handle(GetStoreSellersQuery request, CancellationToken cancellationToken)
     {
-        var store = await storeRepository.GetByIdAsync(request.StoreId)
-                    ?? throw new Exception("Store not found");
-
+        var store = await storeRepository.GetByIdAsync(request.StoreId);
+        if (store == null)
+            return [responseHandlingHelper.NotFound<SellerDto>("Store not found")];
+        
         var sellers = new List<SellerDto>();
         
         foreach (var sellerId in store.SellerIds)
@@ -35,7 +36,6 @@ public class GetStoreSellersQueryHandler(
                 });
             }
         }
-
-        return sellers;
+        return [responseHandlingHelper.Ok("The sellers for this store are: ", sellers)];
     }
 }
