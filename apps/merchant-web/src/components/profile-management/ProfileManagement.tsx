@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { ProfileForm } from "./ProfileForm";
 import { ProfileService } from "@/services/profileService";
 import { AuthService } from "@/services/authService";
+import {useAuth} from "@/commons/context/AuthContext";
 import { UpdateProfileData, ProfileErrors, UserBasicData } from "@/types/auth";
 import styles from "@/styles/profile/profile-form.module.css";
 import { Toaster, toast } from "sonner";
@@ -15,6 +16,7 @@ const TOAST_STYLES = {
 } as const;
 
 const ProfileManagement: React.FC = () => {
+    const { user } = useAuth();
     const [errors, setErrors] = useState<ProfileErrors>({});
     const [isLoading, setIsLoading] = useState(false);
     const [isEditable, setIsEditable] = useState(true);
@@ -60,7 +62,7 @@ const ProfileManagement: React.FC = () => {
         setErrors({});
 
         try {
-            const result = await ProfileService.updateUserProfile(data);
+            const result = await ProfileService.updateUserProfile(data, user?.userId);
             if (result.type === 'info') {
                 showToast('info', result.message, 6000);
                 if (data.newUsername) {

@@ -1,16 +1,20 @@
 using FluentValidation;
+using Microsoft.Extensions.Options;
 using UserService.Application.Dtos.ContactUsMessages;
+using UserService.Application.ValidatorSettings;
 
 namespace UserService.Application.Validators.ContactUsMessages;
 
 public class CreateContactUsMessageValidator : AbstractValidator<CreateContactUsMessageDto>
 {
-    public CreateContactUsMessageValidator()
+    public CreateContactUsMessageValidator(IOptions<ValidationSettings> validationSettings)
     {
+        var storeSettings = validationSettings.Value.ContactUs;
+
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Name is required.")
             .NotNull().WithMessage("Name cannot be null.")
-            .Length(5, 100)
+            .Length(storeSettings.NameMinLength, storeSettings.NameMaxLength)
             .WithMessage($"Name must be between 3 and 100 characters.");
 
         RuleFor(c => c.Email)
@@ -21,6 +25,7 @@ public class CreateContactUsMessageValidator : AbstractValidator<CreateContactUs
         RuleFor(c => c.Message)
             .NotEmpty().WithMessage("Message is required.")
             .NotNull().WithMessage("Message cannot be null.")
-            .Length(10, 500).WithMessage("Message must be between 10 and 500 characters.");
+            .Length(storeSettings.MessageMinLength, storeSettings.MessageMaxLength)
+            .WithMessage("Message must be between 10 and 500 characters.");
     }
 }

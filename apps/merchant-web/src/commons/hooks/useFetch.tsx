@@ -42,7 +42,7 @@ export function useFetch<T>(
         if (url.startsWith("/inventory")) {
           setData(response.data.data);
         }else{
-          setData(response.data);
+          setData(response.data.data);
         }
 
       } catch (error) {

@@ -1,0 +1,26 @@
+{
+  "User": {
+    "UserNameMinLength": 3,
+    "UserNameMaxLength": 50,
+    "EmailRegex": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+  },
+  "Store": {
+    "NameMinLength": 2,
+    "NameMaxLength": 30,
+    "NameRegex": "^[a-zA-Z0-9 ]*$",
+    "DescriptionMinLength": 10,
+    "DescriptionMaxLength": 300,
+    "AddressMinLength": 8,
+    "AddressMaxLength": 60,
+    "AddressRegex": "^[a-zA-Z0-9., -]+$",
+    "PhoneNumberMinLength": 3,
+    "PhoneNumberMaxLength": 30,
+    "PhoneNumberRegex": "^\\+?[0-9\\s-]*$"
+  },
+  "ContactUs": {
+    "NameMinLength": 5,
+    "NameMaxLength": 100,
+    "MessageMinLength": 10,
+    "MessageMaxLength": 500
+  }
+}
