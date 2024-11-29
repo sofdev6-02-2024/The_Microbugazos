@@ -14,7 +14,7 @@ namespace PaymentService.Application.QueryCommands.Orders.Queries.QueryHandlers;
 public class GetAllOrdersQueryHandler(
     ProductClientService productClientService,
     IResponseHandlingHelper responseHandlingHelper,
-    IRepository<Order> orderRepository
+    IOrderRepository orderRepository
     ) : IRequestHandler<GetAllOrdersQuery, BaseResponse>
 {
     public async Task<BaseResponse> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ public class GetAllOrdersQueryHandler(
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDto
                 {
                     OrderItemId = oi.Id,
-                    ProductId = productClientService.GetProductVariantByIdAsync(oi.ProductVariantId).Result.ProductId,
+                    ProductId = productClientService.GetProductVariantByIdAsync(oi.ProductVariantId).Result!.ProductId,
                     ProductVariantId = oi.ProductVariantId,
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitPrice,

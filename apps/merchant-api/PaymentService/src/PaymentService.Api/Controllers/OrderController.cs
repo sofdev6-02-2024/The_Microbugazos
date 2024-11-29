@@ -2,6 +2,7 @@ using Commons.ResponseHandler.Responses.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Application.Dtos;
+
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.QueryCommands.Orders.Commands.Commands;
 using PaymentService.Application.QueryCommands.Orders.Queries.Queries;
@@ -31,6 +32,18 @@ public class OrderController(IMediator mediator) : ControllerBase
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
         var successResponse = (SuccessResponse<PaginatedResponseDto<OrderDto>>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);      
+    }
+    
+    [HttpGet("{userId}/User/")]
+    public async Task<ActionResult<List<OrderWithCompleteDetailsDto>>> GetAllOrdersBySpecificUser(Guid userId, 
+        int page, int pageSize)
+    {
+        var result = await mediator.Send(new GetOrdersBySpecificUserAndDateQuery(userId, page, pageSize));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        
+        var successResponse = (SuccessResponse<List<OrderWithCompleteDetailsDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);      
     }
 }
