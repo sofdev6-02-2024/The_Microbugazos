@@ -31,31 +31,22 @@ public class ReduceStockProductVariantCommandHandler(
         foreach (var variantStock in reduceDto.VariantsStock)
         {
             var variant = await repository.GetByIdAsync(variantStock.VariantId);
-            if (variant is null)
-            {
-                return responseHandlingHelper.NotFound<ReduceStockProductVariantDto>(
+            if (variant is null) return responseHandlingHelper.NotFound<ReduceStockProductVariantDto>(
                     $"The product variant with the following ID '{variantStock.VariantId}' was not found.");
-            }
 
-            if (variant.StockQuantity < variantStock.QuantityToReduce)
-            {
-                return responseHandlingHelper.BadRequest<ReduceStockProductVariantDto>(
+            if (variant.StockQuantity < variantStock.Quantity) return responseHandlingHelper.BadRequest<ReduceStockProductVariantDto>(
                     $"Insufficient stock for the product variant with ID '{variantStock.VariantId}'.");
-            }
 
             var updateDto = new UpdateProductVariantDto
             {
                 ProductVariantId = variantStock.VariantId,
-                StockQuantity = variant.StockQuantity - variantStock.QuantityToReduce
+                StockQuantity = variant.StockQuantity - variantStock.Quantity
             };
 
             var response = await validator.ValidateAsync(updateDto, cancellationToken);
-            if (!response.IsValid)
-            {
-                return responseHandlingHelper.BadRequest<UpdateProductVariantDto>(
+            if (!response.IsValid) return responseHandlingHelper.BadRequest<UpdateProductVariantDto>(
                     "The operation to update the product variant was not completed, please check the errors.",
                     response.Errors.Select(error => error.ErrorMessage).ToList());
-            }
 
             var productVariantToDisplay = await service.UpdateProductVariant(updateDto, variant);
 

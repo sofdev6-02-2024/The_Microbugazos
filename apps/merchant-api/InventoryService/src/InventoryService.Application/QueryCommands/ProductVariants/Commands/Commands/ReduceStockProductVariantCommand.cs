@@ -6,5 +6,5 @@ namespace InventoryService.Application.QueryCommands.ProductVariants.Commands.Co
 
 public class ReduceStockProductVariantCommand(ReduceStockProductVariantDto reduceStockProductVariant) : IRequest<BaseResponse>
 {
-    public ReduceStockProductVariantDto ReduceStockProductVariant { get; set; } = reduceStockProductVariant;
+    public ReduceStockProductVariantDto ReduceStockProductVariant { get; } = reduceStockProductVariant;
 }

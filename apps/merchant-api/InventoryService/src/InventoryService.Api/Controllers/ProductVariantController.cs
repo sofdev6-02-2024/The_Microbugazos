@@ -71,7 +71,7 @@ public class ProductVariantController(IMediator mediator, IResponseHandlingHelpe
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 
-    [HttpPatch("stock/reduce")]
+    [HttpPatch("stocks/reduce")]
     public async Task<IActionResult> ReduceStock([FromBody] ReduceStockProductVariantDto request)
     {
         var result = await mediator.Send(new ReduceStockProductVariantCommand(request));
@@ -87,6 +87,34 @@ public class ProductVariantController(IMediator mediator, IResponseHandlingHelpe
         }
 
         return StatusCode(500, "Unexpected response type.");
+    }
+
+    [HttpPatch("stock/reduce/{id}")]
+    public async Task<IActionResult> ReduceStockById(Guid id, [FromBody] VariantStockDto request)
+    {
+        if (id != request.VariantId) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+            "The ID in the route and in the body of the request do not match."));
+
+        var result = await mediator.Send(new ReduceStockProductVariantByIdCommand(request));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<ProductVariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
+    [HttpPatch("stock/{id}")]
+    public async Task<IActionResult> UpdateStockById(Guid id, [FromBody] VariantStockDto request)
+    {
+        if (id!= request.VariantId) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+            "The ID in the route and in the body of the request do not match."));
+
+        var result = await mediator.Send(new UpdateStockCommand(request));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<ProductVariantDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpDelete("{id}")]
