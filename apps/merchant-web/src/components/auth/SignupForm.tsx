@@ -11,6 +11,7 @@ import { MessageDisplay } from "./MessageDisplay";
 import styles from "@/styles/auth/signup-form.module.css";
 import Logo from "@/app/assets/logo/logo_L.png";
 import Image from "next/image";
+import { sendWelcomeEmail } from "@/request/NotificationsRequest";
 
 const SignupForm = () => {
   const [isDarkMode] = useState(false);
@@ -27,23 +28,33 @@ const SignupForm = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("success");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!currentUserEmail) return;
+useEffect(() => {
+  if (!currentUserEmail) return;
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user?.email === currentUserEmail && user.emailVerified) {
+  const intervalId = setInterval(async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      await user.reload(); 
+      if (user.email === currentUserEmail && user.emailVerified) {
+        clearInterval(intervalId);
         setCurrentUserEmail(null);
         setIsEmailSent(false);
+        sendWelcomeEmail(user.email, user.displayName || "");
         router.replace("/login");
       }
-    });
+    }
+  }, 1600);
 
-    return () => unsubscribe();
-  }, [currentUserEmail, router]);
+  return () => clearInterval(intervalId);
+}, [currentUserEmail, router]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -52,9 +63,8 @@ const SignupForm = () => {
 
     if (id === "confirmPassword" && value !== formData.password) {
       setErrors((prev) => ({ ...prev, password: "Passwords do not match." }));
-    }
-    else {
-      setErrors(prev => ({ ...prev, password: "" }));
+    } else {
+      setErrors((prev) => ({ ...prev, password: "" }));
     }
   };
 
@@ -63,17 +73,18 @@ const SignupForm = () => {
     setErrors({ username: "", email: "", password: "" });
 
     try {
-      const { userCredential, isEmailSent: emailSent } = await AuthService.signUpWithEmailAndPassword(formData);
+      const { userCredential, isEmailSent: emailSent } =
+        await AuthService.signUpWithEmailAndPassword(formData);
       setIsEmailSent(emailSent);
       setCurrentUserEmail(userCredential.user.email);
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message.includes('email')) {
-          setErrors(prev => ({ ...prev, email: error.message }));
-        } else if (error.message.includes('password')) {
-          setErrors(prev => ({ ...prev, password: error.message }));
-        } else if (error.message.includes('username')) {
-          setErrors(prev => ({ ...prev, username: error.message }));
+        if (error.message.includes("email")) {
+          setErrors((prev) => ({ ...prev, email: error.message }));
+        } else if (error.message.includes("password")) {
+          setErrors((prev) => ({ ...prev, password: error.message }));
+        } else if (error.message.includes("username")) {
+          setErrors((prev) => ({ ...prev, username: error.message }));
         } else {
           setMessage(error.message);
           setMessageType("error");

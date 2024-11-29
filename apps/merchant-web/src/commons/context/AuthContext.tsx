@@ -3,8 +3,9 @@ import { onAuthStateChanged, signOut, User } from "@firebase/auth";
 import { auth } from "@/config/firebase";
 import { UserType } from "@/types/auth";
 import { validateUserToken } from "@/request/AuthRequests";
+import { usePathname } from "next/dist/client/components/navigation";
 
-interface AuthUser {
+interface AuthUser extends User {
   userType?: UserType;
   userId?: string;
 }
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
 
   const signOutHandle = async () => {
     try {
@@ -33,6 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const authObserver = async (currentUser: User) => {
     try {
+      if(pathname === "/login" || pathname === "/signup") return
       const token = await currentUser.getIdToken();
       document.cookie = `auth-token=${token}; path=/`;
       const response = await validateUserToken(token);
@@ -43,7 +46,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           userType: userData.userType,
           userId: userData.id,
         };
-        setUser(userInfo);
+        setUser(
+          {
+            ...currentUser,
+            ...userInfo,
+          }
+        );
       } else {
         setUser(null);
       }
