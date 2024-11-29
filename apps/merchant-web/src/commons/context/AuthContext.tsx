@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       document.cookie = `auth-token=${token}; path=/`;
       const response = await validateUserToken(token);
 
-      if (response.status >= 200 && response.status < 300) {
+      if (response.isSuccess) {
         const userData = response.data;
         const userInfo = {
           userType: userData.userType,
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
     }
   };
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

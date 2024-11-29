@@ -49,8 +49,9 @@ const MemberList: React.FC<MemberListProps> = ({
   }, [store?.id, user?.userId]);
 
   const processedMembers = useMemo(() => {
-    let filteredMembers = members.filter((member) =>
-      member.name.toLowerCase().includes(searchTerm.toLowerCase())
+    let filteredMembers = members.filter(
+      (member) =>
+        member.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
     );
 
     if (isSorted) {

@@ -16,13 +16,12 @@ export class ProfileService {
     };
   }
 
-  public static async updateUserProfile(data: UpdateProfileData): Promise<UpdateResult> {
+  public static async updateUserProfile(data: UpdateProfileData, userId?: string): Promise<UpdateResult> {
     const user = auth.currentUser;
     if (!user) throw new Error('No user logged in');
 
     const currentData = this.getCurrentUserData();
     if (!currentData) throw new Error('Unable to fetch current user data');
-
     ProfileValidator.validateProfileUpdate(data, currentData);
 
     try {
@@ -34,18 +33,22 @@ export class ProfileService {
       }
 
       if (data.newEmail) {
-        return await this.handleEmailUpdate(user, data);
+        return await this.handleEmailUpdate(user, data, userId);
       }
 
-      return await this.handleNonEmailUpdates(user, data);
+      return await this.handleNonEmailUpdates(user, data, userId);
 
     } catch (error) {
+      if (data.newUsername) {
+        await updateProfile(user, { displayName: currentData.username });
+      }
+
       const handledError = this.handleUpdateError(error);
       return { type: 'error', message: handledError.message };
     }
   }
 
-  private static async handleEmailUpdate(user: any, data: UpdateProfileData): Promise<UpdateResult> {
+  private static async handleEmailUpdate(user: any, data: UpdateProfileData, userId?: string): Promise<UpdateResult> {
     if (!data.newEmail) return { type: 'success', message: '' };
 
     try {
@@ -54,6 +57,7 @@ export class ProfileService {
       const token = await user.getIdToken(true);
 
       await ProfileAPI.updateBackendProfile(token, {
+        Id: userId,
         Email: data.newEmail,
         ...(data.newUsername && { Name: data.newUsername })
       });
@@ -71,14 +75,14 @@ export class ProfileService {
     }
   }
 
-  private static async handleNonEmailUpdates(user: any, data: UpdateProfileData): Promise<UpdateResult> {
+  private static async handleNonEmailUpdates(user: any, data: UpdateProfileData, userId?: string): Promise<UpdateResult> {
     const updatePromises: Promise<void>[] = [];
 
     if (data.newUsername) {
       const token = await user.getIdToken();
       updatePromises.push(
         updateProfile(user, { displayName: data.newUsername }),
-        ProfileAPI.updateBackendProfile(token, { Name: data.newUsername })
+        ProfileAPI.updateBackendProfile(token, { Id: userId, Name: data.newUsername })
       );
     }
 

@@ -17,7 +17,7 @@ export const getStoreSellersWithOwner = async (storeId: string) => {
       }
     });
     const owner: SellerDto = {
-      ...ownerResponse.data,
+      ...ownerResponse.data.data,
       userType: UserType.OWNER
     };
 
@@ -26,7 +26,7 @@ export const getStoreSellersWithOwner = async (storeId: string) => {
         'Authorization': `Bearer ${token}`
       }
     });
-    const sellers = sellersResponse.data as SellerDto[];
+    const sellers = sellersResponse.data.data as SellerDto[];
 
     const allSellers = [owner, ...sellers.filter(seller => seller.id !== owner.id)];
     return allSellers;
