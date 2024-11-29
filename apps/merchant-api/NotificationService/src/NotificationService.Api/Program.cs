@@ -1,5 +1,7 @@
+
 using DotNetEnv;
 using Microsoft.OpenApi.Models;
+using NotificationService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +16,12 @@ builder.Services.AddCors(
 );
 
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Configuration.AddEnvironmentVariables();
-
 builder.Services.AddAuthorization();
-
 builder.Services.AddControllers();
+
+builder.Services.AddQueueHandlers();
+
 
 builder.Services.AddSwaggerGen(c =>
 {
