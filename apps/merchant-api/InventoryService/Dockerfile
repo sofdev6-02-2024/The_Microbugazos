@@ -7,6 +7,7 @@ COPY InventoryService/src/InventoryService.Intraestructure/InventoryService.Intr
 COPY InventoryService/src/InventoryService.Domain/InventoryService.Domain.csproj InventoryService/src/InventoryService.Domain/
 COPY InventoryService/src/InventoryService.Commons/InventoryService.Commons.csproj InventoryService/src/InventoryService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
+COPY NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj NotificationService/src/NotificationService.Domain/
 COPY MerchantCommon/Commons/Commons.csproj MerchantCommon/Commons/
 
 WORKDIR /app/InventoryService/src/InventoryService.Api
@@ -16,6 +17,7 @@ COPY InventoryService/src/InventoryService.Api/. .
 COPY InventoryService/src/InventoryService.Application/. ../InventoryService.Application/
 COPY InventoryService/src/InventoryService.Intraestructure/. ../InventoryService.Intraestructure/
 COPY InventoryService/src/InventoryService.Domain/. ../InventoryService.Domain/
+COPY NotificationService/src/NotificationService.Domain/. /app/NotificationService/src/NotificationService.Domain/
 COPY InventoryService/src/InventoryService.Commons/. ../InventoryService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
 COPY MerchantCommon/Commons/. /app/MerchantCommon/Commons/

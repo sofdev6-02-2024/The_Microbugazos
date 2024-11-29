@@ -1,21 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using NotificationService.Application.Services;
-using NotificationService.Application.Services.Templates;
 using NotificationService.Domain.Dtos.Emails;
-using NotificationService.Infraestructure.EmailService;
+using RabbitMqMessaging.Services.Interfaces;
 
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
-    [Route("api/order/pending")]
-    public class PendingEmailController : ControllerBase
+    [Route("api/notification/order/pending")]
+    public class PendingEmailController(IMessageProducer producer) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Send([FromBody] PendingEmail pendingEmail)
+        public ActionResult Send([FromBody] PendingEmail pendingEmail)
         {
-            EmailTemplateService<OrderStatusWithProductsEmail> service = new StatusWithProductTemplateService("order-pending");
-            var emailService = new EmailService<OrderStatusWithProductsEmail>(service);
-            await emailService.Send(pendingEmail.Contact.ContactEmail, "Order status", pendingEmail);
+            producer.PublishToDirectExchange("email.notifications", "order_status.pending", pendingEmail);
             return Ok();
         }
     }
