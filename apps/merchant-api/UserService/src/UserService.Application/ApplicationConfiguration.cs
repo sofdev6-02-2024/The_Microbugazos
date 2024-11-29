@@ -9,10 +9,10 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using UserService.Application.Validators;
 using FluentValidation;
 using UserService.Application.Validators.ContactUsMessages;
 using UserService.Application.Validators.Stores;
+using RabbitMQMessaging.Extensions;
 
 namespace UserService.Application
 {
@@ -44,6 +44,8 @@ namespace UserService.Application
             
             services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
             services.AddValidatorsFromAssemblyContaining<CreateContactUsMessageValidator>(); 
+
+            services.AddMassTransitWithRabbitMq("users");
         }
     }
 }

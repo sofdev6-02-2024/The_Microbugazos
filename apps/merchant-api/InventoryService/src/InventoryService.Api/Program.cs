@@ -5,7 +5,6 @@ using InventoryService.Application;
 using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using PaymentService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
@@ -24,9 +23,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
-builder.Services.AddQueueHandlers();
 
-// configurations
+
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
 builder.Services.Configure<ValidationSettings>(builder.Configuration);
 

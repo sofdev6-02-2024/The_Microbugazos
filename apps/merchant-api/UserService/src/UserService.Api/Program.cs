@@ -4,7 +4,7 @@ using UserService.Application;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using UserService.Infrastructure.Context;
-using PaymentService.Api;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +25,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddApplication(builder.Configuration);
-builder.Services.AddQueueHandlers();
-
 
 string connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"]
                      ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION");

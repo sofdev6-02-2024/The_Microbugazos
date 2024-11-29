@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageReference Include="FirebaseAdmin" Version="3.0.1" />
     <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
@@ -23,8 +22,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference
-      Include="../../../NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj" />
+    <ProjectReference Include="../../../MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj" />
+    <ProjectReference Include="../../../NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj" />
     <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
     <ProjectReference Include="..\UserService.Infrastructure\UserService.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />

@@ -1,21 +1,19 @@
+using MassTransit;
 using MediatR;
+using NotificationService.Domain.Dtos;
+using NotificationService.Domain.Dtos.Emails;
 using UserService.Application.Handlers.Auth.Request.Commands;
 using UserService.Domain.Entities.Concretes;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Handlers.Auth.RequestHandlers.Commands;
 
-public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, User>
+public class UserRegisterCommandHandler(IUserRepository userRepository, IBus producer) : IRequestHandler<UserRegisterCommand, User>
 {
-    private readonly IUserRepository _userRepository;
-    public UserRegisterCommandHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
 
     public async Task<User> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
     {
-        var usersFound = await _userRepository.GetByAsync(user => user.Email == request.Email);
+        var usersFound = await userRepository.GetByAsync(user => user.Email == request.Email);
         if (usersFound.Any())
         {
             throw new Exception("User already exists.");
@@ -28,7 +26,16 @@ public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, U
             Name = request.Name,
             IdentityId = request.IdentityId
         };
-        return await _userRepository.AddAsync(user);
 
+        if (request.EmailVerified)
+        {
+            await producer.Publish(
+             new WelcomeEmail(new Contact(user.Name, user.Email)),
+             CancellationToken.None
+         );
+        }
+
+
+        return await userRepository.AddAsync(user);
     }
 }
