@@ -64,7 +64,7 @@ To use this library, include it in your project. You can reference it directly f
         public Task StartAsync(CancellationToken cancellationToken)
         {
             // Start consuming messages from the "**booking**" queue
-            _messageConsumer.StartAsync<string>("booking", Console.WriteLine);
+            _messageConsumer.StartAsync<string>(**"booking"**, Console.WriteLine);
             return Task.CompletedTask;
         }
 

@@ -35,10 +35,13 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
     ports:
-      - "${RABBITMQ_PORT}:5672"
-      - "${RABBITMQ_WEB_PORT}:15672"
+      - ${RABBITMQ_PORT}:5672
+      - ${RABBITMQ_WEB_PORT}:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - ./config/rabbit-initialization/definitions.json:/opt/definitions.json:ro
+      - ./config/rabbit-initialization/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
       interval: 10s
@@ -47,7 +50,6 @@ services:
       start_period: 10s
     networks:
       - merchant-network
-
 
   api_gateway:
     build:
@@ -74,6 +76,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:
@@ -93,6 +100,11 @@ services:
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
       - STRIPE_FAILED_URL=${STRIPE_FAILED_URL}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:
@@ -109,12 +121,40 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
       - FIREBASE_CREDENTIALS=${FIREBASE_CREDENTIALS}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:
       rabbitmq:
         condition: service_healthy
-    
+
+  notification_service:
+    build:
+      context: .
+      dockerfile: NotificationService/Dockerfile
+    ports:
+      - "5400:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_SERVICE=${EMAIL_SERVICE}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+    networks:
+      - merchant-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
 networks:
   merchant-network:
     driver: bridge

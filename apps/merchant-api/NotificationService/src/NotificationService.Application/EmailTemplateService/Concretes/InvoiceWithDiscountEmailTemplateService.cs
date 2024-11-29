@@ -1,7 +1,5 @@
-using System.Text;
 using NotificationService.Application.Utils;
 using NotificationService.Domain.Dtos.Emails;
-using NotificationService.Domain.Dtos.OrderItems;
 
 namespace NotificationService.Application.Services.Templates
 {
@@ -20,8 +18,6 @@ namespace NotificationService.Application.Services.Templates
             htmlTemplate = htmlTemplate.Replace("{{Discount}}", $"{email.Order.DiscountPercentage}");
 
             return htmlTemplate;
-        }
-
-        
+        }   
     }
 }

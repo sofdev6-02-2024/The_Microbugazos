@@ -158,7 +158,6 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
 
         if (queryParams.Search != null && queryParams.Search.Length > 0)
         {
-            Console.WriteLine("Search: " + queryParams.Search);
             predicates.Add(p => p.Name.ToLower().Contains(queryParams.Search.ToLower()));
         }
 

@@ -71,5 +71,15 @@ if (-not (Execute-WithRetry "dotnet ef database update --project $env:USER_PROJE
     exit 1
 }
 
+
+# Apply migrations and update the database for PaymentService
+Write-Host "Applying migration and updating the database for PaymentService..."
+if (-not (Execute-WithRetry "dotnet ef migrations add $INITIAL_MIGRATION_NAME --project $env:PAYMENT_PROJECT")) {
+    exit 1
+}
+if (-not (Execute-WithRetry "dotnet ef database update --project $env:PAYMENT_PROJECT")) {
+    exit 1
+}
+
 Write-Host "All migrations applied and databases updated."
 

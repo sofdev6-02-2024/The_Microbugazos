@@ -23,6 +23,7 @@ namespace ApiGateway.ServerConfigurations
                 c.SwaggerEndpoint("http://localhost:5001/swagger/inventory", "Inventory Service V1");
                 c.SwaggerEndpoint("http://localhost:5001/swagger/user", "User Service V1");
                 c.SwaggerEndpoint("http://localhost:5001/swagger/payment", "Payment Service V1");
+                c.SwaggerEndpoint("http://localhost:5001/swagger/notification", "Notification Service V1");
                 c.RoutePrefix = string.Empty;
             });
         }

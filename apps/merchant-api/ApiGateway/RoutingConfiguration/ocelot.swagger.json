@@ -35,4 +35,16 @@
     "UpstreamPathTemplate": "/swagger/payment",
     "UpstreamHttpMethod": ["GET"]
   },
+  {
+    "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "notification_service",
+        "Port": 8080
+      }
+    ],
+    "UpstreamPathTemplate": "/swagger/notification",
+    "UpstreamHttpMethod": ["GET"]
+  }
 ]

@@ -1,0 +1,14 @@
+[
+  {
+    "UpstreamPathTemplate": "/api/notification/{everything}",
+    "UpstreamHttpMethod": ["POST", "PUT", "DELETE", "GET"],
+    "DownstreamPathTemplate": "/api/notification/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "notification_service",
+        "Port": 8080
+      }
+    ]
+  }
+]
