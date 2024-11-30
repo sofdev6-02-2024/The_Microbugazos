@@ -10,9 +10,14 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using FluentValidation;
-using UserService.Application.Validators.ContactUsMessages;
+using UserService.Application.Dtos.ContactUsMessages;
+using UserService.Application.Dtos.Stores;
+using UserService.Application.Dtos.Users;
 using UserService.Application.Validators.Stores;
 using RabbitMQMessaging.Extensions;
+using UserService.Application.Validators.Users;
+using UserService.Application.Validators.ContactUsMessages;
+
 
 namespace UserService.Application
 {
@@ -41,11 +46,13 @@ namespace UserService.Application
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IContactUsMessageRepository, ContactUsMessagesRepository>();
             services.AddSingleton<IJwtDecoder, JwtDecoder>();
-            
-            services.AddValidatorsFromAssemblyContaining<StoreDtoValidator>(); 
-            services.AddValidatorsFromAssemblyContaining<CreateContactUsMessageValidator>(); 
-
             services.AddMassTransitWithRabbitMq("users");
+
+            //validators
+            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
+            services.AddScoped<IValidator<UpdateUserDto>, UpdateUserDtoValidator>();
+            services.AddScoped<IValidator<StoreDto>, StoreDtoValidator>();
+            services.AddScoped<IValidator<CreateContactUsMessageDto>, CreateContactUsMessageValidator>();
         }
     }
 }

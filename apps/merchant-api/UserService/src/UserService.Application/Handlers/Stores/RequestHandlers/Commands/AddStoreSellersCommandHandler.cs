@@ -2,6 +2,10 @@ using MassTransit;
 using MediatR;
 using NotificationService.Domain.Dtos;
 using NotificationService.Domain.Dtos.Emails;
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
+using UserService.Application.Dtos.Stores;
+
 using UserService.Application.Handlers.Stores.Request.Commands;
 using UserService.Domain.Concretes;
 using UserService.Domain.Entities.Concretes;
@@ -9,43 +13,41 @@ using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Handlers.Stores.RequestHandlers.Commands;
 
-public class AddStoreSellersCommandHandler(IStoreRepository storeRepository, IUserRepository userRepository, IBus producer)
-    : IRequestHandler<AddStoreSellersCommand, bool>
-{
-    public async Task<bool> Handle(AddStoreSellersCommand request, CancellationToken cancellationToken)
-    {
-        if (request.StoreId == Guid.Empty)
-        {
-            throw new ArgumentException("Store ID cannot be empty", nameof(request.StoreId));
-        }
 
-        var store = await storeRepository.GetByIdAsync(request.StoreId);
+public class AddStoreSellersCommandHandler(
+    IStoreRepository storeRepository, 
+    IUserRepository userRepository,
+    IResponseHandlingHelper responseHandlingHelper,
+    IBus producer)
+    : IRequestHandler<AddStoreSellersCommand, BaseResponse>
+{
+    public async Task<BaseResponse> Handle(AddStoreSellersCommand request, CancellationToken cancellationToken)
+    {
+        var addSellerDto = request.AddStoreSellersDto;
+        if (addSellerDto.StoreId == Guid.Empty)
+            return responseHandlingHelper.BadRequest<AddStoreSellersDto>("Store ID cannot be empty");
+
+        var store = await storeRepository.GetByIdAsync(addSellerDto.StoreId);
         if (store == null)
-        {
-            throw new KeyNotFoundException($"Store with ID {request.StoreId} not found");
-        }
+            return responseHandlingHelper.BadRequest<AddStoreSellersDto>($"Store with ID {addSellerDto.StoreId} not found");
 
         User? user = null;
-
-        if (request.SellerId.HasValue)
+        
+        if (!string.IsNullOrWhiteSpace(addSellerDto.SellerEmail))
         {
-            user = await userRepository.GetByIdAsync(request.SellerId.Value);
-        }
-        else if (!string.IsNullOrWhiteSpace(request.SellerEmail))
-        {
-            user = await userRepository.GetUserByEmailAsync(request.SellerEmail);
+            user = await userRepository.GetUserByEmailAsync(addSellerDto.SellerEmail);
         }
 
         if (user == null)
         {
-            throw new KeyNotFoundException($"User not found");
+            return responseHandlingHelper.BadRequest<AddStoreSellersDto>($"User {user?.Id} not found");
         }
 
         store.SellerIds ??= new List<Guid>();
 
         if (store.SellerIds.Contains(user.Id))
         {
-            throw new InvalidOperationException("Seller already exists in this store");
+            return responseHandlingHelper.BadRequest<AddStoreSellersDto>("Seller already exists in this store");
         }
 
         store.SellerIds.Add(user.Id);
@@ -54,7 +56,8 @@ public class AddStoreSellersCommandHandler(IStoreRepository storeRepository, IUs
         await storeRepository.UpdateAsync(store);
         await userRepository.UpdateAsync(user);
         await SendEmailToUserAdded(user, store);
-        return true;
+        return responseHandlingHelper.Created("The seller was added successfully.", user.Id);
+
     }
 
 

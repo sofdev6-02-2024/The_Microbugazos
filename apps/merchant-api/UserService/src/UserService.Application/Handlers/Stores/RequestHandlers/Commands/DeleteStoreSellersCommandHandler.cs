@@ -1,3 +1,5 @@
+using Commons.ResponseHandler.Handler.Interfaces;
+using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
 using UserService.Application.Handlers.Stores.Request.Commands;
 using UserService.Domain.Concretes;
@@ -5,18 +7,23 @@ using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Handlers.Stores.RequestHandlers.Commands;
 
-public class DeleteStoreSellersCommandHandler(IStoreRepository storeRepository, IUserRepository userRepository)
-    : IRequestHandler<DeleteStoreSellersCommand, bool>
+public class DeleteStoreSellersCommandHandler(
+    IStoreRepository storeRepository, 
+    IUserRepository userRepository,
+    IResponseHandlingHelper responseHandlingHelper)
+    : IRequestHandler<DeleteStoreSellersCommand, BaseResponse>
 {
-    public async Task<bool> Handle(DeleteStoreSellersCommand request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(DeleteStoreSellersCommand request, CancellationToken cancellationToken)
     {
-        var store = await storeRepository.GetByIdAsync(request.StoreId) 
-                    ?? throw new Exception("Store not found");
+        var store = await storeRepository.GetByIdAsync(request.StoreId);
+        if (store == null)
+            return responseHandlingHelper.BadRequest<Guid>("Store not found");
         
-        var user = await userRepository.GetByIdAsync(request.SellerId)
-                   ?? throw new Exception($"User with ID {request.SellerId} not found");
+        var user = await userRepository.GetByIdAsync(request.SellerId);
+        if (user == null)
+            return responseHandlingHelper.BadRequest<Guid>($"User with ID {request.SellerId} not found");
 
-        store.SellerIds.Remove(request.SellerId);
+        var response = store.SellerIds.Remove(request.SellerId);
 
         user.UserType = UserType.CLIENT;
 
@@ -24,6 +31,6 @@ public class DeleteStoreSellersCommandHandler(IStoreRepository storeRepository, 
         
         await storeRepository.UpdateAsync(store);
 
-        return true;
+        return responseHandlingHelper.Ok("The seller has been deleted", response);
     }
 }

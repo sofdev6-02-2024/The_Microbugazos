@@ -1,21 +1,10 @@
-using UserService.Domain.Entities.Concretes;
+using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
+using UserService.Application.Dtos.Users;
 
 namespace UserService.Application.Handlers.Auth.Request.Commands;
 
-public class UserRegisterCommand : IRequest<User>
+public class UserRegisterCommand(RegisterUserDto registerUserDto) : IRequest<BaseResponse>
 {
-    public required string Email { get; set; }
-    public required string Name { get; set; }
-    public required string IdentityId { get; set; }
-    public required bool EmailVerified { get; set; }
-
-
-    public UserRegisterCommand(string email, string name, string identityId, bool emailVerified)
-    {
-        Email = email;
-        Name = name;
-        IdentityId = identityId;
-        EmailVerified = emailVerified;
-    }
+    public RegisterUserDto RegisterUserDto { get; set; } = registerUserDto;
 }

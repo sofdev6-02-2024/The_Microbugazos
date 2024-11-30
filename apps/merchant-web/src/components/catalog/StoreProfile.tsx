@@ -15,8 +15,8 @@ export const StoreProfile = ({ storeId }: Props) => {
 
   useEffect(() => {
     axiosInstance
-      .get<StoreFormDto>(`stores/${storeId}`)
-      .then((response) => response.data)
+      .get<{ data: StoreFormDto }>(`stores/${storeId}`)
+      .then((response) => response.data.data)
       .then((data) => {
         setStoreData(data);
       })
