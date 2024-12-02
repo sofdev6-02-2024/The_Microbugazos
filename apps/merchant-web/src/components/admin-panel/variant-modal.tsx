@@ -26,8 +26,8 @@ export default function VariantModal({item}) {
       if (variantOnMemory != null) {
         setPriceAdjustment(variantOnMemory.priceAdjustment);
         setProductQty(variantOnMemory.stockQuantity.toFixed());
-        setSelectedImages(variantOnMemory.image === null ? [] : [variantOnMemory.image.url]);
-        setAltText(variantOnMemory.image === null ? "" : variantOnMemory.image.altText);
+        setSelectedImages(variantOnMemory.image?.url ? [variantOnMemory.image.url] : []);
+        setAltText(variantOnMemory.image?.altText ?? "");
       }
     }, [variantOnMemory]);
 
@@ -142,10 +142,10 @@ export default function VariantModal({item}) {
                                             name: item.join("/"),
                                             priceAdjustment: parseFloat(priceAdjustment) || 0,
                                             stockQuantity: parseInt(productQty) || 0,
-                                            image: {
+                                            image: selectedImages.length > 0 ? {
                                                 url: selectedImages[0],
                                                 altText: `Image for product variant: ${item.join("/")}`
-                                            }
+                                            } : null
                                         })
                                         onClose();
                                     }

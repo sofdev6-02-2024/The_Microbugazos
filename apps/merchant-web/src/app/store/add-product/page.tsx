@@ -51,6 +51,7 @@ export default function AddProducts({id}: Readonly<Props>) {
       loadEditInfo();
     } else {
       setOptions([]);
+      console.log(variants)
     }
   }, [categories]);
 
