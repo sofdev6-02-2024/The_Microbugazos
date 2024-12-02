@@ -9,11 +9,11 @@ import {
 import ShoppingCartItem from "@/commons/entities/ShoppingCartItem";
 import { handleSubmitCart } from "@/services/checkoutService";
 import { CartData } from "@/schemes/shopping-cart/CartDataDto";
-import useAuth from "@/commons/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import VariantStock from "@/commons/entities/VariantStock";
 import axiosInstance from "@/request/AxiosConfig";
+import { useAuth } from "@/commons/context/AuthContext";
 
 interface Types {
   products: Array<ShoppingCartItem>;

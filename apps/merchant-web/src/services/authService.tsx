@@ -54,6 +54,7 @@ export class AuthService {
           name: user.displayName,
           email: user.email,
           IdentityId: user.uid,
+          emailVerified: user.emailVerified
         });
       } catch (error: any) {
         if (error.response?.status === 500 &&

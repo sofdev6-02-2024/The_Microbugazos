@@ -2,6 +2,8 @@
 using DotNetEnv;
 using Microsoft.OpenApi.Models;
 using NotificationService.Api;
+using NotificationService.Api.Controllers;
+using RabbitMQMessaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
-
-builder.Services.AddQueueHandlers();
+builder.Services.AddMassTransitWithRabbitMq("notifications", typeof(ShippedEmailController));
 
 
 builder.Services.AddSwaggerGen(c =>

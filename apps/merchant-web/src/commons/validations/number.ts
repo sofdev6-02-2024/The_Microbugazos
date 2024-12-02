@@ -1,6 +1,6 @@
 
 export function ValidateIntegerNumber(value: string ) {
-    const regex = RegExp("\d+$");
+    const regex = RegExp("d+$");
     if (!value) return {isValid: false, errorMessage: "Value cannot be null or empty"};
     if (regex.test(value)) return {isValid: false, errorMessage: "Only numbers allowed"};
     return { isValid: true };

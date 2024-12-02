@@ -22,6 +22,9 @@ const useAuth = () => {
       if (currentUser) {
         try {
           const token = await currentUser.getIdToken();
+          if (!token) {
+            return
+          }
           document.cookie = `auth-token=${token}; path=/`;
 
           const response = await fetch(
