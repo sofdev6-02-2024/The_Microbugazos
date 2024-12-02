@@ -50,17 +50,18 @@ export default function VariantModal({item}) {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 padding: "12px",
-                borderBottom: "0.1px solid #ACACAC"
+                borderBottom: "0.1px solid #ACACAC",
+                cursor: "pointer"
             }}
                  onClick={onOpen}
             >
                 <div style={{
                     display: "flex",
-                    flexDirection: "column"
+                    flexDirection: "column",
                 }}>
-                    <label>{item.join("/")}</label>
-                    <label>Price adjustment: {parseFloat(priceAdjustment).toFixed(2)} $</label>
-                    <label>Qty: {productQty ===  "" ? "0" : productQty } U.</label>
+                    <span>{item.join("/")}</span>
+                    <span>Price adjustment: {parseFloat(priceAdjustment).toFixed(2)} $</span>
+                    <span>Qty: {productQty ===  "" ? "0" : productQty } U.</span>
                 </div>
                 <div style={{
                     width: "48px",
@@ -88,7 +89,6 @@ export default function VariantModal({item}) {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                closeButton
             >
                 <ModalContent>
                     {(onClose) => (

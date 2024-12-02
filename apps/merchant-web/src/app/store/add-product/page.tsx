@@ -1,5 +1,6 @@
 "use client";
 import {useEffect, useState} from "react";
+import { useRouter } from "next/navigation";
 import axiosInstance from "@/request/AxiosConfig";
 import ComboBox from "@/components/combo-box";
 import Dropzone from "@/components/image-selector";
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function AddProducts({id}: Readonly<Props>) {
+  const router = useRouter();
   const [errors, setErrors] = useState<[{ textField: string; error: string }]>([]);
   const [editMode, setEditMode] = useState(false);
   const [productName, setProductName] = useState<string>("");
@@ -473,7 +475,10 @@ export default function AddProducts({id}: Readonly<Props>) {
           margin: "20px",
         }}
       >
-        <button className={AddProductStyle.merchantButtonSecondary}>
+        <button
+          className={AddProductStyle.merchantButtonSecondary}
+          onClick={() => router.back()}
+        >
           Cancel
         </button>
         <button
