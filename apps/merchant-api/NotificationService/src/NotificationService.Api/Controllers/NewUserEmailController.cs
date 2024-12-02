@@ -1,17 +1,17 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using NotificationService.Domain.Dtos.Emails;
-using RabbitMqMessaging.Services.Interfaces;
 
 namespace NotificationService.Api.Controllers
 {
     [ApiController]
     [Route("api/notification/new-user")]
-    public class NewUserEmailController(IMessageProducer producer) : ControllerBase
+    public class NewUserEmailController(IBus producer) : ControllerBase
     {
         [HttpPost]
-        public ActionResult Send([FromBody] NewUserEmail newUserEmail)
+        public async Task<ActionResult> Send([FromBody] NewUserEmail newUserEmail)
         {
-            producer.PublishToDirectExchange("email.notifications", "merchant.new_user", newUserEmail);
+            await producer.Publish(newUserEmail);
             return Ok();
         }
     }

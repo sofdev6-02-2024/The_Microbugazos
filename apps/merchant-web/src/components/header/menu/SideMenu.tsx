@@ -6,8 +6,8 @@ import { Option } from "@/components/Option";
 import { LuHome } from "react-icons/lu";
 import { MdStorefront } from "react-icons/md";
 import { GrContact, GrCatalog } from "react-icons/gr";
-import useAuth from "@/commons/hooks/useAuth";
 import { UserType } from "@/types/auth";
+import { useAuth } from "@/commons/context/AuthContext";
 
 interface Props {
   isOpen: boolean;

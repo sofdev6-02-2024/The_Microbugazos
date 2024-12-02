@@ -39,8 +39,6 @@ services:
       - ${RABBITMQ_WEB_PORT}:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      - ./config/rabbit-initialization/definitions.json:/opt/definitions.json:ro
-      - ./config/rabbit-initialization/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
 
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
@@ -76,11 +74,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
-      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:
@@ -100,11 +96,9 @@ services:
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
       - STRIPE_FAILED_URL=${STRIPE_FAILED_URL}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
-      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:
@@ -121,11 +115,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
       - FIREBASE_CREDENTIALS=${FIREBASE_CREDENTIALS}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
-      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - ADMIN_PANEL_URL=${ADMIN_PANEL_URL}
     networks:
       - merchant-network
     depends_on:
@@ -144,11 +137,9 @@ services:
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_SERVICE=${EMAIL_SERVICE}
       - EMAIL_PORT=${EMAIL_PORT}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
-      - RABBITMQ_PORT=${RABBITMQ_PORT}
     networks:
       - merchant-network
     depends_on:

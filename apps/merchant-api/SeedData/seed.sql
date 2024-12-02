@@ -72,7 +72,7 @@ VALUES
 
 INSERT INTO public."User"(
 	"Id", "Name", "Email", "IdentityId", "UserType", "CreatedAt", "UpdatedAt", "IsActive")
-	VALUES ('5be627d7-994d-473a-a108-6db3ad9d0380', 'majevos430', 'majevos430@merotx.com','xJwPgOhhhiPFD8zxJN1Mrs4a3cq2',4, NOW(),NOW(),TRUE);
+	VALUES ('5be627d7-994d-473a-a108-6db3ad9d0380', 'majevos430', 'majevos430@merotx.com','xJwPgOhhhiPFD8zxJN1Mrs4a3cq2',1, NOW(),NOW(),TRUE);
 	
 
 INSERT INTO public."Store"(

@@ -7,7 +7,6 @@ using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using UserService.Infrastructure.Context;
 using UserService.Application.ValidatorSettings;
-using PaymentService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +27,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddApplication(builder.Configuration);
-builder.Services.AddQueueHandlers();
 
 builder.Services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
 

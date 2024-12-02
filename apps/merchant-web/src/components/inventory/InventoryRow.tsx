@@ -25,6 +25,7 @@ export const InventoryRow = ({
   setCurrentProductName,
 }: InventoryRowProps) => {
   const [isVisible, setIsVisible] = useState(false);
+
   const formatToK = (number: number) => {
     if (number < 1000) {
       return number.toString();
