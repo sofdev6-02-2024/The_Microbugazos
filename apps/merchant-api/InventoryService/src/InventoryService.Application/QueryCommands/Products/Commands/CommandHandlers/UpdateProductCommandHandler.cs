@@ -141,8 +141,8 @@ public class UpdateProductCommandHandler(
         {
             var comparer = new UpdateProductVariantDtoComparer();
             var newVariants = currentProductVariants
-                .Where(v => v.Id == Guid.Empty)
-                .Except(previousProductVariants, comparer);
+                .Where(v => !v.Id.HasValue);
+            Console.WriteLine(newVariants.ToString());
 
             var deletedVariants = previousProductVariants
                 .Except(currentProductVariants, comparer)
