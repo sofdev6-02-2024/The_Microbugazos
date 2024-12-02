@@ -24,8 +24,6 @@ public class UpdateStockCommandHandler(
 
         if (existingProductVariant is null) return responseHandlingHelper.NotFound<VariantStockDto>($"The product variant with the follow id '{updateDto.VariantId}' was not found.");
 
-        if (existingProductVariant.StockQuantity < updateDto.Quantity) return responseHandlingHelper.BadRequest<VariantStockDto>($"Insufficient stock for the product variant with ID '{updateDto.VariantId}'.");
-
         if (0 > updateDto.Quantity) return responseHandlingHelper.BadRequest<VariantStockDto>("The amount to be reduced must be 0 or greater.");
 
         var updateProductVariant = new UpdateProductVariantDto
