@@ -1,5 +1,6 @@
 "use client"
 import React, {createContext, useContext, useState, ReactNode, useMemo} from "react";
+import {UUID} from "crypto";
 
 export interface Image {
     url: string;
@@ -7,6 +8,7 @@ export interface Image {
 }
 
 export interface Variant {
+    id?: string;
     name: string;
     priceAdjustment: string;
     stockQuantity: number;

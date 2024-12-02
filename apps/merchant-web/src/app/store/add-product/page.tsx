@@ -144,7 +144,7 @@ export default function AddProducts({id}: Readonly<Props>) {
     setter(value);
   };
 
-  const parseToCreateProductDTO = () => {
+  const parseToProductDTO = () => {
     return {
       storeId: store?.id,
       name: productName,
@@ -166,20 +166,7 @@ export default function AddProducts({id}: Readonly<Props>) {
 
         if (index !== -1) {
           const variant = variants[index];
-          return {
-            image: variant?.image?.url != null ? {
-              altText: variant?.image?.altText ?? "",
-              url: variant?.image?.url ?? "",
-            } : null,
-            priceAdjustment: variant?.priceAdjustment ?? 0.0,
-            stockQuantity: variant?.stockQuantity ?? 0,
-            attributes: options.map((i, index) => {
-              return {
-                name: i.name,
-                value: item[index],
-              };
-            }),
-          };
+          return editMode ? GetUpdateVariantDto(variant, item) : GetCreateVariantDto(variant, item);
         } else {
           return {
             image: null,
@@ -196,6 +183,58 @@ export default function AddProducts({id}: Readonly<Props>) {
       }),
     };
   };
+
+  const GetCreateVariantDto = (variant: Variant, item) => {
+    return {
+      image: variant?.image?.url != null ? {
+        altText: variant?.image?.altText ?? "",
+        url: variant?.image?.url ?? "",
+      } : null,
+      priceAdjustment: variant?.priceAdjustment ?? 0.0,
+      stockQuantity: variant?.stockQuantity ?? 0,
+      attributes: options.map((i, index) => {
+        return {
+          name: i.name,
+          value: item[index],
+        };
+      }),
+    };
+  }
+
+  const GetUpdateVariantDto = (variant: Variant, item) => {
+    if (variant.id != null) {
+      return {
+        id: variant.id,
+        image: variant?.image?.url != null ? {
+          altText: variant?.image?.altText ?? "",
+          url: variant?.image?.url ?? "",
+        } : null,
+        priceAdjustment: variant?.priceAdjustment ?? 0.0,
+        stockQuantity: variant?.stockQuantity ?? 0,
+        attributes: options.map((i, index) => {
+          return {
+            name: i.name,
+            value: item[index],
+          };
+        }),
+      };
+    } else {
+      return {
+        image: variant?.image?.url != null ? {
+          altText: variant?.image?.altText ?? "",
+          url: variant?.image?.url ?? "",
+        } : null,
+        priceAdjustment: variant?.priceAdjustment ?? 0.0,
+        stockQuantity: variant?.stockQuantity ?? 0,
+        attributes: options.map((i, index) => {
+          return {
+            name: i.name,
+            value: item[index],
+          };
+        }),
+      };
+    }
+  }
 
   const loadCategoriesInfo = () => {
     axiosInstance.get("/inventory/Category")
@@ -251,6 +290,7 @@ export default function AddProducts({id}: Readonly<Props>) {
   const getVariantsFromResponse = (variants: any[]): Variant[] => {
     return variants.map(v => {
       return {
+        id: v.productVariantId,
         name: v.attributes.map(attr => attr.value).join("/"),
         priceAdjustment: v.priceAdjustment,
         stockQuantity: v.stockQuantity,
@@ -260,7 +300,7 @@ export default function AddProducts({id}: Readonly<Props>) {
   }
 
   const sendProduct = () => {
-    const body = parseToCreateProductDTO();
+    const body = parseToProductDTO();
     fetch("http://localhost:5001/api/inventory/Product", {
       method: "POST",
       headers: {
@@ -276,11 +316,22 @@ export default function AddProducts({id}: Readonly<Props>) {
       .catch((e) => console.error(e));
   };
 
+  const updateProduct = async () => {
+    try {
+      const body = parseToProductDTO();
+      const response = await axiosInstance.put(`inventory/Product/${id}`, body);
+      console.log(response);
+      toast.success("Product updated");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
   const handleSubmit = () => {
     touchAllFields();
     if (errors.length == 0) {
       if (editMode) {
-        console.log(parseToCreateProductDTO());
+        updateProduct();
       } else {
         sendProduct();
       }

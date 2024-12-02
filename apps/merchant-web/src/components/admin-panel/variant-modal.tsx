@@ -138,6 +138,7 @@ export default function VariantModal({item}) {
                                 <Button color="primary" onPress={() => {
                                     if (errors.length == 0) {
                                         addVariant({
+                                            id: variantOnMemory?.id,
                                             name: item.join("/"),
                                             priceAdjustment: parseFloat(priceAdjustment) || 0,
                                             stockQuantity: parseInt(productQty) || 0,

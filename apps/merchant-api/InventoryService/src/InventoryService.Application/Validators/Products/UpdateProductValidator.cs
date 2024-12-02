@@ -50,8 +50,5 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductDto>
         RuleFor(x => x.ProductVariants)
             .NotNull().WithMessage("Product Variants is required")
             .Must(o => o is { Count: >= 1 }).WithMessage("Product Variants must have at least one product variant.");  
-
-        RuleForEach(x => x.ProductVariants)
-            .SetValidator(new ProductVariantValidator(validationSettings));
     }
 }

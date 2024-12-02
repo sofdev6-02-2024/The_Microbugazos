@@ -4,10 +4,13 @@ using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
 using InventoryService.Application.Comparers.Image;
+using InventoryService.Application.Comparers.Variant;
 using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.Dtos.Images;
 using InventoryService.Application.Dtos.Products;
+using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.Products.Commands.Commands;
+using InventoryService.Application.Services;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
 using MediatR;
@@ -19,6 +22,8 @@ public class UpdateProductCommandHandler(
     IProductRepository productRepository,
     IRepository<Category> categoryRepository,
     IRepository<Image> imageRepository,
+    IRepository<ProductVariant> productVariantRepository,
+    ProductVariantService productVariantService, 
     IResponseHandlingHelper responseHandlingHelper,
     IMapper mapper
     ) : 
@@ -28,7 +33,7 @@ public class UpdateProductCommandHandler(
     {
         var productDto = request.ProductDto;
         var previousStatusProduct = await productRepository.GetByIdAsync(request.Id);
-        
+
         var response = await validator.ValidateAsync(productDto, cancellationToken);
         if (!response.IsValid) return responseHandlingHelper.BadRequest<UpdateProductDto>(
             "The operation to update a product was not completed, please check the errors",
@@ -53,10 +58,38 @@ public class UpdateProductCommandHandler(
         
         await productRepository.UpdateAsync(previousStatusProduct);
 
-        var status = await HandleImagesUpdate(
+        bool imagesUpdate = await HandleImagesUpdate(
             request.Id,
             previousStatusProduct.Images.Select(mapper.Map<UpdateImageDto>).ToList(), 
             productDto.Images);
+        bool variantsUpdate = await HandleProductVariantUpdate(
+            request.Id,
+            previousStatusProduct.ProductVariants.Select(i 
+                => new UpdateProductVariantDto {
+                    Id = i.Id,
+                    Image = mapper.Map<ProductVariantImageDto>(i.Image),
+                    PriceAdjustment = i.PriceAdjustment,
+                    StockQuantity = i.StockQuantity,
+                    Attributes = i.Attributes.Select(attr 
+                        =>
+                    {
+                        Debug.Assert(attr.Variant != null, "attr.Variant != null");
+                        return new ProductVariantAttributeDto
+                        {
+                            Name = attr.Variant.Name,
+                            Value = attr.Value
+                        };
+                    }).ToList()
+                }).ToList(),
+            productDto.ProductVariants
+            );
+
+        if (!imagesUpdate || !variantsUpdate)
+        {
+            return responseHandlingHelper.InternalServerError<UpdateProductDto>(
+                "Some error happens while try to update information of the product");
+        }
+        
         return responseHandlingHelper.Ok("Product Updated", request.ProductDto);
     }
 
@@ -95,6 +128,64 @@ public class UpdateProductCommandHandler(
         catch
         {
             return false;
+        }
+    }
+
+    private async Task<bool> HandleProductVariantUpdate(
+        Guid productId,
+        ICollection<UpdateProductVariantDto> previousProductVariants,
+        ICollection<UpdateProductVariantDto> currentProductVariants
+        )
+    {
+        try
+        {
+            var comparer = new UpdateProductVariantDtoComparer();
+            var newVariants = currentProductVariants
+                .Where(v => v.Id == Guid.Empty)
+                .Except(previousProductVariants, comparer);
+
+            var deletedVariants = previousProductVariants
+                .Except(currentProductVariants, comparer)
+                .Where(v => v.Id != Guid.Empty);
+
+            var updatedVariants = currentProductVariants
+                .Intersect(previousProductVariants, comparer)
+                .Where(v => v.Id != Guid.Empty);
+            
+            foreach (UpdateProductVariantDto newVariant in newVariants)
+            {
+                var productVariant = new CreateProductVariantDto
+                {
+                    ProductId = productId,
+                    Image = newVariant.Image,
+                    PriceAdjustment = newVariant.PriceAdjustment ?? 0,
+                    StockQuantity = newVariant.StockQuantity ?? 0,
+                    Attributes = newVariant.Attributes.ToList() ?? []
+                };
+                await productVariantService.CreateProductVariant(productVariant, productId);
+            }
+            
+            foreach (UpdateProductVariantDto deletedVariant in deletedVariants)
+            {
+                if (deletedVariant.Id != null) await productVariantRepository.DeleteAsync(deletedVariant.Id.Value);
+            }
+            
+            foreach (UpdateProductVariantDto updatedVariant in updatedVariants)
+            {
+                if (updatedVariant.Id != null)
+                {
+                    var existingProductVariant = await productVariantRepository.GetByIdAsync(updatedVariant.Id.Value);
+                    if (existingProductVariant == null) return false;
+                    await productVariantService.UpdateProductVariant(updatedVariant, existingProductVariant);
+                }
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }
