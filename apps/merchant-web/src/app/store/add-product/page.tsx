@@ -49,6 +49,8 @@ export default function AddProducts({id}: Readonly<Props>) {
     if (id != null && categories.length != 0) {
       setEditMode(true);
       loadEditInfo();
+    } else {
+      setOptions([]);
     }
   }, [categories]);
 
