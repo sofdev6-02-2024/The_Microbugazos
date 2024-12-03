@@ -30,7 +30,6 @@ builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
 
-// configurations
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
 builder.Services.Configure<ValidationSettings>(builder.Configuration);
 

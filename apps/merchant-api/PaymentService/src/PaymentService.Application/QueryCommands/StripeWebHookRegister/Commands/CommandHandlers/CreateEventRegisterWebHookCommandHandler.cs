@@ -2,7 +2,12 @@ using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using Commons.ResponseHandler.Responses.Concretes;
 using DotNetEnv;
+using MassTransit;
 using MediatR;
+using NotificationService.Domain.Dtos;
+using NotificationService.Domain.Dtos.Emails;
+using NotificationService.Domain.Dtos.OrderItems;
+using NotificationService.Domain.Dtos.Orders;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.Dtos.PaymentTransactions;
 using PaymentService.Application.QueryCommands.StripeWebHookRegister.Commands.Commands;
@@ -21,17 +26,20 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
     private readonly IResponseHandlingHelper _responseHandlingHelper;
     private readonly PaymentTransactionService _transactionService;
     private readonly OrderService _orderService;
+    private readonly IBus _producer;
 
     public CreateEventRegisterWebHookCommandHandler(
         IRepository<PaymentMethod> paymentMethodRepository,
         PaymentTransactionService paymentTransactionService,
         PaymentTransactionService transactionService, OrderService orderService, 
-        IResponseHandlingHelper responseHandlingHelper)
+        IResponseHandlingHelper responseHandlingHelper,
+        IBus producer)
     {
         _paymentMethodRepository = paymentMethodRepository;
         _transactionService = transactionService;
         _orderService = orderService;
         _responseHandlingHelper = responseHandlingHelper;
+        _producer = producer;
         StripeConfiguration.ApiKey = Env.GetString("STRIPE_SECRET_KEY");
     }
 
@@ -54,7 +62,9 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
 
             var transactionResponse = await ProcessPaymentTransaction(session, (SuccessResponse<Guid>)orderResponse);
             if (transactionResponse is ErrorResponse errorTransactionResponse) return errorTransactionResponse;
-
+            
+            await PublishOrderEmailEvent(fullSession, (SuccessResponse<Guid>)orderResponse);
+            
             return _responseHandlingHelper.Ok("The stripe event was processed", stripeEvent.Id);
         }
         catch (StripeException e)
@@ -120,5 +130,26 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
         };
 
         return await _transactionService.CreatePaymentTransaction(paymentTransactionDto);
+    }
+    
+    private async Task PublishOrderEmailEvent(Session session, SuccessResponse<Guid> orderResponse)
+    {
+        var orderEmail = new OrderEmail(
+            new Contact(
+                session.CustomerDetails?.Name ?? "Customer", 
+                session.CustomerDetails?.Email ?? string.Empty
+            ), 
+            new OrderNormal(
+                orderResponse.Data.ToString(), 
+                session.LineItems.Data.Select(item => new OrderItemWithPrice(
+                    item.Description ?? "Unknown Item", 
+                    (int)item.Quantity, 
+                    (decimal)item.Price.UnitAmount / 100m
+                )).ToList(),
+                (decimal)session.AmountTotal / 100m
+            )
+        );
+
+        await _producer.Publish(orderEmail);
     }
 }

@@ -8,7 +8,7 @@ namespace NotificationService.Application.Services.Templates
     {
         public override async Task<string> GenerateEmailTemplate(OrderEmail email)
         {
-            string templatePath = $"{EmailPath}invoice.hmtl";
+            string templatePath = $"{EmailPath}invoice.html";
             string htmlTemplate = await File.ReadAllTextAsync(templatePath);
 
             htmlTemplate = htmlTemplate.Replace("{{OrderNumber}}", email.Order.OrderNumber);
