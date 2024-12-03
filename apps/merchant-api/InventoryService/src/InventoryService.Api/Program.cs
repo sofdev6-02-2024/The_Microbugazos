@@ -2,6 +2,7 @@ using InventoryService.Api;
 using DotNetEnv;
 using InventoryService.Intraestructure.Data;
 using InventoryService.Application;
+using InventoryService.Application.Profiles;
 using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,10 @@ builder.Services.AddApplication();
 
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
 builder.Services.Configure<ValidationSettings>(builder.Configuration);
+
+builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(typeof(ProductProfile).Assembly));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
 builder.Services.AddDbContext<DbContext, InventoryDbContext>(options =>

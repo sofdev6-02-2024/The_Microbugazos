@@ -4,7 +4,7 @@ import TextField from "@/components/text-field";
 import { MdClose } from "react-icons/md";
 import {isNullOrEmpty} from "@/commons/validators";
 import {useOptions} from "@/commons/providers/add-product-provider";
-import {ValidateName} from "@/commons/validations/string";
+import {ValidateName, ValidateShortText} from "@/commons/validations/string";
 
 export default function ProductOptionsModal() {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
@@ -80,7 +80,7 @@ export default function ProductOptionsModal() {
                                         errors={errors}
                                         setErrors={setErrors}
                                         value={currentOption}
-                                        validator={ValidateName}
+                                        validator={ValidateShortText}
                                         onChange={(value) => setCurrentOption(value)}
                                         onKeyDown={handleKeyDown}
                                         showIcon={false}

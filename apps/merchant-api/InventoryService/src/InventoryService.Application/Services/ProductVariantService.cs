@@ -59,26 +59,6 @@ public class ProductVariantService(
         existingProductVariant.PriceAdjustment = updateDto.PriceAdjustment ?? existingProductVariant.PriceAdjustment;
         existingProductVariant.StockQuantity = updateDto.StockQuantity ?? existingProductVariant.StockQuantity;
 
-        if (updateDto.Attributes != null)
-        {
-            var attributesList = existingProductVariant.Attributes.ToList();
-
-            foreach (var attribute in attributesList) 
-                await productAttributeRepository.DeleteAsync(attribute.Id);
-
-            foreach (var attributeDto in updateDto.Attributes)
-            {
-                var variant = await variantRepository.AddAsync(new Variant { Name = attributeDto.Name });
-                var productAttribute = new ProductAttribute
-                {
-                    ProductVariant = existingProductVariant,
-                    Variant = variant,
-                    Value = attributeDto.Value
-                };
-                await productAttributeRepository.AddAsync(productAttribute);
-            }
-        }
-
         await productVariantRepository.UpdateAsync(existingProductVariant);
 
         var variantImageDto = new ProductVariantImageDto

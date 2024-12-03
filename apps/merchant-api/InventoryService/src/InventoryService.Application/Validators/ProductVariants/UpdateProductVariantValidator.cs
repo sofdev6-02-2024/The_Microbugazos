@@ -11,7 +11,7 @@ public class UpdateProductVariantValidator : AbstractValidator<UpdateProductVari
     {
         var productVariantSettings = validationSettings.Value.ProductVariant;
         
-        RuleFor(pv => pv.ProductVariantId)
+        RuleFor(pv => pv.Id)
             .NotNull().WithMessage("Product Variant ID cannot be null.")
             .NotEmpty().WithMessage("Product Variant ID is required.");
     

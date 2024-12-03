@@ -82,6 +82,7 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    tty: true
 
   payment_service:
     build:

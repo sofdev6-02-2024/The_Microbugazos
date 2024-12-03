@@ -59,6 +59,17 @@ public class ProductController(IMediator mediator) : ControllerBase
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, UpdateProductDto productDto)
+    {
+        var result = await mediator.Send(new UpdateProductCommand(id, productDto));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<UpdateProductDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
