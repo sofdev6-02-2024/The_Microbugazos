@@ -17,8 +17,8 @@ public class UpdateImageCommandHandler(
     public async Task<BaseResponse> Handle(UpdateImageCommand request, CancellationToken cancellationToken)
     {
         var imageDto = request.Image;
-        var imageToUpdate = await imageRepository.GetByIdAsync(imageDto.ImageId);        
-        if (imageToUpdate == null) return responseHandlingHelper.NotFound<Image>($"The image with the follow id '{imageDto.ImageId}' was not found.");        
+        var imageToUpdate = await imageRepository.GetByIdAsync(imageDto.Id);        
+        if (imageToUpdate == null) return responseHandlingHelper.NotFound<Image>($"The image with the follow id '{imageDto.Id}' was not found.");        
         
         var response = await validator.ValidateAsync(imageDto, cancellationToken);
         if (!response.IsValid) return responseHandlingHelper.BadRequest<UpdateImageDto>(

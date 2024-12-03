@@ -60,7 +60,7 @@ public class ProductVariantController(IMediator mediator, IResponseHandlingHelpe
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductVariantDto request)
     {
-        if (id != request.ProductVariantId) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
+        if (id != request.Id) return StatusCode(400, responseHandlingHelper.BadRequest<Guid>(
             "The ID in the route and in the body of the request do not match."));
 
         var result = await mediator.Send(new UpdateProductVariantCommand(request));

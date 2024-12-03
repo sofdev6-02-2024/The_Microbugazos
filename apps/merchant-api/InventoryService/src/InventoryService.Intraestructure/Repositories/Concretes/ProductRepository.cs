@@ -20,9 +20,9 @@ public class ProductRepository(InventoryDbContext context, IRepository<Category>
             .Include(p => p.Images)
             .Include(p => p.Categories.Where(c => c.IsActive == true))
             .ThenInclude(c => c.ParentCategory)
-            .Include(p => p.ProductVariants)
+            .Include(p => p.ProductVariants.Where(attr => attr.IsActive))
             .ThenInclude(pv => pv.Image)
-            .Include(p => p.ProductVariants)
+            .Include(p => p.ProductVariants.Where(attr => attr.IsActive))
             .ThenInclude(pa => pa.Attributes)
             .ThenInclude(pa => pa.Variant)
             .FirstOrDefaultAsync(c => c.Id == id);
