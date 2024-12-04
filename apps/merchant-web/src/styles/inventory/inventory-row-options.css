@@ -45,7 +45,7 @@
   display: block !important;
 }
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 1170px) {
   .hiddable-inventory-option {
     display: none !important;
   }

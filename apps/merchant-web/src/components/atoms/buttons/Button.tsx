@@ -31,7 +31,10 @@ export const Button = ({
       className={`button button-style ${shape} ${className} ${
         disabled ? "disabled" : ""
       } ${buttonStyle} ${variant}`}
-      onClick={handleClick}
+      onClick={(e)=>{
+        e.stopPropagation();
+        handleClick(e);
+      }}
     >
       {children}
     </button>

@@ -11,7 +11,7 @@ export const updateLowStockThresholdByProduct = async (
     return "";
   }
 
-  const updated = await axiosInstance.put(`/inventory/threshold`, {
+  const updated = await axiosInstance.put(`/inventory/product/threshold`, {
     productId: productId,
     threshold: threshold,
   });

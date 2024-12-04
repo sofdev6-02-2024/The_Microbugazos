@@ -10,6 +10,7 @@
 .inventory-product-row {
   width: 100%;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .inventory-product-name-ctn {
@@ -48,14 +49,17 @@
   display: block;
 }
 
- 
-@media screen and (max-width: 850px) {
+.low-stock-alert {
+  background-color: var(--low-stock-alert) !important;
+}
+
+@media screen and (max-width: 1170px) {
   .inventory-product-buttons-ctn {
     display: flex;
     justify-content: end;
   }
 
   .hiddable-button {
-    display: none!important;
+    display: none !important;
   }
 }

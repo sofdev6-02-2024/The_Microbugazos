@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaEllipsisV, FaRegTrashAlt} from "react-icons/fa";
+import { FaEllipsisV, FaRegTrashAlt } from "react-icons/fa";
 import { SquarePen } from "lucide-react";
 import { MdOutlineStar } from "react-icons/md";
 import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
@@ -10,6 +10,8 @@ import { InventoryRowOptions } from "./InventoryRowOptions";
 import Product from "@/commons/entities/concretes/Product";
 import "@/styles/inventory/inventory-table-rows.css";
 import "@/styles/inventory/product-row-inventory.css";
+import VariantSubSection from "./VariantsRow";
+import { useStore } from "@/commons/context/StoreContext";
 
 interface InventoryRowProps {
   product: Product;
@@ -17,6 +19,8 @@ interface InventoryRowProps {
   deleteProduct: (deleteProduct: () => Promise<void>) => void;
   setCurrentProduct: (product: Product) => void;
   openConfigurationSettings: () => void;
+  active: boolean;
+  onClick: () => void;
 }
 
 export const InventoryRow = ({
@@ -25,9 +29,12 @@ export const InventoryRow = ({
   deleteProduct,
   setCurrentProduct,
   openConfigurationSettings,
+  active,
+  onClick,
 }: InventoryRowProps) => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
+  const { store } = useStore();
 
   const formatToK = (number: number) => {
     if (number < 1000) {
@@ -53,62 +60,101 @@ export const InventoryRow = ({
 
   const handleUpdateProduct = () => {
     router.push(`/store/add-product/${product.id}`);
-  }
+  };
+
+  const getLowStockThreshold = () => {
+    let threshold = store?.lowStockThreshold;
+    if (
+      product &&
+      product.lowStockThreshold !== undefined &&
+      product.lowStockThreshold !== null
+    ) {
+      threshold = product.lowStockThreshold;
+    }
+    if (!threshold) {
+      return 0;
+    }
+    return threshold;
+  };
+  const isStockLessTheThreshold = () => {
+    const threshold = getLowStockThreshold();
+    for (const variant of product.productVariants) {
+      if (variant.stockQuantity < threshold) {
+        return true;
+      }
+    }
+    return false;
+  };
   return (
-    <tr className="admin-store-inventory-row inventory-product-row">
-      <td className="inventory-product-name-ctn">
-        <img
-          className="image-inventory-row"
-          src={
-            product.images.length > 0
-              ? product.images[0].url
-              : defaultSmallImage
-          }
-          alt={product.images.length > 0 ? product.images[0].url : product.name}
-        />
-        <p>{product.name}</p>
-      </td>
-      <td>
-        <p>{formatToK(product.price)} $</p>
-      </td>
-      <td className="inventory-product-reviews-ctn">
-        <MdOutlineStar />
-        {product.productReviews ? product.productReviews.length : 0}
-      </td>
-      <td className="inventory-product-buttons-ctn">
-        <Button
-          variant="button-variant-small"
-          shape="squared"
-          buttonStyle="button-filled"
-          handleClick={handleUpdateProduct}
-          className="hiddable-button"
-        >
-          <SquarePen />
-        </Button>
-        <Button
-          variant="button-variant-small"
-          shape="squared"
-          buttonStyle="button-delete"
-          handleClick={handleOpenPoppupToDeleteProduct}
-          className="hiddable-button"
-        >
-          <FaRegTrashAlt />
-        </Button>
-        <Button
-          variant="button-variant-small"
-          buttonStyle="button-free"
-          handleClick={() => setIsVisible(!isVisible)}
-        >
-          <FaEllipsisV />
-          <InventoryRowOptions
-            isVisible={isVisible}
-            setIsVisible={setIsVisible}
-            onRemove={handleOpenPoppupToDeleteProduct}
-            onEdit={handleUpdateProduct}
-            onConfiguringSettings={handleOpenConfigurationSettings}
+    <>
+      <tr
+        className={`admin-store-inventory-row inventory-product-row ${
+          isStockLessTheThreshold() && "low-stock-alert"
+        }`}
+        onClick={onClick}
+      >
+        <td className="inventory-product-name-ctn">
+          <img
+            className="image-inventory-row"
+            src={
+              product.images.length > 0
+                ? product.images[0].url
+                : defaultSmallImage
+            }
+            alt={
+              product.images.length > 0 ? product.images[0].url : product.name
+            }
           />
-        </Button>
-      </td>
-    </tr>
+          <p>{product.name}</p>
+        </td>
+        <td>
+          <p>{formatToK(product.price)} $</p>
+        </td>
+        <td className="inventory-product-reviews-ctn">
+          <MdOutlineStar />
+          {product.productReviews ? product.productReviews.length : 0}
+        </td>
+        <td className="inventory-product-buttons-ctn">
+          <Button
+            variant="button-variant-small"
+            shape="squared"
+            buttonStyle="button-filled"
+            handleClick={handleUpdateProduct}
+            className="hiddable-button"
+          >
+            <SquarePen />
+          </Button>
+          <Button
+            variant="button-variant-small"
+            shape="squared"
+            buttonStyle="button-delete"
+            handleClick={handleOpenPoppupToDeleteProduct}
+            className="hiddable-button"
+          >
+            <FaRegTrashAlt />
+          </Button>
+          <Button
+            variant="button-variant-small"
+            buttonStyle="button-free"
+            handleClick={() => setIsVisible(!isVisible)}
+          >
+            <FaEllipsisV />
+            <InventoryRowOptions
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              onRemove={handleOpenPoppupToDeleteProduct}
+              onEdit={handleUpdateProduct}
+              onConfiguringSettings={handleOpenConfigurationSettings}
+            />
+          </Button>
+        </td>
+      </tr>
+
+      <VariantSubSection
+        product={product}
+        active={active}
+        threshold={getLowStockThreshold()}
+      />
+    </>
   );
 };

@@ -18,3 +18,7 @@
 .inventory-variant-row-header {
   margin-top: 10px;
 }
+
+.low-stock-alert{
+  background-color:var(--low-stock-alert)!important;
+}
