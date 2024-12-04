@@ -14,11 +14,11 @@ export const ROUTE_PERMISSIONS: Record<UserType, UserPermissions> = {
         redirectTo: DEFAULT_FORBIDDEN_REDIRECT
     },
     [UserType.SELLER]: {
-        paths: ["/", "/products", "/profile", "/admin/products", "/admin/orders", "/store/inventory/*", "/store", "/payment/*"],
+        paths: ["/", "/products", "/profile", "/admin/products", "/admin/orders", "/store/inventory/*", "/store", "/order-history", "/payment/*"],
         redirectTo: "/store/inventory"
     },
     [UserType.OWNER]: {
-        paths: ["/", "/products", "/profile", "/store/*", "/payment/*",],
+        paths: ["/", "/products", "/profile", "/store/*", "/order-history",  "/payment/*",],
         redirectTo: "/store"
     },
     [UserType.ADMIN]: {
