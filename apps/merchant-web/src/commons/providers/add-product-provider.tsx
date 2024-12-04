@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {createContext, useContext, useState, ReactNode, useMemo} from "react";
 
 export interface Option {
     name: string;
@@ -8,11 +8,12 @@ export interface Option {
 
 export interface OptionsContextType {
     options: Option[]
+    addOption: (Option) => void,
+    removeOption: (Option) => void,
+    setOptions: (options: Option[]) => void
 }
 
-const OptionsContext = createContext<OptionsContextType>({
-    options: [],
-});
+const OptionsContext = createContext<OptionsContextType | undefined>(undefined);
 
 export const useOptions = () => {
     const context = useContext(OptionsContext);
@@ -36,13 +37,21 @@ export const OptionsProvider: React.FC<OptionsProviderProps> = ({ children }) =>
         }
     };
 
-    const removeOption =(option: Option) => {
+    const removeOption = (option: Option) => {
         const optionsUpdated = options.filter((item) => item.name != option.name)
         setOptions(optionsUpdated);
     }
 
+    const objValue = useMemo(() => ({
+      options,
+
+      addOption,
+      removeOption,
+      setOptions
+    }), [options]);
+
     return (
-        <OptionsContext.Provider value={{ options, addOption, removeOption }}>
+        <OptionsContext.Provider value={objValue}>
             {children}
         </OptionsContext.Provider>
     );

@@ -21,9 +21,19 @@ public class UpdateStoreCommandHandler(
     {
         var validation = validator.Validate(request.StoreDto);
         if (!validation.IsValid) return responseHandlingHelper.BadRequest<StoreDto>(
-            "The operation to create a store was not completed, please check the errors.", 
+            "The operation to create a store was not completed, please check the errors.",
             validation.Errors.Select(e => e.ErrorMessage).ToList());
-        
+
+        var storeDto = request.StoreDto;
+
+        if (storeDto != null && storeDto.LowStockThreshold == null)
+        {
+            var baseStore = await storeRepository.GetByIdAsync(request.Id);
+            if (baseStore is null)
+                return responseHandlingHelper.BadRequest<StoreDto>("Store not found");
+            storeDto.LowStockThreshold = baseStore.LowStockThreshold;
+        }
+
         var store = mapper.Map<Store>(request.StoreDto);
         store = await storeRepository.UpdateAsync(store);
         return responseHandlingHelper.Ok("The category has been successfully updated.", mapper.Map<StoreDto>(store));

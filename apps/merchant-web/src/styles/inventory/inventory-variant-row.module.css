@@ -1,0 +1,20 @@
+.hiddenVariant {
+  display: none!important;
+}
+
+.inventory-variant-row {
+  width: 98%;
+  display: grid;
+  grid-template-columns: 10% 30% 30% 30%;
+  align-items: center;
+  padding: 6px;
+  border-radius: 10px;
+  background-color: #eff2fc;
+  box-shadow: 0 0 10px rgba(94, 94, 94, 0.1);
+  margin: 2px 0;
+  align-self: flex-end;
+}
+
+.inventory-variant-row-header {
+  margin-top: 10px;
+}

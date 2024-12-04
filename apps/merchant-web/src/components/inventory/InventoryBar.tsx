@@ -22,7 +22,7 @@ export const InventoryBar = ({
 }: InventoryBarProps) => {
   const router = useRouter();
   const handleAddNewProduct = () => {
-    router.push("add-product");
+    router.push("/store/add-product");
   };
 
   return (

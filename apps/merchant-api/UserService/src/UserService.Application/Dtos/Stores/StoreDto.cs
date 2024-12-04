@@ -11,5 +11,5 @@ public class StoreDto
     public Guid? UserId { get; set; }
     public string? BannerImage { get; set; }
     public string? ProfileImage { get; set; }
-    public int LowStockThreshold { get; set; }
+    public int? LowStockThreshold { get; set; }
 }
