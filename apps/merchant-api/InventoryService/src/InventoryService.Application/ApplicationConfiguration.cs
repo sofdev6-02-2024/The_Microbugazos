@@ -33,6 +33,7 @@ public static class ApplicationConfiguration
         services.AddScoped<IRepository<ProductReview>, ProductReviewRepository>();
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
+        services.AddScoped<IRepository<InventoryReservation>, ReservationRepository>();
         services.AddTransient<ProductVariantService>();
         services.AddTransient<ProductService>();
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
