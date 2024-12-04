@@ -1,5 +1,5 @@
 .hiddenVariant {
-  display: none!important;
+  display: none !important;
 }
 
 .inventory-variant-row {
@@ -13,12 +13,21 @@
   box-shadow: 0 0 10px rgba(94, 94, 94, 0.1);
   margin: 2px 0;
   align-self: flex-end;
+  position: relative;
 }
 
 .inventory-variant-row-header {
   margin-top: 10px;
 }
 
-.low-stock-alert{
-  background-color:var(--low-stock-alert)!important;
+.low-stock-variant-message {
+  position: absolute;
+  right: 100px;
+  font-size: var(--normal-4-text-size);
+}
+
+@media screen and  (max-width:1170px) {
+ .low-stock-variant-message {
+  right: 22px;
+} 
 }

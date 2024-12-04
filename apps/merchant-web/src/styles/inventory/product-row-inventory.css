@@ -10,7 +10,41 @@
 .inventory-product-row {
   width: 100%;
   margin-bottom: 0;
+  position: relative;
+}
+
+.inventory-product-name{
+  color: var(--primary-400);
+}
+
+.inventory-product-name-ctn p{
   cursor: pointer;
+}
+
+
+.inventory-product-name:hover{
+  color: var(--primary-600);
+}
+
+.inventory-low-stock-message {
+  position: absolute;
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  padding: 2px  4px;
+  font-size: var(--normal-5-text-size);
+  top: -8px;
+}
+
+.inventory-low-stock-message::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: red transparent transparent transparent;
+  transform: translateX(-160%);
 }
 
 .inventory-product-name-ctn {
@@ -50,7 +84,7 @@
 }
 
 .low-stock-alert {
-  background-color: var(--low-stock-alert) !important;
+  color: red !important;
 }
 
 @media screen and (max-width: 1170px) {

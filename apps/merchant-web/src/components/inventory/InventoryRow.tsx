@@ -66,8 +66,8 @@ export const InventoryRow = ({
     let threshold = store?.lowStockThreshold;
     if (
       product &&
-      product.lowStockThreshold !== undefined &&
-      product.lowStockThreshold !== null
+      product.lowStockThreshold &&
+      product.lowStockThreshold>0
     ) {
       threshold = product.lowStockThreshold;
     }
@@ -87,12 +87,7 @@ export const InventoryRow = ({
   };
   return (
     <>
-      <tr
-        className={`admin-store-inventory-row inventory-product-row ${
-          isStockLessTheThreshold() && "low-stock-alert"
-        }`}
-        onClick={onClick}
-      >
+      <tr className={`admin-store-inventory-row inventory-product-row`}>
         <td className="inventory-product-name-ctn">
           <img
             className="image-inventory-row"
@@ -105,7 +100,7 @@ export const InventoryRow = ({
               product.images.length > 0 ? product.images[0].url : product.name
             }
           />
-          <p>{product.name}</p>
+          <p className={"inventory-product-name"}onClick={onClick}>{product.name}</p>
         </td>
         <td>
           <p>{formatToK(product.price)} $</p>
@@ -148,6 +143,9 @@ export const InventoryRow = ({
             />
           </Button>
         </td>
+        {isStockLessTheThreshold() && (
+          <td className="inventory-low-stock-message">Low Stock</td>
+        )}
       </tr>
 
       <VariantSubSection

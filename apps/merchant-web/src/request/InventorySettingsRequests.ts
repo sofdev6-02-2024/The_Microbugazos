@@ -1,7 +1,5 @@
 import { toast } from "sonner";
-import { SortingProduct } from "@/commons/entities/SortingProduct";
 import axiosInstance from "./AxiosConfig";
-import { SortingType } from "@/commons/entities/SortingType";
 
 export const updateLowStockThresholdByProduct = async (
   productId: string,

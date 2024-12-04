@@ -29,9 +29,6 @@ const VariantSubSection = ({
           key={variant.productVariantId}
           className={`${style["inventory-variant-row"]} ${
             !active && style.hiddenVariant
-          }    ${
-            threshold > variant.stockQuantity &&
-            style["low-stock-alert"]
           }
        `}
         >
@@ -50,8 +47,17 @@ const VariantSubSection = ({
               </p>
             ))}
           </td>
-          <td>
+          <td
+            className={`${
+              threshold > variant.stockQuantity && "low-stock-alert"
+            }`}
+          >
             <p>{variant.stockQuantity}</p>
+          </td>
+          <td
+            className={`low-stock-alert ${style["low-stock-variant-message"]}`}
+          >
+            {threshold > variant.stockQuantity && "Low Stock"}
           </td>
         </tr>
       ))}

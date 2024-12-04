@@ -18,8 +18,18 @@ export const ConfigureProductOptionsModal = <T,>({
   ConfigureProductOptionsModalProps,
   "children" | "type" | "onConfirm"
 >) => {
+  const getLowStockThreshold = () => {
+    if (
+      currentProduct &&
+      currentProduct.lowStockThreshold &&
+      currentProduct.lowStockThreshold > 0
+    ) {
+      return currentProduct.lowStockThreshold;
+    }
+    return store?.lowStockThreshold ?? 0;
+  };
   const { store } = useStore();
-  const [stockThreshold, setStockThreshold] = useState(0);
+  const [stockThreshold, setStockThreshold] = useState(getLowStockThreshold());
 
   useEffect(() => {
     if (currentProduct || !isOpen) {
