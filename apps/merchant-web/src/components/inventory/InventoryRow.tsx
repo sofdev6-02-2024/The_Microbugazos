@@ -10,19 +10,20 @@ import { deleteProductById } from "@/request/ProductRequests";
 import { Button } from "../atoms/buttons/Button";
 import { InventoryRowOptions } from "./InventoryRowOptions";
 
-
 interface InventoryRowProps {
   product: Product;
   reloadPage: () => Promise<void>;
   deleteProduct: (deleteProduct: () => Promise<void>) => void;
-  setCurrentProductName: (name: string) => void;
+  setCurrentProduct: (product: Product) => void;
+  openConfigurationSettings: () => void;
 }
 
 export const InventoryRow = ({
   product,
   reloadPage,
   deleteProduct,
-  setCurrentProductName,
+  setCurrentProduct,
+  openConfigurationSettings,
 }: InventoryRowProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -39,8 +40,13 @@ export const InventoryRow = ({
   };
 
   const handleOpenPoopupToDeleteProduct = () => {
-    setCurrentProductName(product.name);
+    setCurrentProduct(product);
     deleteProduct(handleDeleteProduct);
+  };
+
+  const handleOpenConfigurationSettings = () => {
+    setCurrentProduct(product);
+    openConfigurationSettings();
   };
 
   return (
@@ -69,12 +75,10 @@ export const InventoryRow = ({
           variant="button-variant-small"
           buttonStyle="button-delete"
           handleClick={handleOpenPoopupToDeleteProduct}
+          className="hiddable-button"
         >
           <FaRegTrashAlt />
         </Button>
-      </td>
-
-      <td className="inventory-product-buttons-ctn-mobile">
         <Button
           variant="button-variant-small"
           buttonStyle="button-free"
@@ -85,6 +89,7 @@ export const InventoryRow = ({
             isVisible={isVisible}
             setIsVisible={setIsVisible}
             onRemove={handleOpenPoopupToDeleteProduct}
+            onConfiguringSettings={handleOpenConfigurationSettings}
           />
         </Button>
       </td>

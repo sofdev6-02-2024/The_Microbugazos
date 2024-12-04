@@ -24,11 +24,13 @@ import { InventoryBar } from "./InventoryBar";
 import GeneralModal from "../members-store/GeneralModal";
 import { useFiltersContext } from "@/contexts/FiltersContext";
 import { useProductsView } from "@/contexts/ProductsViewContext";
+import { ConfigureProductOptionsModal } from "./ConfigureProductOptionsModal";
+import applyLowStockConfiguration from "@/services/lowStockConfigureService";
 
 export const Inventory = () => {
   const [searchValue, setSearchValue] = useState("");
   const { sorting, handleSorting } = useSorting(new SortingProduct());
-  const { store } = useStore();
+  const { store, setStore } = useStore();
   const { data, loading, error, setData } = useFetch<Pagination<Product>>(
     getDefaultInventoryProductsUrl(store?.id ?? ""),
     emptyPagination
@@ -37,9 +39,9 @@ export const Inventory = () => {
   const context = useProductsView();
   const productToDeleteAsigned = useRef(false);
   const delteProduct = useRef<() => Promise<void>>();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [productToRemoveName, setProductToRemoveName] = useState("");
+  const [isConfigureModalOpen, setIsConfigureModalOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Product>();
 
   const handleSearch = async (value: string) => {
     setSearchValue(value);
@@ -50,10 +52,7 @@ export const Inventory = () => {
     setProductsData(page, searchValue);
   };
 
-  const setProductsData = async (
-    page: number,
-    searchValue: string
-  ) => {
+  const setProductsData = async (page: number, searchValue: string) => {
     const data = await getPaginatedProducts(
       page,
       20,
@@ -84,6 +83,11 @@ export const Inventory = () => {
     handlePagination(page);
   };
 
+  const openConfigureGlobalConfigurationModal = () => {
+    setCurrentProduct(undefined);
+    setIsConfigureModalOpen(true);
+  };
+
   useEffect(() => {
     if (!data?.page) {
       return;
@@ -98,12 +102,14 @@ export const Inventory = () => {
   if (error && error?.name !== "CanceledError") {
     return <p>{error?.message}</p>;
   }
+
   return (
     <div className="admin-store-inventory-ctn">
       <InventoryBar
         handleSearch={handleSearch}
         searchTerm={searchValue}
         setSearchTerm={setSearchValue}
+        openConfigureModal={openConfigureGlobalConfigurationModal}
       />
       <div className="admin-store-inventory-table-ctn">
         <table className="admin-store-inventory-table">
@@ -118,7 +124,8 @@ export const Inventory = () => {
               data={data ?? emptyPagination}
               reloadPage={() => handleDelete()}
               deleteProduct={openModal}
-              setCurrentProductName={setProductToRemoveName}
+              setCurrentProduct={setCurrentProduct}
+              openConfigurationSettings={() => setIsConfigureModalOpen(true)}
             />
           )}
         </table>
@@ -140,8 +147,39 @@ export const Inventory = () => {
           closeModal();
         }}
         type="delete"
-        memberName={productToRemoveName}
+        memberName={currentProduct?.name || ""}
         suffix=""
+      />
+
+      <ConfigureProductOptionsModal
+        isOpen={isConfigureModalOpen}
+        onClose={() => {
+          {
+            setCurrentProduct(undefined);
+            setIsConfigureModalOpen(false);
+          }
+        }}
+        onApply={async ({
+          product,
+          threshold,
+        }: {
+          product?: Product;
+          threshold: number;
+        }) => {
+          if (!data) {
+            return;
+          }
+          await applyLowStockConfiguration(
+            threshold,
+            setData,
+            setStore,
+            store,
+            product
+          );
+
+          setIsConfigureModalOpen(false);
+        }}
+        currentProduct={currentProduct}
       />
     </div>
   );

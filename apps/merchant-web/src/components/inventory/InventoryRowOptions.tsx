@@ -5,12 +5,14 @@ interface InventoryRowOptionsProps {
   isVisible: boolean;
   setIsVisible: (visible: boolean) => void;
   onRemove: () => void;
+  onConfiguringSettings: () => void;
 }
 
 export const InventoryRowOptions = ({
   isVisible,
   setIsVisible,
   onRemove,
+  onConfiguringSettings,
 }: InventoryRowOptionsProps) => {
   const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -35,7 +37,10 @@ export const InventoryRowOptions = ({
         isVisible ? "show-inventory-row-options" : ""
       }`}
     >
-      <li onClick={onRemove}>Remove</li>
+      <li onClick={onConfiguringSettings}>Stock Threshold</li>
+      <li onClick={onRemove} className="hiddable-inventory-option">
+        Remove
+      </li>
     </ul>
   );
 };

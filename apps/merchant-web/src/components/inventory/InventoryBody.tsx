@@ -2,18 +2,21 @@ import "@/styles/inventory/inventory-table.css";
 import Product from "@/commons/entities/concretes/Product";
 import { Pagination } from "@/commons/entities/Pagination";
 import { InventoryRow } from "./InventoryRow";
+
 interface InventoryBodyProps {
   data: Pagination<Product>;
   reloadPage: () => Promise<void>;
   deleteProduct: (deleteProduct: () => Promise<void>) => void;
-  setCurrentProductName: (name: string) => void;
+  setCurrentProduct: (product: Product) => void;
+  openConfigurationSettings: () => void;
 }
 
 export const InventoryBody = ({
   data,
   reloadPage,
   deleteProduct,
-  setCurrentProductName,
+  openConfigurationSettings,
+  setCurrentProduct,
 }: InventoryBodyProps) => {
   return (
     <tbody className="admin-store-inventory-body">
@@ -23,7 +26,8 @@ export const InventoryBody = ({
           product={product}
           reloadPage={reloadPage}
           deleteProduct={deleteProduct}
-          setCurrentProductName={setCurrentProductName}
+          setCurrentProduct={setCurrentProduct}
+          openConfigurationSettings={openConfigurationSettings}
         />
       ))}
     </tbody>

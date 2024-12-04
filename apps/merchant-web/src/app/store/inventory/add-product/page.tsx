@@ -123,6 +123,7 @@ export default function AddProducts() {
       description: productDescription,
       price: parseFloat(productPrice),
       brand: productBrand,
+      lowStockThreshold:25,
       categoryIds: [subCategories.find((i) => i.name == productSubCategory).id],
       images: selectedImages.map((item) => {
         return {

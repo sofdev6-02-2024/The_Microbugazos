@@ -4,6 +4,7 @@ import Category from "./Category";
 import Image from "./Image";
 import ProductReview from "./ProductReview";
 
+
 export default class Product {
   id: UUID;
   storeId: UUID;
@@ -15,6 +16,7 @@ export default class Product {
   productVariants: Array<ProductVariant>;
   categories: Array<Category>;
   productReviews: Array<ProductReview>;
+  lowStockThreshold?: number;
 
   constructor(
     id: UUID,
@@ -26,7 +28,8 @@ export default class Product {
     images: Array<Image>,
     productVariants: Array<ProductVariant>,
     categories: Array<Category>,
-    productReviews: Array<ProductReview>
+    productReviews: Array<ProductReview>,
+    lowStockThreshold?: number
   ) {
     this.id = id;
     this.storeId = storeId;
@@ -39,5 +42,6 @@ export default class Product {
     this.productVariants = productVariants;
     this.productReviews = productReviews;
     this.categories = categories;
+    this.lowStockThreshold = lowStockThreshold;
   }
 }

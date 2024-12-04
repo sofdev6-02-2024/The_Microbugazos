@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext } from "react";
 import { StoreFormDto, defaultStoreFormData } from "@/schemes/store/StoreFormDto";
 import { useFetch } from "../hooks/useFetch";
 import { useAuth } from "./AuthContext";
@@ -9,7 +9,7 @@ interface StoreContextType {
   store: StoreFormDto | null;
   loading: boolean;
   error: Error | null;
-  setStore: (store: StoreFormDto) => void;
+  setStore: Dispatch<SetStateAction<StoreFormDto | null>>;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
