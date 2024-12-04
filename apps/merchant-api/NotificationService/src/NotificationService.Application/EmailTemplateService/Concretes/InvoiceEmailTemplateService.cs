@@ -1,4 +1,5 @@
 using System.Text;
+using NotificationService.Domain.Dtos;
 using NotificationService.Domain.Dtos.Emails;
 using NotificationService.Domain.Dtos.OrderItems;
 
@@ -11,10 +12,10 @@ namespace NotificationService.Application.Services.Templates
             string templatePath = $"{EmailPath}invoice.html";
             string htmlTemplate = await File.ReadAllTextAsync(templatePath);
 
+            htmlTemplate = htmlTemplate.Replace("{{ContactEmail}}", email.Contact.ContactEmail);
+            htmlTemplate = htmlTemplate.Replace("{{OrderDate}}", DateTime.Now.ToString("yyyy-MM-dd"));
             htmlTemplate = htmlTemplate.Replace("{{OrderNumber}}", email.Order.OrderNumber);
-
             htmlTemplate = htmlTemplate.Replace("{{Items}}", GenerateTable(email.Order.OrderItems));
-
             htmlTemplate = htmlTemplate.Replace("{{Price}}", $"{email.Order.OrderTotal}");
 
             return htmlTemplate;
