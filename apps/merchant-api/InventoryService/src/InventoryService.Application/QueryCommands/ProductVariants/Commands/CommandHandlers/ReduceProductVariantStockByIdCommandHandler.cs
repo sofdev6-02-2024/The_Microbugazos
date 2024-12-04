@@ -30,7 +30,7 @@ public class ReduceProductVariantStockByIdCommandHandler(
 
         var updateProductVariant = new UpdateProductVariantDto
         {
-            ProductVariantId = updateDto.VariantId,
+            Id = updateDto.VariantId,
             StockQuantity = existingProductVariant.StockQuantity - updateDto.Quantity
         };
 
@@ -39,7 +39,7 @@ public class ReduceProductVariantStockByIdCommandHandler(
 
         var productVariantToDisplay = await service.UpdateProductVariant(updateProductVariant, existingProductVariant);
 
-        return responseHandlingHelper.Ok<ProductVariantDto>($"The stock quantity of {updateProductVariant.ProductVariantId} was updated successfully", productVariantToDisplay);
+        return responseHandlingHelper.Ok<ProductVariantDto>($"The stock quantity of {updateProductVariant.Id} was updated successfully", productVariantToDisplay);
     }
 
 }

@@ -24,7 +24,6 @@ interface Types {
   decreaseQuantityProduct: (id: string) => void;
   changeQuantity: (id: string, quantity: number) => void;
   handleStripe: () => void;
-  clearShoppingCart: () => void;
   handleSuccessPayment: () => void;
 }
 
@@ -198,10 +197,8 @@ export const ShoppingCartProvider = ({ children }: Props) => {
         });
       }
     }
-  };
 
-  const clearShoppingCart = () => {
-    setProducts([]);
+    setProducts([])
   };
 
   useEffect(() => {
@@ -273,7 +270,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       decreaseQuantityProduct,
       changeQuantity,
       handleStripe,
-      clearShoppingCart,
       handleSuccessPayment,
     };
   }, [products]);

@@ -28,7 +28,7 @@ public class UpdateStockCommandHandler(
 
         var updateProductVariant = new UpdateProductVariantDto
         {
-            ProductVariantId = updateDto.VariantId,
+            Id = updateDto.VariantId,
             StockQuantity = updateDto.Quantity
         };
 
@@ -36,6 +36,6 @@ public class UpdateStockCommandHandler(
         if (!response.IsValid) return responseHandlingHelper.BadRequest<UpdateProductVariantDto>("The operation to update the product variant was not completed, please check the errors.", response.Errors.Select(e => e.ErrorMessage).ToList());
 
         var productVariantToDisplay = await service.UpdateProductVariant(updateProductVariant, existingProductVariant);
-        return responseHandlingHelper.Ok<ProductVariantDto>($"The stock quantity of {updateProductVariant.ProductVariantId} was updated successfully", productVariantToDisplay);
+        return responseHandlingHelper.Ok<ProductVariantDto>($"The stock quantity of {updateProductVariant.Id} was updated successfully", productVariantToDisplay);
     }
 }

@@ -39,7 +39,7 @@ public class ReduceStockProductVariantCommandHandler(
 
             var updateDto = new UpdateProductVariantDto
             {
-                ProductVariantId = variantStock.VariantId,
+                Id = variantStock.VariantId,
                 StockQuantity = variant.StockQuantity - variantStock.Quantity
             };
 
