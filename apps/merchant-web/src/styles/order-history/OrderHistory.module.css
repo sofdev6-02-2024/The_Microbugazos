@@ -1,50 +1,30 @@
+.container {
+  padding: 0 4rem 0 4rem;
+  height: 100vh;
+}
+
+.line {
+  border-bottom: 1px solid black;
+}
+
 .sc-container {
   display: flex;
   justify-content: center;
   align-items: center;
   max-width: 100%;
   padding: 20px 150px 50px;
+  min-height: 78vh;
 }
 
 .title {
   margin-top: 3rem;
-  text-align: center;
+  font-weight: bold;
+  text-align: start;
 }
 
-.datepicker-container {
-  padding-top: 84px;
+.filters-section {
+  margin: 1rem 0 1rem 0;
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.custom-datepicker {
-  width: 150px;
-  height: 38px;
-  padding-left: 10px;
-  margin-right: 10px;
-}
-
-.datepicker-wrapper {
-  border: 1px solid #3498db;
-  border-radius: 4px;
-}
-
-.clear-filter-button {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  height: 40px;
-}
-
-.clear-filter-button:disabled {
-  background-color: #bdc3c7;
-  cursor: not-allowed;
-}
-
-.clear-filter-button:hover {
-  background-color: #2980b9;
+  justify-content: start;
+  gap: 1rem;
 }
