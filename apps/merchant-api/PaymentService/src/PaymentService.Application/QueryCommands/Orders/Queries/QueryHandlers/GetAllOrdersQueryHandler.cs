@@ -5,7 +5,7 @@ using PaymentService.Application.Dtos;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.QueryCommands.Orders.Queries.Queries;
 using PaymentService.Application.Services.Clients;
-using PaymentService.Application.Services.EnumsConverters;
+using PaymentService.Commons.EnumsConverters;
 using PaymentService.Domain.Entities.Concretes;
 using PaymentService.Infrastructure.Repositories.Interfaces;
 
@@ -21,7 +21,7 @@ public class GetAllOrdersQueryHandler(
     {
         var totalOrders = await orderRepository.GetAllAsync(request.Page, request.PageSize);
         var converter = new OrderStatusConverterService();
-        List<OrderDto> totalOrderDtos = [];
+        List<OrderDto> totalOrdersDto = [];
         
         foreach (var order in totalOrders)
         {
@@ -42,13 +42,13 @@ public class GetAllOrdersQueryHandler(
                     SubTotalPrice = oi.TotalPrice
                 }).ToList()
             };
-            totalOrderDtos.Add(orderDto);
+            totalOrdersDto.Add(orderDto);
         }
         
         var paymentTransactionsToDisplay = new PaginatedResponseDto<OrderDto>
         {
-            Items = totalOrderDtos, 
-            TotalCount = totalOrderDtos.Count, 
+            Items = totalOrdersDto, 
+            TotalCount = totalOrdersDto.Count, 
             Page = request.Page, 
             PageSize = request.PageSize
         };

@@ -6,5 +6,4 @@ public class OrderItemVariantDto
     public double UnitPrice { get; set; }
     public int DiscountPercent { get; set; }
     public double SubTotalPrice { get; set; }
-    public List<OrderAttributeDto> Attributes { get; set; } = [];
 }

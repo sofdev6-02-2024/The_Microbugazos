@@ -6,6 +6,8 @@ using PaymentService.Application.Dtos;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.QueryCommands.Orders.Commands.Commands;
 using PaymentService.Application.QueryCommands.Orders.Queries.Queries;
+using PaymentService.Commons.Params;
+using PaymentService.Domain.Entities.Enums;
 
 namespace PaymentService.Api.Controllers;
 
@@ -36,14 +38,30 @@ public class OrderController(IMediator mediator) : ControllerBase
     }
     
     [HttpGet("{userId}/User/")]
-    public async Task<ActionResult<List<OrderWithCompleteDetailsDto>>> GetAllOrdersBySpecificUser(Guid userId, 
-        int page, int pageSize)
+    public async Task<ActionResult<List<OrderWithCompleteDetailsDto>>> GetAllOrdersBySpecificUser(
+        Guid userId, 
+        [FromQuery] DateTime? startDate,
+        [FromQuery] DateTime? endDate,
+        [FromQuery] double? minPrice,
+        [FromQuery] double? maxPrice,
+        [FromQuery] OrderStatus? status,
+        int page, 
+        int pageSize)
     {
-        var result = await mediator.Send(new GetOrdersBySpecificUserAndDateQuery(userId, page, pageSize));
+        var parameters = new OrderFilterParameters
+        {
+            StartDate = startDate,
+            EndDate = endDate,
+            MinPrice = minPrice,
+            MaxPrice = maxPrice,
+            Status = status
+        };
+        
+        var result = await mediator.Send(new GetOrdersBySpecificUserQuery(userId, parameters, page, pageSize));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
-        var successResponse = (SuccessResponse<List<OrderWithCompleteDetailsDto>>)result;
+        var successResponse = (SuccessResponse<PaginatedResponseDto<OrderWithCompleteDetailsDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);      
     }
 }
