@@ -148,6 +148,19 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+        
+  reviews_db:
+    image: mongo:8.0.3
+    restart: always
+    ports:
+      - "${REVIEW_DB_PORT}:${REVIEW_DB_PORT}"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${REVIEW_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${REVIEW_DB_PASS}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - merchant-network
 
 networks:
   merchant-network:
@@ -156,3 +169,5 @@ networks:
 volumes:
   postgres_data:
   rabbitmq_data:
+  mongodb_data:
+    driver: local

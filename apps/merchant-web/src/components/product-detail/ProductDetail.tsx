@@ -13,6 +13,7 @@ import axiosInstance from "@/request/AxiosConfig";
 import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { AttributeSelector } from "./AttributeSelector";
 import styles from "@/styles/products/ProductDetails.module.css";
+import ReviewModal from "@/components/reviews/ReviewModal";
 
 export const ProductDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -111,7 +112,7 @@ export const ProductDetail = () => {
       <ImagesSection images={images} imageSelected={image}></ImagesSection>
       <section className={styles.informationContainer}>
         <h1 className={styles.title}>{product.name}</h1>
-        <RatingSelector rating={2.5}></RatingSelector>
+        <ReviewModal></ReviewModal>
         <label className={styles.label}>
           $ {product.price}
           <span className={styles.labelLight}>

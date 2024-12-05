@@ -8,10 +8,11 @@ import { useState } from "react";
 
 interface RatingSelectorProps {
   rating: number;
+  handleChange?: () => void;
 }
 
 export default function RatingSelector({
-  rating,
+  rating, handleChange
 }: Readonly<RatingSelectorProps>) {
   const [currentRating, setCurrentRating] = useState(rating);
   const size = 24;
@@ -34,7 +35,10 @@ export default function RatingSelector({
               key={index}
               size={size}
               color={color}
-              onClick={() => handleStarClick(index)}
+              onClick={() => {
+                handleStarClick(index);
+                handleChange();
+              }}
             />
           );
         } else if (index === fullStars && hasHalfStar) {
@@ -43,7 +47,10 @@ export default function RatingSelector({
               key={index}
               size={size}
               color={color}
-              onClick={() => handleStarClick(index)}
+              onClick={() => {
+                handleStarClick(index)
+                handleChange();
+              }}
             />
           );
         } else {
@@ -52,7 +59,10 @@ export default function RatingSelector({
               key={index}
               size={size}
               color={color}
-              onClick={() => handleStarClick(index)}
+              onClick={() => {
+                handleStarClick(index)
+                handleChange();
+              }}
             />
           );
         }
