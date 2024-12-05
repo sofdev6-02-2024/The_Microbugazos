@@ -1,53 +1,72 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReviewService.Bases;
+﻿using MongoDB.Driver;
+using ReviewService.Infrastructure.Context.Interfaces;
 using ReviewService.Infrastructure.Repositories.Interfaces;
+using ReviewService.Interfaces;
 
 namespace ReviewService.Infrastructure.Repositories.Bases;
 
-public class BaseRepository<T>(DbSet<T> dbSet) : IRepository<T> where T : BaseEntity
+public class BaseRepository<T>(IContext<T> context) : IRepository<T> where T : IEntity
 {
     public async Task<T?> GetByIdAsync(Guid id)
     {
-        var entity = await dbSet.FindAsync(id);
-        return entity is { IsActive: true } ? entity : null;
+        var filter = Builders<T>.Filter
+            .Eq(entity => entity.Id, id);
+        var entity = await context.Collection.Find(filter).FirstOrDefaultAsync();
+        return entity;
     }
 
-    public ICollection<T> GetAllAsync(int pageNumber, int pageSize)
+    public async Task<ICollection<T>> GetAllAsync(int pageNumber, int pageSize)
     {
-        var collection = dbSet
-            .Where(e => e.IsActive)
-            .OrderBy(e => e.CreatedAt)
+        var filter = Builders<T>.Filter
+            .Eq(entity => entity.IsActive, true);
+        var collection = await context.Collection.Find(filter)
+            .SortBy(e => e.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize).ToList();
+            .Limit(pageSize).ToListAsync();
         return collection;
     }
 
-    public uint CountAsync()
+    public async Task<uint> CountAsync()
     {
-        var quantity = dbSet.Count(e => e.IsActive);
+        var filter = Builders<T>.Filter
+            .Eq(entity => entity.IsActive, true);
+        var quantity = await context.Collection.Find(filter).CountDocumentsAsync();
         return (uint)quantity;
     }
 
     public async Task<T> AddAsync(T entity)
     {
-        var response = await dbSet.AddAsync(entity);
-        return response.Entity;
+        try
+        {
+            await context.Collection.InsertOneAsync(entity);
+            return entity;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public async Task<T> Update(T entity)
+    public async Task<int> Update(Guid id, T entity, UpdateDefinitionBuilder<T> update)
     {
         entity.UpdatedAt = DateTime.UtcNow;
-        var response = dbSet.Update(entity);
-        return response.Entity;
+
+        var filter = Builders<T>.Filter
+            .Eq(e => e.Id, id);
+
+        var updateDefinition = update.Set(e => e.UpdatedAt, DateTime.UtcNow);
+
+        var response = await context.Collection.UpdateOneAsync(filter, updateDefinition);
+        return (int)response.ModifiedCount;
     }
 
-    public async Task<T?> DeleteAsync(Guid id)
+    public async Task<int> DeleteAsync(Guid id)
     {
-        var entity = await GetByIdAsync(id);
-        if (entity == null) return null;
+        var filter = Builders<T>.Filter
+            .Eq(e => e.Id, id);
 
-        entity.DeletedAt = DateTime.UtcNow;
-        entity.IsActive = false;
-        return entity;
+        var result = await context.Collection.DeleteOneAsync(filter);
+        return (int)result.DeletedCount;
     }
 }
