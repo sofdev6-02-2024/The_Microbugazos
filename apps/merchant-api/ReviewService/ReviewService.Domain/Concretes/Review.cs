@@ -1,16 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using ReviewService.Bases;
 
 namespace ReviewService.Concretes;
 
-public class Review
+public class Review : BaseEntity
 {
-    [Key]
-    public Guid Id { get; set; }
     
     [BsonElement("client_id")]
+    [BsonGuidRepresentation(GuidRepresentation.Standard)]
     public required Guid ClientId { get; set; }
     
     [BsonElement("client_name")]

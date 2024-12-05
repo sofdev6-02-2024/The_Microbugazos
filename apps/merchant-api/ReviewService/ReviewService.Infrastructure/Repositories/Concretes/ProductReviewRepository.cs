@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReviewService.Concretes;
+﻿using ReviewService.Concretes;
+using ReviewService.Infrastructure.Context.Interfaces;
 using ReviewService.Infrastructure.Repositories.Bases;
-using ReviewService.Infrastructure.Repositories.Interfaces;
 
 namespace ReviewService.Infrastructure.Repositories.Concretes;
 
-public class ProductReviewRepository(DbSet<ProductReview> dbSet) : BaseRepository<ProductReview>(dbSet)
+public class ProductReviewRepository(IContext<ProductReview> context) : BaseRepository<ProductReview>(context)
 {
     
 }
