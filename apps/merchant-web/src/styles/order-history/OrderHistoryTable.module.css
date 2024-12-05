@@ -1,0 +1,65 @@
+.chip {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 4px;
+  align-items: center;
+  min-width: 84px;
+  width: 80px;
+}
+
+.paginated-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.order-charging-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 12rem;
+}
+
+.order-charging-container label {
+  text-align: center;
+}
+
+.header {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.column {
+  background-color: #F4F9FF;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.paginationWrapper {
+  margin: 2rem;
+  gap: 4px;
+}
+
+.paginationItem {
+  color: #000;
+  border: #5275F5 1px solid;
+  background-color: transparent;
+}
+
+.paginationItem[data-active="true"] {
+  background-color: #5275F5;
+  color: white;
+}
+
+.paginationCursor {
+  background-color: #5275F5;
+  color: white;
+}
+
+.paginationNext,
+.paginationPrev {
+  color: #5275F5;
+}

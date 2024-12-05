@@ -9,7 +9,7 @@ namespace PaymentService.Application.Services;
 
 public class PaymentTransactionService(
     IResponseHandlingHelper responseHandlingHelper,
-    IRepository<Order> orderRepository,
+    IOrderRepository orderRepository,
     IRepository<PaymentMethod> paymentMethodRepository,
     IRepository<PaymentTransaction> paymentTransactionRepository
 )

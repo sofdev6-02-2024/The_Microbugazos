@@ -1,0 +1,30 @@
+.container {
+  padding: 0 4rem 0 4rem;
+  height: 100vh;
+}
+
+.line {
+  border-bottom: 1px solid black;
+}
+
+.sc-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px 150px 50px;
+  min-height: 78vh;
+}
+
+.title {
+  margin-top: 3rem;
+  font-weight: bold;
+  text-align: start;
+}
+
+.filters-section {
+  margin: 1rem 0 1rem 0;
+  display: flex;
+  justify-content: start;
+  gap: 1rem;
+}
