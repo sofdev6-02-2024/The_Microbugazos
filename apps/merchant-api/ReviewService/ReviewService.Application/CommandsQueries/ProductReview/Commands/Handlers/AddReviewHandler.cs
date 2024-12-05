@@ -34,7 +34,7 @@ public class AddReviewHandler(
                 ProductId = request.ProductId,
                 Reviews = [mapper.Map<Review>(request.Review)]
             });
-            return responseHandlingHelper.Ok("Review added successfully", request.Review);
+            return responseHandlingHelper.Ok("Review added successfully", mapper.Map<Review>(request.Review));
         }
 
         var clientReview = productReview.Reviews.Find(r => r.ClientId == request.Review.ClientId); 
