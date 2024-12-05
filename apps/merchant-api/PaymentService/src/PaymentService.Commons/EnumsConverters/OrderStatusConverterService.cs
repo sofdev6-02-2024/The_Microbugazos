@@ -1,6 +1,6 @@
 using PaymentService.Domain.Entities.Enums;
 
-namespace PaymentService.Application.Services.EnumsConverters;
+namespace PaymentService.Commons.EnumsConverters;
 
 public class OrderStatusConverterService
 {

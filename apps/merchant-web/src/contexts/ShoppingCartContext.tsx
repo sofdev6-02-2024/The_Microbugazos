@@ -11,6 +11,8 @@ import { handleSubmitCart } from "@/services/checkoutService";
 import { CartData } from "@/schemes/shopping-cart/CartDataDto";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import VariantStock from "@/commons/entities/VariantStock";
+import axiosInstance from "@/request/AxiosConfig";
 import { useAuth } from "@/commons/context/AuthContext";
 
 interface Types {
@@ -22,7 +24,7 @@ interface Types {
   decreaseQuantityProduct: (id: string) => void;
   changeQuantity: (id: string, quantity: number) => void;
   handleStripe: () => void;
-  clearShoppingCart: () => void;
+  handleSuccessPayment: () => void;
 }
 
 interface Props {
@@ -43,13 +45,13 @@ export const ShoppingCartProvider = ({ children }: Props) => {
           (product) => product.id === newProduct.id
         );
         if (existingProduct) {
-          toast.info('This product has already been added', {
-            id: `info-${newProduct.id}`
+          toast.info("This product has already been added", {
+            id: `info-${newProduct.id}`,
           });
           return prevProducts;
         } else {
-          toast.success('Product added to cart', {
-            id: `success-${newProduct.id}`
+          toast.success("Product added to cart", {
+            id: `success-${newProduct.id}`,
           });
           return [...prevProducts, newProduct];
         }
@@ -60,19 +62,39 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const deleteProductToCart = (id: string) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
-    toast.error('Product deleted');
+    toast.error("Product deleted");
   };
 
   const updateLocalStorage = () => {
     localStorage.setItem("shoppingCartItems", JSON.stringify(products));
   };
 
-  const initializeShoppingCart = () => {
+  const initializeShoppingCart = async () => {
     const existingCartItems = JSON.parse(
       localStorage.getItem("shoppingCartItems") ?? "[]"
     );
 
-    setProducts(existingCartItems);
+    if (existingCartItems.length > 0) {
+      const verifiedCartItems = await Promise.all(
+        existingCartItems.map(async (item: ShoppingCartItem) => {
+          const response = await axiosInstance.get(
+            `/inventory/ProductVariant/${item.productVariantId}`
+          );
+          const availableStock = response.data.data.stockQuantity;
+
+          if (availableStock > 0) {
+            return {
+              ...item,
+              stock: availableStock,
+              quantity: Math.min(item.quantity, availableStock),
+            };
+          }
+          toast.error(`"${item.name}" is out of stock and has been removed`);
+          return null;
+        })
+      );
+      setProducts(verifiedCartItems.filter(Boolean));
+    }
   };
 
   const increaseQuantityProduct = (id: string) => {
@@ -84,7 +106,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
+
   const decreaseQuantityProduct = (id: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -94,7 +116,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
+
   const changeQuantity = (id: string, quantity: number) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -104,39 +126,138 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       )
     );
   };
-  
 
-  const handleStripe = () => {
+  const handleStripe = async () => {
     if (!user) {
       router.push("/login");
-      toast.error('Please log in to your account')
+      toast.error("Please log in to your account");
       return;
     }
 
-    if (user.userId && user.email && products) {
-      const cartData: CartData = {
-        shoppingCartItems: products.map((product) => ({
-          productVariantId: product.productVariantId,
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          quantity: product.quantity,
-        })),
-        customer: {
-          userId: user.userId,
-          email: user.email,
-        },
-      };
-      handleSubmitCart(cartData);
+    if (products.length <= 0) {
+      router.push("/");
+      toast.error("No products in the cart");
+      return;
     }
+
+    const stockValidation = await Promise.all(
+      products.map(async (product) => {
+        const response = await axiosInstance.get(
+          `/inventory/ProductVariant/${product.productVariantId}`
+        );
+        const availableStock = response.data.data.stockQuantity;
+        console.log(availableStock);
+        if (product.quantity > availableStock) {
+          toast.error(
+            `"${product.name}" has only ${availableStock} units available`
+          );
+          product.quantity = availableStock;
+          return false;
+        }
+        return true;
+      })
+    );
+
+    if (stockValidation.some((isValid) => !isValid)) {
+      return;
+    }
+
+    const cartData: CartData = {
+      shoppingCartItems: products.map((product) => ({
+        productVariantId: product.productVariantId,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        quantity: product.quantity,
+      })),
+      customer: {
+        userId: user.userId ?? "",
+        email: user.email ?? "",
+      },
+    };
+
+    handleSubmitCart(cartData);
   };
 
-  const clearShoppingCart = () => {
-    setProducts([]);
-  }
+  const handleSuccessPayment = async () => {
+    const shoppingCartItems = localStorage.getItem("shoppingCartItems");
+
+    if (shoppingCartItems) {
+      const shoppingCartData: Array<ShoppingCartItem> =
+        JSON.parse(shoppingCartItems);
+      if (shoppingCartData.length > 0) {
+        const variantsToReduce: Array<VariantStock> = shoppingCartData.map(
+          (item) => {
+            return new VariantStock(item.productVariantId, item.quantity);
+          }
+        );
+
+        await axiosInstance.patch("/inventory/ProductVariant/stocks/reduce", {
+          VariantsStock: variantsToReduce,
+        });
+      }
+    }
+
+    setProducts([])
+  };
 
   useEffect(() => {
     updateLocalStorage();
+  }, [products]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (products.length === 0) return;
+
+      try {
+        const updatedProducts = await Promise.all(
+          products.map(async (product) => {
+            const response = await axiosInstance.get(
+              `/inventory/ProductVariant/${product.productVariantId}`
+            );
+            const availableStock = response.data.data.stockQuantity;
+
+            if (product.quantity > availableStock) {
+              toast.error(
+                `"${product.name}" stock has been updated. Adjusting quantity`
+              );
+              return { ...product, quantity: availableStock };
+            }
+            return product;
+          })
+        );
+        setProducts(updatedProducts.filter(Boolean));
+      } catch (error) {
+        console.error("Error checking stock:", error);
+      }
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [products]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (products.length === 0) return;
+
+      const verifiedProducts = await Promise.all(
+        products.map(async (product) => {
+          const response = await axiosInstance.get(
+            `/inventory/ProductVariant/${product.productVariantId}`
+          );
+          const availableStock = response.data.data.stockQuantity;
+          if (availableStock === 0) {
+            toast.error(
+              `"${product.name}" is out of stock and has been removed`
+            );
+            return null;
+          }
+          return product;
+        })
+      );
+      setProducts(verifiedProducts.filter((product) => product !== null));
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, [products]);
 
   const value = useMemo(() => {
@@ -149,7 +270,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       decreaseQuantityProduct,
       changeQuantity,
       handleStripe,
-      clearShoppingCart
+      handleSuccessPayment,
     };
   }, [products]);
 

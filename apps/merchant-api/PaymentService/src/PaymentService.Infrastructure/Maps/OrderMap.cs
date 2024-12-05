@@ -11,6 +11,7 @@ public class OrderMap : IEntityTypeConfiguration<Order>
         builder.ToTable("Order");
         builder.HasIndex(o => o.Id);
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
+        builder.Property(o => o.OrderNumber).ValueGeneratedOnAdd(); 
         builder.Property(o => o.OrderStatus).IsRequired();
         builder.Property(o => o.TotalPrice).IsRequired();
 

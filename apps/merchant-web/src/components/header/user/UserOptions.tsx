@@ -44,6 +44,14 @@ export const UserOptions = ({ isLogged, isOpen, logOut, toggleMenu }: Props) => 
           >
             Profile
           </button>
+          <button
+            onClick={() => {
+              route.push("/order-history");
+            }}
+            className="user-options-option"
+          >
+            Order History
+          </button>
           <button className="user-options-option log-out" onClick={logOut}>
             Log out
           </button>

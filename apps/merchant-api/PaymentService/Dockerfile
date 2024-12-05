@@ -5,6 +5,7 @@ COPY PaymentService/src/PaymentService.Api/PaymentService.Api.csproj PaymentServ
 COPY PaymentService/src/PaymentService.Application/PaymentService.Application.csproj PaymentService/src/PaymentService.Application/
 COPY PaymentService/src/PaymentService.Infrastructure/PaymentService.Infrastructure.csproj PaymentService/src/PaymentService.Infrastructure/
 COPY PaymentService/src/PaymentService.Domain/PaymentService.Domain.csproj PaymentService/src/PaymentService.Domain/
+COPY PaymentService/src/PaymentService.Commons/PaymentService.Commons.csproj PaymentService/src/PaymentService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj MerchantCommon/RabbitMqMessaging/
 COPY NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj NotificationService/src/NotificationService.Domain/
 COPY MerchantCommon/Commons/Commons.csproj MerchantCommon/Commons/
@@ -16,6 +17,7 @@ COPY PaymentService/src/PaymentService.Api/. .
 COPY PaymentService/src/PaymentService.Application/. ../PaymentService.Application/
 COPY PaymentService/src/PaymentService.Infrastructure/. ../PaymentService.Infrastructure/
 COPY PaymentService/src/PaymentService.Domain/. ../PaymentService.Domain/
+COPY PaymentService/src/PaymentService.Commons/. ../PaymentService.Commons/
 COPY MerchantCommon/RabbitMqMessaging/. /app/MerchantCommon/RabbitMqMessaging/
 COPY NotificationService/src/NotificationService.Domain/. /app/NotificationService/src/NotificationService.Domain/
 COPY MerchantCommon/Commons/. /app/MerchantCommon/Commons/

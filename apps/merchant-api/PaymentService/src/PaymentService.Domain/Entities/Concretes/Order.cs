@@ -5,6 +5,7 @@ namespace PaymentService.Domain.Entities.Concretes;
 
 public class Order : BaseEntity
 {
+    public int OrderNumber { get; set; }  
     public Guid UserId { get; set; }
     public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
     public double TotalPrice { get; set; }
