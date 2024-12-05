@@ -24,6 +24,7 @@ builder.Services.AddCors(options =>
 });
 
 var connectionString = builder.Configuration["MONGODB_URI"];
+Console.WriteLine($"AA: {connectionString}");
 if (connectionString == null)
 {
     Console.WriteLine("You must set your 'MONGODB_URI' environment variable. To learn how to set it, see https://www.mongodb.com/docs/drivers/csharp/current/quick-start/#set-your-connection-string");

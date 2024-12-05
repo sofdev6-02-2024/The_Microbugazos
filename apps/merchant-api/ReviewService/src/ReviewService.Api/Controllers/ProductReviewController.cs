@@ -22,7 +22,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<ProductReview>)result;
-        return StatusCode(successResponse.StatusCode, successResponse.Data);
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpPost("{productId}")]
@@ -32,7 +32,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;
-        return StatusCode(successResponse.StatusCode, successResponse.Data);
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpGet("{id}")]
@@ -43,7 +43,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<ProductReviewDto>)result;
-        return StatusCode(successResponse.StatusCode, successResponse.Data);
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpPatch("{productId}")]
@@ -53,7 +53,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;
-        return StatusCode(successResponse.StatusCode, successResponse.Data);
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpDelete("{productId}")]
@@ -63,6 +63,6 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;
-        return StatusCode(successResponse.StatusCode, successResponse.Data);
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 }
