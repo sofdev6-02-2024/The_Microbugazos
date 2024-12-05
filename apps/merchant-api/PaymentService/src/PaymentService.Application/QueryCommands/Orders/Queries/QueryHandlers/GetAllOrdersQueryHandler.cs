@@ -5,7 +5,7 @@ using PaymentService.Application.Dtos;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.QueryCommands.Orders.Queries.Queries;
 using PaymentService.Application.Services.Clients;
-using PaymentService.Application.Services.EnumsConverters;
+using PaymentService.Commons.EnumsConverters;
 using PaymentService.Domain.Entities.Concretes;
 using PaymentService.Infrastructure.Repositories.Interfaces;
 
@@ -14,14 +14,14 @@ namespace PaymentService.Application.QueryCommands.Orders.Queries.QueryHandlers;
 public class GetAllOrdersQueryHandler(
     ProductClientService productClientService,
     IResponseHandlingHelper responseHandlingHelper,
-    IRepository<Order> orderRepository
+    IOrderRepository orderRepository
     ) : IRequestHandler<GetAllOrdersQuery, BaseResponse>
 {
     public async Task<BaseResponse> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
     {
         var totalOrders = await orderRepository.GetAllAsync(request.Page, request.PageSize);
         var converter = new OrderStatusConverterService();
-        List<OrderDto> totalOrderDtos = [];
+        List<OrderDto> totalOrdersDto = [];
         
         foreach (var order in totalOrders)
         {
@@ -34,7 +34,7 @@ public class GetAllOrdersQueryHandler(
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDto
                 {
                     OrderItemId = oi.Id,
-                    ProductId = productClientService.GetProductVariantByIdAsync(oi.ProductVariantId).Result.ProductId,
+                    ProductId = productClientService.GetProductVariantByIdAsync(oi.ProductVariantId).Result!.ProductId,
                     ProductVariantId = oi.ProductVariantId,
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitPrice,
@@ -42,13 +42,13 @@ public class GetAllOrdersQueryHandler(
                     SubTotalPrice = oi.TotalPrice
                 }).ToList()
             };
-            totalOrderDtos.Add(orderDto);
+            totalOrdersDto.Add(orderDto);
         }
         
         var paymentTransactionsToDisplay = new PaginatedResponseDto<OrderDto>
         {
-            Items = totalOrderDtos, 
-            TotalCount = totalOrderDtos.Count, 
+            Items = totalOrdersDto, 
+            TotalCount = totalOrdersDto.Count, 
             Page = request.Page, 
             PageSize = request.PageSize
         };

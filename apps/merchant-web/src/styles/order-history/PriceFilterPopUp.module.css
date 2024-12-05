@@ -1,0 +1,60 @@
+.sc-container {
+  padding: 1rem 1rem 0 1rem;
+  max-width: 200px;
+}
+
+.trigger-button {
+  border: 1px solid #5275F5;
+  height: 1.8rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.price-input {
+  width: 100%;
+  min-width: 160px;
+}
+
+.price-input label{
+  font-weight: bold;
+}
+
+.item-content-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.button-accept {
+  height: 1.7rem;
+  color: white;
+  background-color: #5275F5;
+}
+
+.button-clear {
+  height: 1.7rem;
+  color: black;
+  border: 1px solid #5275F5;
+  background-color: white;
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.flex-row-center {
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  color: rgba(156, 163, 175, 1);
+  font-size: 0.875rem;
+}
+

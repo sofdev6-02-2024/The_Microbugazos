@@ -22,13 +22,14 @@ public static class ApplicationConfiguration
             cfg.RegisterServicesFromAssemblies(typeof(CreateOrderDto).Assembly)
         );
         
-        services.AddScoped<IRepository<Order>, OrderRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IRepository<OrderItem>, OrderItemRepository>();
         services.AddScoped<IRepository<PaymentMethod>, PaymentMethodRepository>();
         services.AddScoped<IRepository<PaymentTransaction>, PaymentTransactionRepository>();
         
         services.AddTransient<OrderItemService>();
         services.AddTransient<OrderService>();
+        services.AddTransient<OrderItemsWithExtraDetailsService>();
         services.AddTransient<PaymentTransactionService>();
         
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();

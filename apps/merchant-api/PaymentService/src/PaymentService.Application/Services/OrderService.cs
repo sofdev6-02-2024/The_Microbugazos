@@ -10,7 +10,7 @@ namespace PaymentService.Application.Services;
 public class OrderService(
     IResponseHandlingHelper responseHandlingHelper,
     OrderItemService orderItemService,
-    IRepository<Order> orderRepository
+    IOrderRepository orderRepository
 )
 {
     public async Task<BaseResponse> CreateOrder(CreateOrderDto orderDto)
