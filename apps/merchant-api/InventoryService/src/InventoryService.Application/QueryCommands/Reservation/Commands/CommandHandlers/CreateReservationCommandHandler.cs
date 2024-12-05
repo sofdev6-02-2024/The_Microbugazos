@@ -12,7 +12,7 @@ namespace InventoryService.Application.QueryCommands.Reservations.Commands.Comma
 public class CreateReservationCommandHandler(
     IValidator<CreateReservationDto> validator,
     IRepository<InventoryReservation> reservationRepository,
-    IRepository<ProductReservation> productReservationRepository,
+    IProductReservationRepository productReservationRepository,
     IResponseHandlingHelper responseHandlingHelper
 ) : IRequestHandler<CreateReservationCommand, BaseResponse>
 {

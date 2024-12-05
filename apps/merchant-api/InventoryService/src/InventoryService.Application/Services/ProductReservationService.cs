@@ -26,7 +26,7 @@ public class ProductReservationService(
             };
             productReservations.Add(productReservation);
         }
-        inventoryReservation.ProductReservations = productReservations;
+        inventoryReservation.Products = productReservations;
 
         var reservationCreated = await reservationRepository.AddAsync(inventoryReservation);
         return reservationCreated;

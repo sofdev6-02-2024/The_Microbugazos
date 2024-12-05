@@ -14,7 +14,7 @@ public class InventoryReservationMap : IEntityTypeConfiguration<InventoryReserva
         builder.Property(oi => oi.ClientId).IsRequired();
         builder.Property(oi => oi.SavedDate).IsRequired();
 
-        builder.HasMany(oi => oi.ProductReservations)
+        builder.HasMany(oi => oi.Products)
             .WithOne(pr => pr.InventoryReservation)
             .HasForeignKey(pr => pr.InventoryReservationId);
     }

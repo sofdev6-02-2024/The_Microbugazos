@@ -39,4 +39,18 @@ public class ReservationController(IMediator mediator) : ControllerBase
         var successResponse = (SuccessResponse<PaginatedResponseDto<InventoryReservationDto>>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<InventoryReservationDto>> GetById(Guid id)
+    {
+        var result = await mediator.Send(new GetReservationByIdQuery(id));
+
+        if (result is ErrorResponse errorResponse)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var successResponse = (SuccessResponse<InventoryReservationDto>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
 }

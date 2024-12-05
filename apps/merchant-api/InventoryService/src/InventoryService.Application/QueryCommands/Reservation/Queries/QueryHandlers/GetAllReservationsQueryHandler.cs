@@ -11,6 +11,7 @@ namespace InventoryService.Application.QueryCommands.Reservations.Queries.QueryH
 
 public class GetAllReservationsQueryHandler(
     IRepository<InventoryReservation> repository,
+    IProductReservationRepository productReservationRepository,
     IResponseHandlingHelper responseHandlingHelper
 ) : IRequestHandler<GetAllReservationsQuery, BaseResponse>
 {
@@ -21,11 +22,11 @@ public class GetAllReservationsQueryHandler(
         {
             Id = existingReservation.Id,
             ClientId = existingReservation.ClientId,
-            Products = existingReservation.ProductReservations.Select(product => new ProductReservationDto
+            Products = productReservationRepository.GetAllByInventoryIdAsync(existingReservation.Id).Result.Select(reservation => new ProductReservationDto
             {
-                Id = product.Id,
-                VariantId = product.ProductVariantId,
-                Quantity = product.Quantity
+                Id = reservation.Id,
+                VariantId = reservation.ProductVariantId,
+                Quantity = reservation.Quantity
             }).ToList(),
             ReservationDate = existingReservation.SavedDate
         }).ToList();

@@ -15,7 +15,7 @@ public class ProductReservationMap : IEntityTypeConfiguration<ProductReservation
         builder.Property(pr => pr.Quantity).IsRequired();
 
         builder.HasOne(pr => pr.InventoryReservation)
-            .WithMany(ir => ir.ProductReservations)
+            .WithMany(ir => ir.Products)
             .HasForeignKey(pr => pr.InventoryReservationId);
     }
 }
