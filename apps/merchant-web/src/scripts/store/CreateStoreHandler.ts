@@ -28,7 +28,7 @@ export const createStoreHandler = async (
     bannerImage: bannerImage,
     profileImage: profileImage,
     userId: userId,
-    lowStockThreshold: 25,
+    lowStockThreshold: 1,
   };
   const response = await createStore(storeToCreate);
   return response;
