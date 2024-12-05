@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Text;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using ReviewService.Bases;
 
@@ -19,4 +20,16 @@ public class Review : BaseEntity
     
     [BsonElement("comment")]
     public string? Comment { get; set; }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder("{Review: {");
+        sb.Append($"ClientID:  {ClientName}, ");
+        sb.Append($"ClientName:  {ClientName}, ");
+        sb.Append($"Rating:  {Rating}, ");
+        sb.Append($"Comment:  {Comment}");
+        sb.Append("}}");
+
+        return sb.ToString();
+    }
 }

@@ -7,7 +7,7 @@ namespace ReviewService.Infrastructure.Repositories.Bases;
 
 public class BaseRepository<T>(IContext<T> context) : IRepository<T> where T : IEntity
 {
-    public async Task<T?> GetByIdAsync(Guid id)
+    public virtual async Task<T?> GetByIdAsync(Guid id)
     {
         var filter = Builders<T>.Filter
             .Eq(entity => entity.Id, id);

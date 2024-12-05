@@ -8,7 +8,7 @@ public class BaseEntity : BaseRegister, IEntity
 {
     [BsonId]
     [BsonGuidRepresentation(GuidRepresentation.Standard)]
-    public Guid Id { get; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
     
     [BsonElement("is_active")]
     public bool IsActive { get; set; } = true;

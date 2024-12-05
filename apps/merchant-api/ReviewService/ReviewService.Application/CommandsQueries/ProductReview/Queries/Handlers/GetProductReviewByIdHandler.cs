@@ -31,13 +31,14 @@ public class GetProductReviewByIdHandler(
         response.Reviews.ForEach(r => summationRating += r.IsActive ? r.Rating : 0);
         
         var paginatedReviews = response.Reviews
+            .Where(r => r.IsActive)
             .OrderByDescending(r => r.Rating)
             .ThenBy(r => r.CreatedAt)
             .Skip((request.PaginationRequest.Page - 1) * request.PaginationRequest.PageSize)
             .Take(request.PaginationRequest.PageSize).ToList();
         var paginatedResponse = new PaginatedResponseDto<Review>(
             paginatedReviews,
-            response.Reviews.Count,
+            response.Reviews.Count(r => r.IsActive),
             request.PaginationRequest.Page,
             request.PaginationRequest.PageSize);
         
