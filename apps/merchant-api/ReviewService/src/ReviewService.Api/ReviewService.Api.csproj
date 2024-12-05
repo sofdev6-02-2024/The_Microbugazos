@@ -17,14 +17,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
+      <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
       <ProjectReference Include="..\ReviewService.Application\ReviewService.Application.csproj" />
       <ProjectReference Include="..\ReviewService.Infrastructure\ReviewService.Infrastructure.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Commons">
-        <HintPath>..\..\MerchantCommon\Commons\bin\Debug\net8.0\Commons.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>
