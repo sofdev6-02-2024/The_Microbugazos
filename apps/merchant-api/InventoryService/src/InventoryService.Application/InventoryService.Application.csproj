@@ -12,17 +12,14 @@
     <PackageReference Include="log4net" Version="3.0.3" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"
-      Version="9.0.0-rc.2.24473.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-rc.2.24473.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="../../../NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj" />
+    <ProjectReference Include="../../../NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj" />
     <ProjectReference Include="..\InventoryService.Commons/InventoryService.Commons.csproj" />
     <ProjectReference Include="..\InventoryService.Domain/InventoryService.Domain.csproj" />
-    <ProjectReference
-      Include="..\InventoryService.Intraestructure\InventoryService.Intraestructure.csproj" />
+    <ProjectReference Include="..\InventoryService.Intraestructure\InventoryService.Intraestructure.csproj" />
     <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
   </ItemGroup>
 

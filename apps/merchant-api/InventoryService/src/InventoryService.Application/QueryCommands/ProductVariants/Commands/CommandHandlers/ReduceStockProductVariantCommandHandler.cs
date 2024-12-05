@@ -14,6 +14,7 @@ public class ReduceStockProductVariantCommandHandler(
     IValidator<UpdateProductVariantDto> validator,
     IRepository<ProductVariant> repository,
     ProductVariantService service,
+    StockThresholdNoticationService stockThresholdNoticationService,
     IResponseHandlingHelper responseHandlingHelper) : IRequestHandler<ReduceStockProductVariantCommand, BaseResponse>
 {
     public async Task<BaseResponse> Handle(ReduceStockProductVariantCommand request, CancellationToken cancellationToken)
@@ -26,7 +27,8 @@ public class ReduceStockProductVariantCommandHandler(
                 "No product variants were provided for stock reduction.");
         }
 
-        List<ProductVariantDto> updatedVariants = new List<ProductVariantDto>();
+        List<ProductVariantDto> updatedVariants = [];
+        List<(ProductVariantDto, int)> reducedVariants = [];
 
         foreach (var variantStock in reduceDto.VariantsStock)
         {
@@ -51,7 +53,11 @@ public class ReduceStockProductVariantCommandHandler(
             var productVariantToDisplay = await service.UpdateProductVariant(updateDto, variant);
 
             updatedVariants.Add(productVariantToDisplay);
+            reducedVariants.Add((productVariantToDisplay, variantStock.Quantity));
+
         }
+
+        await stockThresholdNoticationService.NotifyStockThresholdReached(reducedVariants);
 
         return responseHandlingHelper.Ok<List<ProductVariantDto>>(
             "The stock quantity for variants has been successfully reduced.", updatedVariants);
