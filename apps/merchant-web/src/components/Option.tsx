@@ -1,9 +1,10 @@
-import React from "react";
 import styles from "@/styles/Option.module.css";
 import { useRouter } from "next/navigation";
+import { ElementType } from "react";
+import { MdHome } from "react-icons/md";
 
 interface FormInputProps {
-  icon: React.ElementType;
+  icon: ElementType;
   text: string;
   route?: string;
   completeRoute?: boolean;
@@ -13,7 +14,7 @@ interface FormInputProps {
 }
 
 export const Option: React.FC<FormInputProps> = ({
-  icon: Icon,
+  icon: Icon = MdHome,
   text,
   route = "",
   completeRoute = false,

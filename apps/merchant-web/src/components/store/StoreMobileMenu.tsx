@@ -1,6 +1,6 @@
 "use client";
 
-import { LuHome } from "react-icons/lu";
+import { MdHome } from "react-icons/md";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
@@ -48,7 +48,7 @@ export const StoreMobileMenu = ({
   return (
     <ul className="mobile-store-admin-menu">
       <li className={`${activeIndex === 0 ? activeOpt : ""}`}>
-        <LuHome onClick={() => handleRouterNavigation(0)} />
+        <MdHome onClick={() => handleRouterNavigation(0)} />
       </li>
       {!isSellerUser && (
         <>

@@ -45,5 +45,6 @@ public static class ApplicationConfiguration
         services.AddScoped<IValidator<CreateProductVariantDto>, CreateProductVariantValidator>();
         services.AddScoped<IValidator<UpdateProductVariantDto>, UpdateProductVariantValidator>();
         services.AddScoped<IValidator<CreateProductDto>, CreateProductValidator>();
+        services.AddScoped<IValidator<UpdateProductDto>, UpdateProductValidator>();
     }
 }

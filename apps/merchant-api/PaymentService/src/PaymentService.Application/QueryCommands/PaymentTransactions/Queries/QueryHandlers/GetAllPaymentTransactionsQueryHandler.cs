@@ -4,7 +4,7 @@ using MediatR;
 using PaymentService.Application.Dtos;
 using PaymentService.Application.Dtos.PaymentTransactions;
 using PaymentService.Application.QueryCommands.PaymentTransactions.Queries.Queries;
-using PaymentService.Application.Services.EnumsConverters;
+using PaymentService.Commons.EnumsConverters;
 using PaymentService.Domain.Entities.Concretes;
 using PaymentService.Infrastructure.Repositories.Interfaces;
 

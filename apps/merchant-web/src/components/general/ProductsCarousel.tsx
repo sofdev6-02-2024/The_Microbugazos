@@ -40,6 +40,7 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
       </div>
       <div className="products-carousel-section">
         <Swiper
+          slidesPerView={Math.min(products.length, 5)}
           spaceBetween={20}
           breakpoints={breakpoints}
           className="mySwiper"
@@ -47,10 +48,7 @@ export const ProductsCarousel = ({ title, products, url }: Props) => {
           {products && products.length > 0 ? (
             products.map((product, index) => {
               return (
-                <SwiperSlide
-                  key={`${product.id}-slide-recommended-${index}`}
-                  className=""
-                >
+                <SwiperSlide key={`${product.id}-slide-recommended-${index}`}>
                   <ProductCard
                     key={`product.id-card`}
                     product={product}

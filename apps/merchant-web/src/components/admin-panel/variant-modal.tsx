@@ -3,13 +3,13 @@ import {useEffect, useState} from "react";
 import TextField from "@/components/text-field";
 import {MdImageSearch} from "react-icons/md";
 import Dropzone from "@/components/image-selector";
-import {useVariants} from "@/commons/providers/variant-provider";
+import {useVariants, Variant} from "@/commons/providers/variant-provider";
 import {ValidateLongText} from "@/commons/validations/string";
 import {ValidateIntegerNumber, ValidateNumberWithDecimals} from "@/commons/validations/number";
 
 export default function VariantModal({item}) {
     const [errors, setErrors] = useState<[{textField: string, error: string}]>([]);
-    const [variantOnMemory, setVariantOnMemory] = useState(null);
+    const [variantOnMemory, setVariantOnMemory] = useState<Variant | null>(null);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [altText, setAltText] = useState("");
     const [priceAdjustment, setPriceAdjustment] = useState("0");
@@ -21,6 +21,15 @@ export default function VariantModal({item}) {
         const updatedVariant = getByName(item.join("/"));
         setVariantOnMemory(updatedVariant);
     }, [item, getByName, variants]);
+
+    useEffect(() => {
+      if (variantOnMemory != null) {
+        setPriceAdjustment(variantOnMemory.priceAdjustment);
+        setProductQty(variantOnMemory.stockQuantity.toFixed());
+        setSelectedImages(variantOnMemory.image?.url ? [variantOnMemory.image.url] : []);
+        setAltText(variantOnMemory.image?.altText ?? "");
+      }
+    }, [variantOnMemory]);
 
     const handleFloatNumberChange = (value: string, setter: (value: string) => void) => {
         if (/^-?\d*\.?\d{0,2}$/.test(value)) {
@@ -41,17 +50,18 @@ export default function VariantModal({item}) {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 padding: "12px",
-                borderBottom: "0.1px solid #ACACAC"
+                borderBottom: "0.1px solid #ACACAC",
+                cursor: "pointer"
             }}
                  onClick={onOpen}
             >
                 <div style={{
                     display: "flex",
-                    flexDirection: "column"
+                    flexDirection: "column",
                 }}>
-                    <label>{item.join("/")}</label>
-                    <label>Price adjustment: {parseFloat(priceAdjustment).toFixed(2)} $</label>
-                    <label>Qty: {productQty ===  "" ? "0" : productQty } U.</label>
+                    <span>{item.join("/")}</span>
+                    <span>Price adjustment: {parseFloat(priceAdjustment).toFixed(2)} $</span>
+                    <span>Qty: {productQty ===  "" ? "0" : productQty } U.</span>
                 </div>
                 <div style={{
                     width: "48px",
@@ -79,7 +89,6 @@ export default function VariantModal({item}) {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                closeButton
             >
                 <ModalContent>
                     {(onClose) => (
@@ -129,13 +138,14 @@ export default function VariantModal({item}) {
                                 <Button color="primary" onPress={() => {
                                     if (errors.length == 0) {
                                         addVariant({
+                                            id: variantOnMemory?.id,
                                             name: item.join("/"),
                                             priceAdjustment: parseFloat(priceAdjustment) || 0,
                                             stockQuantity: parseInt(productQty) || 0,
-                                            image: {
+                                            image: selectedImages.length > 0 ? {
                                                 url: selectedImages[0],
                                                 altText: `Image for product variant: ${item.join("/")}`
-                                            }
+                                            } : null
                                         })
                                         onClose();
                                     }

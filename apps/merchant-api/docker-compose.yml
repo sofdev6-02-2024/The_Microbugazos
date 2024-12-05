@@ -16,17 +16,17 @@ services:
     networks:
       - merchant-network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - "${PGADMIN_PORT}:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    depends_on:
-      - postgres
-    networks:
-      - merchant-network
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - "${PGADMIN_PORT}:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - merchant-network
 
   rabbitmq:
     container_name: "rabbitmq"
@@ -82,6 +82,7 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    tty: true
 
   payment_service:
     build:
@@ -93,6 +94,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_SQL_CONNECTION=${POSTGRES_SQL_CONNECTION_DOCKER}
       - INVENTORY_SERVICE_ROUTE=${INVENTORY_SERVICE_ROUTE}
+      - ORIGIN_ROUTE=${ORIGIN_ROUTE}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
       - STRIPE_FAILED_URL=${STRIPE_FAILED_URL}
