@@ -53,4 +53,18 @@ public class ReservationController(IMediator mediator) : ControllerBase
         var successResponse = (SuccessResponse<InventoryReservationDto>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        var result = await mediator.Send(new DeleteReservationCommand(id));
+
+        if (result is ErrorResponse errorResponse)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
 }
