@@ -1,7 +1,7 @@
 import React from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
-import { LuHome } from "react-icons/lu";
+import { BiHomeAlt } from "react-icons/bi";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
@@ -18,7 +18,7 @@ export const StoreAdminSideMenu = ({
   return (
     <div className={`side-menu desktop-store-admin-menu`}>
       <Option
-        icon={LuHome}
+        icon={BiHomeAlt}
         text={"Home"}
         route="store"
         completeRoute={true}
