@@ -1,5 +1,4 @@
 using System.Text;
-using NotificationService.Domain.Dtos;
 using NotificationService.Domain.Dtos.Emails;
 using NotificationService.Domain.Dtos.OrderItems;
 
@@ -27,10 +26,18 @@ namespace NotificationService.Application.Services.Templates
 
             foreach (var item in items)
             {
+                decimal totalItemPrice = item.OrderItemPrice * item.OrderItemQuantity;
+
+                var variantAttributesList = string.Join("<br>", 
+                    item.ProductVariantDetails.Attributes.Select(a => $"{a.Name}: {a.Value}"));
+
                 tableResult.Append("<tr>");
                 tableResult.Append($"<td>{item.OrderItemName}</td>");
                 tableResult.Append($"<td style='width: 100px; text-align:center;'>{item.OrderItemQuantity}</td>");
-                tableResult.Append($"<td style='width: 100px; text-align:center;'>{item.OrderItemPrice}</td>");
+                tableResult.Append($"<td style='width: 100px; text-align:center;'>{item.ProductVariantDetails.BasePrice:F2}</td>");
+                tableResult.Append($"<td style='width: 100px; text-align:center;'>{item.ProductVariantDetails.PriceAdjustment:F2}</td>");
+                tableResult.Append($"<td style='width: 100px; text-align:center;'>{totalItemPrice:F2}</td>");
+                tableResult.Append($"<td style='width: 100px; text-align:center;'>{variantAttributesList}</td>");
                 tableResult.Append("</tr>");
             }
 

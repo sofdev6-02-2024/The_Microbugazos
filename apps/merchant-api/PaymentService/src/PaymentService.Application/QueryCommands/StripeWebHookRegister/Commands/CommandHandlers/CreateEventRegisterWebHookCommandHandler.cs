@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using Commons.ResponseHandler.Responses.Concretes;
@@ -10,6 +11,7 @@ using NotificationService.Domain.Dtos.OrderItems;
 using NotificationService.Domain.Dtos.Orders;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.Dtos.PaymentTransactions;
+using PaymentService.Application.Dtos.Products;
 using PaymentService.Application.QueryCommands.StripeWebHookRegister.Commands.Commands;
 using PaymentService.Application.Services;
 using PaymentService.Domain.Entities.Enums;
@@ -105,8 +107,8 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
             var productVariantId = lineItem.Price.Product.Metadata.GetValueOrDefault("product_variant_id");
             var currentOrderItem = new CreateOrderItemDto
             {
-                ProductVariantId = new Guid(productVariantId),
-                Quantity = (int)lineItem.Quantity,
+                ProductVariantId = new Guid(productVariantId!),
+                Quantity = (int)lineItem.Quantity!,
                 DiscountPercent = 0
             };
             orderItems.Add(currentOrderItem);
@@ -125,7 +127,7 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
         var paymentTransactionDto = new CreatePaymentTransactionDto
         {
             PaymentMethodId = paymentMethod.Id,
-            Amount = (double)session.AmountTotal / 100,
+            Amount = (double)session.AmountTotal! / 100,
             OrderId = orderResponse.Data
         };
 
@@ -134,6 +136,41 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
     
     private async Task PublishOrderEmailEvent(Session session, SuccessResponse<Guid> orderResponse)
     {
+        var orderItems = new List<OrderItemWithPrice>();
+
+        foreach (var lineItem in session.LineItems.Data)
+        {
+            var productVariantId = new Guid(lineItem.Price.Product.Metadata.GetValueOrDefault("product_variant_id")!);
+            
+            var variantResponse = await GetProductVariantDetails(productVariantId);
+            
+            if (variantResponse is not SuccessResponse<ProductVariantDto> successResponse)
+            {
+                continue;
+            }
+
+            var variant = successResponse.Data;
+
+            var unitPrice = (decimal)lineItem.Price.UnitAmount! / 100m;
+            var basePrice = unitPrice - (decimal)variant!.PriceAdjustment;
+
+            var orderItem = new OrderItemWithPrice(
+                lineItem.Description ?? "Unknown Item", 
+                (int)lineItem.Quantity!, 
+                unitPrice,
+                new ProductVariantDetails 
+                (
+                    productVariantId,
+                    basePrice,
+                    (decimal)variant.PriceAdjustment,
+                    variant.Attributes.Select(a => new ProductVariantAttribute 
+                    ( a.Name, a.Value)).ToList()
+                )
+            );
+
+            orderItems.Add(orderItem);
+        }
+
         var orderEmail = new OrderEmail(
             new Contact(
                 session.CustomerDetails?.Name ?? "Customer", 
@@ -141,15 +178,26 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
             ), 
             new OrderNormal(
                 orderResponse.Data.ToString(), 
-                session.LineItems.Data.Select(item => new OrderItemWithPrice(
-                    item.Description ?? "Unknown Item", 
-                    (int)item.Quantity, 
-                    (decimal)item.Price.UnitAmount / 100m
-                )).ToList(),
-                (decimal)session.AmountTotal / 100m
+                orderItems,
+                (decimal)session.AmountTotal! / 100m
             )
         );
 
         await _producer.Publish(orderEmail);
+    }
+    
+    private async Task<BaseResponse> GetProductVariantDetails(Guid productVariantId)
+    {
+        using (var client = new HttpClient())
+        {
+            var inventoryServiceRoute = Environment.GetEnvironmentVariable("INVENTORY_SERVICE_ROUTE");
+            var response = await client.GetAsync($"{inventoryServiceRoute}ProductVariant/{productVariantId}");
+
+            var content = await response.Content.ReadAsStringAsync();
+            var variantResponse = JsonSerializer.Deserialize<SuccessResponse<ProductVariantDto>>(content, 
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return variantResponse!;
+        }
     }
 }

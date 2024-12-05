@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import "@/styles/SideMenu.css";
 import { Option } from "@/components/Option";
-import { LuHome } from "react-icons/lu";
+import { BiHomeAlt } from "react-icons/bi";
 import { MdStorefront } from "react-icons/md";
 import { GrContact, GrCatalog } from "react-icons/gr";
 import { UserType } from "@/types/auth";
@@ -41,7 +41,7 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       ref={menuRef}
     >
       <Option
-        icon={LuHome}
+        icon={BiHomeAlt}
         text={"Home"}
       />
 
