@@ -48,7 +48,7 @@ public class BaseRepository<T>(IContext<T> context) : IRepository<T> where T : I
         }
     }
 
-    public async Task<int> Update(Guid id, T entity, UpdateDefinitionBuilder<T> update)
+    public async Task<int> UpdateAsync(Guid id, T entity, UpdateDefinition<T> update)
     {
         entity.UpdatedAt = DateTime.UtcNow;
 
