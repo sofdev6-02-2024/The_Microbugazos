@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Text;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using ReviewService.Bases;
 
@@ -12,4 +13,13 @@ public class ProductReview : BaseEntity
 
     [BsonElement("reviews")]
     public required List<Review> Reviews { get; set; } = new();
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder("ProductReview: {");
+        sb.Append($"ID: {Id}, ");
+        sb.Append($"ProductId: {ProductId}, ");
+        sb.Append($"Reviews: {Reviews.ToString()}");
+        return sb.ToString();
+    }
 }

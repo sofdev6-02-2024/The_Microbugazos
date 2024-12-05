@@ -25,6 +25,16 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         return StatusCode(successResponse.StatusCode, successResponse.Data);
     }
 
+    [HttpPost("{productId}")]
+    public async Task<ActionResult> AddReview(Guid productId, CreateReviewDto review)
+    {
+        var result = await mediator.Send(new AddReview(productId, review));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        var successResponse = (SuccessResponse<Review>)result;
+        return StatusCode(successResponse.StatusCode, successResponse.Data);
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult> GetProductReview(Guid id, int page, int pageSize)
     {
@@ -36,10 +46,20 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         return StatusCode(successResponse.StatusCode, successResponse.Data);
     }
 
-    [HttpPut("{productId}")]
-    public async Task<ActionResult> AddReview(Guid productId, CreateReviewDto review)
+    [HttpPatch("{productId}")]
+    public async Task<ActionResult> UpdateReview(Guid productId, Guid clientId, UpdateReviewDto updateReviewDto)
     {
-        var result = await mediator.Send(new AddReview(productId, review));
+        var result = await mediator.Send(new UpdateReview(productId, clientId, updateReviewDto));
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        var successResponse = (SuccessResponse<Review>)result;
+        return StatusCode(successResponse.StatusCode, successResponse.Data);
+    }
+
+    [HttpDelete("{productId}")]
+    public async Task<ActionResult> DeleteReview(Guid productId, Guid clientId)
+    {
+        var result = await mediator.Send(new DeleteReview(productId, clientId));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;

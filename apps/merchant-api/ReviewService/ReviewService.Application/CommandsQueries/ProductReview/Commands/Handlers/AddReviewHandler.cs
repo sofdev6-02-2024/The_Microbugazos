@@ -26,6 +26,7 @@ public class AddReviewHandler(
                 "Validations failed",
                 result.Errors.Select(e => e.ErrorMessage).ToList());
         var productReview = await repository.GetByIdAsync(request.ProductId);
+        
         if (productReview == null)
         {
             await repository.AddAsync(new Concretes.ProductReview
@@ -44,7 +45,8 @@ public class AddReviewHandler(
         reviewsUpdated.Add(mapper.Map<Review>(request.Review));
         var updateBuilder = new UpdateDefinitionBuilder<Concretes.ProductReview>()
             .Set<List<Review>>(e => e.Reviews, reviewsUpdated);
-        var response = await repository.UpdateAsync(request.ProductId, productReview, updateBuilder);
+        
+        var response = await repository.UpdateAsync(productReview.Id, productReview, updateBuilder);
         if (response < 0) 
             return responseHandlingHelper.InternalServerError<Review>("Some error happens while try to add review"); 
         return responseHandlingHelper.Ok("Review added successfully", mapper.Map<Review>(request.Review));
