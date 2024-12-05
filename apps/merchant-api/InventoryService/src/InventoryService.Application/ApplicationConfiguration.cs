@@ -5,12 +5,14 @@ using InventoryService.Application.Dtos.Categories;
 using InventoryService.Application.Dtos.Images;
 using InventoryService.Application.Dtos.Products;
 using InventoryService.Application.Dtos.ProductVariants;
+using InventoryService.Application.Dtos.Reservations;
 using InventoryService.Application.Dtos.Variants;
 using InventoryService.Application.Services;
 using InventoryService.Application.Validators.Categories;
 using InventoryService.Application.Validators.Images;
 using InventoryService.Application.Validators.Products;
 using InventoryService.Application.Validators.ProductVariants;
+using InventoryService.Application.Validators.Reservations;
 using InventoryService.Application.Validators.Variants;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Concretes;
@@ -34,6 +36,7 @@ public static class ApplicationConfiguration
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
         services.AddScoped<IRepository<InventoryReservation>, ReservationRepository>();
+        services.AddScoped<IRepository<ProductReservation>, ProductReservationRepository>();
         services.AddTransient<ProductVariantService>();
         services.AddTransient<ProductService>();
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
@@ -47,5 +50,6 @@ public static class ApplicationConfiguration
         services.AddScoped<IValidator<UpdateProductVariantDto>, UpdateProductVariantValidator>();
         services.AddScoped<IValidator<CreateProductDto>, CreateProductValidator>();
         services.AddScoped<IValidator<UpdateProductDto>, UpdateProductValidator>();
+        services.AddScoped<IValidator<CreateReservationDto>, CreateReservationValidator>();
     }
 }
