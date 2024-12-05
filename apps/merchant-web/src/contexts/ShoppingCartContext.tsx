@@ -14,6 +14,8 @@ import { toast } from "sonner";
 import VariantStock from "@/commons/entities/VariantStock";
 import axiosInstance from "@/request/AxiosConfig";
 import { useAuth } from "@/commons/context/AuthContext";
+import InventoryReservation from "@/commons/entities/InventoryReservation";
+import { UUID } from "crypto";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -23,7 +25,7 @@ interface Types {
   increaseQuantityProduct: (id: string) => void;
   decreaseQuantityProduct: (id: string) => void;
   changeQuantity: (id: string, quantity: number) => void;
-  handleStripe: () => void;
+  handleSubmitStripe: () => void;
   handleSuccessPayment: () => void;
 }
 
@@ -140,28 +142,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       return;
     }
 
-    const stockValidation = await Promise.all(
-      products.map(async (product) => {
-        const response = await axiosInstance.get(
-          `/inventory/ProductVariant/${product.productVariantId}`
-        );
-        const availableStock = response.data.data.stockQuantity;
-        console.log(availableStock);
-        if (product.quantity > availableStock) {
-          toast.error(
-            `"${product.name}" has only ${availableStock} units available`
-          );
-          product.quantity = availableStock;
-          return false;
-        }
-        return true;
-      })
-    );
-
-    if (stockValidation.some((isValid) => !isValid)) {
-      return;
-    }
-
     const cartData: CartData = {
       shoppingCartItems: products.map((product) => ({
         productVariantId: product.productVariantId,
@@ -179,26 +159,93 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     handleSubmitCart(cartData);
   };
 
-  const handleSuccessPayment = async () => {
-    const shoppingCartItems = localStorage.getItem("shoppingCartItems");
-
-    if (shoppingCartItems) {
-      const shoppingCartData: Array<ShoppingCartItem> =
-        JSON.parse(shoppingCartItems);
-      if (shoppingCartData.length > 0) {
-        const variantsToReduce: Array<VariantStock> = shoppingCartData.map(
-          (item) => {
-            return new VariantStock(item.productVariantId, item.quantity);
-          }
-        );
-
-        await axiosInstance.patch("/inventory/ProductVariant/stocks/reduce", {
-          VariantsStock: variantsToReduce,
-        });
-      }
+  const handleSubmitStripe = async () => {
+    if (!user) {
+      router.push("/login");
+      toast.error("Please log in to your account");
+      return;
     }
 
-    setProducts([])
+    if (products.length <= 0) {
+      router.push("/");
+      toast.error("No products in the cart");
+      return;
+    }
+
+    const variants = products.map(
+      (product) => new VariantStock(product.productVariantId, product.quantity)
+    );
+
+    const stockIsValid = await handleStock(variants);
+    if (!stockIsValid) return;
+
+    const reservationSuccess = await handleReservation(
+      variants,
+      user.userId as UUID
+    );
+    if (!reservationSuccess) return;
+    handleReduceStock(variants);
+    handleStripe();
+  };
+
+  const handleVerifyStock = async (product: VariantStock): Promise<boolean> => {
+    const response = await axiosInstance.get(
+      `/inventory/ProductVariant/${product.variantId}`
+    );
+    const availableStock = response.data.data.stockQuantity;
+
+    if (availableStock < product.quantity) {
+      toast.error(
+        `"${response.data.data.name}" has only ${availableStock} units available`
+      );
+      product.quantity = availableStock;
+      return false;
+    }
+    return true;
+  };
+
+  const handleStock = async (
+    variants: Array<VariantStock>
+  ): Promise<boolean> => {
+    const stockValidation = await Promise.all(
+      variants.map((variant) => handleVerifyStock(variant))
+    );
+
+    if (stockValidation.some((isValid) => !isValid)) {
+      toast.error(
+        "Some products are out of stock or have limited availability."
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleReservation = async (
+    variants: Array<VariantStock>,
+    userId: UUID
+  ): Promise<boolean> => {
+    try {
+      const reservation: InventoryReservation = new InventoryReservation(
+        userId,
+        variants
+      );
+      console.log(reservation);
+      await axiosInstance.post("/inventory/Reservation", reservation);
+      return true;
+    } catch (error) {
+      toast.error("Failed to create reservation.");
+      return false;
+    }
+  };
+
+  const handleReduceStock = async (variantsToReduce: Array<VariantStock>) => {
+    await axiosInstance.patch("/inventory/ProductVariant/stocks/reduce", {
+      VariantsStock: variantsToReduce,
+    });
+  }
+
+  const handleSuccessPayment = async () => {
+    setProducts([]);
   };
 
   useEffect(() => {
@@ -269,7 +316,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       increaseQuantityProduct,
       decreaseQuantityProduct,
       changeQuantity,
-      handleStripe,
+      handleSubmitStripe,
       handleSuccessPayment,
     };
   }, [products]);

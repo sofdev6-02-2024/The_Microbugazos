@@ -8,7 +8,7 @@ import "@/styles/shopping-cart-page/shopping-cart-info.css";
 export const ShoppingCartInfo = () => {
   const [shipping, setShipping] = useState(0);
   const [price, setPrice] = useState(0);
-  const { products, handleStripe } = useShoppingCart();
+  const { products, handleSubmitStripe } = useShoppingCart();
 
   useEffect(() => {
     let totalPrice = 0;
@@ -40,7 +40,7 @@ export const ShoppingCartInfo = () => {
       <PriceInfo name="Total" value={`${(shipping + price).toFixed(2)}`} />
       <button
         className="checkout-button"
-        onClick={handleStripe}
+        onClick={handleSubmitStripe}
       >
         Checkout
       </button>
