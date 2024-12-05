@@ -14,6 +14,7 @@ using PaymentService.Application.Dtos.PaymentTransactions;
 using PaymentService.Application.Dtos.Products;
 using PaymentService.Application.QueryCommands.StripeWebHookRegister.Commands.Commands;
 using PaymentService.Application.Services;
+using PaymentService.Application.Services.Clients;
 using PaymentService.Domain.Entities.Enums;
 using PaymentService.Infrastructure.Repositories.Interfaces;
 using Stripe;
@@ -28,18 +29,21 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
     private readonly IResponseHandlingHelper _responseHandlingHelper;
     private readonly PaymentTransactionService _transactionService;
     private readonly OrderService _orderService;
+    private readonly ProductClientService _productClientService;
     private readonly IBus _producer;
 
     public CreateEventRegisterWebHookCommandHandler(
         IRepository<PaymentMethod> paymentMethodRepository,
         PaymentTransactionService paymentTransactionService,
         PaymentTransactionService transactionService, OrderService orderService, 
+        ProductClientService productClientService,
         IResponseHandlingHelper responseHandlingHelper,
         IBus producer)
     {
         _paymentMethodRepository = paymentMethodRepository;
         _transactionService = transactionService;
         _orderService = orderService;
+        _productClientService = productClientService;
         _responseHandlingHelper = responseHandlingHelper;
         _producer = producer;
         StripeConfiguration.ApiKey = Env.GetString("STRIPE_SECRET_KEY");
@@ -142,17 +146,15 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
         {
             var productVariantId = new Guid(lineItem.Price.Product.Metadata.GetValueOrDefault("product_variant_id")!);
             
-            var variantResponse = await GetProductVariantDetails(productVariantId);
-            
-            if (variantResponse is not SuccessResponse<ProductVariantDto> successResponse)
+            var variant = await _productClientService.GetProductVariantByIdAsync(productVariantId);
+        
+            if (variant == null)
             {
                 continue;
             }
 
-            var variant = successResponse.Data;
-
             var unitPrice = (decimal)lineItem.Price.UnitAmount! / 100m;
-            var basePrice = unitPrice - (decimal)variant!.PriceAdjustment;
+            var basePrice = unitPrice - (decimal)variant.PriceAdjustment;
 
             var orderItem = new OrderItemWithPrice(
                 lineItem.Description ?? "Unknown Item", 
@@ -164,7 +166,7 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
                     basePrice,
                     (decimal)variant.PriceAdjustment,
                     variant.Attributes.Select(a => new ProductVariantAttribute 
-                    ( a.Name, a.Value)).ToList()
+                        ( a.Name, a.Value)).ToList()
                 )
             );
 
@@ -184,20 +186,5 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
         );
 
         await _producer.Publish(orderEmail);
-    }
-    
-    private async Task<BaseResponse> GetProductVariantDetails(Guid productVariantId)
-    {
-        using (var client = new HttpClient())
-        {
-            var inventoryServiceRoute = Environment.GetEnvironmentVariable("INVENTORY_SERVICE_ROUTE");
-            var response = await client.GetAsync($"{inventoryServiceRoute}ProductVariant/{productVariantId}");
-
-            var content = await response.Content.ReadAsStringAsync();
-            var variantResponse = JsonSerializer.Deserialize<SuccessResponse<ProductVariantDto>>(content, 
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return variantResponse!;
-        }
     }
 }
