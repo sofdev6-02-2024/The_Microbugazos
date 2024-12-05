@@ -9,6 +9,6 @@ public interface IRepository<T> where T : IEntity
     Task<ICollection<T>> GetAllAsync(int pageNumber, int pageSize);
     Task<uint> CountAsync();
     Task<T> AddAsync(T entity);
-    Task<int> Update(Guid id, T entity, UpdateDefinitionBuilder<T> update);
+    Task<int> UpdateAsync(Guid id, T entity, UpdateDefinition<T> update);
     Task<int> DeleteAsync(Guid id);
 }

@@ -1,9 +1,11 @@
 ﻿using Commons.ResponseHandler.Responses.Bases;
 using MediatR;
+using ReviewService.Application.CommandsQueries.Commons;
 
-namespace ReviewService.Application.Queries;
+namespace ReviewService.Application.CommandsQueries.ProductReview.Queries.Requests;
 
-public class GetProductReviewById : IRequest<BaseResponse>
+public class GetProductReviewById(Guid productId, PaginationRequest paginationRequest) : IRequest<BaseResponse>
 {
-    public Guid ProductId { get; set; }
+    public Guid ProductId { get; set; } = productId;
+    public PaginationRequest PaginationRequest { get; set; } = paginationRequest;
 }

@@ -20,7 +20,10 @@ public class CreateProductReviewHandler(
     public async Task<BaseResponse> Handle(CreateProductReview request, CancellationToken cancellationToken)
     {
         var result = await validator.ValidateAsync(request.ProductReview, cancellationToken);
-        if (!result.IsValid) return responseHandlingHelper.BadRequest<CreateProductReviewDto>("Validations failed");
+        if (!result.IsValid) return responseHandlingHelper
+            .BadRequest<CreateProductReviewDto>(
+                "Validations failed", 
+                result.Errors.Select(e => e.ErrorMessage).ToList());
         
         var productReview = mapper.Map<Concretes.ProductReview>(request.ProductReview);
         await repository.AddAsync(productReview);
