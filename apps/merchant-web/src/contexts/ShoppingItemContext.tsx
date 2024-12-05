@@ -71,12 +71,14 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
       const attributeMap: Record<string, Set<string>> = {};
 
       product.productVariants.forEach((variant) => {
-        variant.attributes.forEach((attr) => {
-          if (!attributeMap[attr.name]) {
-            attributeMap[attr.name] = new Set();
-          }
-          attributeMap[attr.name].add(attr.value);
-        });
+        if (variant.stockQuantity > 0) {
+          variant.attributes.forEach((attr) => {
+            if (!attributeMap[attr.name]) {
+              attributeMap[attr.name] = new Set();
+            }
+            attributeMap[attr.name].add(attr.value);
+          });
+        }
       });
 
       const mappedVariants = Object.keys(attributeMap).map((name) => {
@@ -205,12 +207,21 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
   const getDefaultSelectedAttributes = () => {
     if (product) {
       if (product.productVariants.length > 0 && attributes.length > 0) {
-        const firstVariant = product.productVariants[0];
-        const defaultAttributes = firstVariant.attributes.map((attr) => ({
-          name: attr.name,
-          value: attr.value,
-        }));
-        setSelectedAttributes(defaultAttributes);
+        for (const element of product.productVariants) {
+          const currentVariant = element;
+          if (currentVariant.stockQuantity > 0) {
+            const defaultAttributes = currentVariant.attributes.map(
+              (attribute) => {
+                return new ShoppingItemSelectedAttribute(
+                  attribute.name,
+                  attribute.value
+                );
+              }
+            );
+            setSelectedAttributes(defaultAttributes);
+            return;
+          }
+        }
       }
     }
   };
@@ -251,7 +262,7 @@ export const ShoppingItemProvider = ({ children, currentIdProduct }: Props) => {
       stock,
       priceAdjustment,
       selectedAttributes,
-      getDefaultSelectedAttributes
+      getDefaultSelectedAttributes,
     };
   }, [product, attributes, price, quantity, stock]);
 

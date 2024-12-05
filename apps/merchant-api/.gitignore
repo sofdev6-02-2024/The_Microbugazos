@@ -3,6 +3,7 @@
 *.suo
 *.user
 *.userprefs
+*.sln
 *.sln.ide
 *.sln.docstates
 
