@@ -10,15 +10,12 @@ import {useAuth} from "@/commons/context/AuthContext";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {toast} from "sonner";
+import {useReviewsContext} from "@/contexts/ReviewsContext";
 
-interface Props {
-  productId: string;
-  rating: number;
-  setRating: (number) => void;
-  totalReviews: number;
-}
-export default function ReviewModal({productId, rating, setRating, totalReviews}: Readonly<Props>) {
+export default function ReviewModal() {
   const [ratingForm, setRatingForm] = useState(0);
+  const {productId, rating, totalReviews, refreshReviews} = useReviewsContext();
+  const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const auth = useAuth()
   const router = useRouter();
 
@@ -26,7 +23,6 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
     initialValues: defaultReviewFormData,
     validate: validateWithZod(ReviewFormSchema),
     onSubmit: values => {
-      console.log(values);
       if (auth.user?.userId == null) {
         router.replace("/login");
       } else {
@@ -35,11 +31,11 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
           clientName: auth.user?.displayName,
           rating: ratingForm,
           comment: values.comment
-        }).catch(e => toast.error(e))
+        }).catch(e => toast.error(e.response.data.message))
+          .finally(refreshReviews);
       }
     }
   });
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
     <>
@@ -48,6 +44,8 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
         setRating={setRatingForm}
         handleChange={onOpen}
         totalReviews={totalReviews}
+        horizontalAlignment={true}
+        showTotalInfo={true}
       ></RatingSelector>
       <Modal
         isOpen={isOpen}
@@ -64,6 +62,7 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
                   rating={ratingForm}
                   setRating={setRatingForm}
                   showTotalInfo={false}
+                  horizontalAlignment={false}
                 ></RatingSelector>
               </div>
               <EditableInput
@@ -86,7 +85,7 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
             <Button
               className={ModalStyle.secondaryButton}
               onPress={() => {
-                console.log();
+                onClose();
               }}
             >
               Cancel
@@ -95,7 +94,7 @@ export default function ReviewModal({productId, rating, setRating, totalReviews}
               className={ModalStyle.primaryButton}
               onPress={() => {
                 formik.handleSubmit();
-                console.log(formik.values);
+                onClose();
               }}
             >
               Send

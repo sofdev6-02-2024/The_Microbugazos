@@ -13,16 +13,14 @@ import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { AttributeSelector } from "./AttributeSelector";
 import styles from "@/styles/products/ProductDetails.module.css";
 import ReviewModal from "@/components/reviews/ReviewModal";
+import ReviewCard from "@/components/reviews/ReviewCard";
+import ReviewsSection from "@/components/product-detail/ReviewsSection";
 
-export const ProductDetail = ({id}) => {
-  const [rating, setRating] = useState(0);
-  const [totalReviews, setTotalReviews] = useState(0);
+export const ProductDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
   const [image, setImage] = useState<Image | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const pageSize = 10;
-  const [page, setPage] = useState<number>(1);
   const {
     quantity,
     increaseQuantity,
@@ -40,16 +38,6 @@ export const ProductDetail = ({id}) => {
   } = useShoppingItem();
 
   const { addProductToCart } = useShoppingCart();
-
-  useEffect(() => {
-    axiosInstance.get(`/review/ProductReview/${id}?page=${page}&pageSize=${pageSize}`)
-      .then(response => response.data)
-      .then(data => {
-        setRating(data.data.averageRating);
-        setTotalReviews(data.data.reviews.totalItems);
-        console.log(data);
-      })
-  }, []);
 
   const handleMoreInfo = () => {
     if (product) {
@@ -121,67 +109,65 @@ export const ProductDetail = ({id}) => {
   }
 
   return (
-    <div className={styles.productDetailsSection}>
-      <ImagesSection images={images} imageSelected={image}></ImagesSection>
-      <section className={styles.informationContainer}>
-        <h1 className={styles.title}>{product.name}</h1>
-        <ReviewModal
-          rating={rating}
-          setRating={setRating}
-          totalReviews={totalReviews}
-          productId={id}>
-        </ReviewModal>
-        <label className={styles.label}>
-          $ {product.price}
-          <span className={styles.labelLight}>
-            {" "}
-            ({priceAdjustment > 0 ? `+ ${priceAdjustment} $` : ""})
-          </span>
-        </label>
-        {price > 0 && <label>Total: $ {price}</label>}
-        <p>{product.description}</p>
-        <hr />
-        {attributes && attributes.length > 0 ? (
-          attributes.map((attribute) => {
-            return (
-              <div key={attribute.name} className="variant-option-section">
-                <h4>Select {attribute.name}</h4>
-                <AttributeSelector
-                  name={attribute.name}
-                  options={attribute.value}
-                  handleChange={(value: string) => {
-                    chooseAttribute(attribute.name, value);
-                  }}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <p>No variants available</p>
-        )}
-        {error && (
-          <label className={styles.errorLabel}>
-            <sup>*</sup>
-            {error}
+    <div>
+      <div className={styles.productDetailsSection}>
+        <ImagesSection images={images} imageSelected={image}></ImagesSection>
+        <section className={styles.informationContainer}>
+          <h1 className={styles.title}>{product.name}</h1>
+          <ReviewModal></ReviewModal>
+          <label className={styles.label}>
+            $ {product.price}
+            <span className={styles.labelLight}>
+              {" "}
+              ({priceAdjustment > 0 ? `+ ${priceAdjustment} $` : ""})
+            </span>
           </label>
-        )}
-        <hr />
+          {price > 0 && <label>Total: $ {price}</label>}
+          <p>{product.description}</p>
+          <hr />
+          {attributes && attributes.length > 0 ? (
+            attributes.map((attribute) => {
+              return (
+                <div key={attribute.name} className="variant-option-section">
+                  <h4>Select {attribute.name}</h4>
+                  <AttributeSelector
+                    name={attribute.name}
+                    options={attribute.value}
+                    handleChange={(value: string) => {
+                      chooseAttribute(attribute.name, value);
+                    }}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <p>No variants available</p>
+          )}
+          {error && (
+            <label className={styles.errorLabel}>
+              <sup>*</sup>
+              {error}
+            </label>
+          )}
+          <hr />
 
-        <div className={styles.actionsContainer}>
-          <Like
-            isLiked={isFavorite}
-            toggleLike={handleLike}
-            productId={product.id}
-          />
-          <AddToCart action={handleAddToCart} />
-          <QuantityPicker
-            quantity={quantity}
-            increase={increaseQuantity}
-            decrease={decreaseQuantity}
-            changeQuantity={handleQuantity}
-          />
-        </div>
-      </section>
+          <div className={styles.actionsContainer}>
+            <Like
+              isLiked={isFavorite}
+              toggleLike={handleLike}
+              productId={product.id}
+            />
+            <AddToCart action={handleAddToCart} />
+            <QuantityPicker
+              quantity={quantity}
+              increase={increaseQuantity}
+              decrease={decreaseQuantity}
+              changeQuantity={handleQuantity}
+            />
+          </div>
+        </section>
+      </div>
+      <ReviewsSection/>
     </div>
   );
 };
