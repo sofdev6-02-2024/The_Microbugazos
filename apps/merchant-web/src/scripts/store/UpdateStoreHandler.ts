@@ -5,7 +5,8 @@ import { deleteImageFromFirebase, uploadImage } from "../FirebaseImageScripts";
 export const updateStoreHandler = async (
   storeId: string,
   store: StoreFormData,
-  userId: string | undefined
+  userId: string | undefined,
+  storeDto:StoreFormDto|null
 ): Promise<StoreFormDto> => {
   if (userId === undefined) {
     throw new Error("User Id is undefined");
@@ -32,6 +33,7 @@ export const updateStoreHandler = async (
     bannerImage: bannerImage,
     profileImage: profileImage,
     userId: userId,
+    lowStockThreshold: storeDto?.lowStockThreshold
   };
   const response = await updateStore(storeId, storeToUpdate);
   return response;

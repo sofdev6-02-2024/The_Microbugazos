@@ -7,6 +7,8 @@
 .admin-store-inventory-body {
   max-height: 100%;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-store-inventory-body::-webkit-scrollbar {

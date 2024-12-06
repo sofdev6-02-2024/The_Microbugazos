@@ -6,6 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
   buttonStyle?: "primary" | "secundary" | "button-delete" | "button-free" | "button-filled";
   variant?: "button-variant-small" | "button-variant-default";
+  className?: string;
   handleClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   style?: CSSProperties;
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ export const Button = ({
   disabled = false,
   buttonStyle = "primary",
   variant = "button-variant-default",
+  className = "",
   handleClick = () => {},
   style = {},
   children,
@@ -26,10 +28,13 @@ export const Button = ({
       style={style}
       type={type}
       disabled={disabled}
-      className={`button button-style ${shape} ${
+      className={`button button-style ${shape} ${className} ${
         disabled ? "disabled" : ""
       } ${buttonStyle} ${variant}`}
-      onClick={handleClick}
+      onClick={(e)=>{
+        e.stopPropagation();
+        handleClick(e);
+      }}
     >
       {children}
     </button>

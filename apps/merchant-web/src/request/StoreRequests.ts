@@ -25,7 +25,7 @@ export const createStore = async (data: StoreFormDto) => {
 export const updateStore = async (id: string, data: StoreFormDto) => {
   try {
     const response = await axiosInstance.put(`/stores/${id}`, data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     handleAxiosError(error);
     throw error;

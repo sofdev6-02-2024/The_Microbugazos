@@ -6,8 +6,8 @@
   overflow-y: auto;
   max-height: 200px;
   right: 0px;
-  bottom: -40px;
-  width: 100px;
+  bottom: -80px;
+  width: 180px;
   display: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.295);
   padding: 10px 10px;
@@ -27,8 +27,6 @@
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-
-
 .show-inventory-row-options {
   display: block !important;
 }
@@ -41,4 +39,14 @@
 
 .show-inventory-row-options li:hover {
   color: var(--primary-600);
+}
+
+.hiddable-inventory-option {
+  display: block !important;
+}
+
+@media screen and (min-width: 1170px) {
+  .hiddable-inventory-option {
+    display: none !important;
+  }
 }

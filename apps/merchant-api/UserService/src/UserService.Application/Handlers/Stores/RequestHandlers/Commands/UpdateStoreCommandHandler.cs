@@ -21,9 +21,8 @@ public class UpdateStoreCommandHandler(
     {
         var validation = validator.Validate(request.StoreDto);
         if (!validation.IsValid) return responseHandlingHelper.BadRequest<StoreDto>(
-            "The operation to create a store was not completed, please check the errors.", 
+            "The operation to create a store was not completed, please check the errors.",
             validation.Errors.Select(e => e.ErrorMessage).ToList());
-        
         var store = mapper.Map<Store>(request.StoreDto);
         store = await storeRepository.UpdateAsync(store);
         return responseHandlingHelper.Ok("The category has been successfully updated.", mapper.Map<StoreDto>(store));

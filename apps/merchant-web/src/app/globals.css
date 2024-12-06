@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&family=Ubuntu&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300..700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +14,7 @@
   --action-success: #03fcba;
   --action-alert: #e9df00;
   --action-error: #fb5012;
-   --action-error-intense: #e44207;
+  --action-error-intense: #e44207;
   --primary-light: #7790ed;
   --primary-dark: #5275f5;
   --secondary-light: #292621;
@@ -65,7 +65,7 @@
   --montserrat-alt-bold-weight: 700;
   --montserrat-alt-font-style: normal;
 
-  --montserrat-font-family: "Montserrat", serif ;
+  --montserrat-font-family: "Montserrat", serif;
 
   --color-background-header: #1f1f1f;
   --color-side-menu-background: #eff2f5;
@@ -97,6 +97,7 @@
   --normal-2-text-size: 18px;
   --normal-3-text-size: 16px;
   --normal-4-text-size: 14px;
+  --normal-5-text-size: 12px;
 
   --ubuntu-font-family: "Ubuntu", serif;
   --ubuntu-font-weight: 400;
@@ -108,6 +109,8 @@
   --montserrat-alt-font-style: normal;
 
   --general-border-radius: 10px;
+
+  --low-stock-alert: rgb(255, 141, 141);
 }
 
 * {
