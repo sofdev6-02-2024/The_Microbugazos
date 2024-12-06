@@ -2,6 +2,7 @@ using Commons.ResponseHandler.Handler.Concretes;
 using Commons.ResponseHandler.Handler.Interfaces;
 using DotNetEnv;
 using FluentValidation;
+using ReviewService.Api;
 using ReviewService.Api.Configuration;
 using ReviewService.Application.Profiles;
 using ReviewService.Application.ValidationSettings;
@@ -24,7 +25,6 @@ builder.Services.AddCors(options =>
 });
 
 var connectionString = builder.Configuration["MONGODB_URI"];
-Console.WriteLine($"AA: {connectionString}");
 if (connectionString == null)
 {
     Console.WriteLine("You must set your 'MONGODB_URI' environment variable. To learn how to set it, see https://www.mongodb.com/docs/drivers/csharp/current/quick-start/#set-your-connection-string");
@@ -33,7 +33,7 @@ if (connectionString == null)
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 builder.Services.AddRepositories();
 builder.Services.ConfigDbSet(connectionString);
@@ -53,5 +53,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 app.UseCors("AllowApiGateway");
-app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();

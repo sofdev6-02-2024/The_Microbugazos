@@ -46,7 +46,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 
-    [HttpPatch("{productId}")]
+    /*[HttpPatch("{productId}")]
     public async Task<ActionResult> UpdateReview(Guid productId, Guid clientId, UpdateReviewDto updateReviewDto)
     {
         var result = await mediator.Send(new UpdateReview(productId, clientId, updateReviewDto));
@@ -54,7 +54,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
-    }
+    }*/
 
     [HttpDelete("{productId}")]
     public async Task<ActionResult> DeleteReview(Guid productId, Guid clientId)
