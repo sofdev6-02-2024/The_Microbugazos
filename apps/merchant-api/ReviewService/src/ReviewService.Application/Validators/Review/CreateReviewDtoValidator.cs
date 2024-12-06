@@ -15,7 +15,6 @@ public class CreateReviewDtoValidator : AbstractValidator<CreateReviewDto>
             .MinimumLength(reviewSettings.MinLengthName)
             .MaximumLength(reviewSettings.MaxLengthName);
         RuleFor(r => r.Comment)
-            .NotEmpty()
             .MaximumLength(reviewSettings.MaxLengthComment);
         RuleFor(r => r.Rating)
             .NotNull()

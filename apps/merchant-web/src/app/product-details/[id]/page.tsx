@@ -8,6 +8,7 @@ import axiosInstance from "@/request/AxiosConfig";
 
 import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
 import { ProductDetail } from "@/components/product-detail/ProductDetail";
+import { ReviewsProvider } from "@/contexts/ReviewsContext";
 
 export default function ProductDetails() {
   const params = useParams();
@@ -34,7 +35,9 @@ export default function ProductDetails() {
 
   return product ? (
     <ShoppingItemProvider currentIdProduct={product.id}>
-      <ProductDetail id={product.id}/>
+      <ReviewsProvider productId={product.id}>
+        <ProductDetail/>
+      </ReviewsProvider>
     </ShoppingItemProvider>
   ) : (
     <p>Loading product details...</p>
