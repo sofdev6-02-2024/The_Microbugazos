@@ -1,0 +1,41 @@
+
+.container {
+  border: 1px solid var(--foreground-secondary);
+  width: 45vw;
+  min-width: 320px;
+  min-height: 150px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.skeleton {
+  background-color: var(--gray-200);
+  width: 45vw;
+  height: 150px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.roundedElement {
+  border-radius: 8px;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.dateStyle {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.paragraph {
+  font-size: 14px;
+}

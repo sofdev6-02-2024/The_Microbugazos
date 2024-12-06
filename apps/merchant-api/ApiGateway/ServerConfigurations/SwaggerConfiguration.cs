@@ -12,6 +12,8 @@ namespace ApiGateway.ServerConfigurations
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventory Service", Version = "v1" });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "User Service", Version = "v1" });
                 c.SwaggerDoc("v3", new OpenApiInfo { Title = "Payment Service", Version = "v1" });
+                c.SwaggerDoc("v4", new OpenApiInfo { Title = "Notification Service", Version = "v1" });
+                c.SwaggerDoc("v5", new OpenApiInfo { Title = "Review Service", Version = "v1" });
             });
         }
 
@@ -24,6 +26,7 @@ namespace ApiGateway.ServerConfigurations
                 c.SwaggerEndpoint("http://localhost:5001/swagger/user", "User Service V1");
                 c.SwaggerEndpoint("http://localhost:5001/swagger/payment", "Payment Service V1");
                 c.SwaggerEndpoint("http://localhost:5001/swagger/notification", "Notification Service V1");
+                c.SwaggerEndpoint("http://localhost:5001/swagger/review", "Review Service V1");
                 c.RoutePrefix = string.Empty;
             });
         }

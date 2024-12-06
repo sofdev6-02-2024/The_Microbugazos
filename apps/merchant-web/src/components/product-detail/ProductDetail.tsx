@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import RatingSelector from "@/components/RatingSelector";
 import ImagesSection, {
   Image,
 } from "@/components/product-details/ImagesSection";
@@ -13,6 +12,9 @@ import axiosInstance from "@/request/AxiosConfig";
 import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { AttributeSelector } from "./AttributeSelector";
 import styles from "@/styles/products/ProductDetails.module.css";
+import ReviewModal from "@/components/reviews/ReviewModal";
+import ReviewCard from "@/components/reviews/ReviewCard";
+import ReviewsSection from "@/components/product-detail/ReviewsSection";
 
 export const ProductDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -107,62 +109,65 @@ export const ProductDetail = () => {
   }
 
   return (
-    <div className={styles.productDetailsSection}>
-      <ImagesSection images={images} imageSelected={image}></ImagesSection>
-      <section className={styles.informationContainer}>
-        <h1 className={styles.title}>{product.name}</h1>
-        <RatingSelector rating={2.5}></RatingSelector>
-        <label className={styles.label}>
-          $ {product.price}
-          <span className={styles.labelLight}>
-            {" "}
-            ({priceAdjustment > 0 ? `+ ${priceAdjustment} $` : ""})
-          </span>
-        </label>
-        {price > 0 && <label>Total: $ {price}</label>}
-        <p>{product.description}</p>
-        <hr />
-        {attributes && attributes.length > 0 ? (
-          attributes.map((attribute) => {
-            return (
-              <div key={attribute.name} className="variant-option-section">
-                <h4>Select {attribute.name}</h4>
-                <AttributeSelector
-                  name={attribute.name}
-                  options={attribute.value}
-                  handleChange={(value: string) => {
-                    chooseAttribute(attribute.name, value);
-                  }}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <p>No variants available</p>
-        )}
-        {error && (
-          <label className={styles.errorLabel}>
-            <sup>*</sup>
-            {error}
+    <div>
+      <div className={styles.productDetailsSection}>
+        <ImagesSection images={images} imageSelected={image}></ImagesSection>
+        <section className={styles.informationContainer}>
+          <h1 className={styles.title}>{product.name}</h1>
+          <ReviewModal></ReviewModal>
+          <label className={styles.label}>
+            $ {product.price}
+            <span className={styles.labelLight}>
+              {" "}
+              ({priceAdjustment > 0 ? `+ ${priceAdjustment} $` : ""})
+            </span>
           </label>
-        )}
-        <hr />
+          {price > 0 && <label>Total: $ {price}</label>}
+          <p>{product.description}</p>
+          <hr />
+          {attributes && attributes.length > 0 ? (
+            attributes.map((attribute) => {
+              return (
+                <div key={attribute.name} className="variant-option-section">
+                  <h4>Select {attribute.name}</h4>
+                  <AttributeSelector
+                    name={attribute.name}
+                    options={attribute.value}
+                    handleChange={(value: string) => {
+                      chooseAttribute(attribute.name, value);
+                    }}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <p>No variants available</p>
+          )}
+          {error && (
+            <label className={styles.errorLabel}>
+              <sup>*</sup>
+              {error}
+            </label>
+          )}
+          <hr />
 
-        <div className={styles.actionsContainer}>
-          <Like
-            isLiked={isFavorite}
-            toggleLike={handleLike}
-            productId={product.id}
-          />
-          <AddToCart action={handleAddToCart} />
-          <QuantityPicker
-            quantity={quantity}
-            increase={increaseQuantity}
-            decrease={decreaseQuantity}
-            changeQuantity={handleQuantity}
-          />
-        </div>
-      </section>
+          <div className={styles.actionsContainer}>
+            <Like
+              isLiked={isFavorite}
+              toggleLike={handleLike}
+              productId={product.id}
+            />
+            <AddToCart action={handleAddToCart} />
+            <QuantityPicker
+              quantity={quantity}
+              increase={increaseQuantity}
+              decrease={decreaseQuantity}
+              changeQuantity={handleQuantity}
+            />
+          </div>
+        </section>
+      </div>
+      <ReviewsSection/>
     </div>
   );
 };

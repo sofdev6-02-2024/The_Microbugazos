@@ -8,17 +8,7 @@ import { ContactFormData } from "@/schemes/contact-us-form/ContactUsDto";
 import styles from "@/styles/contact-us/ContactUsForm.module.css"
 import {createContactUsMessage} from "@/request/ContactUsMessageRequest";
 import {ContactFormSchema, defaultContactData} from "@/schemes/contact-us-form/ContactFormSchema";
-import { z } from "zod";
-
-const validateWithZod = (schema: z.ZodSchema) => (values: any) => {
-  try {
-    schema.parse(values);
-    return {};
-  } catch (error) {
-    const zodErrors = (error as z.ZodError).flatten();
-    return zodErrors.fieldErrors;
-  }
-};
+import {validateWithZod} from "@/utils/ZodFunctions";
 
 const ContactForm: React.FC = () => {
   const formik: FormikProps<ContactFormData> = useFormik<ContactFormData>({

@@ -7,8 +7,8 @@ using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
-var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
+var builder = WebApplication.CreateBuilder(args);
 var apiGatewayUrl = builder.Configuration["ApiGatewayUrl"] ?? "http://localhost:5001";
 
 builder.Services.AddCors(options =>

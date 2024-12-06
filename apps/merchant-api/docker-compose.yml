@@ -148,6 +148,37 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+        
+  reviews_db:
+    image: mongo:7.0.16-rc1
+    restart: always
+    ports:
+      - "${REVIEW_DB_PORT}:${REVIEW_DB_PORT}"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${REVIEW_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${REVIEW_DB_PASS}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - merchant-network
+  
+  review_service:
+    build:
+      context: .
+      dockerfile: ReviewService/Dockerfile
+    ports:
+      - "5500:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - REVIEW_DB_PORT=${REVIEW_DB_PORT}
+      - REVIEW_DB_USER=${REVIEW_DB_USER}
+      - REVIEW_DB_PASS=${REVIEW_DB_PASS}
+      - MONGODB_URI=${MONGODB_URI}
+    networks:
+      - merchant-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
 networks:
   merchant-network:
@@ -156,3 +187,4 @@ networks:
 volumes:
   postgres_data:
   rabbitmq_data:
+  mongodb_data:

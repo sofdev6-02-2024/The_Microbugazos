@@ -1,0 +1,26 @@
+﻿[
+  {
+    "UpstreamPathTemplate": "/api/review/{everything}",
+    "UpstreamHttpMethod": ["GET"],
+    "DownstreamPathTemplate": "/api/review/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "review_service",
+        "Port": 8080
+      }
+    ]
+  },
+  {
+    "UpstreamPathTemplate": "/api/review/{everything}",
+    "UpstreamHttpMethod": ["POST", "PUT", "DELETE"],
+    "DownstreamPathTemplate": "/api/review/{everything}",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "review_service",
+        "Port": 8080
+      }
+    ]
+  }
+]
