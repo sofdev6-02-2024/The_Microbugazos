@@ -60,7 +60,11 @@ export const ReviewsProvider = ({children, productId}: ReviewsProviderProps) => 
         setReviews(data.data);
         setTimeout(() => setIsLoading(false), 300);
       })
-      .catch(e => toast.error(e.message))
+      .catch(e => {
+        if (e.response.status != 404) {
+          toast.error(e.message);
+        }
+      })
   }
 
   const objValue = useMemo(() => ({
