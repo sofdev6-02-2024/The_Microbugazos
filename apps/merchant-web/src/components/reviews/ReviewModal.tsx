@@ -1,16 +1,42 @@
-import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
+import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
 import RatingSelector from "@/components/RatingSelector";
 import {FormikProps, useFormik} from "formik";
 import {EditableInput} from "@/components/atoms/inputs/EditableInput";
 import {defaultReviewFormData, ReviewFormData, ReviewFormSchema} from "@/schemes/reviews/ReviewFormSchema";
 import {validateWithZod} from "@/utils/ZodFunctions";
+import ModalStyle from "@/styles/store-catalog/Modal.module.css";
+import axiosInstance from "@/request/AxiosConfig";
+import {useAuth} from "@/commons/context/AuthContext";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
+import {toast} from "sonner";
 
-export default function ReviewModal() {
+interface Props {
+  productId: string;
+  rating: number;
+  setRating: (number) => void;
+  totalReviews: number;
+}
+export default function ReviewModal({productId, rating, setRating, totalReviews}: Readonly<Props>) {
+  const [ratingForm, setRatingForm] = useState(0);
+  const auth = useAuth()
+  const router = useRouter();
+
   const formik: FormikProps<ReviewFormData> = useFormik<ReviewFormData>({
     initialValues: defaultReviewFormData,
     validate: validateWithZod(ReviewFormSchema),
     onSubmit: values => {
       console.log(values);
+      if (auth.user?.userId == null) {
+        router.replace("/login");
+      } else {
+        axiosInstance.post(`/review/ProductReview/${productId}`, {
+          clientId: auth.user?.userId,
+          clientName: auth.user?.displayName,
+          rating: ratingForm,
+          comment: values.comment
+        }).catch(e => toast.error(e))
+      }
     }
   });
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -18,8 +44,10 @@ export default function ReviewModal() {
   return (
     <>
       <RatingSelector
-        rating={formik.values.rating}
+        rating={rating}
+        setRating={setRatingForm}
         handleChange={onOpen}
+        totalReviews={totalReviews}
       ></RatingSelector>
       <Modal
         isOpen={isOpen}
@@ -31,8 +59,13 @@ export default function ReviewModal() {
             <h3>Add your review...</h3>
           </ModalHeader>
           <ModalBody>
-            <form onSubmit={formik.handleSubmit}>
-              <RatingSelector rating={formik.values.rating}></RatingSelector>
+              <div style={{display:"flex", flexDirection: "row", justifyContent: "center", paddingBottom: "24px"}}>
+                <RatingSelector
+                  rating={ratingForm}
+                  setRating={setRatingForm}
+                  showTotalInfo={false}
+                ></RatingSelector>
+              </div>
               <EditableInput
                 type="text"
                 label="Comment:"
@@ -45,10 +78,29 @@ export default function ReviewModal() {
                 touched={formik.touched.comment}
                 handleBlur={formik.handleBlur}
                 isEditable={true}
+                multiline={true}
               >
               </EditableInput>
-            </form>
           </ModalBody>
+          <ModalFooter>
+            <Button
+              className={ModalStyle.secondaryButton}
+              onPress={() => {
+                console.log();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              className={ModalStyle.primaryButton}
+              onPress={() => {
+                formik.handleSubmit();
+                console.log(formik.values);
+              }}
+            >
+              Send
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

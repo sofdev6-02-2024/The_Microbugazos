@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import RatingSelector from "@/components/RatingSelector";
 import ImagesSection, {
   Image,
 } from "@/components/product-details/ImagesSection";
@@ -15,11 +14,15 @@ import { AttributeSelector } from "./AttributeSelector";
 import styles from "@/styles/products/ProductDetails.module.css";
 import ReviewModal from "@/components/reviews/ReviewModal";
 
-export const ProductDetail = () => {
+export const ProductDetail = ({id}) => {
+  const [rating, setRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
   const [image, setImage] = useState<Image | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const pageSize = 10;
+  const [page, setPage] = useState<number>(1);
   const {
     quantity,
     increaseQuantity,
@@ -37,6 +40,16 @@ export const ProductDetail = () => {
   } = useShoppingItem();
 
   const { addProductToCart } = useShoppingCart();
+
+  useEffect(() => {
+    axiosInstance.get(`/review/ProductReview/${id}?page=${page}&pageSize=${pageSize}`)
+      .then(response => response.data)
+      .then(data => {
+        setRating(data.data.averageRating);
+        setTotalReviews(data.data.reviews.totalItems);
+        console.log(data);
+      })
+  }, []);
 
   const handleMoreInfo = () => {
     if (product) {
@@ -112,7 +125,12 @@ export const ProductDetail = () => {
       <ImagesSection images={images} imageSelected={image}></ImagesSection>
       <section className={styles.informationContainer}>
         <h1 className={styles.title}>{product.name}</h1>
-        <ReviewModal></ReviewModal>
+        <ReviewModal
+          rating={rating}
+          setRating={setRating}
+          totalReviews={totalReviews}
+          productId={id}>
+        </ReviewModal>
         <label className={styles.label}>
           $ {product.price}
           <span className={styles.labelLight}>
