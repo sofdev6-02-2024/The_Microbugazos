@@ -34,7 +34,7 @@ export default function ProductDetails() {
 
   return product ? (
     <ShoppingItemProvider currentIdProduct={product.id}>
-      <ProductDetail />
+      <ProductDetail id={product.id}/>
     </ShoppingItemProvider>
   ) : (
     <p>Loading product details...</p>
