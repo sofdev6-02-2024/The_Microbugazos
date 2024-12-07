@@ -11,6 +11,7 @@ using PaymentService.Application.Validators.PaymentTransactions;
 using PaymentService.Domain.Entities.Concretes;
 using PaymentService.Infrastructure.Repositories.Concretes;
 using PaymentService.Infrastructure.Repositories.Interfaces;
+using RabbitMQMessaging.Extensions;
 
 namespace PaymentService.Application;
 
@@ -34,6 +35,7 @@ public static class ApplicationConfiguration
         
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
         services.AddTransient<ProductClientService>();
+        services.AddMassTransitWithRabbitMq("payment");
         
         services.AddScoped<IValidator<CreateOrderDto>, CreateOrderValidator>();
         services.AddScoped<IValidator<CreatePaymentTransactionDto>, CreatePaymentTransactionValidator>();

@@ -7,6 +7,7 @@ export interface StoreFormDto {
   bannerImage?: string;
   profileImage?: string;
   userId: string;
+  lowStockThreshold?: number;
 }
 
 export const defaultImage =
@@ -24,4 +25,5 @@ const defaultSmallImage =
     bannerImage: defaultImage,
     profileImage: defaultImage,
     userId: "",
+    lowStockThreshold: 20
   };

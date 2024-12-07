@@ -80,4 +80,16 @@ public class ProductController(IMediator mediator) : ControllerBase
         var successResponse = (SuccessResponse<bool>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
+
+
+    [HttpPut("Threshold")]
+    public async Task<IActionResult> UpateProductThreshold([FromBody] UpdateProducrThresholdCommand command)
+    {
+        var result = await mediator.Send(command);
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
 }

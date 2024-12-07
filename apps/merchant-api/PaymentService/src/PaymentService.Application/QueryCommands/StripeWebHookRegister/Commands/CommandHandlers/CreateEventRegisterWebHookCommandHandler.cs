@@ -1,12 +1,20 @@
+using System.Text.Json;
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using Commons.ResponseHandler.Responses.Concretes;
 using DotNetEnv;
+using MassTransit;
 using MediatR;
+using NotificationService.Domain.Dtos;
+using NotificationService.Domain.Dtos.Emails;
+using NotificationService.Domain.Dtos.OrderItems;
+using NotificationService.Domain.Dtos.Orders;
 using PaymentService.Application.Dtos.Orders;
 using PaymentService.Application.Dtos.PaymentTransactions;
+using PaymentService.Application.Dtos.Products;
 using PaymentService.Application.QueryCommands.StripeWebHookRegister.Commands.Commands;
 using PaymentService.Application.Services;
+using PaymentService.Application.Services.Clients;
 using PaymentService.Domain.Entities.Enums;
 using PaymentService.Infrastructure.Repositories.Interfaces;
 using Stripe;
@@ -21,17 +29,23 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
     private readonly IResponseHandlingHelper _responseHandlingHelper;
     private readonly PaymentTransactionService _transactionService;
     private readonly OrderService _orderService;
+    private readonly ProductClientService _productClientService;
+    private readonly IBus _producer;
 
     public CreateEventRegisterWebHookCommandHandler(
         IRepository<PaymentMethod> paymentMethodRepository,
         PaymentTransactionService paymentTransactionService,
         PaymentTransactionService transactionService, OrderService orderService, 
-        IResponseHandlingHelper responseHandlingHelper)
+        ProductClientService productClientService,
+        IResponseHandlingHelper responseHandlingHelper,
+        IBus producer)
     {
         _paymentMethodRepository = paymentMethodRepository;
         _transactionService = transactionService;
         _orderService = orderService;
+        _productClientService = productClientService;
         _responseHandlingHelper = responseHandlingHelper;
+        _producer = producer;
         StripeConfiguration.ApiKey = Env.GetString("STRIPE_SECRET_KEY");
     }
 
@@ -54,7 +68,9 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
 
             var transactionResponse = await ProcessPaymentTransaction(session, (SuccessResponse<Guid>)orderResponse);
             if (transactionResponse is ErrorResponse errorTransactionResponse) return errorTransactionResponse;
-
+            
+            await PublishOrderEmailEvent(fullSession, (SuccessResponse<Guid>)orderResponse);
+            
             return _responseHandlingHelper.Ok("The stripe event was processed", stripeEvent.Id);
         }
         catch (StripeException e)
@@ -95,8 +111,8 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
             var productVariantId = lineItem.Price.Product.Metadata.GetValueOrDefault("product_variant_id");
             var currentOrderItem = new CreateOrderItemDto
             {
-                ProductVariantId = new Guid(productVariantId),
-                Quantity = (int)lineItem.Quantity,
+                ProductVariantId = new Guid(productVariantId!),
+                Quantity = (int)lineItem.Quantity!,
                 DiscountPercent = 0
             };
             orderItems.Add(currentOrderItem);
@@ -115,10 +131,60 @@ public class CreateEventRegisterWebHookCommandHandler : IRequestHandler<CreateEv
         var paymentTransactionDto = new CreatePaymentTransactionDto
         {
             PaymentMethodId = paymentMethod.Id,
-            Amount = (double)session.AmountTotal / 100,
+            Amount = (double)session.AmountTotal! / 100,
             OrderId = orderResponse.Data
         };
 
         return await _transactionService.CreatePaymentTransaction(paymentTransactionDto);
+    }
+    
+    private async Task PublishOrderEmailEvent(Session session, SuccessResponse<Guid> orderResponse)
+    {
+        var orderItems = new List<OrderItemWithPrice>();
+
+        foreach (var lineItem in session.LineItems.Data)
+        {
+            var productVariantId = new Guid(lineItem.Price.Product.Metadata.GetValueOrDefault("product_variant_id")!);
+            
+            var variant = await _productClientService.GetProductVariantByIdAsync(productVariantId);
+        
+            if (variant == null)
+            {
+                continue;
+            }
+
+            var unitPrice = (decimal)lineItem.Price.UnitAmount! / 100m;
+            var basePrice = unitPrice - (decimal)variant.PriceAdjustment;
+
+            var orderItem = new OrderItemWithPrice(
+                lineItem.Description ?? "Unknown Item", 
+                (int)lineItem.Quantity!, 
+                unitPrice,
+                new ProductVariantDetails 
+                (
+                    productVariantId,
+                    basePrice,
+                    (decimal)variant.PriceAdjustment,
+                    variant.Attributes.Select(a => new ProductVariantAttribute 
+                        ( a.Name, a.Value)).ToList()
+                )
+            );
+
+            orderItems.Add(orderItem);
+        }
+
+        var orderEmail = new OrderEmail(
+            new Contact(
+                session.CustomerDetails?.Name ?? "Customer", 
+                session.CustomerDetails?.Email ?? string.Empty
+            ), 
+            new OrderNormal(
+                orderResponse.Data.ToString(), 
+                orderItems,
+                (decimal)session.AmountTotal! / 100m
+            )
+        );
+
+        await _producer.Publish(orderEmail);
     }
 }

@@ -19,6 +19,7 @@ using InventoryService.Intraestructure.Repositories.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace InventoryService.Application;
 
 public static class ApplicationConfiguration
@@ -28,6 +29,7 @@ public static class ApplicationConfiguration
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(typeof(CreateImageDto).Assembly)
         );
+        services.AddScoped<HttpClient>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IRepository<Image>, ImageRepository>();
@@ -38,7 +40,9 @@ public static class ApplicationConfiguration
         services.AddScoped<IRepository<InventoryReservation>, ReservationRepository>();
         services.AddScoped<IProductReservationRepository, ProductReservationRepository>();
         services.AddTransient<ProductVariantService>();
+        services.AddTransient<HttpStockThresholdService>();
         services.AddTransient<ProductService>();
+        services.AddTransient<StockThresholdNoticationService>();
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
         services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();

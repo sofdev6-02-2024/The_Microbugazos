@@ -19,7 +19,7 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         var store = await mediator.Send(new GetStoreByIdQuery(id));
         if (store is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<StoreDto>)store!;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
@@ -30,7 +30,7 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         var result = await mediator.Send(new CreateStoreCommand(storeDto));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<Guid>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
@@ -41,7 +41,7 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         var updatedStore = await mediator.Send(new UpdateStoreCommand(id, storeDto));
         if (updatedStore is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<StoreDto>)updatedStore;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
@@ -52,20 +52,20 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         var store = await mediator.Send(new GetStoreByUserIdQuery(id));
         if (store is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<StoreDto>)store!;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
-    
+
     [HttpPost("{storeId}/sellers")]
     public async Task<IActionResult> AddSeller(Guid storeId, [FromBody] string sellerEmail)
     {
         var result = await mediator.Send(new AddStoreSellersCommand(new AddStoreSellersDto(storeId, sellerEmail)));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<Guid>)result;
-        return StatusCode(successResponse.StatusCode, successResponse); 
+        return StatusCode(successResponse.StatusCode, successResponse);
     }
 
     [HttpGet("{id}/sellers")]
@@ -86,18 +86,18 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
         }
         return StatusCode(500, new { Message = "An unexpected error occurred." });
     }
-    
+
     [HttpDelete("{id}/sellers/")]
     public async Task<ActionResult> DeleteSellers([FromRoute] Guid id, [FromBody] Guid sellerId)
     {
         var result = await mediator.Send(new DeleteStoreSellersCommand(id, sellerId));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<bool>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
-    
+
     [HttpGet("seller/{id}")]
     public async Task<ActionResult<StoreDto>> GetStoreForSeller([FromRoute] Guid id)
     {
@@ -105,8 +105,21 @@ public class StoreController(IMediator mediator, IValidator<StoreDto> validator)
 
         if (store is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
-        
+
         var successResponse = (SuccessResponse<StoreDto>)store!;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
+
+    [HttpGet("threshold/{id}")]
+    public async Task<ActionResult<StoreDto>> GetStoreThreshold([FromRoute] Guid id)
+    {
+        var result = await mediator.Send(new GetStoreStockThresholdQuery(id));
+
+        if (result is ErrorResponse errorResponse)
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+
+        var successResponse = (SuccessResponse<int>)result!;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 }

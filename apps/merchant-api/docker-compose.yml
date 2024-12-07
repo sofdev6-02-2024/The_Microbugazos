@@ -16,17 +16,17 @@ services:
     networks:
       - merchant-network
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   ports:
-  #     - "${PGADMIN_PORT}:80"
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - merchant-network
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "${PGADMIN_PORT}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - merchant-network
 
   rabbitmq:
     container_name: "rabbitmq"
@@ -77,6 +77,7 @@ services:
       - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - API_GATEWAY_ROUTE=${API_GATEWAY_ROUTE}
     networks:
       - merchant-network
     depends_on:

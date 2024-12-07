@@ -20,7 +20,7 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
   const [clicked, setClicked] = useState(false);
   const [isEditing, setIsEditing] = useState([true, true, true, true]);
   const { user } = useAuth();
-  const { setStore } = useStore();
+  const { store,setStore } = useStore();
   const storeFormHandler: FormikProps<StoreFormData> = useFormHandler({
     initialValues: storeData,
     validationSchema: StoreFormScheme,
@@ -36,7 +36,8 @@ export const UpdateStore: React.FC<UpdateStoreProps> = ({ storeData }) => {
         updateStoreHandler(
           storeData.id ?? "",
           storeFormHandler.values,
-          user?.userId
+          user?.userId,
+          store
         ),
         {
           loading: "Updating Store",

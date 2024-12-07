@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AxiosInstance } from "axios";
 
 import axiosInstance from "@/request/AxiosConfig";
@@ -10,7 +10,7 @@ interface Params<T> {
   data: Data<T>;
   loading: boolean;
   error: ErrorType;
-  setData: (data: Data<T>) => void;
+  setData: Dispatch<SetStateAction<Data<T>>>;
 }
 
 interface FetchConfig {

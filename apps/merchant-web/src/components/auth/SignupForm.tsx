@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { AuthService, SignUpFormData } from "@/services/authService";
 import { FormInput } from "./FormInputProps";

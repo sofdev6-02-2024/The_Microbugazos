@@ -46,7 +46,8 @@ public class CreateProductCommandHandler(
             Description = productDto.Description,
             BasePrice = productDto.Price,
             Brand = productDto.Brand,
-            Categories = categories
+            Categories = categories,
+            LowStockThreshold = productDto.LowStockThreshold
         });
 
         foreach (var imageDto in productDto.Images)
