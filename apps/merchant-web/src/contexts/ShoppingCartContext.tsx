@@ -16,6 +16,7 @@ import axiosInstance from "@/request/AxiosConfig";
 import { useAuth } from "@/commons/context/AuthContext";
 import InventoryReservation from "@/commons/entities/InventoryReservation";
 import { UUID } from "crypto";
+import ProductAttribute from "@/commons/entities/concretes/ProductAttribute";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -39,6 +40,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   const [products, setProducts] = useState<Array<ShoppingCartItem>>([]);
   const { user } = useAuth();
   const router = useRouter();
+  const [isChecking, setIsChecking] = useState(false);
 
   const addProductToCart = (newProduct: ShoppingCartItem | null) => {
     if (newProduct) {
@@ -72,6 +74,11 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const initializeShoppingCart = async () => {
+    const checkingStatus = localStorage.getItem("isChecking") === "true";
+    setIsChecking(checkingStatus);
+
+    if (checkingStatus) return;
+
     const existingCartItems = JSON.parse(
       localStorage.getItem("shoppingCartItems") ?? "[]"
     );
@@ -91,10 +98,12 @@ export const ShoppingCartProvider = ({ children }: Props) => {
               quantity: Math.min(item.quantity, availableStock),
             };
           }
+
           toast.error(`"${item.name}" is out of stock and has been removed`);
           return null;
         })
       );
+
       setProducts(verifiedCartItems.filter(Boolean));
     }
   };
@@ -184,6 +193,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       user.userId as UUID
     );
     if (!reservationSuccess) return;
+    setIsChecking(true);
     handleReduceStock(variants);
     handleStripe();
   };
@@ -192,11 +202,12 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     const response = await axiosInstance.get(
       `/inventory/ProductVariant/${product.variantId}`
     );
+
     const availableStock = response.data.data.stockQuantity;
 
     if (availableStock < product.quantity) {
       toast.error(
-        `"${response.data.data.name}" has only ${availableStock} units available`
+        `"${product.variantId}" has only ${availableStock} units available`
       );
       product.quantity = availableStock;
       return false;
@@ -229,8 +240,11 @@ export const ShoppingCartProvider = ({ children }: Props) => {
         userId,
         variants
       );
-      console.log(reservation);
-      await axiosInstance.post("/inventory/Reservation", reservation);
+      const response = await axiosInstance.post(
+        "/inventory/Reservation",
+        reservation
+      );
+      localStorage.setItem("reservation", JSON.stringify(response.data.data));
       return true;
     } catch (error) {
       toast.error("Failed to create reservation.");
@@ -242,10 +256,13 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     await axiosInstance.patch("/inventory/ProductVariant/stocks/reduce", {
       VariantsStock: variantsToReduce,
     });
-  }
+  };
 
   const handleSuccessPayment = async () => {
     setProducts([]);
+    localStorage.removeItem("shoppingCartItems");
+    setIsChecking(false);
+    toast.success("Payment successful! Your cart has been cleared.");
   };
 
   useEffect(() => {
@@ -254,57 +271,86 @@ export const ShoppingCartProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      if (products.length === 0) return;
+      const updatedProducts = await Promise.all(
+        products.map(async (product) => {
+          const response = await axiosInstance.get(
+            `/inventory/ProductVariant/${product.productVariantId}`
+          );
+          const availableStock = response.data.data.stockQuantity;
+
+          if (product.quantity > availableStock) {
+            return { ...product, quantity: availableStock };
+          }
+          return product;
+        })
+      );
+      setProducts(updatedProducts);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [products]);
+
+  const createName = async (
+    productId: UUID,
+    attributes: Array<ProductAttribute>
+  ): Promise<string> => {
+    const response = await axiosInstance.get(`/inventory/Product/${productId}`);
+    const productName = response.data.data.name;
+
+    const attributeValues = attributes.map((att) => att.value).join(", ");
+
+    const name = `${productName} - ${attributeValues}`;
+    return name;
+  };
+
+  useEffect(() => {
+    if (isChecking) {
+      localStorage.setItem("isChecking", "true");
+    } else {
+      localStorage.removeItem("isChecking");
+    }
+  }, [isChecking]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkStock = async () => {
+      if (!isMounted) return;
 
       try {
-        const updatedProducts = await Promise.all(
+        const verifiedProducts = await Promise.all(
           products.map(async (product) => {
             const response = await axiosInstance.get(
               `/inventory/ProductVariant/${product.productVariantId}`
             );
             const availableStock = response.data.data.stockQuantity;
 
-            if (product.quantity > availableStock) {
-              toast.error(
-                `"${product.name}" stock has been updated. Adjusting quantity`
+            if (availableStock === 0) {
+              const name = createName(
+                response.data.data.productId,
+                response.data.data.attributes
               );
-              return { ...product, quantity: availableStock };
+              toast.error(`"${name}" is out of stock`);
+              return null;
             }
             return product;
           })
         );
-        setProducts(updatedProducts.filter(Boolean));
+
+        const items = verifiedProducts.filter(Boolean);
+        setProducts(items as Array<ShoppingCartItem>);
       } catch (error) {
-        console.error("Error checking stock:", error);
+        console.error("Error verifying stock:", error);
       }
-    }, 60000);
 
-    return () => clearInterval(interval);
-  }, [products]);
+      setTimeout(checkStock, 10000);
+    };
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      if (products.length === 0) return;
+    checkStock();
 
-      const verifiedProducts = await Promise.all(
-        products.map(async (product) => {
-          const response = await axiosInstance.get(
-            `/inventory/ProductVariant/${product.productVariantId}`
-          );
-          const availableStock = response.data.data.stockQuantity;
-          if (availableStock === 0) {
-            toast.error(
-              `"${product.name}" is out of stock and has been removed`
-            );
-            return null;
-          }
-          return product;
-        })
-      );
-      setProducts(verifiedProducts.filter((product) => product !== null));
-    }, 30000);
-
-    return () => clearInterval(interval);
+    return () => {
+      isMounted = false;
+    };
   }, [products]);
 
   const value = useMemo(() => {

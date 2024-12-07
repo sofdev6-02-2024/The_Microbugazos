@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { ThemeProvider } from "@/commons/context/ThemeContext";
 import { PaymentSuccessful } from "@/components/payment-status/PaymentSuccessful";
@@ -9,7 +9,15 @@ export default function FailedPaymentPage() {
   const { handleSuccessPayment } = useShoppingCart();
 
   useEffect(() => {
-    handleSuccessPayment();
+    const executePayment = () => {
+      try {
+        handleSuccessPayment();
+      } catch (error) {
+        console.error("Error while handling success payment:", error);
+      }
+    };
+
+    executePayment();
   }, []);
 
   return (
