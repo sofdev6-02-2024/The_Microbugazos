@@ -17,6 +17,7 @@ import { useAuth } from "@/commons/context/AuthContext";
 import InventoryReservation from "@/commons/entities/InventoryReservation";
 import { UUID } from "crypto";
 import ProductAttribute from "@/commons/entities/concretes/ProductAttribute";
+import { ShoppingItemSelectedAttribute } from "@/commons/entities/ShoppingItemAttribute";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -74,11 +75,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const initializeShoppingCart = async () => {
-    const checkingStatus = localStorage.getItem("isChecking") === "true";
-    setIsChecking(checkingStatus);
-
-    if (checkingStatus) return;
-
     const existingCartItems = JSON.parse(
       localStorage.getItem("shoppingCartItems") ?? "[]"
     );
@@ -98,12 +94,10 @@ export const ShoppingCartProvider = ({ children }: Props) => {
               quantity: Math.min(item.quantity, availableStock),
             };
           }
-
           toast.error(`"${item.name}" is out of stock and has been removed`);
           return null;
         })
       );
-
       setProducts(verifiedCartItems.filter(Boolean));
     }
   };
@@ -269,30 +263,9 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     updateLocalStorage();
   }, [products]);
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const updatedProducts = await Promise.all(
-        products.map(async (product) => {
-          const response = await axiosInstance.get(
-            `/inventory/ProductVariant/${product.productVariantId}`
-          );
-          const availableStock = response.data.data.stockQuantity;
-
-          if (product.quantity > availableStock) {
-            return { ...product, quantity: availableStock };
-          }
-          return product;
-        })
-      );
-      setProducts(updatedProducts);
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [products]);
-
   const createName = async (
     productId: UUID,
-    attributes: Array<ProductAttribute>
+    attributes: Array<ShoppingItemSelectedAttribute>
   ): Promise<string> => {
     const response = await axiosInstance.get(`/inventory/Product/${productId}`);
     const productName = response.data.data.name;
@@ -304,53 +277,40 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    if (isChecking) {
-      localStorage.setItem("isChecking", "true");
-    } else {
-      localStorage.removeItem("isChecking");
-    }
-  }, [isChecking]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const checkStock = async () => {
-      if (!isMounted) return;
+    const interval = setInterval(async () => {
+      if (products.length === 0) return;
 
       try {
-        const verifiedProducts = await Promise.all(
+        const updatedProducts = await Promise.all(
           products.map(async (product) => {
             const response = await axiosInstance.get(
               `/inventory/ProductVariant/${product.productVariantId}`
             );
             const availableStock = response.data.data.stockQuantity;
 
-            if (availableStock === 0) {
-              const name = createName(
+            if (product.quantity > availableStock) {
+              const name = await createName(
                 response.data.data.productId,
-                response.data.data.attributes
+                product.attributes
               );
-              toast.error(`"${name}" is out of stock`);
-              return null;
+              toast.error(
+                `"${name}" stock has been updated. Adjusting quantity`,
+                {
+                  id: `error-stock-${name}`,
+                }
+              );
+              return { ...product, quantity: availableStock };
             }
             return product;
           })
         );
-
-        const items = verifiedProducts.filter(Boolean);
-        setProducts(items as Array<ShoppingCartItem>);
+        setProducts(updatedProducts.filter(Boolean));
       } catch (error) {
-        console.error("Error verifying stock:", error);
+        console.error("Error checking stock:", error);
       }
+    }, 30_000);
 
-      setTimeout(checkStock, 10000);
-    };
-
-    checkStock();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => clearInterval(interval);
   }, [products]);
 
   const value = useMemo(() => {

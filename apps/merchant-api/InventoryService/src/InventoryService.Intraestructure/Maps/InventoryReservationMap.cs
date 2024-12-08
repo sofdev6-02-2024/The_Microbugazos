@@ -13,6 +13,7 @@ public class InventoryReservationMap : IEntityTypeConfiguration<InventoryReserva
         builder.Property(oi => oi.Id).ValueGeneratedOnAdd();
         builder.Property(oi => oi.ClientId).IsRequired();
         builder.Property(oi => oi.SavedDate).IsRequired();
+        builder.Property(oi => oi.ReservationStatus).IsRequired().HasConversion<int>();
 
         builder.HasMany(oi => oi.Products)
             .WithOne(pr => pr.InventoryReservation)
