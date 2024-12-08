@@ -28,7 +28,8 @@ public class GetAllReservationsQueryHandler(
                 VariantId = reservation.ProductVariantId,
                 Quantity = reservation.Quantity
             }).ToList(),
-            ReservationDate = existingReservation.SavedDate
+            ReservationDate = existingReservation.SavedDate,
+            ReservationStatus = existingReservation.ReservationStatus
         }).ToList();
         int totalItems = await repository.GetCountAsync();
         var items = new PaginatedResponseDto<InventoryReservationDto>(totalProductReservationsDto, totalItems, request.Page, request.PageSize);

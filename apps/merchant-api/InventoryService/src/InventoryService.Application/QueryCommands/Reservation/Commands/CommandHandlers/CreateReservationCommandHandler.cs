@@ -4,6 +4,7 @@ using FluentValidation;
 using InventoryService.Application.Dtos.Reservations;
 using InventoryService.Application.QueryCommands.Reservations.Commands.Commands;
 using InventoryService.Domain.Concretes;
+using InventoryService.Domain.Enums;
 using InventoryService.Intraestructure.Repositories.Interfaces;
 using MediatR;
 
@@ -28,7 +29,8 @@ public class CreateReservationCommandHandler(
             new InventoryReservation
             {
                 ClientId = reservationDto.ClientId,
-                SavedDate = DateTime.UtcNow
+                SavedDate = DateTime.UtcNow,
+                ReservationStatus = ReservationStatus.RESERVED
             }
         );
 

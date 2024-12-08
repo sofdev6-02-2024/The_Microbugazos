@@ -33,7 +33,8 @@ public class GetReservationByIdQueryHandler(
         {
             Id = existingReservation.Id,
             Products = productReservations,
-            ReservationDate = existingReservation.SavedDate
+            ReservationDate = existingReservation.SavedDate,
+            ReservationStatus = existingReservation.ReservationStatus
         };
 
         return responseHandlingHelper.Ok("Reservation have been successfully obtained", inventoryReservationDto);
