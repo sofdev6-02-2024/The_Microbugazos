@@ -3,6 +3,7 @@ import ProductVariant from "./ProductVariant";
 import Category from "./Category";
 import Image from "./Image";
 import ProductReview from "./ProductReview";
+import {boolean} from "zod";
 
 export default class Product {
   id: UUID;
@@ -11,6 +12,7 @@ export default class Product {
   description: string;
   price: number;
   brand: string;
+  isLiked: boolean;
   images: Array<Image>;
   productVariants: Array<ProductVariant>;
   categories: Array<Category>;
@@ -23,6 +25,7 @@ export default class Product {
     description: string,
     price: number,
     brand: string,
+    isLiked: boolean,
     images: Array<Image>,
     productVariants: Array<ProductVariant>,
     categories: Array<Category>,
@@ -33,6 +36,7 @@ export default class Product {
     this.name = name;
     this.description = description;
     this.price = price;
+    this.isLiked = isLiked;
     this.brand = brand;
     this.categories = categories;
     this.images = images;

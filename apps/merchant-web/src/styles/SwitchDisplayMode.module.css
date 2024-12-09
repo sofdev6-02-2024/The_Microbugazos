@@ -1,0 +1,21 @@
+.switch-display-mode {
+  margin: 0.5rem 0 0 0;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.switch-display-mode__button {
+  background-color: transparent;
+}
+
+.switch-display-mode__button--active {
+  background-color: #5275F5;
+}
+.switch-display-mode__button--active:hover {
+  background-color: #5275F5;
+}
+
+.switch-display-mode__icon {
+  width: 1.2rem;
+  height: 1rem;
+}
