@@ -12,6 +12,7 @@ import { AuthProvider } from "@/commons/context/AuthContext";
 import { ModalProvider } from "@/commons/context/ModalContext";
 import { Modal } from "@/components/Modal";
 import { ShoppingCartProvider } from "@/contexts/ShoppingCartContext";
+import { ReservationProvider } from "@/contexts/ReservationContext";
 
 const EXCLUDED_ROUTES = ["/login", "/signup", "/create-store"];
 const EXCLUDED_PREFIXES = ["/store"];
@@ -35,14 +36,16 @@ export default function RootLayout({
           <AuthProvider>
             <OptionsProvider>
               <VariantsProvider>
-                <ShoppingCartProvider>
-                  <ModalProvider>
-                    {showComponents && <Header />}
-                    <main>{children}</main>
-                    {showComponents && <Footer />}
-                    <Modal />
-                  </ModalProvider>
-                </ShoppingCartProvider>
+                <ReservationProvider>
+                  <ShoppingCartProvider>
+                    <ModalProvider>
+                      {showComponents && <Header />}
+                      <main>{children}</main>
+                      {showComponents && <Footer />}
+                      <Modal />
+                    </ModalProvider>
+                  </ShoppingCartProvider>
+                </ReservationProvider>
               </VariantsProvider>
             </OptionsProvider>
           </AuthProvider>

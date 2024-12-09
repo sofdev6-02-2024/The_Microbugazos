@@ -14,10 +14,9 @@ import { toast } from "sonner";
 import VariantStock from "@/commons/entities/VariantStock";
 import axiosInstance from "@/request/AxiosConfig";
 import { useAuth } from "@/commons/context/AuthContext";
-import InventoryReservation from "@/commons/entities/InventoryReservation";
 import { UUID } from "crypto";
-import ProductAttribute from "@/commons/entities/concretes/ProductAttribute";
 import { ShoppingItemSelectedAttribute } from "@/commons/entities/ShoppingItemAttribute";
+import { useReservation } from "./ReservationContext";
 
 interface Types {
   products: Array<ShoppingCartItem>;
@@ -40,6 +39,7 @@ const ShoppingCartContext = createContext<Types | undefined>(undefined);
 export const ShoppingCartProvider = ({ children }: Props) => {
   const [products, setProducts] = useState<Array<ShoppingCartItem>>([]);
   const { user } = useAuth();
+  const { handleReservation } = useReservation();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(false);
 
@@ -75,6 +75,8 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const initializeShoppingCart = async () => {
+    if (isChecking) return;
+
     const existingCartItems = JSON.parse(
       localStorage.getItem("shoppingCartItems") ?? "[]"
     );
@@ -223,27 +225,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       return false;
     }
     return true;
-  };
-
-  const handleReservation = async (
-    variants: Array<VariantStock>,
-    userId: UUID
-  ): Promise<boolean> => {
-    try {
-      const reservation: InventoryReservation = new InventoryReservation(
-        userId,
-        variants
-      );
-      const response = await axiosInstance.post(
-        "/inventory/Reservation",
-        reservation
-      );
-      localStorage.setItem("reservation", JSON.stringify(response.data.data));
-      return true;
-    } catch (error) {
-      toast.error("Failed to create reservation.");
-      return false;
-    }
   };
 
   const handleReduceStock = async (variantsToReduce: Array<VariantStock>) => {
