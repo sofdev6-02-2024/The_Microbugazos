@@ -83,6 +83,10 @@
   display: block;
 }
 
+.hiddable-button-reverse {
+  display: none !important;
+}
+
 .low-stock-alert {
   color: red !important;
 }
@@ -95,5 +99,9 @@
 
   .hiddable-button {
     display: none !important;
+  }
+
+  .hiddable-button-reverse {
+    display: block !important;
   }
 }

@@ -6,6 +6,8 @@ using InventoryService.Application.Profiles;
 using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQMessaging.Extensions;
+using InventoryService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
@@ -24,6 +26,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
+builder.Services.AddMassTransitWithRabbitMq("Inventory", typeof(CategoryController));
 
 
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);

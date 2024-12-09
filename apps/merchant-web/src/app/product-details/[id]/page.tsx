@@ -12,6 +12,7 @@ import { ProductDetail } from "@/components/product-detail/ProductDetail";
 export default function ProductDetails() {
   const params = useParams();
   const id = params?.id as string;
+  const [storeName, setStoreName] = useState<string>("");
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,6 +20,10 @@ export default function ProductDetails() {
     try {
       const response = await axiosInstance.get(`/inventory/Product/${id}`);
       setProduct(response.data.data);
+      const storeResponse = await axiosInstance.get(
+        `/Stores/${response.data.data.storeId}`
+      );
+     setStoreName(storeResponse.data.data.name);
     } catch (error) {
       setError((error as Error).message);
     }
@@ -34,7 +39,7 @@ export default function ProductDetails() {
 
   return product ? (
     <ShoppingItemProvider currentIdProduct={product.id}>
-      <ProductDetail />
+      <ProductDetail storeName={storeName} />
     </ShoppingItemProvider>
   ) : (
     <p>Loading product details...</p>

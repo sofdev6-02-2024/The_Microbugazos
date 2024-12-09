@@ -13,8 +13,13 @@ import axiosInstance from "@/request/AxiosConfig";
 import { useShoppingCart } from "@/contexts/ShoppingCartContext";
 import { AttributeSelector } from "./AttributeSelector";
 import styles from "@/styles/products/ProductDetails.module.css";
+import Link from "next/link";
 
-export const ProductDetail = () => {
+interface Props {
+  storeName: string;
+}
+
+export const ProductDetail = ({ storeName }: Props) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
   const [image, setImage] = useState<Image | null>(null);
@@ -32,7 +37,7 @@ export const ProductDetail = () => {
     price,
     variantId,
     createProduct,
-    getDefaultSelectedAttributes
+    getDefaultSelectedAttributes,
   } = useShoppingItem();
 
   const { addProductToCart } = useShoppingCart();
@@ -76,11 +81,11 @@ export const ProductDetail = () => {
 
   const verifyVariant = () => {
     if (!variantId) {
-      setError('The variant is not available')
+      setError("The variant is not available");
     } else {
       setError(null);
     }
-  }
+  };
 
   useEffect(() => {
     getVariants();
@@ -88,7 +93,7 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     getImage();
-    verifyVariant()
+    verifyVariant();
   }, [variantId]);
 
   useEffect(() => {
@@ -101,7 +106,6 @@ export const ProductDetail = () => {
     getDefaultSelectedAttributes();
   }, [attributes]);
 
-
   if (product === undefined) {
     return <div className="no-product-fount">No found product</div>;
   }
@@ -111,6 +115,7 @@ export const ProductDetail = () => {
       <ImagesSection images={images} imageSelected={image}></ImagesSection>
       <section className={styles.informationContainer}>
         <h1 className={styles.title}>{product.name}</h1>
+        <Link href={`/catalog/${product.storeId}`} className={styles.storeLink}>{storeName}</Link>
         <RatingSelector rating={2.5}></RatingSelector>
         <label className={styles.label}>
           $ {product.price}

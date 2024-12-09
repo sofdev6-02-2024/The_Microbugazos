@@ -52,6 +52,7 @@ export const ProductCard = ({ product, type, onDislike }: Props) => {
 
   return (
     <div className={`product-card ${type}`}>
+
       <div className={`product-card-image-container ${type}`}>
         <img
           src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
