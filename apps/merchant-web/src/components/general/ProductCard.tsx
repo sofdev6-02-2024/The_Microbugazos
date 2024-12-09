@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdOutlineStar } from "react-icons/md";
 import { AddToCart } from "./AddToCart";
 import { Like } from "./Like";
@@ -12,15 +12,35 @@ import Link from "next/link";
 import { ShoppingItemProvider } from "@/contexts/ShoppingItemContext";
 import "@/styles/general/ProductCard.css";
 import defaultImage from "@/app/assets/Images/product-card-image-default.jpg";
+import {PostDisLikeProduct, PostLikeProduct} from "@/services/favoritesProductsService";
+import useAuth from "@/hooks/useAuth";
 
 interface Props {
   product: Product;
   type: ListType;
+  onDislike: (productId: string) => void;
 }
 
-export const ProductCard = ({ product, type }: Props) => {
-  const [isLiked, setIsLiked] = useState(false);
+export const ProductCard = ({ product, type, onDislike }: Props) => {
+  const [isLiked, setIsLiked] = useState(product.isLiked);
+  const {user} = useAuth();
   const { open } = useModal();
+
+  const handleProductLike = async () => {
+    try {
+      if(user?.userId) {
+        if (isLiked) {
+          await PostDisLikeProduct(user?.userId, product.id);
+          onDislike(product.id);
+        }
+        else
+          await PostLikeProduct(user?.userId, product.id);
+        setIsLiked(!isLiked);
+      }
+    } catch (error) {
+      console.error("Error handling like/dislike:", error);
+    }
+  };
 
   const handleProductClick = () => {
     open(
@@ -32,13 +52,15 @@ export const ProductCard = ({ product, type }: Props) => {
 
   return (
     <div className={`product-card ${type}`}>
-      <img
-        src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
-        alt={
-          product.images.length > 0 ? product.images[0].altText : "Some image"
-        }
-        className={`product-card-image ${type}`}
-      />
+      <div className={`product-card-image-container ${type}`}>
+        <img
+          src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
+          alt={
+            product.images.length > 0 ? product.images[0].altText : "Some image"
+          }
+          className={`product-card-image ${type}`}
+        />
+      </div>
       <Link
         href={`/product-details/${product.id}`}
         className="product-card-name"
@@ -58,7 +80,7 @@ export const ProductCard = ({ product, type }: Props) => {
         <Like
           productId={product.id}
           isLiked={isLiked}
-          toggleLike={() => setIsLiked(!isLiked)}
+          toggleLike={handleProductLike}
         />
       </div>
     </div>

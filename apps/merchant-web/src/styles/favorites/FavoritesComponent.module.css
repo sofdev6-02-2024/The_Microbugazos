@@ -1,0 +1,31 @@
+.container {
+  padding: 0 4rem 0 4rem;
+}
+
+.title {
+  margin-top: 3rem;
+  font-weight: bold;
+  text-align: start;
+}
+
+.sc-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.line {
+  border-bottom: 1px solid black;
+  margin: 0 0 1.5rem 0;
+}
+
+.order-charging-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 12rem;
+}
+
+.order-charging-container label {
+  text-align: center;
+}

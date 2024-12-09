@@ -48,9 +48,9 @@ public class CategoryController(IMediator mediator, IResponseHandlingHelper resp
     }
     
     [HttpGet("{id}/Products")]
-    public async Task<ActionResult<List<ProductDto>>> GetAllProductsBySpecificCategory(Guid id, int page = 1, int pageSize = 10)
+    public async Task<ActionResult<List<ProductDto>>> GetAllProductsBySpecificCategory(Guid id, Guid? userId, int page = 1, int pageSize = 10)
     {
-        var result = await mediator.Send(new GetProductsBySpecificCategoryQuery(id, page, pageSize));
+        var result = await mediator.Send(new GetProductsBySpecificCategoryQuery(id, userId, page, pageSize));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         
