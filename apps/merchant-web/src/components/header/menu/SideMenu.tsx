@@ -7,6 +7,7 @@ import { BiHomeAlt } from "react-icons/bi";
 import { MdStorefront } from "react-icons/md";
 import { GrContact, GrCatalog } from "react-icons/gr";
 import { UserType } from "@/types/auth";
+import { LuHeart } from "react-icons/lu";
 import { useAuth } from "@/commons/context/AuthContext";
 
 interface Props {
@@ -43,6 +44,13 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       <Option
         icon={BiHomeAlt}
         text={"Home"}
+      />
+
+      <Option
+        icon={LuHeart}
+        text={"Favorites"}
+        completeRoute
+        route= "favorites"
       />
 
       <p className="subtitle">From Merchant</p>
