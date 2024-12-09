@@ -47,6 +47,15 @@
   color: #fb5012;
 }
 
+
+.storeLink{
+  color: var(--foreground-secondary);
+}
+.storeLink:hover{
+  color: var(--foreground-primary);
+}
+
+
 @media (max-width: 1340px) {
   .productDetailsSection {
     display: flex;

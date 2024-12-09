@@ -7,6 +7,7 @@ interface InventoryRowOptionsProps {
   onRemove: () => void;
   onEdit : () => void;
   onConfiguringSettings: () => void;
+  isDeletable: boolean;
 }
 
 export const InventoryRowOptions = ({
@@ -15,6 +16,7 @@ export const InventoryRowOptions = ({
   onRemove,
   onEdit,
   onConfiguringSettings,
+  isDeletable,
 }: InventoryRowOptionsProps) => {
   const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -40,9 +42,11 @@ export const InventoryRowOptions = ({
       }`}
     >
       <li onClick={onConfiguringSettings}>Stock Threshold</li>
-      <li onClick={onEdit} className="hiddable-inventory-option">
-        Edit
-      </li>
+      {isDeletable && (
+        <li onClick={onEdit} className="hiddable-inventory-option">
+          Edit
+        </li>
+      )}
       <li onClick={onRemove} className="hiddable-inventory-option">
         Remove
       </li>

@@ -29,7 +29,7 @@ export default class Product {
     productVariants: Array<ProductVariant>,
     categories: Array<Category>,
     productReviews: Array<ProductReview>,
-    lowStockThreshold?: number
+    lowStockThreshold?: number,
   ) {
     this.id = id;
     this.storeId = storeId;

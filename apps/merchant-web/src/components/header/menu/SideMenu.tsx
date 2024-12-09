@@ -54,13 +54,6 @@ const SideMenu = ({ isOpen, toggleMenu }: Props) => {
       />
 
       <Option
-        icon={GrCatalog}
-        text={"Store Catalog"}
-        completeRoute
-        route={"catalog/14c72984-0670-4bed-a0dc-041beec5d2f2"}
-      />
-
-      <Option
         icon={GrContact}
         text={"Contact Us"}
         completeRoute

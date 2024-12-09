@@ -33,7 +33,9 @@ export const ProductCard = ({ product, type }: Props) => {
   return (
     <div className={`product-card ${type}`}>
       <img
-        src={product.images.length > 0 ? product.images[0].url : defaultImage.src}
+        src={
+          product.images.length > 0 ? product.images[0].url : defaultImage.src
+        }
         alt={
           product.images.length > 0 ? product.images[0].altText : "Some image"
         }

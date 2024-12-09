@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEllipsisV, FaRegTrashAlt } from "react-icons/fa";
-import { SquarePen } from "lucide-react";
+import { SquarePen, User } from "lucide-react";
 import { MdOutlineStar } from "react-icons/md";
 import { defaultSmallImage } from "@/schemes/store/StoreFormDto";
 import { deleteProductById } from "@/request/ProductRequests";
@@ -12,6 +12,8 @@ import "@/styles/inventory/inventory-table-rows.css";
 import "@/styles/inventory/product-row-inventory.css";
 import VariantSubSection from "./VariantsRow";
 import { useStore } from "@/commons/context/StoreContext";
+import { useAuth } from "@/commons/context/AuthContext";
+import { UserType } from "@/types/auth";
 
 interface InventoryRowProps {
   product: Product;
@@ -33,6 +35,7 @@ export const InventoryRow = ({
   onClick,
 }: InventoryRowProps) => {
   const router = useRouter();
+  const { user } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const { store } = useStore();
 
@@ -64,11 +67,7 @@ export const InventoryRow = ({
 
   const getLowStockThreshold = () => {
     let threshold = store?.lowStockThreshold;
-    if (
-      product &&
-      product.lowStockThreshold &&
-      product.lowStockThreshold>0
-    ) {
+    if (product && product.lowStockThreshold && product.lowStockThreshold > 0) {
       threshold = product.lowStockThreshold;
     }
     if (!threshold) {
@@ -100,7 +99,9 @@ export const InventoryRow = ({
               product.images.length > 0 ? product.images[0].url : product.name
             }
           />
-          <p className={"inventory-product-name"}onClick={onClick}>{product.name}</p>
+          <p className={"inventory-product-name"} onClick={onClick}>
+            {product.name}
+          </p>
         </td>
         <td>
           <p>{formatToK(product.price)} $</p>
@@ -119,15 +120,17 @@ export const InventoryRow = ({
           >
             <SquarePen />
           </Button>
-          <Button
-            variant="button-variant-small"
-            shape="squared"
-            buttonStyle="button-delete"
-            handleClick={handleOpenPoppupToDeleteProduct}
-            className="hiddable-button"
-          >
-            <FaRegTrashAlt />
-          </Button>
+          {user?.userType === UserType.OWNER && (
+            <Button
+              variant="button-variant-small"
+              shape="squared"
+              buttonStyle="button-delete"
+              handleClick={handleOpenPoppupToDeleteProduct}
+              className="hiddable-button"
+            >
+              <FaRegTrashAlt />
+            </Button>
+          )}
           <Button
             variant="button-variant-small"
             buttonStyle="button-free"
@@ -140,6 +143,7 @@ export const InventoryRow = ({
               onRemove={handleOpenPoppupToDeleteProduct}
               onEdit={handleUpdateProduct}
               onConfiguringSettings={handleOpenConfigurationSettings}
+              isDeletable={user?.userType === UserType.OWNER}
             />
           </Button>
         </td>

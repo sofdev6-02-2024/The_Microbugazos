@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import "@/styles/store/store-admin-header.css";
 import { defaultSmallImage, StoreFormDto } from "@/schemes/store/StoreFormDto";
 import { MerchantLogo } from "../atoms/MerchantLogo";
@@ -7,12 +6,11 @@ interface StoreAdminHeaderProps {
   store: StoreFormDto;
 }
 export const StoreAdminHeader = ({ store }: StoreAdminHeaderProps) => {
-  const router = useRouter();
 
   return (
     <nav className="store-admin-header">
       <div className="store-admin-logo-container">
-        <div onClick={() => router.push("/")} className="store-admin-logo-icon">
+        <div onClick={() => location.href = "/"} className="store-admin-logo-icon">
           <MerchantLogo fill="black" />
         </div>
         <div className="store-admin-logo-sepaator"></div>
