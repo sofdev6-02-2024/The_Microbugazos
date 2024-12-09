@@ -2,12 +2,16 @@ import {useReviewsContext} from "@/contexts/ReviewsContext";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import ReviewSectionStyle from "@/styles/reviews/ReviewSection.module.css"
 import PageSelector from "@/components/PageSelector";
+import ReviewModal from "@/components/reviews/ReviewModal";
 
 export default function ReviewsSection() {
   const {reviews, isLoading, totalReviews, page, setPage} = useReviewsContext();
   return (
     <section className={ReviewSectionStyle.container}>
-      <h2>All reviews ({totalReviews})</h2>
+      <div className={ReviewSectionStyle.titleContainer}>
+        <h2>All reviews ({totalReviews})</h2>
+        <ReviewModal type={"button"}></ReviewModal>
+      </div>
       <div className={ReviewSectionStyle.gridContainer}>
         {reviews?.reviews.items.map((item, index) => (
           <ReviewCard

@@ -1,18 +1,24 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
-import RatingSelector from "@/components/RatingSelector";
+import {useState} from "react";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 import {FormikProps, useFormik} from "formik";
+import RatingSelector from "@/components/RatingSelector";
 import {EditableInput} from "@/components/atoms/inputs/EditableInput";
 import {defaultReviewFormData, ReviewFormData, ReviewFormSchema} from "@/schemes/reviews/ReviewFormSchema";
 import {validateWithZod} from "@/utils/ZodFunctions";
 import ModalStyle from "@/styles/store-catalog/Modal.module.css";
 import axiosInstance from "@/request/AxiosConfig";
 import {useAuth} from "@/commons/context/AuthContext";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
-import {toast} from "sonner";
 import {useReviewsContext} from "@/contexts/ReviewsContext";
+import ReviewSectionStyle from "@/styles/reviews/ReviewSection.module.css";
+import Link from "next/link";
 
-export default function ReviewModal() {
+interface Props {
+  type?: "button" | "rating-selector"
+}
+
+export default function ReviewModal({type = "rating-selector"}: Readonly<Props>) {
   const [ratingForm, setRatingForm] = useState(0);
   const {productId, rating, totalReviews, refreshReviews} = useReviewsContext();
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
@@ -37,16 +43,31 @@ export default function ReviewModal() {
     }
   });
 
+  const getOpenType = () => {
+    switch (type) {
+      case "button":
+        return (
+          <span className={ReviewSectionStyle.addButton}>Add review</span>
+        );
+      case "rating-selector":
+        return (
+          <RatingSelector
+            rating={rating}
+            setRating={setRatingForm}
+            handleChange={onOpen}
+            totalReviews={totalReviews}
+            horizontalAlignment={true}
+            showTotalInfo={true}
+          ></RatingSelector>
+        );
+      default:
+        return (<></>);
+    }
+  };
+
   return (
     <>
-      <RatingSelector
-        rating={rating}
-        setRating={setRatingForm}
-        handleChange={onOpen}
-        totalReviews={totalReviews}
-        horizontalAlignment={true}
-        showTotalInfo={true}
-      ></RatingSelector>
+      {getOpenType()}
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

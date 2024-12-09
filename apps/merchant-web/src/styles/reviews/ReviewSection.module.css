@@ -7,7 +7,27 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+.addButton {
+  font-size: 14px;
+  font-weight: 300;
+  border-radius: 8px;
+}
+
+.addButton:hover {
+  text-decoration: underline;
+  color: var(--primary-400);
+  cursor: pointer;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 820px) {
   .gridContainer {
     grid-template-columns: 1fr;
   }
