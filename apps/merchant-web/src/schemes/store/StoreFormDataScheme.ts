@@ -109,6 +109,6 @@ export const parseDtoToScheme = (store: StoreFormDto): StoreFormData => {
     profileImage: new File([], ""),
     bannerImageUrl: store.bannerImage ?? "",
     profileImageUrl: store.profileImage ?? "",
-    reloadable: "",
+    reloadable: ""
   };
 };

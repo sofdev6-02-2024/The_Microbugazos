@@ -77,6 +77,7 @@ services:
       - RABBITMQ_CONNECTION_STRING=${RABBITMQ_CONNECTION_STRING}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - API_GATEWAY_ROUTE=${API_GATEWAY_ROUTE}
     networks:
       - merchant-network
     depends_on:

@@ -72,11 +72,11 @@ VALUES
 
 INSERT INTO public."User"(
 	"Id", "Name", "Email", "IdentityId", "UserType", "CreatedAt", "UpdatedAt", "IsActive")
-	VALUES ('5be627d7-994d-473a-a108-6db3ad9d0380', 'majevos430', 'majevos430@merotx.com','xJwPgOhhhiPFD8zxJN1Mrs4a3cq2',1, NOW(),NOW(),TRUE);
+	VALUES ('5be627d7-994d-473a-a108-6db3ad9d0380', 'fawafi6676', 'fawafi6676@rustetic.com','ct87bA2T5eaYSnBhXNjod2fuMEx2',1, NOW(),NOW(),TRUE);
 	
 
 INSERT INTO public."Store"(
-    "Id", "Name", "Description", "Address", "PhoneNumber", "BannerImage", "ProfileImage", "UserId", "SellerIds", "CreatedAt", "UpdatedAt", "IsActive")
+    "Id", "Name", "Description", "Address", "PhoneNumber", "BannerImage", "ProfileImage", "UserId","LowStockThreshold" ,"SellerIds", "CreatedAt", "UpdatedAt", "IsActive")
 VALUES (
     'a0a7f43a-8417-4250-9402-7c5a8f21d5fe',
     'Target Store',
@@ -86,6 +86,7 @@ VALUES (
     'https://firebasestorage.googleapis.com/v0/b/merchant-auth-9c7f2.appspot.com/o/images%2Fstore%2F5be627d7-994d-473a-a108-6db3ad9d0380-banner?alt=media&token=fbf646bc-0b17-487b-8d20-12ab141e8904',
     'https://firebasestorage.googleapis.com/v0/b/merchant-auth-9c7f2.appspot.com/o/images%2Fstore%2F5be627d7-994d-473a-a108-6db3ad9d0380-profile?alt=media&token=f11f9de2-74d2-408f-a19c-b5a1f2f0426d',
     '5be627d7-994d-473a-a108-6db3ad9d0380',
+	25,
 	'',
     NOW(),
     NOW(),

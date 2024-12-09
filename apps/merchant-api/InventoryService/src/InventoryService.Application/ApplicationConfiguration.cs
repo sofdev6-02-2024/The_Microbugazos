@@ -18,6 +18,7 @@ using InventoryService.Intraestructure.Repositories.Interfaces;
 using InventoryService.Intraestructure.Repositories.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace InventoryService.Application;
 
 public static class ApplicationConfiguration
@@ -28,6 +29,7 @@ public static class ApplicationConfiguration
             cfg.RegisterServicesFromAssemblies(typeof(CreateImageDto).Assembly)
         );
         
+        services.AddScoped<HttpClient>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
         services.AddScoped<IRepository<Image>, ImageRepository>();
         services.AddScoped<IRepository<ProductAttribute>, ProductAttributeRepository>();
@@ -37,9 +39,10 @@ public static class ApplicationConfiguration
         services.AddScoped<IWishListRepository, WishListRepository>();
         
         services.AddTransient<ProductVariantService>();
+        services.AddTransient<HttpStockThresholdService>();
         services.AddTransient<ProductService>();
         services.AddTransient<ProductFiltersManager>();
-        
+        services.AddTransient<StockThresholdNoticationService>();
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
         
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();

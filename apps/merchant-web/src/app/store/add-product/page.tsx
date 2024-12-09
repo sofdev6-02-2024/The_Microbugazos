@@ -171,7 +171,9 @@ export default function AddProducts({id}: Readonly<Props>) {
 
         if (index !== -1) {
           const variant = variants[index];
-          return editMode ? GetUpdateVariantDto(variant, item) : GetCreateVariantDto(variant, item);
+          return editMode
+            ? GetUpdateVariantDto(variant, item)
+            : GetCreateVariantDto(variant, item);
         } else {
           return {
             image: null,

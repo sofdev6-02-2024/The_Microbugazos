@@ -1,7 +1,6 @@
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
-using InventoryService.Application.Dtos.Images;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Application.QueryCommands.ProductVariants.Commands.Commands;
 using InventoryService.Application.Services;

@@ -27,6 +27,7 @@ public class ProductService
             {
                 AltText = i.AltText, Url = i.Url
             }).ToList(),
+            LowStockThreshold = existingProduct.LowStockThreshold,
             ProductVariants =  existingProduct.ProductVariants.Select(pv => new ProductVariantDto
             {
                 ProductVariantId = pv.Id, ProductId = existingProduct.Id, 

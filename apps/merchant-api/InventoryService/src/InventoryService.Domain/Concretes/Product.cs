@@ -9,6 +9,7 @@ public class Product : BaseEntity
     public string Description { get; set; } = string.Empty;
     public double BasePrice { get; set; }
     public string Brand { get; set; } = string.Empty;
+    public int? LowStockThreshold { get; set; }
     public ICollection<Image> Images { get; set; } = new List<Image>();
     public ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
     public ICollection<Category> Categories { get; set; } = new List<Category>();

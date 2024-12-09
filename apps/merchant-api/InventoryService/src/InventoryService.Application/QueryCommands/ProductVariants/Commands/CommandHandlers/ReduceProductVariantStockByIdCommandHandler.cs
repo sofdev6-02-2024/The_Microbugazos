@@ -1,3 +1,4 @@
+using AutoMapper;
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
@@ -14,7 +15,8 @@ public class ReduceProductVariantStockByIdCommandHandler(
     IValidator<UpdateProductVariantDto> validator,
     IRepository<ProductVariant> repository,
     ProductVariantService service,
-    IResponseHandlingHelper responseHandlingHelper
+    IResponseHandlingHelper responseHandlingHelper,
+    StockThresholdNoticationService stockThresholdNoticationService
 ) : IRequestHandler<ReduceStockProductVariantByIdCommand, BaseResponse>
 {
     public async Task<BaseResponse> Handle(ReduceStockProductVariantByIdCommand request, CancellationToken cancellationToken)
@@ -39,6 +41,7 @@ public class ReduceProductVariantStockByIdCommandHandler(
 
         var productVariantToDisplay = await service.UpdateProductVariant(updateProductVariant, existingProductVariant);
 
+        await stockThresholdNoticationService.NotifyStockThresholdReached([(productVariantToDisplay, updateDto.Quantity)]);
         return responseHandlingHelper.Ok<ProductVariantDto>($"The stock quantity of {updateProductVariant.Id} was updated successfully", productVariantToDisplay);
     }
 

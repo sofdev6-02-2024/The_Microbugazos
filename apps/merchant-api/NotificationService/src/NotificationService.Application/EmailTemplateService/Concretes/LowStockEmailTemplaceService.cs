@@ -27,10 +27,23 @@ namespace NotificationService.Application.Services.Templates
             {
                 table.Append("<tr>");
                 table.Append($"<td>{item.OrderItemName}</td>");
+                table.Append($"<td style='width: 120px; text-align:center;'>{GenerateAttributes(item.Attributes)}</td>");
                 table.Append($"<td style='width: 100px; text-align:center;'>{item.OrderItemQuantity}</td>");
                 table.Append("</tr>");
             }
+            return table.ToString();
+        }
 
+        private static string GenerateAttributes(List<string> attributes)
+        {
+            StringBuilder table = new();
+
+            foreach (var attribute in attributes)
+            {               
+                table.Append($"<p>");
+                table.Append($"{attribute}");
+                table.Append("</p>");
+            }
             return table.ToString();
         }
     }
