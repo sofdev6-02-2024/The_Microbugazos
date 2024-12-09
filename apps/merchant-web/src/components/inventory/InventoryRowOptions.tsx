@@ -5,9 +5,9 @@ interface InventoryRowOptionsProps {
   isVisible: boolean;
   setIsVisible: (visible: boolean) => void;
   onRemove: () => void;
-  onEdit : () => void;
+  onEdit: () => void;
   onConfiguringSettings: () => void;
-  isDeletable: boolean;
+  isOwnerOption: boolean;
 }
 
 export const InventoryRowOptions = ({
@@ -16,7 +16,7 @@ export const InventoryRowOptions = ({
   onRemove,
   onEdit,
   onConfiguringSettings,
-  isDeletable,
+  isOwnerOption,
 }: InventoryRowOptionsProps) => {
   const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -39,17 +39,27 @@ export const InventoryRowOptions = ({
       ref={menuRef}
       className={`admin-inventory-row-options-ctn ${
         isVisible ? "show-inventory-row-options" : ""
+      } ${
+        isOwnerOption
+          ? "admin-inventory-for-owner"
+          : "admin-inventory-for-not-owner"
       }`}
     >
-      <li onClick={onConfiguringSettings}>Stock Threshold</li>
-      {isDeletable && (
+      {isOwnerOption ? (
+        <>
+          <li onClick={onConfiguringSettings}>Stock Threshold</li>
+          <li onClick={onEdit} className="hiddable-inventory-option">
+            Edit
+          </li>
+          <li onClick={onRemove} className="hiddable-inventory-option">
+            Remove
+          </li>
+        </>
+      ) : (
         <li onClick={onEdit} className="hiddable-inventory-option">
           Edit
         </li>
       )}
-      <li onClick={onRemove} className="hiddable-inventory-option">
-        Remove
-      </li>
     </ul>
   );
 };

@@ -6,13 +6,20 @@
   overflow-y: auto;
   max-height: 200px;
   right: 0px;
-  bottom: -80px;
   width: 180px;
   display: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.295);
   padding: 10px 10px;
   text-align: left;
   overflow: visible;
+}
+
+.admin-inventory-for-owner {
+  bottom: -90px;
+}
+
+.admin-inventory-for-not-owner {
+  bottom: -50px;
 }
 
 .admin-inventory-row-options-ctn::after {
@@ -49,4 +56,8 @@
   .hiddable-inventory-option {
     display: none !important;
   }
+
+.admin-inventory-for-owner {
+  bottom: -40px!important;
+}
 }

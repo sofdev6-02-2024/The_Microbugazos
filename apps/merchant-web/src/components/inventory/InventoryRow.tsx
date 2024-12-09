@@ -120,6 +120,7 @@ export const InventoryRow = ({
           >
             <SquarePen />
           </Button>
+
           {user?.userType === UserType.OWNER && (
             <Button
               variant="button-variant-small"
@@ -135,6 +136,9 @@ export const InventoryRow = ({
             variant="button-variant-small"
             buttonStyle="button-free"
             handleClick={() => setIsVisible(!isVisible)}
+            className={
+              user?.userType === UserType.OWNER ? "" : "hiddable-button-reverse"
+            }
           >
             <FaEllipsisV />
             <InventoryRowOptions
@@ -143,7 +147,7 @@ export const InventoryRow = ({
               onRemove={handleOpenPoppupToDeleteProduct}
               onEdit={handleUpdateProduct}
               onConfiguringSettings={handleOpenConfigurationSettings}
-              isDeletable={user?.userType === UserType.OWNER}
+              isOwnerOption={user?.userType === UserType.OWNER}
             />
           </Button>
         </td>
