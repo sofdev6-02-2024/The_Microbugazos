@@ -1,0 +1,73 @@
+on:
+  push:
+    branches:
+      - feat/espinoza/app-infrastructure
+  pull_request:
+    branches:
+      - release
+
+name: Deploy Merchant Dockerfiles
+
+jobs:
+  deploy:
+    name: Deploy to Cluster
+    runs-on: ubuntu-latest
+    environment: workflow-env
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push user-service image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-api/
+          file: ./apps/merchant-api/UserService/Dockerfile
+          push: true
+          tags: merchantecommerce/user-service:v1.0.0
+
+      - name: Build and push inventory-service image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-api/
+          file: ./apps/merchant-api/InventoryService/Dockerfile
+          push: true
+          tags: merchantecommerce/inventory-service:v1.0.0
+
+      - name: Build and push payment-service image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-api/
+          file: ./apps/merchant-api/PaymentService/Dockerfile
+          push: true
+          tags: merchantecommerce/payment-service:v1.0.0
+
+      - name: Build and push notification-service image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-api/
+          file: ./apps/merchant-api/NotificationService/Dockerfile
+          push: true
+          tags: merchantecommerce/notification-service:v1.0.0
+
+      - name: Build and push api-gateway image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-api/ApiGateway
+          file: ./apps/merchant-api/ApiGateway/Dockerfile
+          push: true
+          tags: merchantecommerce/api-gateway:v1.0.0
+
+
+      - name: Build and push merchant-web image
+        uses: docker/build-push-action@v4
+        with:
+          context: apps/merchant-web
+          file: ./apps/merchant-web/Dockerfile
+          push: true
+          tags: merchantecommerce/api-gateway:v1.0.0

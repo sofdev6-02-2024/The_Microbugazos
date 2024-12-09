@@ -27,5 +27,6 @@ RUN dotnet publish -c Release -o /app/out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
+COPY InventoryService/src/InventoryService.Api/Migrations Migrations
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "InventoryService.Api.dll"]

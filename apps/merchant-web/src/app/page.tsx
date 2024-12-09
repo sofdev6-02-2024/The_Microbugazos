@@ -6,6 +6,7 @@ import { CoverCarousel } from "@/components/home/CoverCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Product from "@/commons/entities/concretes/Product";
+import { API_URL } from "@/request/AxiosConfig";
 
 export default function Home() {
   const [productsRecommendations, setProductsRecommendations] = useState<
@@ -15,7 +16,7 @@ export default function Home() {
   const getProductsRecommendations = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5001/api/inventory/Product?page=1&pageSize=10"
+        `${API_URL}/inventory/Product?page=1&pageSize=10`
       );
       setProductsRecommendations(
         response.data.data.items.map(

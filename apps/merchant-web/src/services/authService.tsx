@@ -13,7 +13,7 @@ import {
   updateProfile,
   sendEmailVerification,
 } from 'firebase/auth';
-import axiosInstance from '@/request/AxiosConfig';
+import axiosInstance ,{ API_URL } from '@/request/AxiosConfig';
 import { ProfileValidator } from '@/commons/validations/profile';
 
 export interface SignUpFormData {
@@ -27,11 +27,11 @@ export const validateTokenWithBackend = async (user: User) => {
     const token = await user.getIdToken();
 
     if (!token) throw new Error('No token available');
-    const response = await fetch('http://localhost:5001/api/users/Auth/token', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
+    const response = await fetch(`${API_URL}/users/Auth/token`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.status === 404) {

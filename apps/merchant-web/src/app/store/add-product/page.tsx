@@ -18,7 +18,7 @@ import AddProductStyle from "../../../styles/admin-panel/add-products.module.css
 import TextFieldStyle from "../../../styles/components/TextField.module.css";
 import {toast} from "sonner";
 import Category from "@/commons/entities/concretes/Category";
-
+import { API_URL } from "@/request/AxiosConfig";
 interface Props {
   id?: string;
 }
@@ -308,7 +308,7 @@ export default function AddProducts({id}: Readonly<Props>) {
 
   const sendProduct = () => {
     const body = parseToProductDTO();
-    fetch("http://localhost:5001/api/inventory/Product", {
+    fetch(`${API_URL}/inventory/Product`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

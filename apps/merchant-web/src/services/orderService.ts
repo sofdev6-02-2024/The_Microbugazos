@@ -3,8 +3,9 @@ import { OrderWithCompleteDetailsDto } from "@/schemes/order/OrderWithCompleteDe
 import { PaginatedResponseDto } from "@/schemes/PaginatedResponseDto";
 import { Filter } from "@/hooks/useOrderFilter";
 import {handleAxiosError} from "@/request/AxiosErrorHandler";
+import { API_URL } from '@/request/AxiosConfig';
 
-const baseUrl: string = "http://localhost:5001/api/payment/Order";
+const baseUrl: string = `${API_URL}/payment/Order`;
 
 export const getOrdersByUser = async (
   userId: string,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { AuthUser } from "@/types/auth";
+import {API_URL} from "@/request/AxiosConfig";
 
 const useAuth = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -27,15 +28,12 @@ const useAuth = () => {
           }
           document.cookie = `auth-token=${token}; path=/`;
 
-          const response = await fetch(
-            "http://localhost:5001/api/users/Auth/token",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await fetch(`${API_URL}/users/Auth/token`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
 
           if (response.ok) {
             const responseData = await response.json();

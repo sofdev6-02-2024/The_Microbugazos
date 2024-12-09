@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using PaymentService.Api;
 using PaymentService.Application;
 using PaymentService.Infrastructure.Data;
-using RabbitMQMessaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
@@ -24,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.AddApplication();
 builder.Services.AddHttpClient();
+builder.Services.AddHealthChecks();
 
 var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? 
                        throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");
@@ -42,12 +42,19 @@ builder.Services
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.MapHealthChecks("/health");
 app.MapControllers();
 app.UseCors("AllowApiGateway");
 app.UseAuthentication();

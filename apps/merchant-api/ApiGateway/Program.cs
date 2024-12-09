@@ -7,7 +7,7 @@ Env.Load("../.env");
 var builder = WebApplication.CreateBuilder(args);
 
 
-string hostUrl = builder.Configuration["WebHostUrl"] ?? "http://localhost:3000";
+string hostUrl = Environment.GetEnvironmentVariable("CLIENT_BASE_URL") ?? "http://localhost:3000";
 
 
 builder.Services.AddCors(options =>

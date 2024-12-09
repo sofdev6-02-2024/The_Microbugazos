@@ -7,17 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Microsoft.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\9.0.0-rc.2.24474.1\lib\net8.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+      <HintPath>
+        ..\..\..\..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\9.0.0-rc.2.24474.1\lib\net8.0\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -25,7 +25,8 @@
     <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
     <ProjectReference Include="..\..\..\MerchantCommon\RabbitMqMessaging\RabbitMqMessaging.csproj" />
     <ProjectReference Include="..\PaymentService.Application\PaymentService.Application.csproj" />
-    <ProjectReference Include="..\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj" />
+    <ProjectReference
+      Include="..\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

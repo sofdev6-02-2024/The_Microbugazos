@@ -47,6 +47,12 @@ builder.Services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
 builder.Services.ConfigureSwagger();
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PostgresContext>();
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

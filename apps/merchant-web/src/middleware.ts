@@ -6,6 +6,8 @@ import {
 } from "@/config/routePermissions";
 import { UserData } from "@/types/auth";
 
+import { API_SERVER_SIDE_URL } from "@/request/AxiosConfig";
+
 const matchPath = (path: string, pattern: string): boolean => {
   if (pattern === "*") return true;
   if (pattern.endsWith("/*")) {
@@ -43,7 +45,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(`http://localhost:5001/api/users/Auth/token`, {
+    const response = await fetch(`${API_SERVER_SIDE_URL}/users/Auth/token`, {
       headers: {
         Authorization: `Bearer ${token.value}`,
         "Content-Type": "application/json",

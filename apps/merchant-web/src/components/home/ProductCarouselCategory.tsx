@@ -10,6 +10,7 @@ import { ProductCard } from "../general/ProductCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/request/AxiosConfig";
 
 interface Props {
   title: string;
@@ -23,7 +24,7 @@ export const ProductsCarouselByCategory = ({ title, categoryId }: Props) => {
 
   const getProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/products');
+      const response = await axios.get(`${API_URL}/products`);
       setProducts(response.data);
     } catch (err) {
       console.error(err);
