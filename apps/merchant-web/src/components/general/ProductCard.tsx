@@ -72,7 +72,7 @@ export const ProductCard = ({ product, type, onDislike }: Props) => {
           <span className="product-card-price-symbol">$</span> {product.price}
         </p>
         <p className="product-card-rating">
-          <MdOutlineStar /> 0
+          <MdOutlineStar /> {product.rating}
         </p>
       </div>
       <div className="product-card-more-actions">

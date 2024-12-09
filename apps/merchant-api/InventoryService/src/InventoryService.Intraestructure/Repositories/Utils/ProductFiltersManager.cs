@@ -53,12 +53,12 @@ public class ProductFiltersManager(IRepository<Category> categoryRepository)
 
         if (queryParams.MinRating.HasValue)
         {
-            // TODO: Implement filter support. 
+            predicates.Add(p => p.Rating >= queryParams.MinRating.Value);
         }
 
         if (queryParams.MaxRating.HasValue)
         {
-            // TODO: Implement filter support. 
+            predicates.Add(p => p.Rating <= queryParams.MaxRating.Value);
         }
 
         return predicates;
@@ -91,7 +91,14 @@ public class ProductFiltersManager(IRepository<Category> categoryRepository)
 
         if (queryParams.RatingAsc.HasValue)
         {
-            // TODO: Add support for rating sort.
+            query = (bool)queryParams.RatingAsc
+                ? someSortApplied
+                    ? ((IOrderedQueryable<Product>)query).ThenBy(p => p.Rating)
+                    : query.OrderBy(p => p.Rating)
+                : someSortApplied
+                    ? ((IOrderedQueryable<Product>)query).ThenByDescending(p => p.Rating)
+                    : query.OrderByDescending(p => p.Rating);
+            someSortApplied = true;
         }
 
         if (!someSortApplied)

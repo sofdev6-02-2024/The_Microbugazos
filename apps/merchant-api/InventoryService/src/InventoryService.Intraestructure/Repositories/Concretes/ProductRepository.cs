@@ -111,4 +111,14 @@ public class ProductRepository(InventoryDbContext context, ProductFiltersManager
         }
         return await query.CountAsync();
     }
+    
+    public async Task<bool> UpdateRating(Guid id, int rating)
+    {
+        var product = await GetByIdAsync(id);
+        if (product == null) return false;
+
+        product.Rating = rating;
+        var response = await UpdateAsync(product);
+        return true;
+    }
 }

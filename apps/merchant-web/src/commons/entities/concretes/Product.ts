@@ -2,7 +2,6 @@ import { UUID } from "crypto";
 import ProductVariant from "./ProductVariant";
 import Category from "./Category";
 import Image from "./Image";
-import ProductReview from "./ProductReview";
 import {boolean} from "zod";
 
 
@@ -15,9 +14,9 @@ export default class Product {
   brand: string;
   isLiked: boolean;
   images: Array<Image>;
+  rating: number;
   productVariants: Array<ProductVariant>;
   categories: Array<Category>;
-  productReviews: Array<ProductReview>;
   lowStockThreshold?: number;
 
   constructor(
@@ -29,9 +28,9 @@ export default class Product {
     brand: string,
     isLiked: boolean,
     images: Array<Image>,
+    rating: number,
     productVariants: Array<ProductVariant>,
     categories: Array<Category>,
-    productReviews: Array<ProductReview>,
     lowStockThreshold?: number
   ) {
     this.id = id;
@@ -43,8 +42,8 @@ export default class Product {
     this.brand = brand;
     this.categories = categories;
     this.images = images;
+    this.rating = rating;
     this.productVariants = productVariants;
-    this.productReviews = productReviews;
     this.categories = categories;
     this.lowStockThreshold = lowStockThreshold;
   }

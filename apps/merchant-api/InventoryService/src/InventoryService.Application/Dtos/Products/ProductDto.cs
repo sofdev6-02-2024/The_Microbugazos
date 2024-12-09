@@ -12,6 +12,7 @@ public class ProductDto
     public bool IsLiked { get; set; }
     public string Brand { get; set; } = string.Empty;
     public int? LowStockThreshold { get; set; }
+    public float Rating { get; set; }
     public List<ProductCategory> Categories { get; set; } = [];
     public List<ProductVariantImageDto> Images { get; set; } = [];
     public List<ProductVariantDto> ProductVariants { get; set; } = [];
