@@ -1,5 +1,6 @@
 using InventoryService.Api;
 using DotNetEnv;
+using InventoryService.Api.Controllers;
 using InventoryService.Intraestructure.Data;
 using InventoryService.Application;
 using InventoryService.Application.Profiles;
@@ -32,7 +33,7 @@ builder.Services.Configure<ValidationSettings>(builder.Configuration);
 
 builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(typeof(ProductProfile).Assembly));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddMassTransitWithRabbitMq("inventory");
+builder.Services.AddMassTransitWithRabbitMq("inventory", typeof(CategoryController));
 
 
 var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");

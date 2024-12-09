@@ -51,14 +51,14 @@ public class AddReviewHandler(
         
         var response = await repository.UpdateAsync(productReview.Id, productReview, updateBuilder);
 
-        var ratingSummation = reviewsUpdated.Aggregate(0, (i, review) => review.Rating);
+        float ratingSummation = reviewsUpdated.Aggregate(0, (i, review) => i + review.Rating);
         var averageRating = ratingSummation / reviewsUpdated.Count;
-
+        
         await producer.Publish(new RatingMessage
         {
             ProductId = request.ProductId,
             Rating = averageRating
-        }, cancellationToken);
+        });
         
         if (response < 0) 
             return responseHandlingHelper.InternalServerError<Review>("Some error happens while try to add review"); 
