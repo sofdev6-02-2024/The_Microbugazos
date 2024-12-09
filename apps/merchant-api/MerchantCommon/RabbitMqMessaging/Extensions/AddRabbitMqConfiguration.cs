@@ -9,7 +9,6 @@ public static class Extensions
 {
     public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services, string serviceName, Type? type=null)
     {
-
         var rabbitMqConnectionString = Environment.GetEnvironmentVariable("RABBITMQ_CONNECTION_STRING");
         var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? throw new("RABBITMQ_USER");
         var rabbitMqPass = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? throw new("RABBITMQ_PASS");

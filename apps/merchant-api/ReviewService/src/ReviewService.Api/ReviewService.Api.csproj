@@ -11,6 +11,7 @@
         <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="FluentValidation" Version="11.11.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.3" />
         <PackageReference Include="MediatR" Version="12.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
@@ -19,6 +20,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
       <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
+      <ProjectReference Include="..\..\..\MerchantCommon\RabbitMqMessaging\RabbitMqMessaging.csproj" />
       <ProjectReference Include="..\ReviewService.Application\ReviewService.Application.csproj" />
       <ProjectReference Include="..\ReviewService.Infrastructure\ReviewService.Infrastructure.csproj" />
     </ItemGroup>

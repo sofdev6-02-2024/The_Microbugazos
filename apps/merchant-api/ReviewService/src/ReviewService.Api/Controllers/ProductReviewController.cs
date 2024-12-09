@@ -31,6 +31,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new AddReview(productId, review));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
+        
         var successResponse = (SuccessResponse<Review>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Commons.Messages;
 using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using MongoDB.Driver;
 using ReviewService.Application.CommandsQueries.ProductReview.Commands.Requests;
@@ -15,7 +17,8 @@ public class AddReviewHandler(
     IRepository<Concretes.ProductReview> repository,
     IValidator<CreateReviewDto> validator,
     IResponseHandlingHelper responseHandlingHelper,
-    IMapper mapper) 
+    IMapper mapper,
+    IBus producer) 
     : IRequestHandler<AddReview, BaseResponse>
 {
     public async Task<BaseResponse> Handle(AddReview request, CancellationToken cancellationToken)
@@ -47,6 +50,16 @@ public class AddReviewHandler(
             .Set<List<Review>>(e => e.Reviews, reviewsUpdated);
         
         var response = await repository.UpdateAsync(productReview.Id, productReview, updateBuilder);
+
+        var ratingSummation = reviewsUpdated.Aggregate(0, (i, review) => review.Rating);
+        var averageRating = ratingSummation / reviewsUpdated.Count;
+
+        await producer.Publish(new RatingMessage
+        {
+            ProductId = request.ProductId,
+            Rating = averageRating
+        }, cancellationToken);
+        
         if (response < 0) 
             return responseHandlingHelper.InternalServerError<Review>("Some error happens while try to add review"); 
         return responseHandlingHelper.Ok("Review added successfully", mapper.Map<Review>(request.Review));

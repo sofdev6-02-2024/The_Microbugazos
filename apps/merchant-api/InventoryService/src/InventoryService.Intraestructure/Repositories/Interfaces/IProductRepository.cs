@@ -6,4 +6,5 @@ public interface IProductRepository : IRepository<Product>
 {
     Task<IEnumerable<Product>> GetProductsByStoreId(Guid id, int pageNumber, int pageSize, ProductFilteringQueryParams queryParams);
     Task<int> GetCountProductsByStoreId(Guid id, ProductFilteringQueryParams queryParams);
+    Task<bool> UpdateRating(Guid id, int rating);
 }

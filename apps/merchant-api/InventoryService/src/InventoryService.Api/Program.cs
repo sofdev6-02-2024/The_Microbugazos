@@ -6,6 +6,7 @@ using InventoryService.Application.Profiles;
 using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQMessaging.Extensions;
 
 Env.Load("../../../.env");
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.Configure<ValidationSettings>(builder.Configuration);
 
 builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(typeof(ProductProfile).Assembly));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMassTransitWithRabbitMq("inventory");
 
 
 var connectionString = builder.Configuration["POSTGRES_SQL_CONNECTION"] ?? throw new ArgumentNullException("POSTGRES_SQL_CONNECTION environment variable is not set.");

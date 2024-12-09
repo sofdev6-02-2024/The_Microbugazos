@@ -2,13 +2,14 @@ using Commons.ResponseHandler.Handler.Concretes;
 using Commons.ResponseHandler.Handler.Interfaces;
 using DotNetEnv;
 using FluentValidation;
+using RabbitMQMessaging.Extensions;
 using ReviewService.Api;
 using ReviewService.Api.Configuration;
 using ReviewService.Application.Profiles;
 using ReviewService.Application.ValidationSettings;
 
-Env.Load("../../../.env");
 var builder = WebApplication.CreateBuilder(args);
+Env.Load("../../../.env");
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
@@ -42,6 +43,7 @@ builder.Services.AddAutoMapper(typeof(ReviewServiceProfile));
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblies(typeof(ReviewServiceProfile).Assembly));
 builder.Services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
+builder.Services.AddMassTransitWithRabbitMq("review");
 
 var app = builder.Build();
 
