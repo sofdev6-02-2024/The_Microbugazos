@@ -49,7 +49,7 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
     switch (type) {
       case "button":
         return isAbleToAdd ? (
-          <span className={ReviewSectionStyle.addButton}>Add review</span>
+          <href className={ReviewSectionStyle.addButton} onClick={onOpen}>Add review</href>
         ) : <></>;
       case "rating-selector":
         return (
