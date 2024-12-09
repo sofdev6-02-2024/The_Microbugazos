@@ -70,4 +70,4 @@ jobs:
           context: apps/merchant-web
           file: ./apps/merchant-web/Dockerfile
           push: true
-          tags: merchantecommerce/api-gateway:v1.0.0
+          tags: merchantecommerce/merchant-web:v1.0.0
