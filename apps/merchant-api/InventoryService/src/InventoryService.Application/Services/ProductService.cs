@@ -6,17 +6,20 @@ namespace InventoryService.Application.Services;
 
 public class ProductService
 {
-    public Task<ProductDto> GetProductDtoByProduct(Product existingProduct)
+    public ProductDto GetProductDtoByProduct(Product existingProduct, List<Guid> productsLiked)
     {
+        var isLiked = productsLiked.Contains(existingProduct.Id);
+        
         var categoriesDto = existingProduct.Categories.Select(category
             => new ProductCategory{ Id = category.Id, Name = category.Name }).ToList();
 
-        return Task.FromResult(new ProductDto
+        return new ProductDto
         {
             Id = existingProduct.Id,
             StoreId = existingProduct.StoreId,
             Name = existingProduct.Name,
             Description = existingProduct.Description,
+            IsLiked = isLiked,
             Price = existingProduct.BasePrice,
             Brand = existingProduct.Brand,
             Categories = categoriesDto,
@@ -32,6 +35,6 @@ public class ProductService
                 PriceAdjustment = pv.PriceAdjustment, StockQuantity = pv.StockQuantity, 
                 Attributes = pv.Attributes.Select(pa => new GetProductVariantAttributeDto { ProductVariantAttributeId = pa.Id, Name = pa.Variant.Name, Value = pa.Value}).ToList()
             }).ToList()
-        });
+        };
     }
 }

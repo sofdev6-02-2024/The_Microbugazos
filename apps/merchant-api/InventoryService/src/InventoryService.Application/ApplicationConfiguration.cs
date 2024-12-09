@@ -15,6 +15,7 @@ using InventoryService.Application.Validators.Variants;
 using InventoryService.Domain.Concretes;
 using InventoryService.Intraestructure.Repositories.Concretes;
 using InventoryService.Intraestructure.Repositories.Interfaces;
+using InventoryService.Intraestructure.Repositories.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -27,19 +28,23 @@ public static class ApplicationConfiguration
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(typeof(CreateImageDto).Assembly)
         );
+        
         services.AddScoped<HttpClient>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IRepository<Image>, ImageRepository>();
         services.AddScoped<IRepository<ProductAttribute>, ProductAttributeRepository>();
-        services.AddScoped<IRepository<ProductReview>, ProductReviewRepository>();
         services.AddScoped<IRepository<ProductVariant>, ProductVariantRepository>();
         services.AddScoped<IRepository<Variant>, VariantRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IWishListRepository, WishListRepository>();
+        
         services.AddTransient<ProductVariantService>();
         services.AddTransient<HttpStockThresholdService>();
         services.AddTransient<ProductService>();
+        services.AddTransient<ProductFiltersManager>();
         services.AddTransient<StockThresholdNoticationService>();
         services.AddScoped<IResponseHandlingHelper, ResponseHandlingHelper>();
+        
         services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
         services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
         services.AddScoped<IValidator<CreateImageDto>, CreateImageValidator>();

@@ -8,6 +8,7 @@ import {ProductsViewProvider} from "@/contexts/ProductsViewContext";
 import ProductsView from "@/components/catalog/ProductsView";
 import {FiltersProvider} from "@/contexts/FiltersContext";
 import {SortProvider} from "@/contexts/SortContext";
+import {GetProductsByStore} from "@/services/storeCatalogService";
 
 export default function StoreCatalog() {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +21,12 @@ export default function StoreCatalog() {
           <main>
             <StoreProfile storeId={id}/>
             <FilterBar></FilterBar>
-            <ProductsView id={id}></ProductsView>
+            <ProductsView
+              fetchConfig={{
+                fetchFn: GetProductsByStore,
+                id: id
+              }}
+            />
           </main>
           </SortProvider>
           </FiltersProvider>

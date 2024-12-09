@@ -37,9 +37,9 @@ public class ProductController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetAll(int page = 1, int pageSize = 10)
+    public async Task<ActionResult<List<ProductDto>>> GetAll(Guid? userId, int page = 1, int pageSize = 10)
     {
-        var result = await mediator.Send(new GetAllProductsQuery(page, pageSize));
+        var result = await mediator.Send(new GetAllProductsQuery(userId, page, pageSize));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
 

@@ -20,7 +20,7 @@ IProductRepository productRepository,
         if (existingProduct == null)
             return responseHandlingHelper.NotFound<ProductDto>("The product with the follow id " + request.Id + " was not found");
 
-        var productDto = productService.GetProductDtoByProduct(existingProduct).Result;
+        var productDto = productService.GetProductDtoByProduct(existingProduct, []);
         return responseHandlingHelper.Ok("The product has been successfully obtained.", productDto);
     }
 }
