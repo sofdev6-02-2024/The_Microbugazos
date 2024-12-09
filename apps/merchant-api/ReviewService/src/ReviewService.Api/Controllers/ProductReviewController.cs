@@ -36,17 +36,17 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetProductReview(Guid id, int page, int pageSize)
+    public async Task<ActionResult> GetProductReview(Guid id, Guid? clientId, int page, int pageSize)
     {
         var result = await mediator
-            .Send(new GetProductReviewById(id, new PaginationRequest(page, pageSize)));
+            .Send(new GetProductReviewById(id, clientId, new PaginationRequest(page, pageSize)));
         if (result is ErrorResponse errorResponse)
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<ProductReviewDto>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
     }
 
-    /*[HttpPatch("{productId}")]
+    [HttpPatch("{productId}")]
     public async Task<ActionResult> UpdateReview(Guid productId, Guid clientId, UpdateReviewDto updateReviewDto)
     {
         var result = await mediator.Send(new UpdateReview(productId, clientId, updateReviewDto));
@@ -54,7 +54,7 @@ public class ProductReviewController(IMediator mediator) : ControllerBase
             return StatusCode(errorResponse.StatusCode, errorResponse);
         var successResponse = (SuccessResponse<Review>)result;
         return StatusCode(successResponse.StatusCode, successResponse);
-    }*/
+    }
 
     [HttpDelete("{productId}")]
     public async Task<ActionResult> DeleteReview(Guid productId, Guid clientId)

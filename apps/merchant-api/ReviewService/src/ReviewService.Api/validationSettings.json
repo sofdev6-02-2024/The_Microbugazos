@@ -1,7 +1,7 @@
 {
   "Review": {
     "MinLengthName": 3,
-    "MaxLengthName": 24,
+    "MaxLengthName": 30,
     "MaxLengthComment": 500,
     "MinRatingRange": 0,
     "MaxRatingRange": 5

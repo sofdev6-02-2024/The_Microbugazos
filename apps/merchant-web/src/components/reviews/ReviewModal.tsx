@@ -12,7 +12,6 @@ import axiosInstance from "@/request/AxiosConfig";
 import {useAuth} from "@/commons/context/AuthContext";
 import {useReviewsContext} from "@/contexts/ReviewsContext";
 import ReviewSectionStyle from "@/styles/reviews/ReviewSection.module.css";
-import Link from "next/link";
 
 interface Props {
   type?: "button" | "rating-selector"
@@ -20,7 +19,7 @@ interface Props {
 
 export default function ReviewModal({type = "rating-selector"}: Readonly<Props>) {
   const [ratingForm, setRatingForm] = useState(0);
-  const {productId, rating, totalReviews, refreshReviews} = useReviewsContext();
+  const {productId, rating, totalReviews, refreshReviews, isAbleToAdd} = useReviewsContext();
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const auth = useAuth()
   const router = useRouter();
@@ -38,7 +37,10 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
           rating: ratingForm,
           comment: values.comment
         }).catch(e => toast.error(e.response.data.message))
-          .finally(refreshReviews);
+          .finally(() => {
+            refreshReviews();
+            onClose();
+          });
       }
     }
   });
@@ -46,18 +48,19 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
   const getOpenType = () => {
     switch (type) {
       case "button":
-        return (
+        return isAbleToAdd ? (
           <span className={ReviewSectionStyle.addButton}>Add review</span>
-        );
+        ) : <></>;
       case "rating-selector":
         return (
           <RatingSelector
             rating={rating}
             setRating={setRatingForm}
-            handleChange={onOpen}
+            handleChange={isAbleToAdd ? onOpen : () => {}}
             totalReviews={totalReviews}
             horizontalAlignment={true}
             showTotalInfo={true}
+            isEditable={isAbleToAdd}
           ></RatingSelector>
         );
       default:
@@ -115,7 +118,6 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
               className={ModalStyle.primaryButton}
               onPress={() => {
                 formik.handleSubmit();
-                onClose();
               }}
             >
               Send
