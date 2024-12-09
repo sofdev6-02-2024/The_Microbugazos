@@ -1,11 +1,9 @@
 "use client"
-
-import {LayoutGrid, LayoutList, ListFilter, ArrowDownUp} from "lucide-react";
-import Switch from "@/components/Switch";
 import {useProductsView} from "@/contexts/ProductsViewContext";
 import FilterBarStyles from "@/styles/store-catalog/FilterBar.module.css"
 import FiltersModal from "@/components/catalog/FiltersModal";
 import SortModal from "@/components/catalog/SortModal";
+import {SwitchDisplayMode} from "@/commons/aux-components/SwitchDisplayMode";
 
 export default function FilterBar() {
   const context = useProductsView();
@@ -16,12 +14,9 @@ export default function FilterBar() {
         <FiltersModal></FiltersModal>
         <SortModal></SortModal>
       </div>
-      <Switch
-        value={context.isGridView}
-        toggleFunction={context.toggleView}
-        leftIcon={LayoutGrid}
-        rightIcon={LayoutList}
-      ></Switch>
+      <SwitchDisplayMode
+        selectedGridMode={context.isGridView}
+        setSelectedMode={context.toggleView}/>
     </div>
   )
 }

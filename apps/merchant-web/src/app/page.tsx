@@ -6,32 +6,37 @@ import { CoverCarousel } from "@/components/home/CoverCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Product from "@/commons/entities/concretes/Product";
+import useAuth from "@/hooks/useAuth";
 
 export default function Home() {
+  const {user} = useAuth();
+  const userId = user?.userId;
   const [productsRecommendations, setProductsRecommendations] = useState<
     Array<Product>
   >([]);
 
   const getProductsRecommendations = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5001/api/inventory/Product?page=1&pageSize=10"
-      );
+      const url = userId
+        ? `http://localhost:5001/api/inventory/Product?userId=${userId}&page=1&pageSize=10`
+        : `http://localhost:5001/api/inventory/Product?page=1&pageSize=10`;
+
+      const response = await axios.get(url);
       setProductsRecommendations(
-        response.data.data.items.map(
-          (product: Product) =>
-            new Product(
-              product.id,
-              product.storeId,
-              product.name,
-              product.description,
-              product.price,
-              product.brand,
-              product.images,
-              product.productVariants,
-              product.categories,
-              product.productReviews
-            )
+        response.data.data.items.map((product: Product) =>
+          new Product(
+            product.id,
+            product.storeId,
+            product.name,
+            product.description,
+            product.price,
+            product.brand,
+            product.isLiked,
+            product.images,
+            product.productVariants,
+            product.categories,
+            product.productReviews
+          )
         )
       );
     } catch (error) {
@@ -40,8 +45,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getProductsRecommendations();
-  }, []);
+    if (userId !== undefined) {
+      getProductsRecommendations();
+    }
+  }, [userId]);
 
   return (
     <NextUIProvider>
