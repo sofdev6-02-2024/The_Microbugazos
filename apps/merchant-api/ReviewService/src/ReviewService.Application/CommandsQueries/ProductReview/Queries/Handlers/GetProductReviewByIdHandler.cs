@@ -3,7 +3,6 @@ using Commons.ResponseHandler.Handler.Interfaces;
 using Commons.ResponseHandler.Responses.Bases;
 using FluentValidation;
 using MediatR;
-using MongoDB.Driver.Linq;
 using ReviewService.Application.CommandsQueries.Commons;
 using ReviewService.Application.CommandsQueries.ProductReview.Queries.Requests;
 using ReviewService.Application.Dtos.ProductReview;
@@ -41,11 +40,15 @@ public class GetProductReviewByIdHandler(
             response.Reviews.Count(r => r.IsActive),
             request.PaginationRequest.Page,
             request.PaginationRequest.PageSize);
+
+        var clients = response.Reviews.Where(r => r.IsActive).Select(r => r.ClientId);
+        var ableToAdd = request.ClientId != null && !clients.Contains((Guid)request.ClientId);
         
         return responseHandlingHelper.Ok("Product review found", new ProductReviewDto
         {
             AverageRating = Math.Round((summationRating / response.Reviews.Count(r => r.IsActive)), 1),
-            Reviews = paginatedResponse
+            Reviews = paginatedResponse,
+            ClientAbleToAdd = ableToAdd
         });
     }
 }

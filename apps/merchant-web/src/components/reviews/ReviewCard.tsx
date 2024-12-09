@@ -54,7 +54,9 @@ export default function ReviewCard({review, isLoading}: Readonly<Props>) {
           showTotalInfo={false}>
         </RatingSelector>
         <h3 className={ReviewCardStyle.name}>{review.clientName}</h3>
-        <p className={ReviewCardStyle.paragraph}>"{review.comment}"</p>
+        {review.comment && review.comment.trim() !== "" && (
+          <p className={ReviewCardStyle.paragraph}>"{review.comment}"</p>
+        )}
         <span className={ReviewCardStyle.dateStyle}>Posted on {FormatDateLiterary(review.createdAt)}</span>
       </div>
     )

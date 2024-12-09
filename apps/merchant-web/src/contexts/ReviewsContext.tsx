@@ -1,8 +1,10 @@
 import {createContext, ReactNode, useContext, useEffect, useMemo, useState} from "react";
 import axiosInstance from "@/request/AxiosConfig";
 import {toast} from "sonner";
+import {useAuth} from "@/commons/context/AuthContext";
 
 interface Type {
+  isAbleToAdd: boolean;
   isLoading: boolean;
   productId: string;
   rating: number;
@@ -13,6 +15,7 @@ interface Type {
   refreshReviews: () => void;
   setPage: (number) => void;
   setIsLoading: (boolean) => void;
+  setIsAbleToAdd:(boolean) => void;
 }
 
 interface ReviewsProviderProps {
@@ -33,7 +36,9 @@ export const useReviewsContext = () => {
 };
 
 export const ReviewsProvider = ({children, productId}: ReviewsProviderProps) => {
+  const authContext = useAuth();
   const pageSize = 6;
+  const [isAbleToAdd, setIsAbleToAdd] = useState(true);
   const [page, setPage] = useState(0);
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState<Reviews | undefined>(undefined);
@@ -51,13 +56,13 @@ export const ReviewsProvider = ({children, productId}: ReviewsProviderProps) => 
   }
 
   const loadReviews = () => {
-    console.log(`/review/ProductReview/${productId}?page=${page + 1}&pageSize=${pageSize}`);
-    axiosInstance.get(`/review/ProductReview/${productId}?page=${page + 1}&pageSize=${pageSize}`)
+    axiosInstance.get(`/review/ProductReview/${productId}?page=${page + 1}&pageSize=${pageSize}&clientId=${authContext.user?.userId ?? ""}`)
       .then(response => response.data)
       .then(data => {
         setRating(data.data.averageRating);
         setTotalReviews(data.data.reviews.totalItems);
         setReviews(data.data);
+        setIsAbleToAdd(data.data.clientAbleToAdd);
         setTimeout(() => setIsLoading(false), 300);
       })
       .catch(e => {
@@ -68,6 +73,7 @@ export const ReviewsProvider = ({children, productId}: ReviewsProviderProps) => 
   }
 
   const objValue = useMemo(() => ({
+    isAbleToAdd,
     isLoading,
     productId,
     rating,
@@ -77,8 +83,9 @@ export const ReviewsProvider = ({children, productId}: ReviewsProviderProps) => 
     setRating,
     refreshReviews,
     setPage,
-    setIsLoading
-  }), [productId, rating, reviews, totalReviews, isLoading, page]);
+    setIsLoading,
+    setIsAbleToAdd
+  }), [productId, rating, reviews, totalReviews, isLoading, page, isAbleToAdd]);
 
   return (
     <ReviewsContext.Provider

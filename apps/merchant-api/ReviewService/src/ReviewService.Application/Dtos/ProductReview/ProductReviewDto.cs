@@ -7,5 +7,6 @@ namespace ReviewService.Application.Dtos.ProductReview;
 public class ProductReviewDto
 {
     public required double AverageRating { get; set; }
+    public required bool ClientAbleToAdd { get; set; } = true;
     public required PaginatedResponseDto<Concretes.Review> Reviews { get; set; }
 }
