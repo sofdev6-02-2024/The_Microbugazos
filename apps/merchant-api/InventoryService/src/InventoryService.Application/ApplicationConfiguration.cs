@@ -55,5 +55,6 @@ public static class ApplicationConfiguration
         services.AddScoped<IValidator<CreateProductDto>, CreateProductValidator>();
         services.AddScoped<IValidator<UpdateProductDto>, UpdateProductValidator>();
         services.AddScoped<IValidator<CreateReservationDto>, CreateReservationValidator>();
+        services.AddHostedService<ReservationCheckService>();
     }
 }
