@@ -36,7 +36,13 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
           clientName: auth.user?.displayName,
           rating: ratingForm,
           comment: values.comment
-        }).catch(e => toast.error(e.response.data.message))
+        }).catch(e => {
+          console.log(e);
+          e.response.data.errors.map(error => {
+            toast.error(error);
+          })
+          toast.error(e.response.data.message);
+        })
           .finally(() => {
             refreshReviews();
             onClose();
@@ -49,7 +55,7 @@ export default function ReviewModal({type = "rating-selector"}: Readonly<Props>)
     switch (type) {
       case "button":
         return isAbleToAdd ? (
-          <href className={ReviewSectionStyle.addButton} onClick={onOpen}>Add review</href>
+          <a className={ReviewSectionStyle.addButton} onClick={onOpen}>Add review</a>
         ) : <></>;
       case "rating-selector":
         return (
