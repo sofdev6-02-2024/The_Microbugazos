@@ -3,6 +3,7 @@ using InventoryService.Application.Dtos;
 using InventoryService.Application.Dtos.Reservations;
 using InventoryService.Application.QueryCommands.Reservations.Commands.Commands;
 using InventoryService.Application.QueryCommands.Reservations.Queries.Queries;
+using InventoryService.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,6 +59,34 @@ public class ReservationController(IMediator mediator) : ControllerBase
     public async Task<ActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteReservationCommand(id));
+
+        if (result is ErrorResponse errorResponse)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
+    [HttpPatch("completed/{id}")]
+    public async Task<ActionResult> CompleteReservation(Guid id)
+    {
+        var result = await mediator.Send(new UpdateReservationStatusCommand(id, ReservationStatus.COMPLETED));
+
+        if (result is ErrorResponse errorResponse)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var successResponse = (SuccessResponse<bool>)result;
+        return StatusCode(successResponse.StatusCode, successResponse);
+    }
+
+    [HttpPatch("cancel/{id}")]
+    public async Task<ActionResult> CancelReservation(Guid id)
+    {
+        var result = await mediator.Send(new UpdateReservationStatusCommand(id, ReservationStatus.CANCELED));
 
         if (result is ErrorResponse errorResponse)
         {

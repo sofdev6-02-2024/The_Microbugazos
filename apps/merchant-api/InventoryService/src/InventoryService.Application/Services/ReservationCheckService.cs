@@ -42,12 +42,11 @@ public class ReservationCheckService(IServiceScopeFactory serviceScopeFactory) :
 
             foreach (var reservation in reservations)
             {
-                if (reservation.SavedDate.AddMinutes(1) <= DateTime.Now && reservation.ReservationStatus is not ReservationStatus.CANCELED)
+                if (reservation.SavedDate.AddMinutes(1) <= DateTime.Now && reservation.ReservationStatus is ReservationStatus.PENDING)
                 {
                     reservation.ReservationStatus = ReservationStatus.CANCELED;
                     await repository.UpdateAsync(reservation);
                     await StockRestoration(scope, reservation.Id);
-                    await repository.DeleteAsync(reservation.Id);
                 }
             }
         }
