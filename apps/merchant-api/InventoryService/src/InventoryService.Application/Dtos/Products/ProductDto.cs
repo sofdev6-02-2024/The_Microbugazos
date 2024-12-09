@@ -9,6 +9,7 @@ public class ProductDto
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public double Price { get; set; }
+    public bool IsLiked { get; set; }
     public string Brand { get; set; } = string.Empty;
     public List<ProductCategory> Categories { get; set; } = [];
     public List<ProductVariantImageDto> Images { get; set; } = [];

@@ -18,10 +18,10 @@ public class GetProductsByStoreIdQueryHandler(IProductRepository productReposito
     {
         var products = await productRepository.GetProductsByStoreId(request.StoreId, request.Page, request.PageSize, request.QueryParams);
 
-        List<ProductDto> productsDto = products.Select(
-            product => productService.GetProductDtoByProduct(product).Result).ToList();
+        var productsDto = products.Select(e =>
+            productService.GetProductDtoByProduct(e, [])).ToList();
 
-        int totalItems = await productRepository.GetCountProductsByStoreId(request.StoreId, request.QueryParams);
+        var totalItems = await productRepository.GetCountProductsByStoreId(request.StoreId, request.QueryParams);
 
         var productsToDisplay = new PaginatedResponseDto<ProductDto>(productsDto, totalItems, request.Page, request.PageSize);
 

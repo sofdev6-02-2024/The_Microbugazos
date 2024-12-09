@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\WishList\" />
+  </ItemGroup>
+
 </Project>
