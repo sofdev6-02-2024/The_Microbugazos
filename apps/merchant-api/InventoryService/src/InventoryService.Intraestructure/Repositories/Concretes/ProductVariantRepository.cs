@@ -11,7 +11,6 @@ public class ProductVariantRepository(InventoryDbContext context) : BaseReposito
     {
         return await DbSet
             .Where(e => e.IsActive)
-            .AsSplitQuery()
             .Include(c => c.Attributes)
             .ThenInclude(pv => pv.Variant)
             .Include(c => c.Image)
@@ -21,7 +20,6 @@ public class ProductVariantRepository(InventoryDbContext context) : BaseReposito
     public override async Task<IEnumerable<ProductVariant>> GetAllAsync(int pageNumber, int pageSize)
     {
         return await DbSet.Where(e => e.IsActive)
-            .AsSplitQuery()
             .Include(c => c.Attributes)
             .ThenInclude(pv => pv.Variant)
             .Include(c => c.Image)
@@ -35,7 +33,6 @@ public class ProductVariantRepository(InventoryDbContext context) : BaseReposito
     {
         return await DbSet
             .Where(e => e.IsActive)
-            .AsSplitQuery()
             .Include(c => c.Attributes)
             .Include(c => c.Image)
             .OrderBy(c => c.CreatedAt)
