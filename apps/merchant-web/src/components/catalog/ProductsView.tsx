@@ -51,9 +51,9 @@ export default function ProductsView({ fetchConfig, view }: Readonly<Props>) {
                 product.brand,
                 product.isLiked,
                 product.images,
+                product.rating,
                 product.productVariants,
                 product.categories,
-                product.productReviews
               )
           )
         );

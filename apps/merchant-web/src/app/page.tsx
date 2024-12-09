@@ -33,9 +33,9 @@ export default function Home() {
             product.brand,
             product.isLiked,
             product.images,
+            product.rating,
             product.productVariants,
             product.categories,
-            product.productReviews
           )
         )
       );

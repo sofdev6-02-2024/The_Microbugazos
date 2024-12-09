@@ -22,6 +22,7 @@ public class ProductService
             IsLiked = isLiked,
             Price = existingProduct.BasePrice,
             Brand = existingProduct.Brand,
+            Rating = existingProduct.Rating,
             Categories = categoriesDto,
             Images = existingProduct.Images.Where(i => i.IsActive).Select(i => new ProductVariantImageDto
             {

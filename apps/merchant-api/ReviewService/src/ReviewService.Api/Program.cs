@@ -12,10 +12,6 @@ using ReviewService.Application.ValidationSettings;
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");
 
-Console.WriteLine("RABBITMQ_PASS: " + Environment.GetEnvironmentVariable("RABBITMQ_PASS"));
-Console.WriteLine("RABBITMQ_USER: " + Environment.GetEnvironmentVariable("RABBITMQ_USER"));
-Console.WriteLine("RABBITMQ_CONNECTION_STRING: " + Environment.GetEnvironmentVariable("RABBITMQ_CONNECTION_STRING"));
-
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddJsonFile("validationSettings.json", optional: false, reloadOnChange: true);
 builder.Services.Configure<ValidationSettings>(builder.Configuration);
