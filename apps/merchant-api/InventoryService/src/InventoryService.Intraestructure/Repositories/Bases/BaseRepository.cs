@@ -14,6 +14,7 @@ public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
     public virtual async Task<T> AddAsync(T entity)
     {
         await DbSet.AddAsync(entity);
+        Console.WriteLine("\n\n\n\n\n\n\n111" + entity.Id + " \n\n\n aaaa");
         await Context.SaveChangesAsync();
         return entity;
     }
