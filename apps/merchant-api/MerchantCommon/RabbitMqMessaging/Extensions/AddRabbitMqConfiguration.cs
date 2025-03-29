@@ -3,7 +3,7 @@ using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RabbitMQMessaging.Extensions;
+namespace RabbitMqMessaging.Extensions;
 
 public static class Extensions
 {

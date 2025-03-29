@@ -11,7 +11,7 @@ using PaymentService.Application.Validators.PaymentTransactions;
 using PaymentService.Domain.Entities.Concretes;
 using PaymentService.Infrastructure.Repositories.Concretes;
 using PaymentService.Infrastructure.Repositories.Interfaces;
-using RabbitMQMessaging.Extensions;
+using RabbitMqMessaging.Extensions;
 
 namespace PaymentService.Application;
 

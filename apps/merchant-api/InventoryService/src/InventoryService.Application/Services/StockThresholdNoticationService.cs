@@ -1,7 +1,7 @@
 using System.Text.Json;
+using Backend.Domain.Entities.Interfaces;
 using InventoryService.Application.Dtos.ProductVariants;
 using InventoryService.Intraestructure.Repositories.Interfaces;
-using NotificationService.Domain.Dtos.OrderItems;
 
 namespace InventoryService.Application.Services;
 

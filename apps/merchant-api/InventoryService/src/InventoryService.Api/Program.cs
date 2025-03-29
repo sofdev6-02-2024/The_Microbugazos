@@ -6,8 +6,8 @@ using InventoryService.Application.Profiles;
 using InventoryService.Application.ValidatorSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQMessaging.Extensions;
 using InventoryService.Api.Controllers;
+using RabbitMqMessaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");

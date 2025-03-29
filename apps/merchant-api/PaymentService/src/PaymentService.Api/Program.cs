@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using PaymentService.Api;
 using PaymentService.Application;
 using PaymentService.Infrastructure.Data;
-using RabbitMQMessaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load("../../../.env");

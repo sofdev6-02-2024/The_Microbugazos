@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../MerchantCommon/RabbitMqMessaging/RabbitMqMessaging.csproj" />
-    <ProjectReference Include="../../../NotificationService/src/NotificationService.Domain/NotificationService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Backend.Domain\Backend.Domain.csproj" />
     <ProjectReference Include="..\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\MerchantCommon\Commons\Commons.csproj" />
   </ItemGroup>
